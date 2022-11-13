@@ -7,7 +7,7 @@ namespace Polytrucks
     public sealed class MoneyManager : MonoBehaviour
     {
         public int Money { get; private set; }
-        public System.Action OnMoneyChanged;
+        public System.Action<int> OnMoneyChanged;
 
         private static MoneyManager s_current;
         public static MoneyManager Instance
@@ -33,7 +33,7 @@ namespace Polytrucks
         public void AddMoney(int x)
         {
             Money += x;
-            OnMoneyChanged?.Invoke();
+            OnMoneyChanged?.Invoke(Money);
         }
     }
 }

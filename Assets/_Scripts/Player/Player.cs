@@ -5,17 +5,18 @@ using UnityEngine;
 
 namespace Polytrucks
 {
-    public class Player : MonoBehaviour
+    public sealed class Player : MonoBehaviour
     {
         [SerializeField] private Transform _camLookPoint;
 
         private TruckController _truck;
         private Joystick _joystick;
-        private Transform _cameraTransform;
+        private Transform _cameraTransform, _truckTransform;
 
         private GUIStyle black;
 
         public float SpeedPc => _truck?.SpeedPc ?? 0f;
+        public Vector3 Position { get; private set; }
 
         private void Start()
         {
@@ -23,6 +24,7 @@ namespace Polytrucks
             black.normal.textColor = Color.black;
 
             _truck = GetComponentInChildren<TruckController>();
+            _truckTransform = _truck.transform;
             _joystick = FindObjectOfType<Joystick>();
             _cameraTransform = Camera.main.transform;
         }
@@ -35,7 +37,11 @@ namespace Polytrucks
            // var rotation = Quaternion.FromToRotation(fwd.normalized, Vector3.forward);
             _truck.Move( new Vector2(move.x, move.z));
 
-            _camLookPoint.position = _truck.transform.TransformPoint(Vector3.forward * 5f * SpeedPc);
+            _camLookPoint.position = _truckTransform.TransformPoint(Vector3.forward * 5f * SpeedPc);
+        }
+        private void FixedUpdate()
+        {
+            Position = _truckTransform?.position ?? transform.position;
         }
 
         private void OnGUI()

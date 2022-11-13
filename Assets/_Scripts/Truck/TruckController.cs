@@ -10,15 +10,11 @@ namespace Polytrucks
         [SerializeField] private Storage _storage;
         private float _speed = 0f, _targetSpeed = 0f, _rotationAcceleration = 0f;
         private Vector3 _moveVector = Vector3.zero;
-        
-        public float SpeedPc { get {
-                float maxspeed = _truckSettings?.MaxSpeed ?? 0f;
-                if (maxspeed != 0f) return _speed / maxspeed;
-                else return 0f;
-            } }
+
+        public float SpeedPc => _speed / _maxspeed;
+        private float _maxspeed => _truckSettings?.MaxSpeed ?? 1f;
 
         public Storage GetStorage() => _storage;
-
         public void Move(Vector2 dir)
         {
             _moveVector = new Vector3(dir.x, 0f, dir.y).normalized;
@@ -28,12 +24,13 @@ namespace Polytrucks
         private void Update()
         {
             float t = Time.deltaTime;
-            _speed = Mathf.MoveTowards(_speed, _targetSpeed, _truckSettings.Acceleration * t);
+            if (_targetSpeed != 0f) _speed = Mathf.MoveTowards(_speed, _targetSpeed, t / _truckSettings.AccelerationTime *  _maxspeed);
+            else _speed = Mathf.MoveTowards(_speed, 0f, t / _truckSettings.StopTime *  _maxspeed);
 
             if (_speed != 0f)
             {
                 transform.Translate(Vector3.forward * _speed * t);
-                _targetSpeed = Mathf.MoveTowards(_targetSpeed, 0f, t * _truckSettings.Deceleration);
+                _targetSpeed = Mathf.MoveTowards(_targetSpeed, 0f, t / _truckSettings.StopTime * _maxspeed);
 
                 if (_moveVector.sqrMagnitude != 0f)
                 {
