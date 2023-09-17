@@ -2,45 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Polytrucks
-{
-    public enum PopupType : byte { Undefined, Money }
-    public static class PopupTypeExtension
-    {
-        public static Icon DefinePopupIcon(this PopupType type)
-        {
-            switch (type)
-            {
-                case PopupType.Money: return Icon.MoneyIcon;
-                default: return Icon.Undefined;
-            }
-        }
-    }
-    public sealed class UIManager : MonoBehaviour
-    {
-        private static UIManager s_current;
+namespace ZE.Polytrucks {
+	public sealed class UIManager : SessionObject
+	{
+		[SerializeField] private VictoryWindow _debriefWindow;
+		[SerializeField] private FailPanel _failPanel;
+		[SerializeField] private GameObject _playerUI;
 
-        [SerializeField] private ProgressBar _circleProgressBar;
-        [SerializeField] private PopupNote _popupNote;
+		private void i_ShowDebriefWindow()
+		{
+			_debriefWindow.Show();
+		}
+		private void i_ShowFailPanel()
+		{
+            _failPanel.Show();
+		}
 
-        private void Awake()
-        {
-            s_current = this;
-        }
-        private void ShowPopup(PopupType type, Vector3 worldPos, string text)
-        {
-            _popupNote.Show(type.DefinePopupIcon(), Camera.main.WorldToScreenPoint(worldPos), text);
-        }
-        private void StartProgressCircle(SellZone zone) => _circleProgressBar.TrackObject(zone);
-        private void EndProgressCircle(SellZone zone) => _circleProgressBar.StopTracking(zone);
+		public static void ShowDebriefWindow() => SessionObjectsContainer.UIManager?.i_ShowDebriefWindow();
+		public static void ShowFailPanel() => SessionObjectsContainer.UIManager?.i_ShowFailPanel();
 
-        private void OnDestroy()
+        public override void OnSessionStart()
         {
-            if (s_current == this) s_current = null;
+            base.OnSessionStart();
+			_playerUI.SetActive(true);
         }
-
-        public static void OnMoneyCollected(Vector3 worldPos, string text) => s_current?.ShowPopup(PopupType.Money, worldPos, text);
-        public static void OnStartTrading(SellZone zone) => s_current?.StartProgressCircle(zone);
-        public static void OnStopTrading(SellZone zone) => s_current?.EndProgressCircle(zone);
+        public override void OnSessionEnd()
+        {
+            base.OnSessionEnd();
+			_playerUI.SetActive(false);
+        }
     }
 }
