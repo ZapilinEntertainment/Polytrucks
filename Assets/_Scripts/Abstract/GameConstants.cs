@@ -9,6 +9,8 @@ namespace ZE.Polytrucks
 
     public static class GameConstants
     {
+        public const float GROUND_HEIGHT = 0f;
+
         public const string  DEFAULT_LAYERNAME = "Default";
         private static Dictionary<CustomLayermask, int> _customLayermasks = new Dictionary<CustomLayermask, int>();
         private static Dictionary<DefinedLayer, int> _definedLayers = new Dictionary<DefinedLayer, int>();

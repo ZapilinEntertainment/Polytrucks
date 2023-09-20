@@ -27,6 +27,17 @@ namespace ZE.Polytrucks {
         {
             _vehicle.Move(dir);
         }
+        public void ChangeMoveState(PlayerMoveStateType state)
+        {
+            switch (state)
+            {
+                case PlayerMoveStateType.Gas: _vehicle.Gas(); break;
+                case PlayerMoveStateType.Brake: _vehicle.Brake(); break;
+                case PlayerMoveStateType.Reverse: _vehicle.Reverse(); break;
+                default: _vehicle.ReleaseGas(); break;
+            }
+        }
+        public void SetSteer(float steer) => _vehicle.Steer(steer);
         private void LateUpdate()
         {
             if (GameSessionActive)  Position = _vehicle.Position;

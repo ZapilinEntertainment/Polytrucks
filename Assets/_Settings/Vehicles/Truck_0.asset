@@ -13,9 +13,32 @@ MonoBehaviour:
   m_Name: Truck_0
   m_EditorClassIdentifier: 
   _maxSpeed: 15
-  _acceleration: 5
-  _deceleration: 4
-  _naturalDeceleration: 3
-  _steerSetTime: 0.5
-  _steerReturnTime: 0.1
-  _backSpeedCf: 0.5
+  _maxSteerAngle: 25
+  _acceleration: 2
+  _naturalDeceleration: 1
+  _brakeDeceleration: 4
+  _reverseSpeedCf: 0.5
+  _rotationToSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.000164
+      inSlope: -0.03311111
+      outSlope: -0.03311111
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14900662
+    - serializedVersion: 3
+      time: 1
+      value: 0.9
+      inSlope: -0.19868454
+      outSlope: -0.19868454
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03807944
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4

@@ -43,8 +43,8 @@ namespace ZE.Polytrucks
 #if UNITY_EDITOR
         private void Update()
         {
-            if (Input.GetKeyDown("f")) OnLevelFailed();
-            if (Input.GetKeyDown("w")) OnLevelCompleted();
+           // if (Input.GetKeyDown("f")) OnLevelFailed();
+           // if (Input.GetKeyDown("w")) OnLevelCompleted();
         }
 #endif
 

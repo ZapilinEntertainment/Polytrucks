@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
 
 		private void i_ShowDebriefWindow()
 		{
-			_debriefWindow.Show();
+			_debriefWindow?.Show();
 		}
 		private void i_ShowFailPanel()
 		{
