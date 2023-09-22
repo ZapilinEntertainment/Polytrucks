@@ -8,11 +8,11 @@ namespace ZE.Polytrucks {
 		//protected override int GetReward() => GameSettings.Current?.FailReward ?? 50;
         public void BUTTON_Restart()
 		{
-			SessionObjectsContainer.GameManager.RestartLevel();
+			//SessionObjectsContainer.GameManager.RestartLevel();
 		}
 		public void BUTTON_BackToMenu()
 		{
-			SessionObjectsContainer.GameManager.ReturnToMenu();
+			//SessionObjectsContainer.GameManager.ReturnToMenu();
 		}
     }
 }

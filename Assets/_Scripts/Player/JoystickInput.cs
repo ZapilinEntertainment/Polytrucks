@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ZE.Polytrucks {
 	public sealed class JoystickInput : SessionObject
@@ -9,11 +10,15 @@ namespace ZE.Polytrucks {
         private Transform _cameraTransform;
         private InputController _inputController;
 
-        protected override void OnAwake()
+        [Inject]
+        public void Setup(PlayerController player, CameraController cameraController)
         {
-            base.OnAwake();
-            _inputController = SessionObjectsContainer.PlayerController.InputController;
-            _cameraTransform = SessionObjectsContainer.CameraController.Camera.transform;
+            _inputController = player.InputController;
+            _cameraTransform = cameraController.Camera.transform;
+        }
+
+        private void Start()
+        {
             _joystick.gameObject.SetActive(true);
         }
         public void Update()

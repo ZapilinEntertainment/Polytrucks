@@ -21,9 +21,9 @@ namespace ZE.Polytrucks {
         private PlayerController _player;
         private ControlsMask _controlsMask = new ControlsMask();
 
-        private void Start()
+        public void Setup(PlayerController player)
         {
-            _player = SessionObjectsContainer.PlayerController;
+            _player = player;
         }
 
         public void MoveCommand(Vector2 dir)

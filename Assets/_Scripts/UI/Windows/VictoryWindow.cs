@@ -19,7 +19,7 @@ namespace ZE.Polytrucks {
         }
         public void BUTTON_Continue()
 		{
-			SessionObjectsContainer.GameManager.OnVictoryPanelClosed();
+			//SessionObjectsContainer.GameManager.OnVictoryPanelClosed();
 		}
 	}
 }

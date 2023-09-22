@@ -9,17 +9,14 @@ namespace ZE.Polytrucks {
 		[SerializeField] private FailPanel _failPanel;
 		[SerializeField] private GameObject _playerUI;
 
-		private void i_ShowDebriefWindow()
+		public void ShowDebriefWindow()
 		{
 			_debriefWindow?.Show();
 		}
-		private void i_ShowFailPanel()
+		public void ShowFailPanel()
 		{
             _failPanel.Show();
 		}
-
-		public static void ShowDebriefWindow() => SessionObjectsContainer.UIManager?.i_ShowDebriefWindow();
-		public static void ShowFailPanel() => SessionObjectsContainer.UIManager?.i_ShowFailPanel();
 
         public override void OnSessionStart()
         {

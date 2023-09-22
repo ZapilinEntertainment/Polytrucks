@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Zenject;
 
 namespace ZE.Polytrucks {    
 	public sealed class PlayerController : SessionObject
@@ -11,16 +12,17 @@ namespace ZE.Polytrucks {
         public static Vector3 Position { get; private set; }
         public InputController InputController => _inputController;
 
-        protected override void OnAwake()
+        private void Awake()
         {
-            base.OnAwake();
             Position = transform.position;
+            _inputController.Setup(this);
         }
 
         public override void OnSessionStart()
         {
             base.OnSessionStart();
-            SessionObjectsContainer.CameraController.SetTrackPoint(_vehicle.CameraViewPoint);
+            Transform pointLink = _vehicle.CameraViewPoint;
+            _signalBus.Fire(new CameraViewPointSetSignal(pointLink));
         }
 
         public void Move(Vector2 dir)

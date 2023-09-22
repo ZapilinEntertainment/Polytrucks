@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ZE.Polytrucks {
     public sealed class KeyboardInput : SessionObject
@@ -9,11 +10,10 @@ namespace ZE.Polytrucks {
         private float _previousHorizontal = 0f, _previousVertical = 0f;
         private BitArray _controlsMask = new BitArray((int)ControlButtonID.Total, false);
 
-        protected override void OnAwake()
+        [Inject]
+        public void Setup(PlayerController player)
         {
-            base.OnAwake();
-            _inputController = SessionObjectsContainer.PlayerController.InputController;
-            
+            _inputController = player.InputController;
         }
         public void Update()
         {

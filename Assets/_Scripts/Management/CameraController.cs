@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ZE.Polytrucks {
 	public sealed class CameraController : MonoBehaviour
@@ -9,10 +10,16 @@ namespace ZE.Polytrucks {
 		[SerializeField] private Cinemachine.CinemachineVirtualCamera _followCamera;
 		public Camera Camera => _camera;
 
-		public void SetTrackPoint(Transform t)
+		[Inject]
+		public void Setup(SignalBus signalBus)
 		{
-			_followCamera.m_LookAt = t;
-			_followCamera.m_Follow = t;
+			signalBus.Subscribe<CameraViewPointSetSignal>(SetTrackPoint);
+		}
+
+		public void SetTrackPoint(CameraViewPointSetSignal args)
+		{
+			_followCamera.m_LookAt = args.Point;
+			_followCamera.m_Follow = args.Point;
 		}
 	}
 }

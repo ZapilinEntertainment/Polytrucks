@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Zenject;
 
 namespace ZE.Polytrucks
 {
@@ -10,28 +11,20 @@ namespace ZE.Polytrucks
         [SerializeField] private bool _gameStartsOnFirstClick = true;
         private enum GameState : byte { AwaitForStart, Game, GameFinished, LoadingNextScene}
         private GameState _gameState = GameState.AwaitForStart;
+        private SignalBus _signalBus;
         public bool SessionStarted { get; private set; }
-        public Action OnSessionStartEvent, OnSessionEndEvent, OnSessionPauseEvent, OnSessionResumeEvent;
+
+        [Inject]
+        public void Setup(SignalBus signalBus)
+        {
+            _signalBus= signalBus;
+        }
 
         private void Awake()
         {
             Input.multiTouchEnabled = false;
             Application.targetFrameRate = 60;
             //Time.fixedDeltaTime = 0.0025f;
-        }
-
-        public void SubscribeToSessionEvents(ISessionObject iso)
-        {
-            OnSessionStartEvent += iso.OnSessionStart;
-            OnSessionEndEvent += iso.OnSessionEnd;
-            OnSessionPauseEvent += iso.OnSessionPause;
-            OnSessionResumeEvent += iso.OnSessionResume;
-            if (SessionStarted) iso.OnSessionStart();
-        }
-        public void UnsubscribeFromSessionEvents(ISessionObject iso)
-        {
-            OnSessionStartEvent -= iso.OnSessionStart;
-            OnSessionEndEvent -= iso.OnSessionEnd;
         }
 
         private IEnumerator Start()
@@ -52,7 +45,7 @@ namespace ZE.Polytrucks
         {
             SessionStarted = true;
             _gameState = GameState.Game;
-            OnSessionStartEvent?.Invoke();
+            _signalBus.Fire<SessionStartSignal>();
            // AnalyticsManager.OnLevelStarted();
         }
         public void OnLevelCompleted()
@@ -60,10 +53,10 @@ namespace ZE.Polytrucks
             if (_gameState == GameState.Game)
             {
                 _gameState = GameState.GameFinished;
-                OnSessionEndEvent?.Invoke();
+                _signalBus.Fire<SessionStopSignal>();
                 
                 //Saves.AddMoney(GameSettings.Current.VictoryReward);
-                UIManager.ShowDebriefWindow();
+                //UIManager.ShowDebriefWindow();
                 //AnalyticsManager.OnLevelCompleted();
             }
         }
@@ -82,27 +75,12 @@ namespace ZE.Polytrucks
             if (_gameState == GameState.Game)
             {
                 _gameState = GameState.GameFinished;
-                OnSessionEndEvent?.Invoke();
+                _signalBus.Fire<SessionStopSignal>();
                 //Saves.AddMoney(GameSettings.Current.FailReward);
-                UIManager.ShowFailPanel();
+                //UIManager.ShowFailPanel();
                // AnalyticsManager.OnLevelFailed();
             }
         }
-        public void RestartLevel()
-        {
-            if (_gameState == GameState.GameFinished)
-            {
-                _gameState = GameState.LoadingNextScene;
-                LevelManager.RestartLevel();
-            }
-        }
-        public void ReturnToMenu()
-        {
-            if (_gameState != GameState.LoadingNextScene)
-            {
-                _gameState = GameState.LoadingNextScene;
-                LevelManager.LoadHubScene();
-            }
-        }
+
     }
 }
