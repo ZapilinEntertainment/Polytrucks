@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ZE.Polytrucks {
-    public class Truck : Vehicle
+    public class Truck : Vehicle, ICollector
     {
         #region gas states
         private abstract class MoveState
@@ -107,7 +108,10 @@ namespace ZE.Polytrucks {
 
         [SerializeField] private AxisControllerBase _axisController;
         [SerializeField] private TruckConfig _truckConfig;
+        [SerializeField] private Collider _collectCollider;
+        [SerializeField] private StorageVisualSettings _storageVisualSettings;
         private TruckEngine _engine;
+        private StorageVisualizer _storageVisualizer;
 
         private Vector2 _moveDir = Vector2.up, _targetDir = Vector2.zero;
         private Vector2 RealDir
@@ -118,22 +122,28 @@ namespace ZE.Polytrucks {
                 return new Vector2(fwd.x, fwd.z).normalized;
             }
         }
-
         public float SteerValue => _engine.SteerValue;
         public float GasValue => _engine.GasValue;
         public TruckConfig TruckConfig => _truckConfig;
         public override Vector3 Position => transform.position;
 
+        [Inject]
+        public void Setup(StorageVisualizer.Factory storageVisualizerFactory, ColliderListSystem collidersList)
+        {
+            _storageVisualizer = storageVisualizerFactory.Create();
+            collidersList.AddCollector(this);
+        }
+
         private void Start()
         {
             _moveDir = RealDir;
-            _engine = new TruckEngine(_truckConfig, _axisController);
+
+            _storage = new Storage(_storageVisualSettings.Capacity);
+            _storageVisualizer.Setup(_storage, _storageVisualSettings);
+            _engine = new TruckEngine(_truckConfig, _axisController);            
             _axisController.Setup();
         }
-        override public void Move(Vector2 dir)
-        {
-
-        }
+        
         private void Update()
         {
             //if (GameSessionActive)
@@ -141,6 +151,12 @@ namespace ZE.Polytrucks {
                 float t = Time.deltaTime;
                 _engine.Update(t);
             }
+        }
+
+        #region controls
+        override public void Move(Vector2 dir)
+        {
+
         }
         override public void Gas() => _engine.Gas();
         override public void Brake() => _engine.Brake();
@@ -151,5 +167,11 @@ namespace ZE.Polytrucks {
             _engine.SteerValue = x;
             _axisController.Steer(x);
         }
+        #endregion
+
+        #region collection
+        override public int[] GetIDs() => new int[] { _collectCollider.GetInstanceID() };
+        public override bool TryCollect(ICollectable collectable) => _storage.TryCollect(collectable);
+        #endregion
     }
 }
