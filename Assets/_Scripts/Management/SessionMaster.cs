@@ -13,6 +13,7 @@ namespace ZE.Polytrucks
         private GameState _gameState = GameState.AwaitForStart;
         private SignalBus _signalBus;
         public bool SessionStarted { get; private set; }
+        public bool IsPaused => false;
 
         [Inject]
         public void Setup(SignalBus signalBus)

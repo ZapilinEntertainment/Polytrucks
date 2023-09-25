@@ -2,18 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using System;
 
 namespace ZE.Polytrucks {
 	public sealed class Crate : SessionObject, ICollectable, IPoolable
 	{
-        [SerializeField] private CollectableType _collectableType => CollectableType.Crate_Common;
+        [SerializeField] private CollectableType _collectableType = CollectableType.Crate_Common;
         [SerializeField] private Collider _collider;
 
         private CollectibleModel _model;
         private MonoMemoryPool<Crate> _pool;
         private ColliderListSystem _collidersList;
         private CollisionHandleSystem _collisionHandleSystem;
+
+        public Action OnCollectedEvent;
+
+        public bool HasMultipleColliders => false;
         public CollectableType CollectableType => _collectableType;
+        public int GetID() => _collider.GetInstanceID();
+        public int[] GetIDs() => new int[1] { GetID() };
 
         [Inject]
         public void Setup(ColliderListSystem colliderList, CollisionHandleSystem collisionHandleSystem)
@@ -24,10 +31,12 @@ namespace ZE.Polytrucks {
         public bool Collect()
         {
             _pool.Despawn(this);
+            OnCollectedEvent?.Invoke();
+            OnCollectedEvent = null;
             return true;
         }
 
-        public int GetID() => _collider.GetInstanceID();
+        
 
 
         public void SetModel(CollectibleModel model)
@@ -44,7 +53,7 @@ namespace ZE.Polytrucks {
         public void OnDespawned()
         {
             if (_model != null) _model.Dispose();
-            _collidersList.RemoveCollectable(GetID());
+            _collidersList.RemoveCollectable(this);
         }
         private void OnTriggerEnter(Collider other)
         {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-	public interface ICollector : IColliderOwner
+	public interface ISeller : IColliderOwner
 	{
-		public bool TryCollect(ICollectable collectable);
+		public bool TryStartSell(SellZone sellZone, int goodsMask);
 	}
 }

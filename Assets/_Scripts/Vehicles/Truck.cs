@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-    public class Truck : Vehicle, ICollector
+    public class Truck : Vehicle,ICollector, ISeller
     {
         #region gas states
         private abstract class MoveState
@@ -127,11 +127,19 @@ namespace ZE.Polytrucks {
         public TruckConfig TruckConfig => _truckConfig;
         public override Vector3 Position => transform.position;
 
+        #region icollector
+        public bool HasMultipleColliders => false;
+        public int GetID() => _collectCollider.GetInstanceID();
+        public int[] GetIDs() => new int[] { _collectCollider.GetInstanceID() };
+        public bool TryCollect(ICollectable collectable) => _storage.TryCollect(collectable);
+        #endregion
+
         [Inject]
         public void Setup(StorageVisualizer.Factory storageVisualizerFactory, ColliderListSystem collidersList)
         {
             _storageVisualizer = storageVisualizerFactory.Create();
             collidersList.AddCollector(this);
+            collidersList.AddSeller(this);
         }
 
         private void Start()
@@ -167,11 +175,15 @@ namespace ZE.Polytrucks {
             _engine.SteerValue = x;
             _axisController.Steer(x);
         }
+
+
         #endregion
 
-        #region collection
-        override public int[] GetIDs() => new int[] { _collectCollider.GetInstanceID() };
-        public override bool TryCollect(ICollectable collectable) => _storage.TryCollect(collectable);
+        #region trading
+        public bool TryStartSell(SellZone sellZone, int goodsMask)
+        {
+            return _storage.TryStartSell(sellZone, goodsMask);
+        }
         #endregion
     }
 }

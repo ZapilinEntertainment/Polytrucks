@@ -5,30 +5,54 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public sealed class ColliderListSystem
 	{
-
-		private Dictionary<int, ICollectable> _collectables = new Dictionary<int, ICollectable>();
-		private Dictionary<int, ICollector> _collectors = new Dictionary<int, ICollector>();
-
-		public void AddCollectable(ICollectable collectable)
+		private class ColliderOwnersList<T> where T : IColliderOwner
 		{
-			_collectables.Add(collectable.GetID(), collectable);
+			private Dictionary<int, T> _list = new Dictionary<int, T>();
+			public void AddOwner(T owner)
+			{
+				if (owner.HasMultipleColliders)
+				{
+					var ids = owner.GetIDs();
+					foreach (var id in ids ) { _list.Add(id, owner); }
+				}
+				else
+				{
+					_list.Add(owner.GetID(), owner);
+				}
+			}
+			public void RemoveOwner(T owner)
+			{
+				if (owner.HasMultipleColliders)
+				{
+                    var ids = owner.GetIDs();
+                    foreach (var id in ids) { _list.Remove(id); }
+                }
+				else
+				{
+					_list.Remove(owner.GetID());
+				}
+			}
+			public bool TryGetOwner(int id, out T owner)
+			{
+				return _list.TryGetValue(id, out owner);
+			}
 		}
-		public void RemoveCollectable(int id) => _collectables.Remove(id);
 
-		public void AddCollector(ICollector collector) {
-			var ids = collector.GetIDs();
-			foreach (var id in ids)
-			{
-				_collectors.Add(id, collector);
-			}
-		}
-		public void RemoveCollector(ICollector collector) {
-			var ids = collector.GetIDs();
-			foreach (var id in ids)
-			{
-				_collectors.Remove(id);
-			}
-		}
-		public bool TryGetCollector(int id, out ICollector collector) => _collectors.TryGetValue(id, out collector);
+		private ColliderOwnersList<ICollectable> _collectables = new ColliderOwnersList<ICollectable>();
+		private ColliderOwnersList<ICollector> _collectors = new ColliderOwnersList<ICollector>();
+		private ColliderOwnersList<ISeller> _sellers = new ColliderOwnersList<ISeller>();
+		
+		public void AddCollectable(ICollectable collectable) => _collectables.AddOwner(collectable);
+		public void RemoveCollectable(ICollectable collectable) => _collectables.RemoveOwner(collectable);
+		public bool TryGetCollectable(int id, out ICollectable collectable) => _collectables.TryGetOwner(id, out collectable);
+
+		public void AddCollector(ICollector collector) => _collectors.AddOwner(collector);
+		public void RemoveCollector(ICollector collector) => _collectors.RemoveOwner(collector);
+		public bool TryGetCollector(int id, out ICollector collector) => _collectors.TryGetOwner(id, out collector);
+
+		public void AddSeller(ISeller seller) => _sellers.AddOwner(seller);
+		public void RemoveSeller(ISeller seller) => _sellers.RemoveOwner(seller);
+		public bool TryGetSeller(int id, out ISeller seller) =>_sellers.TryGetOwner(id, out seller);
+		
 	}
 }

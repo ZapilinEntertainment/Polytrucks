@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-	public abstract class Vehicle : SessionObject, ICollector
+	public abstract class Vehicle : SessionObject
 	{
 		[SerializeField] private Transform _cameraViewPoint;
         protected Storage _storage;
@@ -17,7 +17,5 @@ namespace ZE.Polytrucks {
         public abstract void ReleaseGas();
         public abstract void Steer(float x);
 
-        public abstract int[] GetIDs();
-        public abstract bool TryCollect(ICollectable collectable);
     }
 }
