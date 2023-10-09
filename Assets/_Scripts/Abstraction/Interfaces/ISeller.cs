@@ -5,6 +5,6 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public interface ISeller : IColliderOwner
 	{
-		public bool TryStartSell(SellZone sellZone, int goodsMask);
+		public bool TryStartSell(ISellZone sellZone, int goodsMask, RarityConditions rarity);
 	}
 }

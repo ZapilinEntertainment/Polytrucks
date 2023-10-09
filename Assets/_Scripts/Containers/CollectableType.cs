@@ -6,7 +6,7 @@ namespace ZE.Polytrucks {
 	[System.Serializable]
 	public enum CollectableType : byte
 	{
-		Undefined = 0, Crate_Common, Crate_Uncommon
+		Undefined = 0, Fruits
 	}
 	public static class CollectableTypeExtension
 	{

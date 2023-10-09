@@ -10,7 +10,9 @@ namespace ZE.Polytrucks {
         [SerializeField] private Vehicle _vehicle;
         [SerializeField] private InputController _inputController;
         public static Vector3 Position { get; private set; }
+        public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
         public InputController InputController => _inputController;
+        
 
         private void Awake()
         {
@@ -25,6 +27,7 @@ namespace ZE.Polytrucks {
             _signalBus.Fire(new CameraViewPointSetSignal(pointLink));
         }
 
+        #region controls
         public void Move(Vector2 dir)
         {
             _vehicle.Move(dir);
@@ -40,9 +43,16 @@ namespace ZE.Polytrucks {
             }
         }
         public void SetSteer(float steer) => _vehicle.Steer(steer);
+        #endregion
         private void LateUpdate()
         {
             if (GameSessionActive)  Position = _vehicle.Position;
+        }
+
+        public void Teleport(VirtualPoint point)
+        {
+            _vehicle.Teleport(point);
+            Position = _vehicle.Position;
         }
     }
 }

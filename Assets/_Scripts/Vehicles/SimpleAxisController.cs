@@ -8,6 +8,8 @@ namespace ZE.Polytrucks {
 		[SerializeField] private Axle _fwdAxle, _rearAxle;
         private float _axisDistance = 1f, _centerDistance;
         public override Vector3 Forward => _fwdAxle?.Forward ?? transform.forward;
+        public override Vector3 Position => transform.position;
+        public override Quaternion Rotation => transform.rotation;
 
         protected override void OnSetup()
         {
@@ -28,6 +30,11 @@ namespace ZE.Polytrucks {
         public override void Steer(float value)
         {
             _fwdAxle.Steer(value);
+        }
+        public override void Teleport(VirtualPoint point)
+        {
+            transform.position = point.Position;
+            transform.rotation = point.Rotation;
         }
     }
 }

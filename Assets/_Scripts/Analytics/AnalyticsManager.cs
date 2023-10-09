@@ -35,33 +35,6 @@ namespace ZE.Polytrucks
         }
 
 
-        public static void OnLevelStarted(int x) => SendLevelEvent(AnalyticsEventType.LevelStarted, x);
-        public static void OnLevelStarted(Biome biome, int x) => SendLevelEvent(AnalyticsEventType.LevelStarted, biome, x);
-        public static void OnMissionStarted(int x)
-        {
-            if (Instance != null) Instance.OnAnalyticsEvent?.Invoke(new IntAnalyticsEvent(AnalyticsEventType.MissionStarted, x));
-        }
-
-        public static void OnLevelCompleted(int x) => SendLevelEvent(AnalyticsEventType.LevelCompleted, x);
-        public static void OnLevelCompleted(Biome biome, int x) => SendLevelEvent(AnalyticsEventType.LevelCompleted, biome, x);
-        public static void OnMissionCompleted(int x)
-        {
-            if (Instance != null) Instance.OnAnalyticsEvent?.Invoke(new IntAnalyticsEvent(AnalyticsEventType.MissionCompleted, x));
-        }
-
-        public static void OnLevelFailed(int x) => SendLevelEvent(AnalyticsEventType.LevelFailed, x);
-        public static void OnLevelFailed(Biome biome, int x) => SendLevelEvent(AnalyticsEventType.LevelFailed, biome, x);
-
-
-        private static void SendLevelEvent(AnalyticsEventType eventType, int levelIndex)
-        {
-           if (Instance != null) Instance.OnAnalyticsEvent?.Invoke(new IntAnalyticsEvent(eventType, levelIndex));
-        }
-        private static void SendLevelEvent(AnalyticsEventType eventType, Biome biome, int levelIndex)
-        {
-            if (Instance != null) Instance.OnAnalyticsEvent?.Invoke(new EnumAnalyticsEvent(eventType, (int)biome, levelIndex));
-        }
-
         private void LogEvent(IAnalyticsEvent i_event)
         {
             string s = i_event.EventType.GetEventKey() + ": ";

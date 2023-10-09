@@ -12,7 +12,7 @@ namespace ZE.Polytrucks {
         protected SignalBus _signalBus;
 
         [Inject]
-        virtual public void Setup(SignalBus signalBus, SessionMaster sessionMaster)
+        virtual public void Inject(SignalBus signalBus, SessionMaster sessionMaster)
         {
             _signalBus = signalBus;
             _signalBus.Subscribe<SessionStartSignal>(OnSessionStart);

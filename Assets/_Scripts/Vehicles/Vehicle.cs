@@ -7,7 +7,8 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private Transform _cameraViewPoint;
         protected Storage _storage;
-		public abstract Vector3 Position { get; }
+        abstract public Vector3 Position { get; }
+        abstract public VirtualPoint FormVirtualPoint();
 		public Transform CameraViewPoint => _cameraViewPoint;
 
 		public abstract void Move(Vector2 dir);
@@ -16,6 +17,7 @@ namespace ZE.Polytrucks {
         public abstract void Reverse();
         public abstract void ReleaseGas();
         public abstract void Steer(float x);
+        public abstract void Teleport(VirtualPoint point);
 
     }
 }

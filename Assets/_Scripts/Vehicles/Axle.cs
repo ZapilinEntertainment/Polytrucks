@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 namespace ZE.Polytrucks {
 
@@ -17,6 +18,11 @@ namespace ZE.Polytrucks {
             Position.y = GameConstants.GROUND_HEIGHT;
             Rotation = Quaternion.Lerp(leftWheel.rotation, rightWheel.rotation, 0.5f);
         }
+        public VirtualPoint (Transform point)
+        {
+            Position = point.position;
+            Rotation = point.rotation;
+        }
         public VirtualPoint Move( float step)
         {
             return new VirtualPoint()
@@ -31,6 +37,28 @@ namespace ZE.Polytrucks {
             {
                 Position = Position,
                 Rotation = rotation
+            };
+        }
+
+        public string Encode()
+        {
+            var data = new float[7];
+            data[0] = Position.x;
+            data[1] = Position.y;
+            data[2] = Position.z;
+            data[3] = Rotation.x;
+            data[4] = Rotation.y;
+            data[5] = Rotation.z;
+            data[6] = Rotation.w;
+            return JsonConvert.SerializeObject(data);
+        }
+        public static VirtualPoint Decode(string data)
+        {
+            var numbers = JsonConvert.DeserializeObject<float[]>(data);
+            return new VirtualPoint()
+            {
+                Position = new Vector3(numbers[0], numbers[1], numbers[2]),
+                Rotation = new Quaternion(numbers[3], numbers[4], numbers[5], numbers[6])
             };
         }
     }

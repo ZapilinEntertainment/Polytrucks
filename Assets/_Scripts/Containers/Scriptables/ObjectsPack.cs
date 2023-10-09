@@ -8,5 +8,7 @@ namespace ZE.Polytrucks {
 	{
 		[field: SerializeField] public Crate CratePrefab { get; private set; }
         [field: SerializeField] public CollectibleModel CrateModel { get; private set; }
+        [SerializeField] private Mesh[] _crateMeshes;
+        public Mesh GetCrateModel(Rarity rarity) => _crateMeshes[(int)rarity];
     }
 }

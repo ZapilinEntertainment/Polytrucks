@@ -7,7 +7,8 @@ using System;
 namespace ZE.Polytrucks {
 	public sealed class Crate : SessionObject, ICollectable, IPoolable
 	{
-        [SerializeField] private CollectableType _collectableType = CollectableType.Crate_Common;
+        [SerializeField] private CollectableType _collectableType = CollectableType.Undefined;
+        [SerializeField] private Rarity _rarity = Rarity.Regular;
         [SerializeField] private Collider _collider;
 
         private CollectibleModel _model;
@@ -19,11 +20,12 @@ namespace ZE.Polytrucks {
 
         public bool HasMultipleColliders => false;
         public CollectableType CollectableType => _collectableType;
+        public Rarity Rarity => _rarity;
         public int GetID() => _collider.GetInstanceID();
         public int[] GetIDs() => new int[1] { GetID() };
 
         [Inject]
-        public void Setup(ColliderListSystem colliderList, CollisionHandleSystem collisionHandleSystem)
+        public void Inject(ColliderListSystem colliderList, CollisionHandleSystem collisionHandleSystem)
         {
             _collidersList = colliderList;
             _collisionHandleSystem = collisionHandleSystem;
@@ -35,6 +37,7 @@ namespace ZE.Polytrucks {
             OnCollectedEvent = null;
             return true;
         }
+        public VirtualCollectable ToVirtual() => new VirtualCollectable(this);
 
         
 
@@ -59,7 +62,6 @@ namespace ZE.Polytrucks {
         {
             if (GameSessionActive && _collidersList.TryGetCollector(other.GetInstanceID(), out var collector)) _collisionHandleSystem.HandleCollection(collector, this);
         }
-
 
         public class Pool : MonoMemoryPool<Crate> {
             protected override void OnCreated(Crate item)

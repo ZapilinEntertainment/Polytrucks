@@ -7,10 +7,12 @@ namespace ZE.Polytrucks {
 	public sealed class CollectibleSpot : MonoBehaviour
 	{
 		[SerializeField] private float _respawnTime = 10f;
+		[SerializeField] private CollectableType _type;
+		[SerializeField] private Rarity _rarity;
 		private ObjectsManager _objectsManager;
 
 		[Inject]
-		public void Setup(ObjectsManager objectsManager)
+		public void Inject(ObjectsManager objectsManager)
 		{
 			_objectsManager= objectsManager;
 		}
@@ -22,7 +24,7 @@ namespace ZE.Polytrucks {
 
 		private void SpawnCrate()
 		{
-            var crate = _objectsManager.CreateCrate();
+            var crate = _objectsManager.CreateCrate(_type,_rarity);
             crate.transform.position = transform.position;
 			crate.OnCollectedEvent += OnCrateCollected;
         }

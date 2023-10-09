@@ -6,8 +6,15 @@ using Zenject;
 namespace ZE.Polytrucks {
 	public sealed class CollectibleModel : MonoBehaviour
 	{
+        [SerializeField] private MeshFilter _meshFilter;
+        [SerializeField] private SpriteRenderer _iconRenderer;
 		private Pool _pool;
 
+        public void Setup(Mesh model, Sprite icon)
+        {
+            _meshFilter.sharedMesh = model;
+            _iconRenderer.sprite = icon;
+        }
         public void Dispose()
         {
             _pool.Despawn(this);

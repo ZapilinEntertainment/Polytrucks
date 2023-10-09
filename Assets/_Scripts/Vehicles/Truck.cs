@@ -84,9 +84,7 @@ namespace ZE.Polytrucks {
                 if (GasValue > 0f) speed = _config.MaxSpeed * GasValue * deltaTime;
                 else speed = _config.MaxSpeed * GasValue * _config.ReverseSpeedCf * deltaTime;
                 speed *= _config.CalculateSpeedCf(SteerValue);
-                _axis.Move(speed);
-
-                
+                _axis.Move(speed);                
             }
             public void Gas()
             {
@@ -124,18 +122,20 @@ namespace ZE.Polytrucks {
         }
         public float SteerValue => _engine.SteerValue;
         public float GasValue => _engine.GasValue;
+        public override Vector3 Position => _axisController.Position;
+        public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
+
         public TruckConfig TruckConfig => _truckConfig;
-        public override Vector3 Position => transform.position;
 
         #region icollector
         public bool HasMultipleColliders => false;
         public int GetID() => _collectCollider.GetInstanceID();
         public int[] GetIDs() => new int[] { _collectCollider.GetInstanceID() };
-        public bool TryCollect(ICollectable collectable) => _storage.TryCollect(collectable);
+        public bool TryCollect(ICollectable collectable) => _storage.TryAdd(collectable.ToVirtual());
         #endregion
 
         [Inject]
-        public void Setup(StorageVisualizer.Factory storageVisualizerFactory, ColliderListSystem collidersList)
+        public void Inject(StorageVisualizer.Factory storageVisualizerFactory, ColliderListSystem collidersList)
         {
             _storageVisualizer = storageVisualizerFactory.Create();
             collidersList.AddCollector(this);
@@ -161,6 +161,8 @@ namespace ZE.Polytrucks {
             }
         }
 
+        public override void Teleport(VirtualPoint point) => _axisController.Teleport(point);
+
         #region controls
         override public void Move(Vector2 dir)
         {
@@ -180,9 +182,13 @@ namespace ZE.Polytrucks {
         #endregion
 
         #region trading
-        public bool TryStartSell(SellZone sellZone, int goodsMask)
+        public bool TryStartSell(ISellZone sellZone, int goodsMask, RarityConditions rarity)
         {
-            return _storage.TryStartSell(sellZone, goodsMask);
+            return _storage.TryStartSell(sellZone, goodsMask, rarity);
+        }
+        public bool TryStartCollect(IStorage storage)
+        {
+            return storage.TryStartItemTransferTo(_storage);
         }
         #endregion
     }

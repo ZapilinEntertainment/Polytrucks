@@ -5,12 +5,13 @@ using UnityEngine;
 namespace ZE.Polytrucks {
     public class CollectibleVisualRepresentation
     {
-        public CollectableType Type { get; private set; }
+        public CollectableType CollectableType { get; private set; }
+        public Rarity Rarity { get; private set; }
         private CollectibleModel _model;
 
-        public CollectibleVisualRepresentation(CollectableType type, CollectibleModel model)
+        public CollectibleVisualRepresentation(CollectableType type, Rarity rarity, CollectibleModel model)
         {
-            Type = type;
+            CollectableType = type;
             _model = model;
         }
 

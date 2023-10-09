@@ -16,7 +16,7 @@ namespace ZE.Polytrucks
         public bool IsPaused => false;
 
         [Inject]
-        public void Setup(SignalBus signalBus)
+        public void Inject(SignalBus signalBus)
         {
             _signalBus= signalBus;
         }

@@ -9,9 +9,11 @@ namespace ZE.Polytrucks {
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private ObjectsPack _objectsPack;
+        [SerializeField] private IconsPack _iconsPack;
         public override void InstallBindings()
         {
             Container.Bind<ObjectsPack>().FromScriptableObject(_objectsPack).AsSingle();
+            Container.Bind<IconsPack>().FromScriptableObject(_iconsPack).AsSingle();
 
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
             Container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
@@ -39,12 +41,15 @@ namespace ZE.Polytrucks {
         {
             Container.Bind<ColliderListSystem>().AsCached();
             Container.Bind<CollisionHandleSystem>().AsCached();
+            Container.Bind<SaveManager>().AsCached();
         }
         private void InstallFactories()
         {
             PoolsInstaller.Install(Container);
             Container.Bind<ObjectsManager>().AsSingle();
+            Container.BindFactory<Storage, Storage.Factory>().AsSingle();
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
+            Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();            
         }
         private void InstallGameObjects()
         {

@@ -28,26 +28,32 @@ namespace ZE.Polytrucks {
     }
 	public sealed class ObjectsManager
 	{
-        
+        private ObjectsPack _objectsPack;
+        private IconsPack _iconsPack;
         private Crate.Pool _cratesPool;
         private CollectibleModel.Pool _modelsPool;        
 
-        public ObjectsManager(Crate.Pool cratePool, CollectibleModel.Pool modelPool)
+        public ObjectsManager(Crate.Pool cratePool, CollectibleModel.Pool modelPool, ObjectsPack objectsPack, IconsPack iconsPack)
         {       
+            _objectsPack= objectsPack;
             _cratesPool= cratePool;
             _modelsPool= modelPool;
+            _iconsPack= iconsPack;
         }
 
-        public Crate CreateCrate()
+        public Crate CreateCrate(VirtualCollectable collectable) => CreateCrate(collectable.CollectableType, collectable.Rarity);
+        public Crate CreateCrate(CollectableType type, Rarity rarity)
         {
             var crate =  _cratesPool.Spawn();
-            crate.SetModel(GetCollectibleModel(crate.CollectableType));
+            crate.SetModel(GetCollectibleModel(type, rarity));
             return crate;
         }
-        public CollectibleModel GetCollectibleModel(CollectableType type)
+        public CollectibleModel GetCollectibleModel(VirtualCollectable item) => GetCollectibleModel(item.CollectableType, item.Rarity);
+        public CollectibleModel GetCollectibleModel(CollectableType type, Rarity rarity)
         {
-            return _modelsPool.Spawn();
+            var model = _modelsPool.Spawn();
+            model.Setup(_objectsPack.GetCrateModel(rarity), _iconsPack.GetIcon(type));
+            return model;
         }
-        public CollectibleVisualRepresentation GetCollectibleModel(ICollectable collectible) => new CollectibleVisualRepresentation(collectible.CollectableType, GetCollectibleModel(collectible.CollectableType));
 	}
 }

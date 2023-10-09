@@ -48,7 +48,7 @@ namespace ZE.Polytrucks {
 		}
 		private void CompareCompositionAndModels()
 		{
-			var types = _storage.GetCollectableTypes();
+			var contents = _storage.GetContents();
 			int length = _storage.Capacity, itemsInLayer = _visualSettings.ItemsInLayer, width = _visualSettings.Width;
 			float gap = _visualSettings.Gap, scale = _visualSettings.ModelScale;
 			const float crateSize = GameConstants.DEFAULT_COLLECTABLE_SIZE;
@@ -58,8 +58,8 @@ namespace ZE.Polytrucks {
 			for (int i = 0; i < length; i++)
 			{
 				bool modelPresented = _collectibles[i] != null;
-				CollectableType itemType = types[i];
-				if (itemType == CollectableType.Undefined)
+				var itemInfo = contents[i];
+				if (itemInfo.CollectableType == CollectableType.Undefined)
 				{
 					if (modelPresented) ClearCell(i);
 				}
@@ -68,7 +68,7 @@ namespace ZE.Polytrucks {
 					bool setNewModel = false;
 					if (modelPresented)
 					{
-						if (_collectibles[i].Type != itemType)
+						if (!itemInfo.EqualsTo(_collectibles[i]))
 						{
 							ClearCell(i);
 							setNewModel = true;
@@ -80,21 +80,25 @@ namespace ZE.Polytrucks {
 					}
 					if (setNewModel)
 					{
-						var model = _objectsManager.GetCollectibleModel(itemType);
-                        _collectibles[i] = new CollectibleVisualRepresentation(itemType, model);
-						
-						model.transform.parent = host;
-						model.transform.localRotation = Quaternion.identity;
+						Transform model;
+                        var collectible = _objectsManager.GetCollectibleModel(itemInfo);
+                        _collectibles[i] = new CollectibleVisualRepresentation(itemInfo.CollectableType, itemInfo.Rarity, collectible);
 
-						int layer = i / itemsInLayer, indexInLayer = i % itemsInLayer;
-						int xpos = indexInLayer  % width, zpos = indexInLayer / width;
-						model.transform.localPosition = new Vector3(
-							xpos * step,
-							layer * step,
-							zpos * step
-							);
-						model.transform.localScale = scale * Vector3.one;
-					}
+                        model = collectible.transform;
+
+                        model.parent = host;
+                        model.localRotation = Quaternion.identity;
+
+                        int layer = i / itemsInLayer, indexInLayer = i % itemsInLayer;
+                        int xpos = indexInLayer % width, zpos = indexInLayer / width;
+                        model.localPosition = new Vector3(
+                            xpos * step,
+                            layer * step,
+                            zpos * step
+                            );
+                        model.localScale = scale * Vector3.one;
+
+                    }
 				}
 			}
 
