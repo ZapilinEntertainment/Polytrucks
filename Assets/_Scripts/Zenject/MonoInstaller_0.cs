@@ -8,16 +8,18 @@ namespace ZE.Polytrucks {
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
+
         [SerializeField] private ObjectsPack _objectsPack;
         [SerializeField] private IconsPack _iconsPack;
+        [SerializeField] private UIElementsPack _uiElementsPack;
+        [SerializeField] private UIColorsPack _colorsPack;
         public override void InstallBindings()
         {
-            Container.Bind<ObjectsPack>().FromScriptableObject(_objectsPack).AsSingle();
-            Container.Bind<IconsPack>().FromScriptableObject(_iconsPack).AsSingle();
+            InstallResourcePacks();
 
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
-            Container.Bind<PlayerController>().FromInstance(_playerController).AsSingle();
-            Container.Bind<LevelManager>().FromInstance(_levelManager).AsSingle();
+            Container.Bind<PlayerController>().FromInstance(_playerController).AsCached();
+            Container.Bind<LevelManager>().FromInstance(_levelManager).AsCached();
             Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle();
 
             InstallSystems();
@@ -25,6 +27,16 @@ namespace ZE.Polytrucks {
             InstallSignals();
             InstallFactories();
             InstallGameObjects();
+
+            Container.Bind<UIManager>().FromComponentInNewPrefab(_uiElementsPack.GameUiManager);
+        }
+
+        private void InstallResourcePacks()
+        {
+            Container.Bind<ObjectsPack>().FromScriptableObject(_objectsPack).AsSingle();
+            Container.Bind<IconsPack>().FromScriptableObject(_iconsPack).AsSingle();
+            Container.Bind<UIElementsPack>().FromScriptableObject(_uiElementsPack).AsSingle();
+            Container.Bind<UIColorsPack>().FromScriptableObject(_colorsPack).AsSingle();
         }
 
         private void InstallSignals()
@@ -42,6 +54,7 @@ namespace ZE.Polytrucks {
             Container.Bind<ColliderListSystem>().AsCached();
             Container.Bind<CollisionHandleSystem>().AsCached();
             Container.Bind<SaveManager>().AsCached();
+            Container.Bind<TradeSystem>().AsCached();
         }
         private void InstallFactories()
         {

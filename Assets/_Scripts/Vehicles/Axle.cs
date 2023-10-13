@@ -77,6 +77,10 @@ namespace ZE.Polytrucks {
                 Debug.LogError("axle wheels not set");
                 return;
             }
+            SyncToTransform();
+        }
+        public void SyncToTransform()
+        {
             _virtualPoint = new VirtualPoint(_leftWheel, _rightWheel);
         }
 

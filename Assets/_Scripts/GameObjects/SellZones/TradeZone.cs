@@ -9,16 +9,19 @@ namespace ZE.Polytrucks {
 	{
         [SerializeField] private bool _tradeToNowhere = true;
         protected ColliderListSystem _collidersList;
+        protected TradeSystem _tradeSystem;
         protected bool _hasStorage = false;
         protected bool TradeToNowhere => _tradeToNowhere;
+        protected int FreeSlotsCount => TradeToNowhere ? int.MaxValue : (_hasStorage ? _storage.FreeSlotsCount : 0);
         protected IStorage _storage;
         public bool CanTrade => _tradeToNowhere || _hasStorage;
 
 
         [Inject]
-        public void Inject(ColliderListSystem collidersList)
+        public void Inject(ColliderListSystem collidersList, TradeSystem tradeSystem)
         {
             _collidersList = collidersList;
+            _tradeSystem = tradeSystem;
         }
         public void AssignStorage(IStorage storage)
         {

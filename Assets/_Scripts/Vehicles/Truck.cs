@@ -182,14 +182,12 @@ namespace ZE.Polytrucks {
         #endregion
 
         #region trading
-        public bool TryStartSell(ISellZone sellZone, int goodsMask, RarityConditions rarity)
-        {
-            return _storage.TryStartSell(sellZone, goodsMask, rarity);
-        }
-        public bool TryStartCollect(IStorage storage)
-        {
-            return storage.TryStartItemTransferTo(_storage);
-        }
+        public TradeContract FormCollectContract() => new TradeContract(int.MaxValue, _storage.FreeSlotsCount, RarityConditions.Any);
+        public void CollectItems(ICollection<VirtualCollectable> items) => _storage.AddItems(items);
+        public bool TryStartSell(TradeContract contract, out List<VirtualCollectable> list) => _storage.TryFormItemsList(contract, out list);
+        public void RemoveItems(ICollection<VirtualCollectable> list) => _storage.RemoveItems(list);
+
+        public void OnItemSold(SellOperationContainer sellInfo) => _vehicleController?.OnItemSold(sellInfo);
         #endregion
     }
 }

@@ -5,27 +5,7 @@ using Zenject;
 
 
 namespace ZE.Polytrucks {
-
-    public sealed class PoolsInstaller : Installer<PoolsInstaller>
-    {
-        private ObjectsPack _objectsPack;
-        public PoolsInstaller(ObjectsPack objectsPack)
-        {
-            _objectsPack = objectsPack;
-        }
-
-        public override void InstallBindings()
-        {
-            Container.BindMemoryPool<Crate, Crate.Pool>()
-                .WithInitialSize(10)
-                .FromComponentInNewPrefab(_objectsPack.CratePrefab)
-                .UnderTransformGroup("crates");
-            Container.BindMemoryPool<CollectibleModel, CollectibleModel.Pool>()
-               .WithInitialSize(10)
-               .FromComponentInNewPrefab(_objectsPack.CrateModel)
-               .UnderTransformGroup("collectibleModels");
-        }
-    }
+    
 	public sealed class ObjectsManager
 	{
         private ObjectsPack _objectsPack;

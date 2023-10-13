@@ -11,7 +11,6 @@ namespace ZE.Polytrucks {
         public void SavePlayerPosition(VirtualPoint point)
         {
             var data = point.Encode();
-            Debug.Log(data);
             PlayerPrefs.SetString(PLAYER_POSITION_KEY, data);
         }
         public VirtualPoint LoadPlayerPosition()

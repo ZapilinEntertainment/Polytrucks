@@ -11,5 +11,6 @@ namespace ZE.Polytrucks {
 	public static class CollectableTypeExtension
 	{
 		public static int AsIntMaskValue(this CollectableType type) => (1 << (int)type);
+		public static bool FitsInMask(this CollectableType type, int mask) => (mask & type.AsIntMaskValue()) != 0;
 	}
 }

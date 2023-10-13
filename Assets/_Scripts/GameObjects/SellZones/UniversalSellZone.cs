@@ -35,11 +35,8 @@ namespace ZE.Polytrucks {
         }
 
         [SerializeField] private RarityConditions _rarity = RarityConditions.Any;
-        [SerializeField] private CollectiblesMask _collectiblesMask = new CollectiblesMask();     
-             
-        protected override void OnStartSell(ISeller seller)
-        {
-            seller.TryStartSell(this, _collectiblesMask.Value, _rarity);
-        }
+        [SerializeField] private CollectiblesMask _collectiblesMask = new CollectiblesMask();
+
+        public override TradeContract FormTradeContract() => new(_collectiblesMask.Value, FreeSlotsCount, _rarity);
     }
 }

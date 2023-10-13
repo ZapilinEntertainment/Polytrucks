@@ -8,9 +8,6 @@ namespace ZE.Polytrucks {
         [SerializeField] private CollectableType _itemType;
         [SerializeField] private RarityConditions _itemRarity;
 
-        protected override void OnStartSell(ISeller seller)
-        {
-            seller.TryStartSell(this, _itemType.AsIntMaskValue(), _itemRarity);
-        }
+        public override TradeContract FormTradeContract() => new (_itemType.AsIntMaskValue(), FreeSlotsCount, _itemRarity);
     }
 }

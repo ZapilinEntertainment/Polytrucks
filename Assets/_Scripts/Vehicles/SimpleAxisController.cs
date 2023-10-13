@@ -35,6 +35,8 @@ namespace ZE.Polytrucks {
         {
             transform.position = point.Position;
             transform.rotation = point.Rotation;
+            _fwdAxle.SyncToTransform();
+            _rearAxle.SyncToTransform();
         }
     }
 }

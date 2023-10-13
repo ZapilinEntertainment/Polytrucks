@@ -14,4 +14,12 @@ namespace ZE.Polytrucks {
 			Point = point;
 		}
 	}
+	public class PlayerItemSellSignal
+	{
+		public readonly SellOperationContainer Info;
+		public PlayerItemSellSignal(SellOperationContainer container)
+		{
+			Info = container;
+		}
+	}
 }

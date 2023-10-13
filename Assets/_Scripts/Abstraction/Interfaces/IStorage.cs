@@ -8,18 +8,18 @@ namespace ZE.Polytrucks {
 	{
         public bool IsFull => ItemsCount == Capacity;
         public int ItemsCount { get; }
-        public int FreeSlots { get; }
+        public int FreeSlotsCount { get; }
         public int Capacity { get; }        
         public Action OnItemAddedEvent { get; set; }
         public Action OnItemRemovedEvent { get; set; }
         public Action OnStorageCompositionChangedEvent { get; set; }
 
-        public bool TryStartItemTransferTo(IStorage other);
-        public bool TryAdd(VirtualCollectable collectable);
-        public bool TryStartSell(ISellZone sellZone, int goodsMask, RarityConditions rarityConditions);        
-        public bool TryExtract(CollectableType type, Rarity rarity);
-        public bool TryExtract(CollectableType type, Rarity rarity, int count);
+        public void AddItems(ICollection<VirtualCollectable> items);
+        public void RemoveItems(ICollection<VirtualCollectable> list);
 
+        public bool TryFormItemsList(TradeContract contract, out List<VirtualCollectable> list);
+        public bool TryAdd(VirtualCollectable collectable);
+        public bool TryExtract(CollectableType type, Rarity rarity, int count);
         public int CalculateItemsCountOfType(CollectableType type, Rarity rarity);
     }
 }

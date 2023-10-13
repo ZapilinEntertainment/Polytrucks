@@ -5,7 +5,9 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public interface ISellZone
 	{
-        public bool TrySellItem(VirtualCollectable item);
+        public float SellCostCf { get; }
+        public void SellItems(ICollection<VirtualCollectable> list);
+        public TradeContract FormTradeContract();
 
     }
 }
