@@ -18,7 +18,10 @@ namespace ZE.Polytrucks {
             InstallResourcePacks();
 
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
-            Container.Bind<PlayerController>().FromInstance(_playerController).AsCached();
+
+            Container.Bind<PlayerData>().AsCached();
+            Container.Bind<PlayerController>().FromInstance(_playerController).AsCached();            
+
             Container.Bind<LevelManager>().FromInstance(_levelManager).AsCached();
             Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle();
 
@@ -28,7 +31,7 @@ namespace ZE.Polytrucks {
             InstallFactories();
             InstallGameObjects();
 
-            Container.Bind<UIManager>().FromComponentInNewPrefab(_uiElementsPack.GameUiManager);
+            Container.Bind<UIManager>().FromComponentInNewPrefab(_uiElementsPack.GameUiManager).AsCached().NonLazy();
         }
 
         private void InstallResourcePacks()
@@ -36,6 +39,7 @@ namespace ZE.Polytrucks {
             Container.Bind<ObjectsPack>().FromScriptableObject(_objectsPack).AsSingle();
             Container.Bind<IconsPack>().FromScriptableObject(_iconsPack).AsSingle();
             Container.Bind<UIElementsPack>().FromScriptableObject(_uiElementsPack).AsSingle();
+
             Container.Bind<UIColorsPack>().FromScriptableObject(_colorsPack).AsSingle();
         }
 
@@ -47,6 +51,7 @@ namespace ZE.Polytrucks {
             Container.DeclareSignal<SessionPauseSignal>();
             Container.DeclareSignal<SessionResumeSignal>();
             Container.DeclareSignal<CameraViewPointSetSignal>();
+            Container.DeclareSignal<PlayerItemSellSignal>();
         }
 
         private void InstallSystems()

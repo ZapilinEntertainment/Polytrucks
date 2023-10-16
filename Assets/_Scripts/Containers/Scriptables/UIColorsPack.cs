@@ -22,6 +22,12 @@ namespace ZE.Polytrucks {
         [SerializeField] private RarityColorsPack _colorsPack;
         private Dictionary<Rarity, Color> _rarityColors ;
 
+        [Inject]
+        public void Inject(InitializableManager manager)
+        {
+            manager.Add(this);
+        }
+
         public void Initialize()
         {
             _rarityColors = new Dictionary<Rarity, Color>()

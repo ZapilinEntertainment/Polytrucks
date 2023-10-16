@@ -14,12 +14,8 @@ namespace ZE.Polytrucks {
         public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
         public InputController InputController => _inputController;
 
-
-        public override void Inject(SignalBus signalBus, SessionMaster sessionMaster)
-        {
-            base.Inject(signalBus, sessionMaster);
-            _playerData = new PlayerData(signalBus);
-        }
+        [Inject]
+        public void Inject(PlayerData playerData) => _playerData = playerData;
 
         private void Awake()
         {

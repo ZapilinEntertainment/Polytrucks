@@ -25,6 +25,7 @@ namespace ZE.Polytrucks {
 
 		public void OnPlayerSoldItem(SellOperationContainer sellOperation)
 		{
+			AddMoney(sellOperation.MoneyCount);
 			_signalBus.Fire(new PlayerItemSellSignal(sellOperation));
 		}
 	}

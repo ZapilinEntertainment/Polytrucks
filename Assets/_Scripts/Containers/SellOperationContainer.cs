@@ -7,5 +7,6 @@ namespace ZE.Polytrucks {
 	{
 		public int MoneyCount;
 		public Rarity Rarity;
+		public Vector3 SellZonePosition;
 	}
 }

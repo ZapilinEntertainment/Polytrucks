@@ -8,6 +8,7 @@ namespace ZE.Polytrucks {
 	public abstract class SellZoneBase : TradeZone, ISellZone
 	{
         virtual public float SellCostCf => 1f;
+        public Vector3 Position => transform.position;
 
         protected override void OnTradeTrigger(Collider other)
         {

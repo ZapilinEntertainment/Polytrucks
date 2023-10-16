@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	{
         public float SellCostCf { get; }
         public void SellItems(ICollection<VirtualCollectable> list);
+        public Vector3 Position { get; }
         public TradeContract FormTradeContract();
 
     }

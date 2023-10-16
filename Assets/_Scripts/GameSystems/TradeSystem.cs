@@ -29,7 +29,8 @@ namespace ZE.Polytrucks {
 						seller.OnItemSold( 
 							new SellOperationContainer() {
 								MoneyCount =(int)(_basePrices[item.Rarity] * sellCostCf), 
-								Rarity=	item.Rarity
+								Rarity=	item.Rarity,
+								SellZonePosition = sellzone.Position
 							}
 							);
 					}
