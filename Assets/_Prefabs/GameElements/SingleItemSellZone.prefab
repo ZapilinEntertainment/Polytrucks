@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tradeToNowhere: 1
+  _iconRenderer: {fileID: 0}
+  <SellCostCf>k__BackingField: 1
   _itemType: 1
   _itemRarity: 0
 --- !u!1001 &1665944884068289030

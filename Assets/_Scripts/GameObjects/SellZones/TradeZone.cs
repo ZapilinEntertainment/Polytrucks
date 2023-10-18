@@ -7,14 +7,15 @@ namespace ZE.Polytrucks {
 	[RequireComponent(typeof(Collider))]
 	public abstract class TradeZone : MonoBehaviour
 	{
+        [SerializeField] private SwitchableRenderer[] _switchableRenderers;
         [SerializeField] private bool _tradeToNowhere = true;
         protected ColliderListSystem _collidersList;
         protected TradeSystem _tradeSystem;
-        protected bool _hasStorage = false;
+        protected bool _hasStorage = false, _isActive = true;
         protected bool TradeToNowhere => _tradeToNowhere;
         protected int FreeSlotsCount => TradeToNowhere ? int.MaxValue : (_hasStorage ? _storage.FreeSlotsCount : 0);
         protected IStorage _storage;
-        public bool CanTrade => _tradeToNowhere || _hasStorage;
+        public bool CanTrade => _isActive & ( _tradeToNowhere | _hasStorage);
 
 
         [Inject]
@@ -29,6 +30,16 @@ namespace ZE.Polytrucks {
             _hasStorage = true;
             _tradeToNowhere = false;
         }
+
+        public void SetActivity(bool x)
+        {
+            _isActive = x;
+            if (_switchableRenderers != null)
+            {
+                foreach (var renderer in _switchableRenderers) renderer.SetActivity(x);
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (CanTrade) OnTradeTrigger(other);

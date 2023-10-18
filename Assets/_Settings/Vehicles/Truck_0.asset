@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxSpeed: 15
   _maxSteerAngle: 40
-  _steerTime: 1
+  _steerTime: 0.5
   _acceleration: 2
   _naturalDeceleration: 1
   _brakeDeceleration: 4

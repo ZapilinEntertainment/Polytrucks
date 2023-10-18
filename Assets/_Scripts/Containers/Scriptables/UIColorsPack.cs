@@ -17,10 +17,17 @@ namespace ZE.Polytrucks {
             [field: SerializeField] public Color Mastery { get; private set; } = new Color(0.8509169f, 0.09905658f, 1f);
             [field: SerializeField] public Color Legendary { get; private set; } = new Color(1f, 0.5f, 1f);
             [field: SerializeField] public Color Unique { get; private set; } = Color.yellow;
+
+            public Dictionary<Rarity, Color> ToDictionary() => new Dictionary<Rarity, Color>()
+            {
+                {Rarity.Regular, Regular }, {Rarity.Advanced, Advanced}, {Rarity.Industrial, Industrial},
+                {Rarity.Rare, Rare}, {Rarity.Mastery, Mastery}, {Rarity.Legendary, Legendary},
+                {Rarity.Unique, Unique}
+            };
         }
 
-        [SerializeField] private RarityColorsPack _colorsPack;
-        private Dictionary<Rarity, Color> _rarityColors ;
+        [SerializeField] private RarityColorsPack _colorsPack, _iconsColorsPack;
+        private Dictionary<Rarity, Color> _rarityColors, _iconsColors ;
 
         [Inject]
         public void Inject(InitializableManager manager)
@@ -30,13 +37,10 @@ namespace ZE.Polytrucks {
 
         public void Initialize()
         {
-            _rarityColors = new Dictionary<Rarity, Color>()
-            {
-                {Rarity.Regular, _colorsPack.Regular }, {Rarity.Advanced, _colorsPack.Advanced}, {Rarity.Industrial, _colorsPack.Industrial},
-                {Rarity.Rare, _colorsPack.Rare}, {Rarity.Mastery, _colorsPack.Mastery}, {Rarity.Legendary, _colorsPack.Legendary},
-                {Rarity.Unique, _colorsPack.Unique}
-            };
+            _rarityColors = _colorsPack.ToDictionary();
+            _iconsColors = _iconsColorsPack.ToDictionary();
         }
         public Color GetRarityColor(Rarity rarity) => _rarityColors[rarity];
+        public Color GetIconColor(Rarity rarity) => _iconsColors[rarity];
     }
 }

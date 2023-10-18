@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: IconsPack
   m_EditorClassIdentifier: 
   _fruitsIcon: {fileID: 21300000, guid: 04bf8e14dd57ba04a853cabb3f8376ba, type: 3}
+  _metalsIcon: {fileID: 21300000, guid: 0f809218f6f6db64285208e8228d59c3, type: 3}

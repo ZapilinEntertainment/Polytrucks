@@ -10,10 +10,11 @@ namespace ZE.Polytrucks {
         [SerializeField] private SpriteRenderer _iconRenderer;
 		private Pool _pool;
 
-        public void Setup(Mesh model, Sprite icon)
+        public void Setup(Mesh model, Sprite icon, Color iconColor)
         {
             _meshFilter.sharedMesh = model;
             _iconRenderer.sprite = icon;
+            _iconRenderer.color = iconColor;
         }
         public void Dispose()
         {

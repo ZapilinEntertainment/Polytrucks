@@ -9,6 +9,7 @@ namespace ZE.Polytrucks {
         public void SellItems(ICollection<VirtualCollectable> list);
         public Vector3 Position { get; }
         public TradeContract FormTradeContract();
+        public System.Action OnItemSoldEvent { get; set; }
 
     }
 }

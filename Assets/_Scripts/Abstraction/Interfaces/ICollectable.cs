@@ -10,6 +10,7 @@ namespace ZE.Polytrucks {
 		public bool Collect();
 		public VirtualCollectable ToVirtual();
 	}
+	[System.Serializable]
 	public struct VirtualCollectable
 	{
 		public CollectableType CollectableType;
