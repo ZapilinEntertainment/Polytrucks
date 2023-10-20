@@ -13,6 +13,7 @@ namespace ZE.Polytrucks {
 			OnSetup();
 		}
 		abstract protected void OnSetup();
+		abstract public void Stabilize();
 		abstract public void Move(float step);
 		abstract public void Steer(float angle);
 		abstract public void Teleport(VirtualPoint point);

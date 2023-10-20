@@ -47,7 +47,31 @@ namespace ZE.Polytrucks {
                     _storage.OnStorageCompositionChangedEvent?.Invoke();
                 }
 			}
-			public void Remove(ICollection<VirtualCollectable> list) => Reassign(_items.Except(list).ToList(), true);
+			public void Remove(ICollection<VirtualCollectable> clearList)
+			{
+				BitArray bitmask = new BitArray(_itemsCount, true);
+				foreach (var item in clearList)
+				{
+					for (int i = 0; i < _itemsCount; i++)
+					{
+						if (!bitmask[i]) continue;
+						else
+						{
+							if (item.EqualsTo(_items[i]))
+							{
+								bitmask[i] = false;
+								break;
+							}
+						}
+					}
+				}
+                List<VirtualCollectable> newItems = new List<VirtualCollectable>();
+				for (int i = 0; i < _itemsCount; i++)
+				{
+					if (bitmask[i]) newItems.Add(_items[i]);
+				}
+                Reassign(newItems, true);				
+			}
 
 
 			public void AddRange(ICollection<VirtualCollectable> list)
@@ -190,9 +214,15 @@ namespace ZE.Polytrucks {
         public bool TryFormItemsList(TradeContract contract, out List<VirtualCollectable> list)
 		{
 			list = new List<VirtualCollectable>();
+			int count = 0;
 			foreach (var item in _items)
 			{
-				if (contract.IsItemSuits(item)) list.Add(item);
+				if (contract.IsItemSuits(item))
+				{
+					list.Add(item);
+					count++;
+					if (count >= contract.MaxCount) break;
+				}
 			}
 			return list.Count > 0;
         } 

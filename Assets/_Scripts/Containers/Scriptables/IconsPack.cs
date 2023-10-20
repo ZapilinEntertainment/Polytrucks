@@ -7,20 +7,15 @@ namespace ZE.Polytrucks {
     public sealed class IconsPack : ScriptableObject
     {
         [SerializeField] private Sprite _fruitsIcon, _metalsIcon;
-        private bool _dictionaryFormed = false;
-        private Dictionary<CollectableType, Sprite> _icons;
 
         public Sprite GetIcon(CollectableType type)
         {
-            if (!_dictionaryFormed)
+            switch (type)
             {
-                _icons = new Dictionary<CollectableType, Sprite>()
-                {
-                    {CollectableType.Fruits, _fruitsIcon }, {CollectableType.Metals, _metalsIcon}
-                };
-                _dictionaryFormed = true;
+                case CollectableType.Fruits: return _fruitsIcon;
+                case CollectableType.Metals: return _metalsIcon;
+                default: return null;
             }
-            return _icons[type];
         }
     }
 }

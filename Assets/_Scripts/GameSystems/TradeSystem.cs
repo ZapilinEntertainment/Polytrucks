@@ -43,7 +43,7 @@ namespace ZE.Polytrucks {
 			if (contract.IsValid())
 			{
                 List<VirtualCollectable> itemsList;
-				if (collectZone.TryFromCollectionList(contract, out itemsList))
+				if (collectZone.TryFormCollectionList(contract, out itemsList))
 				{
 					collectZone.RemoveItems(itemsList);
 					collector.CollectItems(itemsList);

@@ -58,12 +58,20 @@ namespace ZE.Polytrucks {
         {
             //if (GameSessionActive)
             {
-                float t = Time.deltaTime;
+               // float t = Time.deltaTime;
+               // _engine.Update(t);
+            }
+        }
+        private void FixedUpdate()
+        {
+            {
+                float t = Time.fixedDeltaTime;
                 _engine.Update(t);
             }
         }
 
         public override void Teleport(VirtualPoint point) => _axisController.Teleport(point);
+        public override void Stabilize() => _axisController.Stabilize();
 
         #region controls
         override public void Move(Vector2 dir)

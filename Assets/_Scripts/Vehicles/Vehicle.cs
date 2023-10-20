@@ -20,6 +20,7 @@ namespace ZE.Polytrucks {
         public abstract void ReleaseGas();
         public abstract void Steer(float x);
         public abstract void Teleport(VirtualPoint point);
+        public abstract void Stabilize();
 
         public void AssignVehicleController(IVehicleController controller) => _vehicleController = controller;
 

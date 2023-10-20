@@ -92,7 +92,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 283763470444092282}
-  - component: {fileID: 1744843468823268109}
+  - component: {fileID: 5738310119883903584}
   m_Layer: 0
   m_Name: fwdAxle
   m_TagString: Untagged
@@ -117,7 +117,7 @@ Transform:
   m_Father: {fileID: 7613296999644693688}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1744843468823268109
+--- !u!114 &5738310119883903584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,11 +126,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 381876856324249479}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9bf8f75d40b1644ad049d919e604ef, type: 3}
+  m_Script: {fileID: 11500000, guid: cc2447b4d03cde84681de46d8fa499b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSteer: 1
-  _isMotor: 0
   _leftWheel: {fileID: 2657724831942053256}
   _rightWheel: {fileID: 1583404407612991190}
 --- !u!1 &669207115186890469
@@ -142,8 +140,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144767197520116831}
-  - component: {fileID: 366581770098340391}
   - component: {fileID: 8657606356179407698}
+  - component: {fileID: 2738426882591340368}
+  - component: {fileID: 2262425018953083138}
   m_Layer: 8
   m_Name: truck0
   m_TagString: Untagged
@@ -179,20 +178,6 @@ Transform:
   m_Father: {fileID: 7613296999644693688}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!136 &366581770098340391
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 669207115186890469}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1
-  m_Height: 6
-  m_Direction: 2
-  m_Center: {x: 0, y: 1, z: -0.3}
 --- !u!65 &8657606356179407698
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -204,8 +189,36 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 4}
-  m_Center: {x: 0, y: 1, z: -0.1}
+  m_Size: {x: 2, y: 1.5684499, z: 4}
+  m_Center: {x: 0, y: 1.2157751, z: -0.099999905}
+--- !u!136 &2738426882591340368
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669207115186890469}
+  m_Material: {fileID: 13400000, guid: 06bc60af141359c4ca447e929bf458e2, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.43594536
+  m_Height: 2.0460608
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.44016558, z: 1.5013493}
+--- !u!136 &2262425018953083138
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 669207115186890469}
+  m_Material: {fileID: 13400000, guid: ef18feb22c7d6ff44bfc49511c5d7bec, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.43594536
+  m_Height: 2.0460608
+  m_Direction: 0
+  m_Center: {x: 0, y: 0.44016558, z: -1.84}
 --- !u!1 &681869601896649459
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,7 +425,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7613296999644693688}
-  - component: {fileID: 3833444173497147897}
+  - component: {fileID: 4083108279326336906}
   - component: {fileID: 8583801894704270260}
   m_Layer: 8
   m_Name: Model
@@ -440,7 +453,7 @@ Transform:
   m_Father: {fileID: 5273749271566080024}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3833444173497147897
+--- !u!114 &4083108279326336906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -449,11 +462,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1705788952971722432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 620eb87d1f75ad441b315b0f17993746, type: 3}
+  m_Script: {fileID: 11500000, guid: 6dd064e020ee601419cbc3409394a9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fwdAxle: {fileID: 1744843468823268109}
-  _rearAxle: {fileID: 1682407920285976709}
+  _fwdAxle: {fileID: 5738310119883903584}
   _rigidbody: {fileID: 8583801894704270260}
 --- !u!54 &8583801894704270260
 Rigidbody:
@@ -464,10 +476,10 @@ Rigidbody:
   m_GameObject: {fileID: 1705788952971722432}
   serializedVersion: 2
   m_Mass: 25
-  m_Drag: 0
+  m_Drag: 0.7
   m_AngularDrag: 0.05
-  m_UseGravity: 0
-  m_IsKinematic: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -732,7 +744,7 @@ GameObject:
   - component: {fileID: 4908018578481662965}
   - component: {fileID: 2556873666107694815}
   m_Layer: 0
-  m_Name: Truck
+  m_Name: Truck_Physics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -767,9 +779,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraViewPoint: {fileID: 7071449846526245244}
-  _axisController: {fileID: 3833444173497147897}
-  _truckConfig: {fileID: 11400000, guid: 6a4f0707bb936b44d9984c39f70994cc, type: 2}
-  _collectCollider: {fileID: 366581770098340391}
+  _axisController: {fileID: 4083108279326336906}
+  _truckConfig: {fileID: 11400000, guid: 30ea5113abd61274eb06ed24cbafab0c, type: 2}
+  _collectCollider: {fileID: 0}
   _storageVisualSettings:
     _zeroPoint: {fileID: 3151278718214146661}
     Gap: 0.1
@@ -1447,7 +1459,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6094995716659296435}
-  - component: {fileID: 1682407920285976709}
   m_Layer: 0
   m_Name: rearAxle
   m_TagString: Untagged
@@ -1472,22 +1483,6 @@ Transform:
   m_Father: {fileID: 7613296999644693688}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1682407920285976709
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7577084207208559909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc9bf8f75d40b1644ad049d919e604ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isSteer: 1
-  _isMotor: 0
-  _leftWheel: {fileID: 1599644461065323067}
-  _rightWheel: {fileID: 3384075833726080315}
 --- !u!1001 &2785169327159261257
 PrefabInstance:
   m_ObjectHideFlags: 0

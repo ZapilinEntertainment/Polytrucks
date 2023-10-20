@@ -28,5 +28,6 @@ namespace ZE.Polytrucks {
 		}
 
 		public bool EqualsTo(CollectibleVisualRepresentation item) => CollectableType == item.CollectableType && Rarity == item.Rarity;
-	}
+        public bool EqualsTo(VirtualCollectable item) => CollectableType == item.CollectableType && Rarity == item.Rarity;
+    }
 }

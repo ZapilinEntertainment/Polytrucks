@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public class SimpleAxisController : AxisControllerBase
 	{
-		[SerializeField] private Axle _fwdAxle, _rearAxle;
+		[SerializeField] private VirtualPointAxle _fwdAxle, _rearAxle;
         private float _axisDistance = 1f, _centerDistance;
         public override Vector3 Forward => _fwdAxle?.Forward ?? transform.forward;
         public override Vector3 Position => transform.position;
@@ -16,7 +16,11 @@ namespace ZE.Polytrucks {
             _fwdAxle.Setup(this);
             _rearAxle.Setup(this);   
             _axisDistance = (_fwdAxle.Position - _rearAxle.Position).magnitude;
-            _centerDistance = (_fwdAxle.Position - transform.position).magnitude;
+            _centerDistance = (_fwdAxle.Position - Position).magnitude;
+        }
+        public override void Stabilize()
+        {
+            throw new System.NotImplementedException();
         }
         public override void Move(float step)
         {
@@ -24,8 +28,7 @@ namespace ZE.Polytrucks {
 
             Vector3 dir = (fwdPoint.Position - _rearAxle.Position).normalized;
             _rearAxle.Move(fwdPoint.Position - dir * _axisDistance);
-            transform.position = fwdPoint.Position - dir * _centerDistance;
-            transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+            SetPoint(fwdPoint.Position - dir * _centerDistance, Quaternion.LookRotation(dir, Vector3.up));
         }
         public override void Steer(float value)
         {
@@ -33,10 +36,10 @@ namespace ZE.Polytrucks {
         }
         public override void Teleport(VirtualPoint point)
         {
-            transform.position = point.Position;
-            transform.rotation = point.Rotation;
+            SetPoint(point.Position, point.Rotation);
             _fwdAxle.SyncToTransform();
             _rearAxle.SyncToTransform();
         }
+        private void SetPoint(Vector3 pos, Quaternion rotation) => transform.SetPositionAndRotation(pos, rotation);
     }
 }

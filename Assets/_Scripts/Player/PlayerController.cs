@@ -47,6 +47,7 @@ namespace ZE.Polytrucks {
             }
         }
         public void SetSteer(float steer) => _vehicle.Steer(steer);
+        public void Stabilize() => _vehicle.Stabilize();
         #endregion
         private void LateUpdate()
         {

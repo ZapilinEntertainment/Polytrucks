@@ -30,6 +30,10 @@ namespace ZE.Polytrucks {
         {
             if (GameSessionActive) _player.Move(dir);
         }
+        public void StabilizeCommand()
+        {
+            _player.Stabilize();
+        }
         public void OnButtonDown(ControlButtonID button) {
             _controlsMask[button] = true;
             Recalculation();
@@ -40,52 +44,51 @@ namespace ZE.Polytrucks {
         }
         private void Recalculation()
         {
-                PlayerMoveStateType newPlayerMoveState;
-                if (_controlsMask[ControlButtonID.Gas])
+            PlayerMoveStateType newPlayerMoveState;
+            if (_controlsMask[ControlButtonID.Gas])
+            {
+                newPlayerMoveState = PlayerMoveStateType.Gas;
+            }
+            else
+            {
+                if (_controlsMask[ControlButtonID.Brake])
                 {
-                    newPlayerMoveState = PlayerMoveStateType.Gas;
+                    newPlayerMoveState = PlayerMoveStateType.Brake;
                 }
                 else
                 {
-                    if (_controlsMask[ControlButtonID.Brake])
+                    if (_controlsMask[ControlButtonID.Reverse])
                     {
-                        newPlayerMoveState = PlayerMoveStateType.Brake;
+                        newPlayerMoveState = PlayerMoveStateType.Reverse;
                     }
                     else
                     {
-                        if (_controlsMask[ControlButtonID.Reverse])
-                        {
-                            newPlayerMoveState = PlayerMoveStateType.Reverse;
-                        }
-                        else
-                        {
-                            newPlayerMoveState = PlayerMoveStateType.Idle;
-                        }
+                        newPlayerMoveState = PlayerMoveStateType.Idle;
                     }
                 }
-                if (_currentPlayerMoveState != newPlayerMoveState)
-                {
-                    _currentPlayerMoveState = newPlayerMoveState;
-                    _player.ChangeMoveState(_currentPlayerMoveState);
-                }
+            }
+            if (_currentPlayerMoveState != newPlayerMoveState)
+            {
+                _currentPlayerMoveState = newPlayerMoveState;
+                _player.ChangeMoveState(_currentPlayerMoveState);
+            }
 
-                float newSteer = 0f;
-                if (_controlsMask[ControlButtonID.SteerLeft])
-                {
-                    if (_controlsMask[ControlButtonID.SteerRight]) newSteer = 0f;
-                    else newSteer = -1f;
-                }
-                else
-                {
-                    if (_controlsMask[ControlButtonID.SteerRight]) newSteer = 1f;
-                    else newSteer = 0f;
-                }
-                if (newSteer != _steerValue)
-                {
-                    _steerValue = newSteer;
-                    _player.SetSteer(_steerValue);
-                }
-            
+            float newSteer = 0f;
+            if (_controlsMask[ControlButtonID.SteerLeft])
+            {
+                if (_controlsMask[ControlButtonID.SteerRight]) newSteer = 0f;
+                else newSteer = -1f;
+            }
+            else
+            {
+                if (_controlsMask[ControlButtonID.SteerRight]) newSteer = 1f;
+                else newSteer = 0f;
+            }
+            if (newSteer != _steerValue)
+            {
+                _steerValue = newSteer;
+                _player.SetSteer(_steerValue);
+            }
         }
     }
 }

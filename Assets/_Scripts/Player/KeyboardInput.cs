@@ -34,6 +34,8 @@ namespace ZE.Polytrucks {
                     _previousVertical = vertical;
                 }
                 CheckControl(ControlButtonID.Brake, Input.GetKey(KeyCode.Space));
+
+                if (Input.GetKeyDown(KeyCode.R)) _inputController.StabilizeCommand();
             }
 
             void CheckControl(ControlButtonID id, bool value)

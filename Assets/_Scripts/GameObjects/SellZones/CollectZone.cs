@@ -13,7 +13,7 @@ namespace ZE.Polytrucks {
                 else if (TradeToNowhere) Debug.LogError("virtual storage is not configured");
             }
         }
-        public bool TryFromCollectionList(TradeContract contract, out List<VirtualCollectable> list)
+        public bool TryFormCollectionList(TradeContract contract, out List<VirtualCollectable> list)
         {
             if (_hasStorage) return _storage.TryFormItemsList(contract, out list);
             else

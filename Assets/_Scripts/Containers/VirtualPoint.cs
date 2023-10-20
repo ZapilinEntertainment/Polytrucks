@@ -4,7 +4,6 @@ using UnityEngine;
 using Newtonsoft.Json;
 
 namespace ZE.Polytrucks {
-
     public struct VirtualPoint
     {
         public Vector3 Position;
@@ -18,12 +17,12 @@ namespace ZE.Polytrucks {
             Position.y = GameConstants.GROUND_HEIGHT;
             Rotation = Quaternion.Lerp(leftWheel.rotation, rightWheel.rotation, 0.5f);
         }
-        public VirtualPoint (Transform point)
+        public VirtualPoint(Transform point)
         {
             Position = point.position;
             Rotation = point.rotation;
         }
-        public VirtualPoint Move( float step)
+        public VirtualPoint Move(float step)
         {
             return new VirtualPoint()
             {
@@ -60,51 +59,6 @@ namespace ZE.Polytrucks {
                 Position = new Vector3(numbers[0], numbers[1], numbers[2]),
                 Rotation = new Quaternion(numbers[3], numbers[4], numbers[5], numbers[6])
             };
-        }
-    }
-	public class Axle : MonoBehaviour
-	{
-		[SerializeField] private bool _isSteer = false, _isMotor = false;
-        [SerializeField] private Transform _leftWheel, _rightWheel;
-        private VirtualPoint _virtualPoint;
-        public Vector3 Position => _virtualPoint.Position;
-        public Vector3 Forward => _virtualPoint.Forward;
-
-        public void Setup(AxisControllerBase axisController)
-        {
-            if (_leftWheel == null || _rightWheel == null)
-            {
-                Debug.LogError("axle wheels not set");
-                return;
-            }
-            SyncToTransform();
-        }
-        public void SyncToTransform()
-        {
-            _virtualPoint = new VirtualPoint(_leftWheel, _rightWheel);
-        }
-
-        public VirtualPoint Move(float step)
-        {
-            _virtualPoint = _virtualPoint.Move(step);
-            return _virtualPoint;
-        }        
-        public VirtualPoint Move(Vector3 pos)
-        {
-            _virtualPoint = new VirtualPoint()
-            {
-                Position = pos,
-                Rotation = _virtualPoint.Rotation
-            };
-            return _virtualPoint;
-        }
-        public void Steer(float steerAngle)
-        {
-            _virtualPoint = _virtualPoint.Steer(transform.rotation * Quaternion.AngleAxis(steerAngle, _virtualPoint.Up));
-
-            Quaternion wheelRotation = Quaternion.Euler(0f,steerAngle,0f);
-           _leftWheel.localRotation = wheelRotation;
-            _rightWheel.localRotation = wheelRotation;
         }
     }
 }
