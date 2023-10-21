@@ -4,14 +4,14 @@ using UnityEngine;
 
 namespace ZE.Polytrucks
 {
-    public enum CustomLayermask : byte { Default, }
-    public enum DefinedLayer : byte { Default, Collectible, Player}
+    public enum CustomLayermask : byte { Default, Tyres}
+    public enum DefinedLayer : byte { Default, Collectible, Player, Terrain}
 
     public static class GameConstants
     {
         public const float GROUND_HEIGHT = 0f, CRATE_COLLECT_RADIUS = 1f, DEFAULT_COLLECTABLE_SIZE = 1.5f;
 
-        public const string  DEFAULT_LAYERNAME = "Default", COLLECTIBLE_LAYERNAME = "Collectible", PLAYER_LAYERNAME = "Player";
+        public const string  DEFAULT_LAYERNAME = "Default", COLLECTIBLE_LAYERNAME = "Collectible", PLAYER_LAYERNAME = "Player", TERRAIN_LAYERNAME = "Terrain";
         private static Dictionary<CustomLayermask, int> _customLayermasks = new Dictionary<CustomLayermask, int>();
         private static Dictionary<DefinedLayer, int> _definedLayers = new Dictionary<DefinedLayer, int>();
 
@@ -25,6 +25,7 @@ namespace ZE.Polytrucks
                 {
                     case DefinedLayer.Player: layerName = PLAYER_LAYERNAME; break;
                     case DefinedLayer.Collectible: layerName = COLLECTIBLE_LAYERNAME;break;
+                    case DefinedLayer.Terrain: layerName = TERRAIN_LAYERNAME; break;
                     default: layerName = DEFAULT_LAYERNAME; break;
                 }
                 layer = LayerMask.NameToLayer(layerName);
@@ -38,6 +39,7 @@ namespace ZE.Polytrucks
             {
                 switch (customLayer)
                 {
+                    case CustomLayermask.Tyres: value = LayerMask.GetMask(DEFAULT_LAYERNAME, TERRAIN_LAYERNAME); break;
                     default: value = LayerMask.GetMask(DEFAULT_LAYERNAME); break;
                 }
                 _customLayermasks.Add(customLayer, value);

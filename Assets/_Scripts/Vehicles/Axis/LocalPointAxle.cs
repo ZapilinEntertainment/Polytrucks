@@ -6,9 +6,12 @@ namespace ZE.Polytrucks {
 	public class LocalPointAxle : AxleBase
 	{
         private float _steerAngle;
+        public float SteerCfLeft => Mathf.Clamp01( 1f + _steerAngle / 90f);
+        public float SteerCfRight => Mathf.Clamp01( 1f - _steerAngle / 90f);
         public override Vector3 Position => transform.position;
         public override Vector3 Forward => Quaternion.AngleAxis(_steerAngle, transform.up) * transform.forward;
-        public Vector3 ForceApplyPosition => _steerAngle > 0f ? _leftWheel.position : _rightWheel.position;
+        public Vector3 LeftWheelPos => _leftWheel.position;
+        public Vector3 RightWheelPos => _rightWheel.position;
 
         public override void Setup(AxisControllerBase axisController)
         {

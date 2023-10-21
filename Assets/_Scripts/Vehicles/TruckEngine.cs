@@ -92,6 +92,7 @@ namespace ZE.Polytrucks {
             speed *= _config.CalculateSpeedCf(SteerValue);
             _axis.Move(speed);
         }
+
         public void Gas()
         {
             _currentMoveState = _accelerationState;

@@ -56,14 +56,15 @@ namespace ZE.Polytrucks {
         
         private void Update()
         {
-            //if (GameSessionActive)
+            if (!_truckConfig.UsesPhysics)
             {
-               // float t = Time.deltaTime;
-               // _engine.Update(t);
+                float t = Time.fixedDeltaTime;
+                _engine.Update(t);
             }
         }
         private void FixedUpdate()
         {
+            if (_truckConfig.UsesPhysics)
             {
                 float t = Time.fixedDeltaTime;
                 _engine.Update(t);

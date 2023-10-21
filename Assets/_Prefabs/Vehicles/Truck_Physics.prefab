@@ -93,6 +93,7 @@ GameObject:
   m_Component:
   - component: {fileID: 283763470444092282}
   - component: {fileID: 5738310119883903584}
+  - component: {fileID: 2408190286981133370}
   m_Layer: 0
   m_Name: fwdAxle
   m_TagString: Untagged
@@ -131,6 +132,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _leftWheel: {fileID: 2657724831942053256}
   _rightWheel: {fileID: 1583404407612991190}
+--- !u!114 &2408190286981133370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 381876856324249479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9bf8f75d40b1644ad049d919e604ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leftWheel: {fileID: 2657724831942053256}
+  _rightWheel: {fileID: 1583404407612991190}
+  _isSteer: 1
+  _isMotor: 0
 --- !u!1 &669207115186890469
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,8 +206,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.5684499, z: 4}
-  m_Center: {x: 0, y: 1.2157751, z: -0.099999905}
+  m_Size: {x: 2, y: 1.5684499, z: 6.779976}
+  m_Center: {x: 0, y: 1.2157751, z: -0.7948178}
 --- !u!136 &2738426882591340368
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -212,7 +229,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 669207115186890469}
-  m_Material: {fileID: 13400000, guid: ef18feb22c7d6ff44bfc49511c5d7bec, type: 2}
+  m_Material: {fileID: 13400000, guid: 06bc60af141359c4ca447e929bf458e2, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.43594536
@@ -465,7 +482,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dd064e020ee601419cbc3409394a9d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fwdAxle: {fileID: 5738310119883903584}
+  _fwdAxle: {fileID: 2408190286981133370}
+  _rearAxle: {fileID: 2377183337000476700}
   _rigidbody: {fileID: 8583801894704270260}
 --- !u!54 &8583801894704270260
 Rigidbody:
@@ -781,7 +799,7 @@ MonoBehaviour:
   _cameraViewPoint: {fileID: 7071449846526245244}
   _axisController: {fileID: 4083108279326336906}
   _truckConfig: {fileID: 11400000, guid: 30ea5113abd61274eb06ed24cbafab0c, type: 2}
-  _collectCollider: {fileID: 0}
+  _collectCollider: {fileID: 8657606356179407698}
   _storageVisualSettings:
     _zeroPoint: {fileID: 3151278718214146661}
     Gap: 0.1
@@ -1459,6 +1477,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6094995716659296435}
+  - component: {fileID: 985631173992413587}
+  - component: {fileID: 2377183337000476700}
   m_Layer: 0
   m_Name: rearAxle
   m_TagString: Untagged
@@ -1483,6 +1503,36 @@ Transform:
   m_Father: {fileID: 7613296999644693688}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &985631173992413587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577084207208559909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc2447b4d03cde84681de46d8fa499b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leftWheel: {fileID: 1599644461065323067}
+  _rightWheel: {fileID: 3384075833726080315}
+--- !u!114 &2377183337000476700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7577084207208559909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc9bf8f75d40b1644ad049d919e604ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leftWheel: {fileID: 1599644461065323067}
+  _rightWheel: {fileID: 3384075833726080315}
+  _isSteer: 0
+  _isMotor: 1
 --- !u!1001 &2785169327159261257
 PrefabInstance:
   m_ObjectHideFlags: 0
