@@ -13,7 +13,6 @@ namespace ZE.Polytrucks {
         private TruckEngine _engine;
         private StorageVisualizer _storageVisualizer;
 
-        private Vector2 _moveDir = Vector2.up, _targetDir = Vector2.zero;
         private Vector2 RealDir
         {
             get
@@ -23,7 +22,7 @@ namespace ZE.Polytrucks {
             }
         }
         public float SteerValue => _engine.SteerValue;
-        public float GasValue => _engine.GasValue;
+        override public float GasValue => _engine.GasValue;
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
 
@@ -46,12 +45,10 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            _moveDir = RealDir;
-
             _storage = new Storage(_storageVisualSettings.Capacity);
             _storageVisualizer.Setup(_storage, _storageVisualSettings);
             _engine = new TruckEngine(_truckConfig, _axisController);            
-            _axisController.Setup();
+            _axisController.Setup(this);
         }
         
         private void Update()

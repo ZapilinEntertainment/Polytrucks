@@ -174,8 +174,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.5684499, z: 6.779976}
-  m_Center: {x: 0, y: 1.2157751, z: -0.7948178}
+  m_Size: {x: 2, y: 1.0528316, z: 6.779976}
+  m_Center: {x: 0, y: 1.4735848, z: -0.794818}
 --- !u!1 &681869601896649459
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,6 +480,60 @@ MonoBehaviour:
     SpringStrength: 100
     SpringDamper: 5
     MaxSuspensionOffset: 0.5
+    TireGripFactor: 1
+    TireMass: 0.1
+    Power: 10
+    PowerCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: -1
+        value: -0.5
+        inSlope: 0.016934775
+        outSlope: 0.016934775
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.24177247
+      - serializedVersion: 3
+        time: 0
+        value: 0.5
+        inSlope: 1.3840925
+        outSlope: 1.3840925
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.4
+        value: 1
+        inSlope: 0.50783026
+        outSlope: 0.06931466
+        tangentMode: 1
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.23124711
+      - serializedVersion: 3
+        time: 0.79664004
+        value: 0.9990071
+        inSlope: -0.055109642
+        outSlope: -0.055109642
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.16767742
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 0.3
+        inSlope: -3.4372897
+        outSlope: -3.4372897
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   _rigidbody: {fileID: 8583801894704270260}
   _centerOfMass: {fileID: 2329410114739665587}
 --- !u!54 &8583801894704270260

@@ -12,10 +12,6 @@ namespace ZE.Polytrucks {
         public override Vector3 Position => _rigidbody.position;
         public override Quaternion Rotation => _rigidbody.rotation;
 
-        protected override void OnSetup()
-        {
-            
-        }
         public override void Stabilize()
         {
             _rigidbody.velocity = Vector3.zero;

@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
         public override Vector3 Position => transform.position;
         public override Quaternion Rotation => transform.rotation;
 
-        protected override void OnSetup()
+        public override void Setup(Vehicle vehicle)
         {
             _fwdAxle.Setup(this);
             _rearAxle.Setup(this);   

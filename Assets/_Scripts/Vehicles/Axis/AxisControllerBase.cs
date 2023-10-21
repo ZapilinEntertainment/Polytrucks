@@ -8,11 +8,7 @@ namespace ZE.Polytrucks {
         public abstract Vector3 Forward { get; }
 		public abstract Vector3 Position { get; }
 		public abstract Quaternion Rotation { get; }
-        public void Setup()
-		{
-			OnSetup();
-		}
-		abstract protected void OnSetup();
+		virtual public void Setup(Vehicle vehicle) { }
 		abstract public void Stabilize();
 		abstract public void Move(float step);
 		abstract public void Steer(float angle);

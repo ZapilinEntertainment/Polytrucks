@@ -9,6 +9,7 @@ namespace ZE.Polytrucks {
         protected IVehicleController _vehicleController;
         protected Storage _storage;
         
+        abstract public float GasValue { get; }
         abstract public Vector3 Position { get; }
         abstract public VirtualPoint FormVirtualPoint();
 		public Transform CameraViewPoint => _cameraViewPoint;

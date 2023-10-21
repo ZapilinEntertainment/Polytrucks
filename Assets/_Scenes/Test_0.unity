@@ -1202,9 +1202,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: SessionContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 6300212660064024329, guid: c1e95cf52870a9e4ea0d149536f4e547, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7512738543133456122, guid: c1e95cf52870a9e4ea0d149536f4e547, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3.73
       objectReference: {fileID: 0}
     - target: {fileID: 7512738543133456122, guid: c1e95cf52870a9e4ea0d149536f4e547, type: 3}
       propertyPath: m_LocalPosition.y
