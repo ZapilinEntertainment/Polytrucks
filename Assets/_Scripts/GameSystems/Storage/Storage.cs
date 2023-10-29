@@ -122,6 +122,7 @@ namespace ZE.Polytrucks {
 		private int _width = 1, _length = 1, _height = 1;
 		private ItemsHandler _items;
 
+		public bool IsReadyToReceive => !IsFull;
 		public bool IsFull => ItemsCount == Capacity;
 		public int FreeSlotsCount => Capacity - ItemsCount;
 		public int Capacity => _items.Capacity;
@@ -191,6 +192,9 @@ namespace ZE.Polytrucks {
 			else return false;
 		}
 
+
+		public bool TryReceive(VirtualCollectable item) => TryAdd(item);
+		public void ReceiveItems(ICollection<VirtualCollectable> items) => AddItems(items);
 		public bool TryAdd(VirtualCollectable collectable)
 		{
 			if (!IsFull)
@@ -283,6 +287,20 @@ namespace ZE.Polytrucks {
 				return count;
 			}
 		}
+
+        #region item provider
+        public void SubscribeToProvisionListChange(Action action)
+		{
+			OnItemAddedEvent += action;
+		}
+        public void UnsubscribeFromProvisionListChange(Action action)
+		{
+			OnItemAddedEvent -= action;
+		}
+        public void ReturnItem(VirtualCollectable item) => TryAdd(item);
+		public bool TryProvideItem(VirtualCollectable item) => TryExtract(item);
+		public bool TryProvideItems(TradeContract contract, out List<VirtualCollectable> list) => TryFormItemsList(contract, out list);
+        #endregion
 
         public class Factory : PlaceholderFactory<Storage>
         {

@@ -15,6 +15,7 @@ namespace ZE.Polytrucks {
 
         protected Stack<VirtualCollectable> _preparedItemsList;
         public bool HasMultipleColliders => false;
+        public int FreeSlotsCount => _storage.FreeSlotsCount;
         public int GetID() => _colliderID;
         public int[] GetIDs() => new int[1] { _colliderID };
 

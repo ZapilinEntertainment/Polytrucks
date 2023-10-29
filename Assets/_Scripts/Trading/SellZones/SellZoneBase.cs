@@ -10,9 +10,11 @@ namespace ZE.Polytrucks {
         [field:SerializeField] virtual public float SellCostCf { get; private set; } = 1f;
         [SerializeField] protected float _tradeTick = 0.25f;
         protected float _lastTradeTime = 0f;
+        protected IItemReceiver _itemsReceiver;
         private EconomicSettings _economicSettings;
 
         public bool IsReadyToReceive => Time.time > _lastTradeTime + _tradeTick;
+        virtual public int FreeSlotsCount => _itemsReceiver?.FreeSlotsCount ?? 0;
         public Vector3 Position => transform.position;
         public Action OnAnyItemSoldEvent { get; set; }
         public Action<VirtualCollectable> OnItemSoldEvent { get; set; }
@@ -21,6 +23,10 @@ namespace ZE.Polytrucks {
         public void Inject(EconomicSettings economicSettings)
         {
             _economicSettings= economicSettings;
+        }
+        public void AssignReceiver(IItemReceiver receiver)
+        {
+            _itemsReceiver = receiver;
         }
 
         protected override void OnTradeTriggerEnter(Collider other)
@@ -34,7 +40,7 @@ namespace ZE.Polytrucks {
 
         public bool TrySellItem(ISeller seller, VirtualCollectable item)
         {
-            if (TradeToNowhere || (_hasStorage && _storage.TryAdd(item)))
+            if (TradeToNowhere || (_itemsReceiver.TryReceive(item)))
             {
                 int cost = (int)(_economicSettings.GetCost(item.Rarity) * SellCostCf);
                 seller.OnItemSold(new SellOperationContainer(cost, item.Rarity, Position));
@@ -47,9 +53,9 @@ namespace ZE.Polytrucks {
 
         public void SellItems(ICollection<VirtualCollectable> list)
         {
-            if (!TradeToNowhere & _hasStorage)
+            if (!TradeToNowhere)
             {
-                _storage.AddItems(list);               
+                _itemsReceiver.ReceiveItems(list);               
             }
             if (OnItemSoldEvent != null)
             {

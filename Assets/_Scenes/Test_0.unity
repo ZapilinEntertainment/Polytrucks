@@ -790,7 +790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8626809947736998583, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
       propertyPath: m_Name
-      value: conveyorBelt (1)
+      value: conveyorBelt_output
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
@@ -845,6 +845,7 @@ GameObject:
   m_Component:
   - component: {fileID: 114957436}
   - component: {fileID: 114957437}
+  - component: {fileID: 114957438}
   m_Layer: 0
   m_Name: Farm_factory
   m_TagString: Untagged
@@ -897,8 +898,8 @@ MonoBehaviour:
     Gap: 0.1
     ModelScale: 1
     Extents: {x: 4, y: 4, z: 4}
-  _inputBelt: {fileID: 0}
-  _outputBelt: {fileID: 0}
+  _inputReceiver: {fileID: 114957438}
+  _outputProvider: {fileID: 0}
   _recipe:
     Input: 1
     InputRarity: 0
@@ -907,6 +908,19 @@ MonoBehaviour:
     OutputRarity: 1
     OutputValue: 1
     ProductionTime: 1.2
+--- !u!114 &114957438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114957435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3d482385f18b994281a797df660e031, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _conveyor: {fileID: 3078430290722413418}
 --- !u!1001 &116922181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13995,8 +14009,12 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2478983300601725414, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2478983300601725414, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.58
+      value: 1.89
       objectReference: {fileID: 0}
     - target: {fileID: 2478983300601725414, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
       propertyPath: m_LocalPosition.y
@@ -14004,7 +14022,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2478983300601725414, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.7
+      value: 0.58
       objectReference: {fileID: 0}
     - target: {fileID: 2478983300601725414, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
       propertyPath: m_LocalRotation.w
@@ -14034,9 +14052,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2921486519410179965, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921486519410179965, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921486519410179965, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921486519410179965, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 2921486519410179965, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5078013363172684263, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: _endPos.z
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5078013363172684263, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: _startPos.z
+      value: -4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5753854902169522682, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+      propertyPath: m_Size.z
+      value: 8.8
+      objectReference: {fileID: 0}
     - target: {fileID: 8626809947736998583, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
       propertyPath: m_Name
-      value: conveyorBelt
+      value: conveyorBelt_input
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
@@ -14045,6 +14095,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2478983300601725414, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
   m_PrefabInstance: {fileID: 3078430290722413416}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3078430290722413418 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5078013363172684263, guid: 774a4b9a6d28a2348812c43e86492acc, type: 3}
+  m_PrefabInstance: {fileID: 3078430290722413416}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a32d9cda36dbcfe46b7e2e0b20fec94d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3135378303868697361
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14111,6 +14172,10 @@ PrefabInstance:
     - target: {fileID: 7266744478568335467, guid: d1a308efb6c951f41b343966adac5d8d, type: 3}
       propertyPath: _itemRarity
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7266744478568335467, guid: d1a308efb6c951f41b343966adac5d8d, type: 3}
+      propertyPath: _tradeToNowhere
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7266744478568335467, guid: d1a308efb6c951f41b343966adac5d8d, type: 3}
       propertyPath: <SellCostCf>k__BackingField

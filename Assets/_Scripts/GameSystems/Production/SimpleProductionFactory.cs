@@ -9,7 +9,8 @@ namespace ZE.Polytrucks {
 		[SerializeField] protected SingleItemSellZone _sellZone;
         [SerializeField] protected CollectZone _collectZone;
 		[SerializeField] private StorageVisualSettings _inputStorageSettings, _outputStorageSettings;
-        [SerializeField] private ConveyorBelt _inputBelt, _outputBelt;
+        [SerializeField] private StorageReceiver _inputReceiver;
+        [SerializeField] private StorageProvider _outputProvider;
         [SerializeField] protected Recipe _recipe;
 		protected Storage _outputStorage, _inputStorage;
         protected ProductionModule _productionModule;
@@ -24,8 +25,23 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            _sellZone.AssignStorage(_inputStorage);
-            _collectZone.AssignStorage(_outputStorage);
+            if (_inputReceiver != null)
+            {
+                _sellZone.AssignReceiver(_inputReceiver);
+                _inputReceiver.AssignStorage(_inputStorage);
+            }
+            else
+            {
+                _sellZone.AssignReceiver(_inputStorage);
+            }
+            if (_outputProvider != null)
+            {
+                _collectZone.AssignItemsProvider(_outputProvider);
+            }
+            else
+            {
+                _collectZone.AssignItemsProvider(_outputStorage);
+            }
             _productionModule.Setup(_recipe, _inputStorage, _outputStorage);
             _productionModule.TryStartProducing();
         }

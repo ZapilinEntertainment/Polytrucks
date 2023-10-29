@@ -8,10 +8,11 @@ namespace ZE.Polytrucks {
 	{
         protected ISellZone _sellZone;
 		protected IVehicleController _vehicleController;
-        public SellModule(int colliderID, IStorage storage, IVehicleController controller) : base(colliderID, storage)
+        public SellModule(int colliderID, IStorage storage, Vehicle vehicle) : base(colliderID, storage)
         {
             _storage.OnItemAddedEvent += OnStorageCompositionChanged;
-			_vehicleController = controller;
+			_vehicleController = vehicle.VehicleController;
+			vehicle.OnVehicleControllerChangedEvent += (IVehicleController controller) => _vehicleController = controller;
         }
 
         override public void Update()

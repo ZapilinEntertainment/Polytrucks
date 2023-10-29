@@ -21,7 +21,7 @@ namespace ZE.Polytrucks {
         {
             _storage = storageFactory.Create(_storageSettings);
             _storage.OnItemRemovedEvent += OnStorageSlotEmptied;
-            if (_collectZone != null) _collectZone.AssignStorage(_storage);
+            if (_collectZone != null) _collectZone.AssignItemsProvider(_storage);
         }
         private void Start()
         {

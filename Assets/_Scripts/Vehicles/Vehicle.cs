@@ -6,8 +6,9 @@ namespace ZE.Polytrucks {
 	public abstract class Vehicle : SessionObject
 	{
 		[SerializeField] private Transform _cameraViewPoint;
-        protected IVehicleController _vehicleController;
+        public IVehicleController VehicleController { get; protected set; }
         protected Storage _storage;
+        public System.Action<IVehicleController> OnVehicleControllerChangedEvent;
         
         abstract public float GasValue { get; }
         abstract public float SteerValue { get; }
@@ -24,7 +25,7 @@ namespace ZE.Polytrucks {
         public abstract void Teleport(VirtualPoint point);
         public abstract void Stabilize();
 
-        public void AssignVehicleController(IVehicleController controller) => _vehicleController = controller;
+        public void AssignVehicleController(IVehicleController controller) { VehicleController = controller; OnVehicleControllerChangedEvent?.Invoke(VehicleController); }
 
     }
 }

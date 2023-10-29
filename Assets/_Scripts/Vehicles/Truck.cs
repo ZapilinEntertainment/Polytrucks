@@ -37,7 +37,7 @@ namespace ZE.Polytrucks {
             int colliderId = _collectCollider.GetInstanceID();
 
             _storage = new Storage(_storageVisualSettings.Capacity);
-            _sellModule = new SellModule(colliderId, _storage,_vehicleController);
+            _sellModule = new SellModule(colliderId, _storage, this);
             _collectModule = new CollectModule(colliderId, _storage, TruckConfig.CollectTime);
 
             collidersList.AddSeller(_sellModule);

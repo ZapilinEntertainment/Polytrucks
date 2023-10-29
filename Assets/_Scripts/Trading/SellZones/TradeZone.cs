@@ -11,23 +11,15 @@ namespace ZE.Polytrucks {
         [SerializeField] private bool _tradeToNowhere = true;
         [SerializeField] private Collider _trigger;
         protected ColliderListSystem _collidersList;
-        protected bool _hasStorage = false, _isActive = true;
+        protected bool _isActive = true;
         protected bool TradeToNowhere => _tradeToNowhere;
-        protected int FreeSlotsCount => TradeToNowhere ? int.MaxValue : (_hasStorage ? _storage.FreeSlotsCount : 0);
-        protected IStorage _storage;
-        public bool CanTrade => _isActive & ( _tradeToNowhere | _hasStorage);
+        virtual public bool IsOperable => _isActive;
 
 
         [Inject]
         public void Inject(ColliderListSystem collidersList)
         {
             _collidersList = collidersList;
-        }
-        virtual public void AssignStorage(IStorage storage)
-        {
-            _storage = storage;
-            _hasStorage = true;
-            _tradeToNowhere = false;
         }
 
         public void SetActivity(bool x)
@@ -42,7 +34,7 @@ namespace ZE.Polytrucks {
 
         private void OnTriggerEnter(Collider other)
         {
-            if (CanTrade) OnTradeTriggerEnter(other);
+            if (IsOperable) OnTradeTriggerEnter(other);
         }
         virtual protected void OnTriggerExit(Collider other) { }
         abstract protected void OnTradeTriggerEnter(Collider other);

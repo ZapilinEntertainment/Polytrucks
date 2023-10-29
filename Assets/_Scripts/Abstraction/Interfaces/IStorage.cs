@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 namespace ZE.Polytrucks {
-	public interface IStorage
+	public interface IStorage : IItemProvider, IItemReceiver
 	{
         public bool IsFull => ItemsCount == Capacity;
         public int ItemsCount { get; }

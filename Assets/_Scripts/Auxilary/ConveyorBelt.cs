@@ -6,7 +6,7 @@ using DG.Tweening;
 using Zenject;
 
 namespace ZE.Polytrucks {
-	public sealed class ConveyorBelt : MonoBehaviour, IItemProvider
+	public class ConveyorBelt : MonoBehaviour, IItemReceiver
 	{
         private class TransferringItem
         {
@@ -20,21 +20,26 @@ namespace ZE.Polytrucks {
             }
         }
 
-        [SerializeField] private float _transferTime = 1f;
+        [SerializeField] private int _maxTransferringItems = 4;
+        [SerializeField] private float _transferTime = 1f, _receiveCooldown = 0.1f;
 		[SerializeField] private Vector3 _startPos, _endPos;
         private int _nextToken = 1;
+        protected int TransferringItemsCount => _transferringModels.Count;
+        private float _lastReceiveTime = -10f;
         private ObjectsManager _objectsManager;
         private Dictionary<int, TransferringItem> _transferringModels = new Dictionary<int, TransferringItem>();
+
         public VirtualPoint StartPos => new VirtualPoint(transform.TransformPoint(_startPos), transform.rotation);
         public VirtualPoint EndPos => new VirtualPoint(transform.TransformPoint(_endPos), transform.rotation);
         public Action<VirtualCollectable> OnItemProvidedEvent { get; set; }
+        
 
         [Inject]
         public void Inject(ObjectsManager objectsManager)
         {
             _objectsManager = objectsManager;
         }
-        public void TransferItem(VirtualCollectable item)
+        public void StartTransferItem(VirtualCollectable item)
         {
             var itemModel = _objectsManager.GetCollectibleModel(item);
             var itemTransform = itemModel.transform;
@@ -44,7 +49,7 @@ namespace ZE.Polytrucks {
             itemTransform.parent = transform;
             itemTransform.localPosition = _startPos;
             itemTransform.localRotation = Quaternion.identity;
-            itemTransform.DOLocalMove(_endPos, _transferTime, true).OnComplete(() => OnItemTransferred(id));
+            itemTransform.DOLocalMove(_endPos, _transferTime).OnComplete(() => OnItemTransferred(id));
         }
         private void OnItemTransferred(int id)
         {
@@ -62,5 +67,28 @@ namespace ZE.Polytrucks {
             Gizmos.DrawSphere(StartPos.Position, 0.2f);
             Gizmos.DrawSphere(EndPos.Position, 0.2f);
         }
+
+        #region receiver
+        public bool IsReadyToReceive => TransferringItemsCount < _maxTransferringItems;
+        public int FreeSlotsCount => _maxTransferringItems - TransferringItemsCount;
+        public bool TryReceive(VirtualCollectable item)
+        {
+            StartTransferItem(item);
+            return true;
+        }
+
+        public void ReceiveItems(ICollection<VirtualCollectable> items) => StartCoroutine(ReceivingCoroutine(items));
+        private IEnumerator ReceivingCoroutine(ICollection<VirtualCollectable> items)
+        {
+            foreach (var item in items)
+            {
+                while (!IsReadyToReceive)
+                {
+                    yield return null;
+                }
+                TryReceive(item);
+            }
+        }
+        #endregion
     }
 }

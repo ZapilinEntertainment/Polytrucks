@@ -7,7 +7,7 @@ namespace ZE.Polytrucks {
 	{
 		public void OnStartCollect(CollectZone zone);
 		public void OnStopCollect(CollectZone zone);
-		public void CollectItems(ICollection<VirtualCollectable> items);
-		public bool TryCollect(ICollectable collectable);
+		public void CollectItems(ICollection<VirtualCollectable> items) => ReceiveItems(items);
+		public bool TryCollect(ICollectable collectable) => TryReceive(collectable.ToVirtual());
     }
 }
