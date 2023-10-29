@@ -6,11 +6,11 @@ using Zenject;
 namespace ZE.Polytrucks {
     public sealed class PoolsInstaller : Installer<PoolsInstaller>
     {
-        private ObjectsPack _objectsPack;
+        private CratesPack _cratesPack;
         private UIElementsPack _uiElementsPack;
-        public PoolsInstaller(ObjectsPack objectsPack, UIElementsPack uiElementsPack)
+        public PoolsInstaller(CratesPack cratespack, UIElementsPack uiElementsPack)
         {
-            _objectsPack = objectsPack;
+            _cratesPack = cratespack;
             _uiElementsPack = uiElementsPack;
         }
 
@@ -18,16 +18,17 @@ namespace ZE.Polytrucks {
         {
             Container.BindMemoryPool<Crate, Crate.Pool>()
                 .WithInitialSize(8)
-                .FromComponentInNewPrefab(_objectsPack.CratePrefab)
+                .FromComponentInNewPrefab(_cratesPack.CratePrefab)
                 .UnderTransformGroup("crates");
             Container.BindMemoryPool<CollectibleModel, CollectibleModel.Pool>()
                .WithInitialSize(8)
-               .FromComponentInNewPrefab(_objectsPack.CrateModel)
+               .FromComponentInNewPrefab(_cratesPack.CrateModel)
                .UnderTransformGroup("collectibleModels");
 
             Container.BindMemoryPool<MoneyEffectLabel, MoneyEffectLabel.Pool>()
               .WithInitialSize(8)
-              .FromComponentInNewPrefab(_uiElementsPack.MoneyEffectLabel);
+              .FromComponentInNewPrefab(_uiElementsPack.MoneyEffectLabel).
+              UnderTransformGroup("uiEffects");
         }
     }
 }

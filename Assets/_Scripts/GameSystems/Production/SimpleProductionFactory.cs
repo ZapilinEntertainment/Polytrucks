@@ -9,6 +9,7 @@ namespace ZE.Polytrucks {
 		[SerializeField] protected SingleItemSellZone _sellZone;
         [SerializeField] protected CollectZone _collectZone;
 		[SerializeField] private StorageVisualSettings _inputStorageSettings, _outputStorageSettings;
+        [SerializeField] private ConveyorBelt _inputBelt, _outputBelt;
         [SerializeField] protected Recipe _recipe;
 		protected Storage _outputStorage, _inputStorage;
         protected ProductionModule _productionModule;

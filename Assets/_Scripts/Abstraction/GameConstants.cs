@@ -9,9 +9,10 @@ namespace ZE.Polytrucks
 
     public static class GameConstants
     {
-        public const float GROUND_HEIGHT = 0f, CRATE_COLLECT_RADIUS = 1f, DEFAULT_COLLECTABLE_SIZE = 1.5f;
+        public const float GROUND_HEIGHT = 0f, CRATE_COLLECT_RADIUS = 1f, DEFAULT_COLLECTABLE_SIZE = 1.5f, BASE_CRATE_MASS = 5f;
 
         public const string  DEFAULT_LAYERNAME = "Default", COLLECTIBLE_LAYERNAME = "Collectible", PLAYER_LAYERNAME = "Player", TERRAIN_LAYERNAME = "Terrain";
+
         private static Dictionary<CustomLayermask, int> _customLayermasks = new Dictionary<CustomLayermask, int>();
         private static Dictionary<DefinedLayer, int> _definedLayers = new Dictionary<DefinedLayer, int>();
 

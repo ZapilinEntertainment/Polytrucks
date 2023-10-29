@@ -10,7 +10,7 @@ namespace ZE.Polytrucks {
     {
         public Transform _zeroPoint;
         public float Gap = 0.1f, ModelScale = 1f;
-        public Vector3Int Extents = new Vector3Int(1, 1, 1);
+        public Vector3Int Extents = new Vector3Int(4, 4, 4);
 		public int Width => Extents.x;
 		public int Height => Extents.y;
 		public int Length => Extents.z;
@@ -92,9 +92,9 @@ namespace ZE.Polytrucks {
                         int layer = i / itemsInLayer, indexInLayer = i % itemsInLayer;
                         int xpos = indexInLayer % width, zpos = indexInLayer / width;
                         model.localPosition = new Vector3(
-                            xpos * step,
-                            layer * step,
-                            zpos * step
+                            (xpos + 0.5f) * step,
+                            (layer + 0.5f) * step,
+                            (zpos + 0.5f) * step
                             );
                         model.localScale = scale * Vector3.one;
 

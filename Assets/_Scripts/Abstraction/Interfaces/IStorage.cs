@@ -19,6 +19,8 @@ namespace ZE.Polytrucks {
 
         public bool TryFormItemsList(TradeContract contract, out List<VirtualCollectable> list);
         public bool TryAdd(VirtualCollectable collectable);
+        public int TryAdd(VirtualCollectable collectable, int count);
+        public bool TryExtract(VirtualCollectable item);
         public bool TryExtract(CollectableType type, Rarity rarity, int count);
         public int CalculateItemsCountOfType(CollectableType type, Rarity rarity);
     }

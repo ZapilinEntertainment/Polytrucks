@@ -37,8 +37,7 @@ namespace ZE.Polytrucks {
 		[SerializeField] private Rigidbody _rigidbody;
 		[SerializeField] private Transform _centerOfMass;
 		private int _castMask;
-        private float _steerAngle = 0f;
-        private Vehicle _vehicle;
+        private float _startMass = 1f;
 
 		public override Vector3 Forward => _rigidbody.transform.forward;
 
@@ -50,6 +49,11 @@ namespace ZE.Polytrucks {
         {
 			_castMask = GameConstants.GetCustomLayermask(CustomLayermask.Tyres);
 			_rigidbody.centerOfMass = _centerOfMass.localPosition;
+            _startMass = _rigidbody.mass;
+        }
+        protected override void OnSetup()
+        {
+            Truck.OnCargoMassChangedEvent += OnCargoMassChanged;
         }
         private void FixedUpdate()
         {
@@ -60,10 +64,11 @@ namespace ZE.Polytrucks {
                 maxSuspension = _wheelSettings.SuspensionLength + maxOffset,
                 springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper,
                 tireGrip = _wheelSettings.TireGripFactor,
-                wheelMass = _wheelSettings.TireMass;
+                wheelMass = _wheelSettings.TireMass,
+                steerAngle = Truck.SteerValue * Config.MaxSteerAngle;
 
 
-            Quaternion steerRotation = Quaternion.Euler(0f, _steerAngle, 0f);
+            Quaternion steerRotation = Quaternion.Euler(0f,steerAngle, 0f);
             foreach (var wheel in _wheels)
 			{
                 Vector3 pos = wheel.SuspensionPoint.position, up = wheel.SuspensionPoint.up; 
@@ -80,17 +85,17 @@ namespace ZE.Polytrucks {
                     float desiredVelChange = -steeringVel * tireGrip;
                     float desiredAccel = desiredVelChange / t;
                     Vector3 steeringForce = wheelMass * desiredAccel * steeringDir;
-                    if (isSteer) wheel.SetSteer(_steerAngle);
+                    if (isSteer) wheel.SetSteer(steerAngle);
 
                     Vector3 accelForce = Vector3.zero;
                     if (wheel.IsMotor)
                     {
                         Vector3 accelDir = wheel.IsSteer ? steerRotation * wheel.SuspensionPoint.forward : wheel.SuspensionPoint.forward;
-                        float accelInput = _vehicle.GasValue;
+                        float accelInput = Truck.GasValue;
                         if (accelInput != 0f)
                         {
                             float carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
-                            float normalizedSpeed = Mathf.Clamp01(carSpeed / 30f);
+                            float normalizedSpeed = Mathf.Clamp01(carSpeed / Config.MaxSpeed);
                             float availableTorque = _wheelSettings.PowerCurve.Evaluate(normalizedSpeed) * accelInput;
                             accelForce = availableTorque * _wheelSettings.Power * accelDir;
                         }
@@ -108,31 +113,19 @@ namespace ZE.Polytrucks {
                 }
             }
         }
-       
-
-        public override void Setup(Vehicle vehicle)
-        {
-            _vehicle = vehicle;
-        }
 
         public override void Stabilize()
         {
             
         }
 
-        public override void Move(float step)
-        {
-           
-        }
-
-        public override void Steer(float angleDegree)
-        {
-            _steerAngle = angleDegree;
-        }
-
         public override void Teleport(VirtualPoint point)
         {
             
+        }
+        private void OnCargoMassChanged(float x)
+        {
+            _rigidbody.mass = _startMass + x;
         }
     }
 }

@@ -84,13 +84,11 @@ namespace ZE.Polytrucks {
             if (_steerTarget == 0f) speedCf = 10f;
             else speedCf = 1f;
             if (_steerTarget != SteerValue) SteerValue = Mathf.MoveTowards(SteerValue, _steerTarget, (deltaTime / _config.SteerTime) * speedCf) ;
-            _axis.Steer(SteerValue * _config.MaxSteerAngle);
 
             float speed;
             if (GasValue > 0f) speed = _config.MaxSpeed * GasValue * deltaTime;
             else speed = _config.MaxSpeed * GasValue * _config.ReverseSpeedCf * deltaTime;
             speed *= _config.CalculateSpeedCf(SteerValue);
-            _axis.Move(speed);
         }
 
         public void Gas()
@@ -113,8 +111,6 @@ namespace ZE.Polytrucks {
         {
             _steerTarget = x;
             if (_steerTarget * SteerValue != 0f && SteerValue / _steerTarget < 0f) SteerValue = 0f;
-            
-            _axis.Steer(SteerValue);
         }
     }
 }

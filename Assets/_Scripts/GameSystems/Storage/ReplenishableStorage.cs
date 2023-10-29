@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	public sealed class ReplenishableStorage : MonoBehaviour
 	{
 		[SerializeField] private bool _isActive = false;
+        [SerializeField] private int _startCount = 0;
 		[SerializeField] private float _replenishTime = 15f;
         [SerializeField] private VirtualCollectable _spawningCollectable;
         [SerializeField] private StorageVisualSettings _storageSettings;
@@ -20,11 +21,16 @@ namespace ZE.Polytrucks {
         {
             _storage = storageFactory.Create(_storageSettings);
             _storage.OnItemRemovedEvent += OnStorageSlotEmptied;
-            _collectZone.AssignStorage(_storage);
+            if (_collectZone != null) _collectZone.AssignStorage(_storage);
         }
         private void Start()
         {
             if (_collectZone != null) _collectZone.SetActivity(_isActive);
+            if (_startCount > 0)
+            {
+                int residue = _storage.TryAdd(_spawningCollectable, _startCount);
+                if (residue != 0) Debug.Log($"{residue} items was not added");
+            }
         }
 
         private void Update()

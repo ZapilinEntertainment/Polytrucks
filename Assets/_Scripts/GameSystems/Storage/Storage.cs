@@ -37,6 +37,26 @@ namespace ZE.Polytrucks {
 				_storage.OnItemAddedEvent?.Invoke();
 				_storage.OnStorageCompositionChangedEvent?.Invoke();
 			}
+			public int Add(VirtualCollectable item, int count)
+			{
+				int initialCount = count ;
+				if (count + _itemsCount >= _capacity)
+				{
+					count = _capacity - _itemsCount;
+					_itemsCount = _capacity;
+				}
+				else
+				{
+					_itemsCount += count;
+				};
+				for (int i = 0; i < count; i++)
+				{
+					_items.Add(item);
+				}
+                _storage.OnItemAddedEvent?.Invoke();
+                _storage.OnStorageCompositionChangedEvent?.Invoke();
+				return initialCount - count;
+            }
 			public void RemoveAt(int index)
 			{
 				if (_itemsCount > index)
@@ -106,6 +126,7 @@ namespace ZE.Polytrucks {
 		public int FreeSlotsCount => Capacity - ItemsCount;
 		public int Capacity => _items.Capacity;
 		public int ItemsCount => _items.Count;
+		public float CargoMass => ItemsCount * GameConstants.BASE_CRATE_MASS;
         public Action OnItemAddedEvent { get; set; }
         public Action OnItemRemovedEvent { get; set; }
         public Action OnStorageCompositionChangedEvent { get; set; }
@@ -172,7 +193,7 @@ namespace ZE.Polytrucks {
 
 		public bool TryAdd(VirtualCollectable collectable)
 		{
-			if (ItemsCount < Capacity)
+			if (!IsFull)
 			{
 				_items.Add(collectable);
 				return true;
@@ -180,6 +201,28 @@ namespace ZE.Polytrucks {
 			else return false;
 		}
 
+		/// <returns> residue </returns>
+		public int TryAdd(VirtualCollectable collectable, int count)
+		{
+			if (IsFull) return count;
+			else
+			{
+				return _items.Add(collectable, count);
+			}
+		}
+
+		public bool TryExtract(VirtualCollectable item)
+		{
+            for (int i = 0; i < ItemsCount; i++)
+            {
+				if (_items[i].EqualsTo(item))
+				{
+					_items.RemoveAt(i);
+					return true;
+				}
+            }
+			return false;
+        }
 		public bool TryExtract(CollectableType type, Rarity rarity, int count)
 		{
             if (ItemsCount >= count)

@@ -7,7 +7,6 @@ namespace ZE.Polytrucks {
 	{
         [SerializeField] private LocalPointAxle _fwdAxle, _rearAxle;
         [SerializeField] private Rigidbody _rigidbody;
-        private float _steer = 0f;
         public override Vector3 Forward => _fwdAxle?.Forward ?? transform.forward;
         public override Vector3 Position => _rigidbody.position;
         public override Quaternion Rotation => _rigidbody.rotation;
@@ -20,21 +19,23 @@ namespace ZE.Polytrucks {
             _rigidbody.MovePosition(_rigidbody.position + Vector3.up * 4f);
             _rigidbody.MoveRotation(Quaternion.LookRotation(transform.forward, Vector3.up));
         }
-        public override void Move(float step)
+        private void FixedUpdate()
         {
-            float steerCfRight = _fwdAxle.SteerCfRight, steerCfLeft = _fwdAxle.SteerCfLeft;
-            _rigidbody.AddForceAtPosition(step * transform.forward * steerCfLeft, _fwdAxle.Forward, ForceMode.VelocityChange);            
-            Debug.Log($"{steerCfLeft}-{steerCfRight}");
-            _rigidbody.AddForceAtPosition(step * transform.forward * steerCfRight, _fwdAxle.Forward, ForceMode.VelocityChange);
-            _rigidbody.AddForceAtPosition(step * _rearAxle.Forward, _rearAxle.RightWheelPos, ForceMode.VelocityChange);
-            _rigidbody.AddForceAtPosition(step * _rearAxle.Forward, _rearAxle.LeftWheelPos, ForceMode.VelocityChange);
+            if (IsActive)
+            {
+                float steer = Truck.SteerValue;
+                _fwdAxle.Steer(steer * Config.MaxSteerAngle);
 
-            _rigidbody.AddRelativeTorque(Vector3.up * _steer * step, ForceMode.VelocityChange);
-        }
-        public override void Steer(float value)
-        {
-            _steer = value;
-            _fwdAxle.Steer(value);
+                float steerCfRight = _fwdAxle.SteerCfRight, steerCfLeft = _fwdAxle.SteerCfLeft;
+                float step = Time.fixedDeltaTime * Truck.GasValue * Config.MaxSpeed;
+                _rigidbody.AddForceAtPosition(step * transform.forward * steerCfLeft, _fwdAxle.Forward, ForceMode.VelocityChange);
+                //Debug.Log($"{steerCfLeft}-{steerCfRight}");
+                _rigidbody.AddForceAtPosition(step * transform.forward * steerCfRight, _fwdAxle.Forward, ForceMode.VelocityChange);
+                _rigidbody.AddForceAtPosition(step * _rearAxle.Forward, _rearAxle.RightWheelPos, ForceMode.VelocityChange);
+                _rigidbody.AddForceAtPosition(step * _rearAxle.Forward, _rearAxle.LeftWheelPos, ForceMode.VelocityChange);
+
+                _rigidbody.AddRelativeTorque(Vector3.up * steer * step, ForceMode.VelocityChange);
+            }
         }
         public override void Teleport(VirtualPoint point)
         {

@@ -22,6 +22,11 @@ namespace ZE.Polytrucks {
             Position = point.position;
             Rotation = point.rotation;
         }
+        public VirtualPoint(Vector3 pos, Quaternion rot)
+        {
+            Position = pos;
+            Rotation = rot;
+        }
         public VirtualPoint Move(float step)
         {
             return new VirtualPoint()

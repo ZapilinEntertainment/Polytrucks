@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4367851719708270591}
   - component: {fileID: 4367851719708270590}
+  - component: {fileID: 6860154008769469650}
   m_Layer: 0
   m_Name: SellZoneSprite
   m_TagString: Untagged
@@ -86,6 +87,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6860154008769469650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4367851719708270576}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d54cf88e66459f45905c3b872021fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRender: {fileID: 4367851719708270590}
+  _activeColor: {r: 0.7921569, g: 1, b: 0, a: 1}
+  _disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &5179222431540642654
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,6 +112,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5984494383930008156}
   - component: {fileID: 2236310879488554409}
+  - component: {fileID: 1959540665959920989}
   m_Layer: 0
   m_Name: SellZoneSprite
   m_TagString: Untagged
@@ -170,6 +187,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1959540665959920989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5179222431540642654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d54cf88e66459f45905c3b872021fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRender: {fileID: 2236310879488554409}
+  _activeColor: {r: 1, g: 0.9372549, b: 0, a: 1}
+  _disabledColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
 --- !u!1 &6441043737704141360
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,6 +212,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8322455969009434081}
   - component: {fileID: 5474391041988978552}
+  - component: {fileID: 8934787250708870539}
   m_Layer: 0
   m_Name: resourceIcon
   m_TagString: Untagged
@@ -254,3 +287,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8934787250708870539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6441043737704141360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d54cf88e66459f45905c3b872021fdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _spriteRender: {fileID: 5474391041988978552}
+  _activeColor: {r: 1, g: 0.8784314, b: 0.3529412, a: 1}
+  _disabledColor: {r: 0.16981131, g: 0.14978638, b: 0.14978638, a: 1}

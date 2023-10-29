@@ -8,19 +8,22 @@ namespace ZE.Polytrucks {
     
 	public sealed class ObjectsManager
 	{
-        private readonly ObjectsPack _objectsPack;
+        private readonly CratesPack _cratesPack;
         private readonly IconsPack _iconsPack;
         private readonly UIColorsPack _colorsPack;
         private Crate.Pool _cratesPool;
-        private CollectibleModel.Pool _modelsPool;        
+        private CollectibleModel.Pool _modelsPool;
+        private CratesPack.Cacher _cratesCacher;
 
-        public ObjectsManager(Crate.Pool cratePool, CollectibleModel.Pool modelPool, ObjectsPack objectsPack, IconsPack iconsPack, UIColorsPack colorsPack)
+        public ObjectsManager(Crate.Pool cratePool, CollectibleModel.Pool modelPool, CratesPack cratesPack, IconsPack iconsPack, UIColorsPack colorsPack)
         {       
-            _objectsPack= objectsPack;
+            _cratesPack= cratesPack;
             _cratesPool= cratePool;
             _modelsPool= modelPool;
             _iconsPack= iconsPack;
             _colorsPack= colorsPack;
+
+            _cratesCacher = _cratesPack.CreateCacher();
         }
 
         public Crate CreateCrate(VirtualCollectable collectable) => CreateCrate(collectable.CollectableType, collectable.Rarity);
@@ -34,7 +37,7 @@ namespace ZE.Polytrucks {
         public CollectibleModel GetCollectibleModel(CollectableType type, Rarity rarity)
         {
             var model = _modelsPool.Spawn();
-            model.Setup(_objectsPack.GetCrateModel(rarity), _iconsPack.GetIcon(type), _colorsPack.GetIconColor(rarity));
+            model.Setup(_cratesPack.GetCrateModel(rarity), _iconsPack.GetIcon(type), _cratesCacher.GetIconColor(type, rarity));
             return model;
         }
 	}

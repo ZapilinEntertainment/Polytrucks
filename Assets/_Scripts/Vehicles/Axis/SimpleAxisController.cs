@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
         public override Vector3 Position => transform.position;
         public override Quaternion Rotation => transform.rotation;
 
-        public override void Setup(Vehicle vehicle)
+        protected override void OnSetup()
         {
             _fwdAxle.Setup(this);
             _rearAxle.Setup(this);   
@@ -22,17 +22,18 @@ namespace ZE.Polytrucks {
         {
             throw new System.NotImplementedException();
         }
-        public override void Move(float step)
+        private void Update()
         {
-            VirtualPoint fwdPoint = _fwdAxle.Move(step);
+            if (IsActive)
+            {
+                _fwdAxle.Steer(Truck.SteerValue * Config.MaxSteerAngle);
 
-            Vector3 dir = (fwdPoint.Position - _rearAxle.Position).normalized;
-            _rearAxle.Move(fwdPoint.Position - dir * _axisDistance);
-            SetPoint(fwdPoint.Position - dir * _centerDistance, Quaternion.LookRotation(dir, Vector3.up));
-        }
-        public override void Steer(float value)
-        {
-            _fwdAxle.Steer(value);
+                VirtualPoint fwdPoint = _fwdAxle.Move(Time.deltaTime * Truck.GasValue * Config.MaxSpeed);
+
+                Vector3 dir = (fwdPoint.Position - _rearAxle.Position).normalized;
+                _rearAxle.Move(fwdPoint.Position - dir * _axisDistance);
+                SetPoint(fwdPoint.Position - dir * _centerDistance, Quaternion.LookRotation(dir, Vector3.up));
+            }
         }
         public override void Teleport(VirtualPoint point)
         {

@@ -10,6 +10,7 @@ namespace ZE.Polytrucks {
 		[SerializeField] private float _maxSpeed = 15f, _maxSteerAngle = 60f, _steerTime = 0.5f,
 			_acceleration = 5f, _naturalDeceleration = 1f, _brakeDeceleration = 4f, _reverseSpeedCf = 0.5f;
 		[SerializeField] private AnimationCurve _rotationToSpeedCurve, _steerCurve;
+		[field: SerializeField] public float CollectTime { get; private set; } = 0.25f;
 
 		public float MaxSpeed => _maxSpeed;
 		public float MaxSteerAngle => _maxSteerAngle;

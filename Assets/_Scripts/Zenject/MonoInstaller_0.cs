@@ -8,14 +8,12 @@ namespace ZE.Polytrucks {
         [SerializeField] private PlayerController _playerController;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
+        [SerializeField] private ResourcesList _resourcesList;        
 
-        [SerializeField] private ObjectsPack _objectsPack;
-        [SerializeField] private IconsPack _iconsPack;
-        [SerializeField] private UIElementsPack _uiElementsPack;
-        [SerializeField] private UIColorsPack _colorsPack;
         public override void InstallBindings()
         {
-            InstallResourcePacks();
+            Container.Bind<ResourcesList>().FromInstance(_resourcesList).AsSingle();
+            ResourcesInstaller.Install(Container);
 
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
 
@@ -31,16 +29,9 @@ namespace ZE.Polytrucks {
             InstallFactories();
             InstallGameObjects();
 
-            Container.Bind<UIManager>().FromComponentInNewPrefab(_uiElementsPack.GameUiManager).AsCached().NonLazy();
-        }
-
-        private void InstallResourcePacks()
-        {
-            Container.Bind<ObjectsPack>().FromScriptableObject(_objectsPack).AsSingle();
-            Container.Bind<IconsPack>().FromScriptableObject(_iconsPack).AsSingle();
-            Container.Bind<UIElementsPack>().FromScriptableObject(_uiElementsPack).AsSingle();
-
-            Container.Bind<UIColorsPack>().FromScriptableObject(_colorsPack).AsSingle();
+            var uiElementsPack = _resourcesList.UiElementsPack;
+            Container.Bind<UIElementsPack>().FromScriptableObject(uiElementsPack).AsCached();
+            Container.Bind<UIManager>().FromComponentInNewPrefab(uiElementsPack.GameUiManager).AsCached().NonLazy();
         }
 
         private void InstallSignals()
@@ -59,7 +50,6 @@ namespace ZE.Polytrucks {
             Container.Bind<ColliderListSystem>().AsCached();
             Container.Bind<CollisionHandleSystem>().AsCached();
             Container.Bind<SaveManager>().AsCached();
-            Container.Bind<TradeSystem>().AsCached();
         }
         private void InstallFactories()
         {
@@ -67,7 +57,7 @@ namespace ZE.Polytrucks {
             Container.Bind<ObjectsManager>().AsSingle();
             Container.BindFactory<Storage, Storage.Factory>().AsSingle();
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
-            Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();            
+            Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
         }
         private void InstallGameObjects()
         {

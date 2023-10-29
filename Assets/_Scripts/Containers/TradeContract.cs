@@ -15,7 +15,7 @@ namespace ZE.Polytrucks {
 			RarityConditions = rarity;
 		}
 
-		public bool IsValid() => MaxCount > 0 & GoodsMask != 0 & RarityConditions != 0;
+		public bool IsValid => MaxCount > 0 & GoodsMask != 0 & RarityConditions != 0;
 		public bool IsItemSuits(VirtualCollectable item) => item.CollectableType.FitsInMask(GoodsMask) & RarityConditions.Contains(item.Rarity);
 	}
 }

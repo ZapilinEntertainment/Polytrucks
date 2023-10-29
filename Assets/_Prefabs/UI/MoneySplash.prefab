@@ -50,7 +50,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ed219a20a9b804690ee8f3f8684c1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _effectTime: 1
+  _movePercent: 0.3
   _label: {fileID: 8024021205132103297}
+  _rectTransform: {fileID: 2545838796115611480}
 --- !u!1001 &34150996244999921
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            _sellZoneTarget.OnItemSoldEvent += OnItemSold;
+            _sellZoneTarget.OnAnyItemSoldEvent += OnItemSold;
         }
         private void OnItemSold()
         {

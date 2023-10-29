@@ -50,8 +50,7 @@ namespace ZE.Polytrucks {
         private void ShowMessage(SellOperationContainer info)
         {
             var label = _moneyEffectLabelPool.Spawn();
-            label.transform.parent = _manager.LabelsHost;
-            label.Setup(info.MoneyCount, _colorsPack.GetRarityColor(info.Rarity), info.SellZonePosition);
+            label.Setup(info.MoneyCount, _colorsPack.GetRarityColor(info.Rarity), info.SellZonePosition, _manager.LabelsHost);
             _lastLabelTime = Time.time;
         }
     }
