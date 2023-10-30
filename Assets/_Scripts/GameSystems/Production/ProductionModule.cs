@@ -11,7 +11,8 @@ namespace ZE.Polytrucks {
         private float _progress = 0f;
         private int _resourcesCount = 0, _delayedOutput = 0;
         private Recipe _recipe;
-        private IStorage _inputStorage, _outputStorage;
+        private IItemProvider _input;
+        private IItemReceiver _output;
 
         [Inject]
         public void Inject(TickableManager tickableManager)
@@ -19,14 +20,14 @@ namespace ZE.Polytrucks {
             tickableManager.Add(this);
         }
 
-        public void Setup(Recipe recipe, IStorage inputStorage, IStorage outputStorage)
+        public void Setup(Recipe recipe, IItemProvider input, IItemReceiver output)
         {
             _recipe = recipe;
-            _inputStorage = inputStorage;
-            _outputStorage = outputStorage;
+            _input = input;
+            _output = output;
 
-            _inputStorage.OnItemAddedEvent += OnItemAddedToInput;
-            _outputStorage.OnItemRemovedEvent += OnOutputItemSold;
+            _input.SubscribeToProvisionListChange(OnItemAddedToInput);
+            _output.SubscribeToItemRemoveEvent(OnOutputItemSold);
         }
         private void OnItemAddedToInput()
         {
@@ -39,7 +40,7 @@ namespace ZE.Polytrucks {
             {
                 if (_delayedOutput == 1)
                 {
-                    if (_outputStorage.TryAdd(_recipe.ResultItem)) _delayedOutput = 0;
+                    if (_output.TryReceive(_recipe.ResultItem)) _delayedOutput = 0;
                 }
                 else
                 {
@@ -47,7 +48,7 @@ namespace ZE.Polytrucks {
                     int count = _delayedOutput;
                     for (int i = 0; i < count; i++)
                     {
-                        if (_outputStorage.TryAdd(resultItem)) _delayedOutput--;
+                        if (_output.TryReceive(resultItem)) _delayedOutput--;
                         else break;
                     }
                 }
@@ -57,14 +58,14 @@ namespace ZE.Polytrucks {
 
         public void TryStartProducing()
         {
-            if (!_isProducing && _inputStorage.ItemsCount >= _recipe.InputValue && _delayedOutput == 0)
+            if (!_isProducing && _input.AvailableItemsCount >= _recipe.InputValue && _delayedOutput == 0)
             {
                 ProductionCheck();
             }
         }
         protected void ProductionCheck()
         {
-            _isProducing = _inputStorage.TryExtract(_recipe.Input, _recipe.InputRarity, _recipe.InputValue);
+            _isProducing = _input.TryProvideItems(new VirtualCollectable(_recipe.Input, _recipe.InputRarity), _recipe.InputValue);
         }     
         
         public void Tick()
@@ -90,7 +91,7 @@ namespace ZE.Polytrucks {
                     else _progress--;
 
 
-                    if (!_outputStorage.TryAdd(_recipe.ResultItem)) {
+                    if (!_output.TryReceive(_recipe.ResultItem)) {
                         _delayedOutput++;
                         StopProduction();
                     }
@@ -107,7 +108,7 @@ namespace ZE.Polytrucks {
         }
         private void UpdateResourcesCount()
         {
-            _resourcesCount = _inputStorage.CalculateItemsCountOfType(_recipe.Input, _recipe.InputRarity);
+            _resourcesCount = _input.CalculateItemsCount(_recipe.Input, _recipe.InputRarity);
             _needToRecalculateResources = false;
             TryStartProducing();
         }

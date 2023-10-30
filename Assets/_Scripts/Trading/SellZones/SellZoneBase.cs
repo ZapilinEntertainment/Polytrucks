@@ -14,7 +14,7 @@ namespace ZE.Polytrucks {
         private EconomicSettings _economicSettings;
 
         public bool IsReadyToReceive => Time.time > _lastTradeTime + _tradeTick;
-        virtual public int FreeSlotsCount => _itemsReceiver?.FreeSlotsCount ?? 0;
+        virtual public int FreeSlotsCount => TradeToNowhere ? int.MaxValue : (_itemsReceiver?.FreeSlotsCount ?? 0);
         public Vector3 Position => transform.position;
         public Action OnAnyItemSoldEvent { get; set; }
         public Action<VirtualCollectable> OnItemSoldEvent { get; set; }
@@ -33,7 +33,7 @@ namespace ZE.Polytrucks {
         {
             if (_collidersList.TryGetSeller(other.GetInstanceID(), out var seller)) seller.OnEnterSellZone(this);
         }
-        protected override void OnTriggerExit(Collider other)
+        protected override void OnTradeTriggerExit(Collider other)
         {
             if (_collidersList.TryGetSeller(other.GetInstanceID(), out var seller)) seller.OnExitSellZone(this);
         }

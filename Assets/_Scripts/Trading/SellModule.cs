@@ -56,6 +56,7 @@ namespace ZE.Polytrucks {
 				_enoughGoodsForTrading = _preparedItemsList.Count > 0;
             }
             else _enoughGoodsForTrading = false;
+			_storageCompositionChanged = false;
         }
 		public void OnExitSellZone(ISellZone zone)
 		{
@@ -68,7 +69,7 @@ namespace ZE.Polytrucks {
 		{
             _sellZone = null;
 			_isInTradeZone = false;
-			_preparedItemsList.Clear();
+			_preparedItemsList?.Clear();
 			_enoughGoodsForTrading = false;
         }
 		

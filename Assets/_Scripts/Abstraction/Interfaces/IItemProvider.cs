@@ -6,11 +6,17 @@ using System;
 namespace ZE.Polytrucks {
 	public interface IItemProvider
 	{
+		public int AvailableItemsCount { get; }
+
 		public void SubscribeToProvisionListChange(Action action);
 		public void UnsubscribeFromProvisionListChange(Action action);
+
 		public void ReturnItem(VirtualCollectable item);
 		public bool TryProvideItem(VirtualCollectable item);
+		public bool TryProvideItems(VirtualCollectable item, int count);
 		public bool TryProvideItems(TradeContract contract, out List<VirtualCollectable> list);
+
+		public int CalculateItemsCount(CollectableType type, Rarity rarity);
 
     }
 }

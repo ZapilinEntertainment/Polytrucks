@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,9 +17,12 @@ namespace ZE.Polytrucks {
             _receiveTime = receiveTime;
         }
 
+        public bool TryCollect(ICollectable collectable) => _storage.TryReceive(collectable.ToVirtual());
+        public bool TryCollect(VirtualCollectable collectable) => _storage.TryReceive(collectable);
         public void CollectItems(ICollection<VirtualCollectable> items)
         {
             _storage.AddItems(items);
+            _lastReceiveTime= Time.time;
         }     
         public void OnStartCollect(CollectZone zone)
         {
@@ -40,6 +44,7 @@ namespace ZE.Polytrucks {
             {
                 _enoughGoodsForTrading = false;
             }
+            _storageCompositionChanged = false;
         }
         public void OnStopCollect(CollectZone zone)
         {
@@ -72,15 +77,12 @@ namespace ZE.Polytrucks {
                         var item = _preparedItemsList.Pop();
                         if (_collectZone.TryCollect(item))
                         {
-                            if (!TryReceive(item)) _collectZone.ReturnItem(item);
+                            if (!TryCollect(item)) _collectZone.ReturnItem(item);
                         }
                         _enoughGoodsForTrading = _preparedItemsList.Count != 0;
                     }
                 }
             }
         }
-
-        public bool TryReceive(VirtualCollectable item) => _storage.TryReceive(item);
-        public void ReceiveItems(ICollection<VirtualCollectable> items) => _storage.ReceiveItems(items);
     }
 }

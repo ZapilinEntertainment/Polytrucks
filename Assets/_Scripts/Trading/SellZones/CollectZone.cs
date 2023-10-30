@@ -28,7 +28,7 @@ namespace ZE.Polytrucks {
                 collector.OnStartCollect(this);
             }
         }
-        protected override void OnTriggerExit(Collider other)
+        protected override void OnTradeTriggerExit(Collider other)
         {
             if (TryDefineAsCollector(other, out var collector))
             {

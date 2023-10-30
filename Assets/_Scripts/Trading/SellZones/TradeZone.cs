@@ -5,15 +5,16 @@ using Zenject;
 
 namespace ZE.Polytrucks {
 	[RequireComponent(typeof(Collider))]
-	public abstract class TradeZone : MonoBehaviour
+	public abstract class TradeZone : MonoBehaviour, ILateDisposable
 	{
         [SerializeField] private SwitchableRenderer[] _switchableRenderers;
         [SerializeField] private bool _tradeToNowhere = true;
         [SerializeField] private Collider _trigger;
         protected ColliderListSystem _collidersList;
+        private bool _isDisposed = false;
         protected bool _isActive = true;
         protected bool TradeToNowhere => _tradeToNowhere;
-        virtual public bool IsOperable => _isActive;
+        virtual public bool IsOperable => _isActive & !_isDisposed;
 
 
         [Inject]
@@ -36,7 +37,15 @@ namespace ZE.Polytrucks {
         {
             if (IsOperable) OnTradeTriggerEnter(other);
         }
-        virtual protected void OnTriggerExit(Collider other) { }
+        private void OnTriggerExit(Collider other) {
+            if (!_isDisposed) OnTradeTriggerExit(other);
+        }
         abstract protected void OnTradeTriggerEnter(Collider other);
+        abstract protected void OnTradeTriggerExit(Collider other);
+
+        public void LateDispose()
+        {
+            _isDisposed = true;
+        }
     }
 }

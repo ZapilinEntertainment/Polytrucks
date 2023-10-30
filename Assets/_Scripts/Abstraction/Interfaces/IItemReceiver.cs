@@ -11,7 +11,12 @@ namespace ZE.Polytrucks {
 
 		public bool TryReceive(VirtualCollectable item);
 		public void ReceiveItems(ICollection<VirtualCollectable> items);
-		//public void SubscribeToItemReceiving(Action<VirtualCollectable> action);
-		//public void UnsubscribeFromItemReceiving(Action<VirtualCollectable> action);
-	}
+        //public void SubscribeToItemReceiving(Action<VirtualCollectable> action);
+        //public void UnsubscribeFromItemReceiving(Action<VirtualCollectable> action);
+
+        public void SubscribeToItemAddEvent(Action action);
+        public void UnsubscribeFromItemAddEvent(Action action);
+        public void SubscribeToItemRemoveEvent(Action action);
+        public void UnsubscribeFromItemRemoveEvent(Action action);
+    }
 }

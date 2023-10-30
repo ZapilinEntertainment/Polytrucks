@@ -118,8 +118,6 @@ namespace ZE.Polytrucks {
 
 			public IEnumerator<VirtualCollectable> GetEnumerator() => _items.GetEnumerator();
         }
-
-		private int _width = 1, _length = 1, _height = 1;
 		private ItemsHandler _items;
 
 		public bool IsReadyToReceive => !IsFull;
@@ -131,7 +129,10 @@ namespace ZE.Polytrucks {
         public Action OnItemAddedEvent { get; set; }
         public Action OnItemRemovedEvent { get; set; }
         public Action OnStorageCompositionChangedEvent { get; set; }
-		public VirtualCollectable[] GetContents()
+
+		public int AvailableItemsCount => ItemsCount;
+
+        public VirtualCollectable[] GetContents()
 		{
 
 			var items = new VirtualCollectable[Capacity];
@@ -299,7 +300,14 @@ namespace ZE.Polytrucks {
 		}
         public void ReturnItem(VirtualCollectable item) => TryAdd(item);
 		public bool TryProvideItem(VirtualCollectable item) => TryExtract(item);
-		public bool TryProvideItems(TradeContract contract, out List<VirtualCollectable> list) => TryFormItemsList(contract, out list);
+        public bool TryProvideItems(VirtualCollectable item, int count) => TryExtract(item.CollectableType, item.Rarity, count);
+        public bool TryProvideItems(TradeContract contract, out List<VirtualCollectable> list) => TryFormItemsList(contract, out list);       
+        public int CalculateItemsCount(CollectableType type, Rarity rarity) => CalculateItemsCountOfType(type, rarity);
+
+        public void SubscribeToItemAddEvent(Action action) => OnItemAddedEvent += action;
+		public void UnsubscribeFromItemAddEvent(Action action) => OnItemAddedEvent -= action;
+        public void SubscribeToItemRemoveEvent(Action action) => OnItemRemovedEvent+= action;
+        public void UnsubscribeFromItemRemoveEvent(Action action) => OnItemRemovedEvent -= action;
         #endregion
 
         public class Factory : PlaceholderFactory<Storage>

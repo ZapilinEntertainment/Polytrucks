@@ -143,5 +143,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32d9cda36dbcfe46b7e2e0b20fec94d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _startPos: {x: 0, y: 0.4, z: 2}
-  _endPos: {x: 0, y: 0.4, z: -2}
+  _maxTransferringItems: 4
+  _transferTime: 1
+  _receiveCooldown: 0.1
+  _startPos: {x: 0, y: 0.9, z: -2}
+  _endPos: {x: 0, y: 0.9, z: 1}
