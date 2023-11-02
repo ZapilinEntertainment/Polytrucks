@@ -14,7 +14,7 @@ namespace ZE.Polytrucks {
             public Transform WheelModel;
             public Transform SuspensionPoint;
             public bool IsMotor, IsSteer;
-            public float WheelRadius;
+            public float WheelRadius, ScaleCf;
 
             public void PositionWheel(float y) => WheelModel.position = SuspensionPoint.TransformPoint(Vector3.down * (y - WheelRadius));
             public void SetSteer(float x) => WheelModel.localRotation = Quaternion.Euler(0f, x, 0f);
@@ -71,13 +71,14 @@ namespace ZE.Polytrucks {
             Quaternion steerRotation = Quaternion.Euler(0f,steerAngle, 0f);
             foreach (var wheel in _wheels)
 			{
-                Vector3 pos = wheel.SuspensionPoint.position, up = wheel.SuspensionPoint.up; 
-                
-                if (Physics.Raycast(pos, -up, maxDistance: maxSuspension, hitInfo: out var hit, layerMask: _castMask))
+                Vector3 pos = wheel.SuspensionPoint.position, up = wheel.SuspensionPoint.up;
+                float scaleCf = wheel.ScaleCf;
+
+                if (Physics.Raycast(pos, -up, maxDistance: maxSuspension * scaleCf, hitInfo: out var hit, layerMask: _castMask))
                 {
-                    float offset = (suspensionLength - hit.distance) / maxOffset;
+                    float offset = (suspensionLength * scaleCf  - hit.distance) / (maxOffset * scaleCf);
                     Vector3 tireVelocity = _rigidbody.GetPointVelocity(pos);
-                    float vel = Vector3.Dot(up, tireVelocity);
+                    float suspensionVelocity = Vector3.Dot(up, tireVelocity);
 
                     bool isSteer = wheel.IsSteer;
                     Vector3 steeringDir = isSteer ? steerRotation * wheel.SuspensionPoint.right : wheel.SuspensionPoint.right;
@@ -102,8 +103,8 @@ namespace ZE.Polytrucks {
                     }
                     
 
-                    float force = (offset * springStrength) - (vel * springDamper);
-                    _rigidbody.AddForceAtPosition(up * force + accelForce + steeringForce, pos);
+                    float suspensionForce = (offset * springStrength ) - (suspensionVelocity * springDamper);
+                    _rigidbody.AddForceAtPosition(up * suspensionForce + accelForce + steeringForce, pos);
 
                     wheel.PositionWheel(hit.distance);
                 }

@@ -460,21 +460,25 @@ MonoBehaviour:
     IsMotor: 0
     IsSteer: 1
     WheelRadius: 0.6
+    ScaleCf: 1
   - WheelModel: {fileID: 1583404407612991190}
     SuspensionPoint: {fileID: 7277313478887089496}
     IsMotor: 0
     IsSteer: 1
     WheelRadius: 0.6
+    ScaleCf: 1
   - WheelModel: {fileID: 1599644461065323067}
     SuspensionPoint: {fileID: 949612596232738744}
     IsMotor: 1
     IsSteer: 0
     WheelRadius: 0.6
+    ScaleCf: 1
   - WheelModel: {fileID: 3384075833726080315}
     SuspensionPoint: {fileID: 2203236075627671156}
     IsMotor: 1
     IsSteer: 0
     WheelRadius: 0.6
+    ScaleCf: 1
   _wheelSettings:
     SuspensionLength: 1
     SpringStrength: 10000

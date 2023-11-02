@@ -5,7 +5,6 @@ namespace ZE.Polytrucks {
     public class MonoInstaller_0 : MonoInstaller
     {
         [SerializeField] private SessionMaster _sessionMaster;
-        [SerializeField] private PlayerController _playerController;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private ResourcesList _resourcesList;        
@@ -18,7 +17,7 @@ namespace ZE.Polytrucks {
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
 
             Container.Bind<PlayerData>().AsCached();
-            Container.Bind<PlayerController>().FromInstance(_playerController).AsCached();            
+            Container.Bind<PlayerController>().FromComponentInHierarchy(false).AsCached();            
 
             Container.Bind<LevelManager>().FromInstance(_levelManager).AsCached();
             Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle();

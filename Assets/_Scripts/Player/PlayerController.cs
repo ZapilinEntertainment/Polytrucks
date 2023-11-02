@@ -28,7 +28,7 @@ namespace ZE.Polytrucks {
         {
             base.OnSessionStart();
             Transform pointLink = _vehicle.CameraViewPoint;
-            _signalBus.Fire(new CameraViewPointSetSignal(pointLink));
+            if (isActiveAndEnabled) _signalBus.Fire(new CameraViewPointSetSignal(pointLink));
         }
 
         #region controls
