@@ -15251,14 +15251,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1465961735476091673}
     m_Modifications:
-    - target: {fileID: 1857302639911587231, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
-      propertyPath: _wheels.Array.data[0].SuspensionCf
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1857302639911587231, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
-      propertyPath: _wheels.Array.data[1].SuspensionCf
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 4371993260159117036, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
       propertyPath: m_Name
       value: Tractor

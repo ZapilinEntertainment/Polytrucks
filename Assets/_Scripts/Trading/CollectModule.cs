@@ -58,7 +58,7 @@ namespace ZE.Polytrucks {
                 _collectZone = null;
             }
             _isInTradeZone = false;
-            _preparedItemsList.Clear();
+            _preparedItemsList?.Clear();
             _enoughGoodsForTrading = false;
         }
 

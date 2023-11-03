@@ -479,65 +479,7 @@ MonoBehaviour:
     IsSteer: 0
     WheelRadius: 0.6
     ScaleCf: 1
-  _wheelSettings:
-    SuspensionLength: 1
-    SpringStrength: 10000
-    SpringDamper: 500
-    MaxSuspensionOffset: 0.5
-    TireGripFactor: 1
-    TireMass: 10
-    Power: 3000
-    PowerCurve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: -1
-        value: -0.5
-        inSlope: 0.016934775
-        outSlope: 0.016934775
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0.24177247
-      - serializedVersion: 3
-        time: 0
-        value: 0.5
-        inSlope: 1.3840925
-        outSlope: 1.3840925
-        tangentMode: 1
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 0.4
-        value: 1
-        inSlope: 0.50783026
-        outSlope: 0.06931466
-        tangentMode: 1
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.23124711
-      - serializedVersion: 3
-        time: 0.79664004
-        value: 0.9990071
-        inSlope: -0.055109642
-        outSlope: -0.055109642
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0.16767742
-        outWeight: 0.33333334
-      - serializedVersion: 3
-        time: 1
-        value: 0.3
-        inSlope: -3.4372897
-        outSlope: -3.4372897
-        tangentMode: 34
-        weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
+  _wheelSettings: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}
   _rigidbody: {fileID: 8583801894704270260}
   _centerOfMass: {fileID: 2329410114739665587}
 --- !u!54 &8583801894704270260
