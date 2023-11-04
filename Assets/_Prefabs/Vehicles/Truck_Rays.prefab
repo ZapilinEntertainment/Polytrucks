@@ -757,6 +757,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5273749271566080024}
   - component: {fileID: 4908018578481662965}
+  - component: {fileID: 1979156597565627395}
   m_Layer: 0
   m_Name: Truck_Rays
   m_TagString: Untagged
@@ -796,11 +797,24 @@ MonoBehaviour:
   _axisController: {fileID: 669300281718445636}
   _truckConfig: {fileID: 11400000, guid: 30ea5113abd61274eb06ed24cbafab0c, type: 2}
   _collectCollider: {fileID: 8657606356179407698}
-  _storageVisualSettings:
+  _storageController: {fileID: 1979156597565627395}
+--- !u!114 &1979156597565627395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3180618113940553015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb1b992fcd28f4b478c6189877d59490, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _storageSettings:
     _zeroPoint: {fileID: 3151278718214146661}
     Gap: 0.1
     ModelScale: 1
-    Extents: {x: 2, y: 1, z: 3}
+    Extents: {x: 2, y: 2, z: 3}
 --- !u!1 &3756722552491207849
 GameObject:
   m_ObjectHideFlags: 0

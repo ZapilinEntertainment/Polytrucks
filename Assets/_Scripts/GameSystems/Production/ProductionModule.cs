@@ -40,7 +40,7 @@ namespace ZE.Polytrucks {
             {
                 if (_delayedOutput == 1)
                 {
-                    if (_output.TryReceive(_recipe.ResultItem)) _delayedOutput = 0;
+                    if (_output.TryAddItem(_recipe.ResultItem)) _delayedOutput = 0;
                 }
                 else
                 {
@@ -48,7 +48,7 @@ namespace ZE.Polytrucks {
                     int count = _delayedOutput;
                     for (int i = 0; i < count; i++)
                     {
-                        if (_output.TryReceive(resultItem)) _delayedOutput--;
+                        if (_output.TryAddItem(resultItem)) _delayedOutput--;
                         else break;
                     }
                 }
@@ -65,7 +65,7 @@ namespace ZE.Polytrucks {
         }
         protected void ProductionCheck()
         {
-            _isProducing = _input.TryProvideItems(new VirtualCollectable(_recipe.Input, _recipe.InputRarity), _recipe.InputValue);
+            _isProducing = _input.TryExtractItems(new VirtualCollectable(_recipe.Input, _recipe.InputRarity), _recipe.InputValue);
         }     
         
         public void Tick()
@@ -91,7 +91,7 @@ namespace ZE.Polytrucks {
                     else _progress--;
 
 
-                    if (!_output.TryReceive(_recipe.ResultItem)) {
+                    if (!_output.TryAddItem(_recipe.ResultItem)) {
                         _delayedOutput++;
                         StopProduction();
                     }

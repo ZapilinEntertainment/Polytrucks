@@ -17,11 +17,11 @@ namespace ZE.Polytrucks {
             _receiveTime = receiveTime;
         }
 
-        public bool TryCollect(ICollectable collectable) => _storage.TryReceive(collectable.ToVirtual());
-        public bool TryCollect(VirtualCollectable collectable) => _storage.TryReceive(collectable);
-        public void CollectItems(ICollection<VirtualCollectable> items)
+        public bool TryCollect(ICollectable collectable) => _storage.TryAddItem(collectable.ToVirtual());
+        public bool TryCollect(VirtualCollectable collectable) => _storage.TryAddItem(collectable);
+        public void CollectItems(IList<VirtualCollectable> items, out BitArray result)
         {
-            _storage.AddItems(items);
+            _storage.AddItems(items, out result);
             _lastReceiveTime= Time.time;
         }     
         public void OnStartCollect(CollectZone zone)

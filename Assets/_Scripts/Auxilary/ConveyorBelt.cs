@@ -67,7 +67,7 @@ namespace ZE.Polytrucks {
                     var item = _transferringItems[i];
                     float progression = item.TransferProgression;
                     progression = Mathf.MoveTowards(progression, maxProgression, step);
-                    if (progression == 1f && (_itemReceiver?.TryReceive(item.Info) ?? false))
+                    if (progression == 1f && (_itemReceiver?.TryAddItem(item.Info) ?? false))
                     {
                         _transferringItems.RemoveAt(i);
                         _transferringItemsCount--;
@@ -94,7 +94,7 @@ namespace ZE.Polytrucks {
         #region receiver
         public bool IsReadyToReceive => _transferringItemsCount < _maxTransferringItems;
         public int FreeSlotsCount => _maxTransferringItems - _transferringItemsCount;
-        public bool TryReceive(VirtualCollectable item)
+        public bool TryAddItem(VirtualCollectable item)
         {
             if (IsReadyToReceive)
             {
@@ -103,24 +103,24 @@ namespace ZE.Polytrucks {
             }
             else return false;
         }
-
-        public void ReceiveItems(ICollection<VirtualCollectable> items) => StartCoroutine(ReceivingCoroutine(items));
-        private IEnumerator ReceivingCoroutine(ICollection<VirtualCollectable> items)
+        public int AddItems(VirtualCollectable item, int count)
         {
-            foreach (var item in items)
-            {
-                while (!IsReadyToReceive)
-                {
-                    yield return null;
-                }
-                TryReceive(item);
-            }
+            if (TryAddItem(item)) return count - 1;
+            else return count;
+        }
+        public void AddItems(IList<VirtualCollectable> items, out BitArray result)
+        {
+            int count = items.Count, i = 0 ;
+            result = new BitArray(count, false);
+            if (TryAddItem(items[0])) result[0] = true;
         }
 
         public void SubscribeToItemAddEvent(Action action) => OnItemAddedToBeltEvent += action;
         public void UnsubscribeFromItemAddEvent(Action action) => OnItemAddedToBeltEvent-= action;
         public void SubscribeToItemRemoveEvent(Action action) => OnItemRemovedFromBeltEvent += action;
         public void UnsubscribeFromItemRemoveEvent(Action action) => OnItemRemovedFromBeltEvent-= action;
+
+        
         #endregion
     }
 }

@@ -6,22 +6,14 @@ using System;
 namespace ZE.Polytrucks {
 	public interface IStorage : IItemProvider, IItemReceiver
 	{
-        public bool IsFull => ItemsCount == Capacity;
+        public bool IsEmpty => ItemsCount == 0;
+        public bool IsFull => ItemsCount == Capacity;        
         public int ItemsCount { get; }
-        public int FreeSlotsCount { get; }
         public int Capacity { get; }        
         public Action OnItemAddedEvent { get; set; }
         public Action OnItemRemovedEvent { get; set; }
         public Action OnStorageCompositionChangedEvent { get; set; }
 
-        public void AddItems(ICollection<VirtualCollectable> items);
-        public void RemoveItems(ICollection<VirtualCollectable> list);
-
         public bool TryFormItemsList(TradeContract contract, out List<VirtualCollectable> list);
-        public bool TryAdd(VirtualCollectable collectable);
-        public int TryAdd(VirtualCollectable collectable, int count);
-        public bool TryExtract(VirtualCollectable item);
-        public bool TryExtract(CollectableType type, Rarity rarity, int count);
-        public int CalculateItemsCountOfType(CollectableType type, Rarity rarity);
     }
 }

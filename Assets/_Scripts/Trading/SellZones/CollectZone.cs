@@ -37,7 +37,7 @@ namespace ZE.Polytrucks {
         }
 
         public void ReturnItem(VirtualCollectable item) => _itemProvider.ReturnItem(item);
-        public bool TryCollect(VirtualCollectable item) => _itemProvider.TryProvideItem(item);
-        public bool TryFormCollectionList(TradeContract contract, out List<VirtualCollectable> list) => _itemProvider.TryProvideItems(contract, out list);
+        public bool TryCollect(VirtualCollectable item) => _itemProvider.TryExtractItem(item);
+        public bool TryFormCollectionList(TradeContract contract, out List<VirtualCollectable> list) => _itemProvider.TryExtractItems(contract, out list);
     }
 }

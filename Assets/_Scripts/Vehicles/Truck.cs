@@ -9,11 +9,11 @@ namespace ZE.Polytrucks {
         [SerializeField] private AxisControllerBase _axisController;
         [SerializeField] private TruckConfig _truckConfig;
         [SerializeField] private Collider _collectCollider;
-        [SerializeField] private StorageVisualSettings _storageVisualSettings;
+        [SerializeField] private VehicleStorageController _storageController;
         private TruckEngine _engine;
-        private StorageVisualizer _storageVisualizer;
         private SellModule _sellModule;
         private CollectModule _collectModule;
+        private ColliderListSystem _collidersList;
 
         override public float SteerValue => _engine.SteerValue;
         override public float GasValue => _engine.GasValue;
@@ -27,29 +27,31 @@ namespace ZE.Polytrucks {
         public bool HasMultipleColliders => false;
         public int GetID() => _collectCollider.GetInstanceID();
         public int[] GetIDs() => new int[] { _collectCollider.GetInstanceID() };
-        public bool TryCollect(ICollectable collectable) => _storage.TryAdd(collectable.ToVirtual());
+        public bool TryCollect(ICollectable collectable) => _storage.TryAddItem(collectable.ToVirtual());
         #endregion
 
         [Inject]
-        public void Inject(StorageVisualizer.Factory storageVisualizerFactory, ColliderListSystem collidersList)
+        public void Inject(ColliderListSystem collidersList)
         {
-            _storageVisualizer = storageVisualizerFactory.Create();
-            int colliderId = _collectCollider.GetInstanceID();
-
-            _storage = new Storage(_storageVisualSettings.Capacity);
-            _sellModule = new SellModule(colliderId, _storage, this);
-            _collectModule = new CollectModule(colliderId, _storage, TruckConfig.CollectTime);
-
-            collidersList.AddSeller(_sellModule);
-            collidersList.AddCollector(_collectModule);
+            _collidersList = collidersList;            
         }
 
         private void Start()
-        {            
-            _storageVisualizer.Setup(_storage, _storageVisualSettings);
+        {
+            int colliderId = _collectCollider.GetInstanceID();
+
+            _storage = _storageController.Storage;
+            _storageController.OnVehicleCargoChangedEvent += OnCargoMassChangedEvent;
+
+            _sellModule = new SellModule(colliderId, _storage, this);
+            _collectModule = new CollectModule(colliderId, _storage, TruckConfig.CollectTime);
+
+            _collidersList.AddSeller(_sellModule);
+            _collidersList.AddCollector(_collectModule);
+
             _engine = new TruckEngine(_truckConfig, _axisController);            
             _axisController.Setup(this);
-            _storage.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
+            
         }
         
         private void Update()
@@ -92,6 +94,5 @@ namespace ZE.Polytrucks {
 
         #endregion
         
-        private void OnStorageCompositionChanged() => OnCargoMassChangedEvent?.Invoke(_storage.CargoMass);
     }
 }

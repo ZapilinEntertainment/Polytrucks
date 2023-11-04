@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b65a05f70bfdfe49a0d88872cf6d451, type: 3}
   m_Name: Trailer_0
   m_EditorClassIdentifier: 
-  SuspensionLength: 1.4
-  SpringStrength: 10000
-  SpringDamper: 500
-  MaxSuspensionOffset: 0.3
+  SuspensionLength: 1.21
+  SpringStrength: 1000
+  SpringDamper: 100
+  MaxSuspensionOffset: 0.2
   TireGripFactor: 1
   TireMass: 10
   PowerCurve:

@@ -7,7 +7,7 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private Transform _cameraViewPoint;
         public IVehicleController VehicleController { get; protected set; }
-        protected Storage _storage;
+        protected IStorage _storage;
         public System.Action<IVehicleController> OnVehicleControllerChangedEvent;
         
         abstract public float GasValue { get; }

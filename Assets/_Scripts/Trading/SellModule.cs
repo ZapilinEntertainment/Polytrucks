@@ -28,9 +28,9 @@ namespace ZE.Polytrucks {
 					if (_enoughGoodsForTrading)
 					{
 						var item = _preparedItemsList.Pop();
-						if (_storage.TryExtract(item))
+						if (_storage.TryExtractItem(item))
 						{
-							if (!TryReceiveItem(item)) _storage.TryAdd(item);
+							if (!TryReceiveItem(item)) _storage.ReturnItem(item);
 						}
 						_enoughGoodsForTrading = _preparedItemsList.Count != 0;
 					}
@@ -75,8 +75,6 @@ namespace ZE.Polytrucks {
 		
      
         public bool TryStartSell(TradeContract contract, out List<VirtualCollectable> list) => _storage.TryFormItemsList(contract, out list);
-        public void RemoveItems(ICollection<VirtualCollectable> list) => _storage.RemoveItems(list);
-
         public void OnItemSold(SellOperationContainer sellInfo) => _vehicleController?.OnItemSold(sellInfo);
       
     }

@@ -54,7 +54,6 @@ namespace ZE.Polytrucks {
         {
             PoolsInstaller.Install(Container);
             Container.Bind<ObjectsManager>().AsSingle();
-            Container.BindFactory<Storage, Storage.Factory>().AsSingle();
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
             Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
         }

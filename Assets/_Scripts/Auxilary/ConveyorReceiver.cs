@@ -10,20 +10,22 @@ namespace ZE.Polytrucks {
         public override bool IsReadyToReceive => _conveyor.IsReadyToReceive;
         public override int FreeSlotsCount => _conveyor.FreeSlotsCount + _storage.FreeSlotsCount;
 
-        public override void ReceiveItems(ICollection<VirtualCollectable> items) => _conveyor.ReceiveItems(items);
-        public override bool TryReceive(VirtualCollectable item)
+        public override void AssignStorage(IStorage storage)
         {
-            if (_conveyor.TryReceive(item))
+            base.AssignStorage(storage);
+            _conveyor.AssignReceiver(storage);
+        }
+
+        public override bool TryAddItem(VirtualCollectable item)
+        {
+            if (_conveyor.TryAddItem(item))
             {
                 //OnItemReceivedEvent?.Invoke(item);
                 return true;
             }
             else return false;
         }
-        public override void AssignStorage(IStorage storage)
-        {
-            base.AssignStorage(storage);
-            _conveyor.AssignReceiver(storage);
-        }
+        public override void AddItems(IList<VirtualCollectable> items, out BitArray result) => _conveyor.AddItems(items, out result);
+        public override int AddItems(VirtualCollectable item, int count) => _conveyor.AddItems(item, count);   
     }
 }

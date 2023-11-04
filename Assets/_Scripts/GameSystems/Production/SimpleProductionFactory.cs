@@ -14,16 +14,25 @@ namespace ZE.Polytrucks {
 		protected Storage _outputStorage, _inputStorage;
         protected ProductionModule _productionModule;
 
+        private StorageVisualizer.Factory _visualizerFactory;
+
         [Inject]
-        public void Inject(Storage.Factory storageFactory, ProductionModule.Factory productionFactory)
+        public void Inject(StorageVisualizer.Factory visFactory, ProductionModule.Factory productionFactory)
         {
-            _inputStorage = storageFactory.Create(_inputStorageSettings);
-            _outputStorage = storageFactory.Create(_outputStorageSettings);
+            _visualizerFactory = visFactory;            
             _productionModule= productionFactory.Create();           
+        }
+        private void Awake()
+        {
+            _inputStorage = new Storage(_inputStorageSettings.Capacity);
+            _outputStorage = new Storage(_outputStorageSettings.Capacity);
         }
 
         private void Start()
         {
+            _visualizerFactory.Create().Setup(_inputStorage, _inputStorageSettings);
+            _visualizerFactory.Create().Setup(_outputStorage, _outputStorageSettings);
+
             if (_inputReceiver != null)
             {
                 _sellZone.AssignReceiver(_inputReceiver);

@@ -9,8 +9,12 @@ namespace ZE.Polytrucks {
 		public bool IsReadyToReceive { get; }
 		public int FreeSlotsCount { get; }
 
-		public bool TryReceive(VirtualCollectable item);
-		public void ReceiveItems(ICollection<VirtualCollectable> items);
+		public bool TryAddItem(VirtualCollectable item);
+        public int AddItems(VirtualCollectable item, int count); 
+        /// <summary>
+        /// returns residue
+        /// </summary>
+		public void AddItems(IList<VirtualCollectable> items, out BitArray result);
         //public void SubscribeToItemReceiving(Action<VirtualCollectable> action);
         //public void UnsubscribeFromItemReceiving(Action<VirtualCollectable> action);
 

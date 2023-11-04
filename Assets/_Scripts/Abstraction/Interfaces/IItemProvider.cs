@@ -12,9 +12,9 @@ namespace ZE.Polytrucks {
 		public void UnsubscribeFromProvisionListChange(Action action);
 
 		public void ReturnItem(VirtualCollectable item);
-		public bool TryProvideItem(VirtualCollectable item);
-		public bool TryProvideItems(VirtualCollectable item, int count);
-		public bool TryProvideItems(TradeContract contract, out List<VirtualCollectable> list);
+		public bool TryExtractItem(VirtualCollectable item);
+		public bool TryExtractItems(VirtualCollectable item, int count);
+		public bool TryExtractItems(TradeContract contract, out List<VirtualCollectable> list);
 
 		public int CalculateItemsCount(CollectableType type, Rarity rarity);
 

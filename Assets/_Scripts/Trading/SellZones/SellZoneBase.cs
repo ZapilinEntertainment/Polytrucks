@@ -40,7 +40,7 @@ namespace ZE.Polytrucks {
 
         public bool TrySellItem(ISeller seller, VirtualCollectable item)
         {
-            if (TradeToNowhere || (_itemsReceiver.TryReceive(item)))
+            if (TradeToNowhere || (_itemsReceiver.TryAddItem(item)))
             {
                 int cost = (int)(_economicSettings.GetCost(item.Rarity) * SellCostCf);
                 seller.OnItemSold(new SellOperationContainer(cost, item.Rarity, Position));
@@ -51,11 +51,15 @@ namespace ZE.Polytrucks {
             else return false;
         }
 
-        public void SellItems(ICollection<VirtualCollectable> list)
+        public void SellItems(IList<VirtualCollectable> list, out BitArray result)
         {
             if (!TradeToNowhere)
             {
-                _itemsReceiver.ReceiveItems(list);               
+                _itemsReceiver.AddItems(list, out result);               
+            }
+            else
+            {
+                result = new BitArray(list.Count, true);
             }
             if (OnItemSoldEvent != null)
             {
