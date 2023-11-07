@@ -7,7 +7,8 @@ namespace ZE.Polytrucks {
         [SerializeField] private SessionMaster _sessionMaster;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
-        [SerializeField] private ResourcesList _resourcesList;        
+        [SerializeField] private ResourcesList _resourcesList;
+        [SerializeField] private Trailer _trailerPrefab;
 
         public override void InstallBindings()
         {
@@ -56,6 +57,7 @@ namespace ZE.Polytrucks {
             Container.Bind<ObjectsManager>().AsSingle();
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
             Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
+            Container.BindFactory<Trailer, Trailer.Factory>().FromComponentInNewPrefab(_trailerPrefab);
         }
         private void InstallGameObjects()
         {

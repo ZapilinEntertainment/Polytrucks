@@ -714,6 +714,7 @@ GameObject:
   - component: {fileID: 6467095273634857923}
   - component: {fileID: 6094332380567048238}
   - component: {fileID: 2427993622319677651}
+  - component: {fileID: 3451545581879242395}
   m_Layer: 0
   m_Name: Tractor
   m_TagString: Untagged
@@ -751,9 +752,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraViewPoint: {fileID: 8263390415338152615}
+  _massChanger: {fileID: 0}
   _axisController: {fileID: 1857302639911587231}
   _truckConfig: {fileID: 11400000, guid: 1484b75671c24af4388548db70b30560, type: 2}
-  _collectCollider: {fileID: 6163920683146010499}
+  _collidersHandler: {fileID: 3451545581879242395}
   _storageController: {fileID: 2427993622319677651}
 --- !u!114 &2427993622319677651
 MonoBehaviour:
@@ -772,6 +774,20 @@ MonoBehaviour:
     Gap: 0.1
     ModelScale: 1
     Extents: {x: 2, y: 1, z: 3}
+--- !u!114 &3451545581879242395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4371993260159117036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f07ec719510afbe4cbcbfbbe637b83e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CollectColliders:
+  - {fileID: 6163920683146010499}
 --- !u!1 &4868526860196491417
 GameObject:
   m_ObjectHideFlags: 0
@@ -1360,6 +1376,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trailer
       objectReference: {fileID: 0}
+    - target: {fileID: 5551716286575323751, guid: ba3c3f4943c734b429e3e82de5e39402, type: 3}
+      propertyPath: _truck
+      value: 
+      objectReference: {fileID: 6094332380567048238}
     - target: {fileID: 5936635591440261017, guid: ba3c3f4943c734b429e3e82de5e39402, type: 3}
       propertyPath: m_RootOrder
       value: 1

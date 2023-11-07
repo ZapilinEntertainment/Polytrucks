@@ -8,11 +8,13 @@ namespace ZE.Polytrucks {
 	{
         protected ISellZone _sellZone;
 		protected IVehicleController _vehicleController;
-        public SellModule(int colliderID, IStorage storage, Vehicle vehicle) : base(colliderID, storage)
+        public SellModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, VehicleStorageController storageController, Vehicle vehicle) : base(collidersHandler, colliderListSystem, storageController)
         {
-            _storage.OnItemAddedEvent += OnStorageCompositionChanged;
+            Storage.OnItemAddedEvent += OnStorageCompositionChanged;
 			_vehicleController = vehicle.VehicleController;
 			vehicle.OnVehicleControllerChangedEvent += (IVehicleController controller) => _vehicleController = controller;
+
+			colliderListSystem.AddSeller(this);
         }
 
         override public void Update()
@@ -28,9 +30,9 @@ namespace ZE.Polytrucks {
 					if (_enoughGoodsForTrading)
 					{
 						var item = _preparedItemsList.Pop();
-						if (_storage.TryExtractItem(item))
+						if (Storage.TryExtractItem(item))
 						{
-							if (!TryReceiveItem(item)) _storage.ReturnItem(item);
+							if (!TryReceiveItem(item)) Storage.ReturnItem(item);
 						}
 						_enoughGoodsForTrading = _preparedItemsList.Count != 0;
 					}
@@ -50,7 +52,7 @@ namespace ZE.Polytrucks {
 		}
 		private void FormTradeContract()
 		{
-            if (_activeContract.IsValid && _storage.TryFormItemsList(_activeContract, out var list))
+            if (_activeContract.IsValid && Storage.TryFormItemsList(_activeContract, out var list))
             {
                 _preparedItemsList = new Stack<VirtualCollectable>(list);
 				_enoughGoodsForTrading = _preparedItemsList.Count > 0;
@@ -74,8 +76,9 @@ namespace ZE.Polytrucks {
         }
 		
      
-        public bool TryStartSell(TradeContract contract, out List<VirtualCollectable> list) => _storage.TryFormItemsList(contract, out list);
+        public bool TryStartSell(TradeContract contract, out List<VirtualCollectable> list) => Storage.TryFormItemsList(contract, out list);
         public void OnItemSold(SellOperationContainer sellInfo) => _vehicleController?.OnItemSold(sellInfo);
-      
+
+		protected override void OnColliderListChanged() => _colliderListSystem.OnSellerChanged(this);
     }
 }

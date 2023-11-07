@@ -20,6 +20,18 @@ namespace ZE.Polytrucks {
 					_list.Add(owner.GetID(), owner);
 				}
 			}
+			public void OnOwnerChanged(T owner)
+			{
+                if (owner.HasMultipleColliders)
+                {
+                    var ids = owner.GetIDs();
+                    foreach (var id in ids) { _list.TryAdd(id, owner); }
+                }
+                else
+                {
+                    _list.TryAdd(owner.GetID(), owner);
+                }
+            }
 			public void RemoveOwner(T owner)
 			{
 				if (owner.HasMultipleColliders)
@@ -48,10 +60,12 @@ namespace ZE.Polytrucks {
 
 		public void AddCollector(ICollector collector) => _collectors.AddOwner(collector);
 		public void RemoveCollector(ICollector collector) => _collectors.RemoveOwner(collector);
+		public void OnCollectorChanged(ICollector collector) => _collectors.OnOwnerChanged(collector);
 		public bool TryGetCollector(int id, out ICollector collector) => _collectors.TryGetOwner(id, out collector);
 
 		public void AddSeller(ISeller seller) => _sellers.AddOwner(seller);
 		public void RemoveSeller(ISeller seller) => _sellers.RemoveOwner(seller);
+		public void OnSellerChanged(ISeller seller) => _sellers.OnOwnerChanged(seller);
 		public bool TryGetSeller(int id, out ISeller seller) =>_sellers.TryGetOwner(id, out seller);
 		
 	}

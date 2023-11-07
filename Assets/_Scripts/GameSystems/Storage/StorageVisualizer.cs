@@ -6,17 +6,25 @@ using System;
 
 namespace ZE.Polytrucks {
     [Serializable]
-    public class StorageVisualSettings
+    public struct StorageVisualSettings
     {
         public Transform _zeroPoint;
-        public float Gap = 0.1f, ModelScale = 1f;
-        public Vector3Int Extents = new Vector3Int(4, 4, 4);
+        public float Gap, ModelScale;
+        public Vector3Int Extents;
 		public int Width => Extents.x;
 		public int Height => Extents.y;
 		public int Length => Extents.z;
 		public int ItemsInLayer => Width * Length;
 
         public int Capacity => Extents.x * Extents.y * Extents.z;
+
+        public StorageVisualSettings(Transform zeroPoint, Vector3Int extents, float gap = 0.1f, float modelScale =1f)
+		{
+			_zeroPoint= zeroPoint;
+			Extents= extents;
+			Gap = gap;
+			ModelScale = modelScale;
+		}
     }
     public class StorageVisualizer : ITickable, IDisposable
 	{	

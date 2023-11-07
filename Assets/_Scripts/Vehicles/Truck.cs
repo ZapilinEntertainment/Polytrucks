@@ -2,56 +2,59 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
+using System;
 
 namespace ZE.Polytrucks {
-    public class Truck : Vehicle
+    public class Truck : Vehicle, ITrailerConnectionPoint
     {
+        [SerializeField] private MassChanger _massChanger;
         [SerializeField] private AxisControllerBase _axisController;
         [SerializeField] private TruckConfig _truckConfig;
-        [SerializeField] private Collider _collectCollider;
+        [SerializeField] private TradeCollidersHandler _collidersHandler;
         [SerializeField] private VehicleStorageController _storageController;
+        [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
+        private bool _haveTrailers = false;
         private TruckEngine _engine;
         private SellModule _sellModule;
         private CollectModule _collectModule;
-        private ColliderListSystem _collidersList;
+        private ColliderListSystem _colliderListSystem;
+        private List<Trailer> _trailers;
 
         override public float SteerValue => _engine.SteerValue;
         override public float GasValue => _engine.GasValue;
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
-
-        public TruckConfig TruckConfig => _truckConfig;
-        public System.Action<float> OnCargoMassChangedEvent;
-
-        #region icollector
-        public bool HasMultipleColliders => false;
-        public int GetID() => _collectCollider.GetInstanceID();
-        public int[] GetIDs() => new int[] { _collectCollider.GetInstanceID() };
-        public bool TryCollect(ICollectable collectable) => _storage.TryAddItem(collectable.ToVirtual());
-        #endregion
-
-        [Inject]
-        public void Inject(ColliderListSystem collidersList)
+        public VirtualPoint CalculateTrailerPosition(float distance)
         {
-            _collidersList = collidersList;            
+            var rotation = _axisController.Rotation;
+            return new VirtualPoint(_axisController.Position + rotation * (distance * Vector3.back), rotation);
         }
 
+        public TruckConfig TruckConfig => _truckConfig;
+        public Action<float> OnCargoMassChangedEvent;
+        public Action<IStorage> OnStorageChangedEvent;
+
+        [Inject]
+        public void Inject(ColliderListSystem collidersList) => _colliderListSystem= collidersList;
+
+        private void Awake()
+        {
+            UpdateStorageLink();
+        }
         private void Start()
         {
-            int colliderId = _collectCollider.GetInstanceID();
-
-            _storage = _storageController.Storage;
-            _storageController.OnVehicleCargoChangedEvent += OnCargoMassChangedEvent;
-
-            _sellModule = new SellModule(colliderId, _storage, this);
-            _collectModule = new CollectModule(colliderId, _storage, TruckConfig.CollectTime);
-
-            _collidersList.AddSeller(_sellModule);
-            _collidersList.AddCollector(_collectModule);
+            _sellModule = new SellModule(_collidersHandler, _colliderListSystem, _storageController, this);
+            _collectModule = new CollectModule(_collidersHandler, _colliderListSystem, _storageController, TruckConfig.CollectTime);
 
             _engine = new TruckEngine(_truckConfig, _axisController);            
             _axisController.Setup(this);
+
             
+        }
+        private void UpdateStorageLink()
+        {
+            _storage = _storageController.Storage;
+            if (_massChanger != null) _massChanger.Setup(_storageController.MainStorage);
         }
         
         private void Update()
@@ -94,5 +97,51 @@ namespace ZE.Polytrucks {
 
         #endregion
         
+        public void AddTrailer(Trailer trailer)
+        {
+            if (_trailers == null) _trailers = new List<Trailer>();
+            _haveTrailers = true;
+            _trailers.Add(trailer);
+           // _collidersHandler.AddCollider(trailer.Collider);
+
+            if (_storageController is SingleVehicleStorage)
+            {
+                var host = _storageController.gameObject;
+                var cachedSettings = (_storageController as SingleVehicleStorage).StorageSettings;
+                Destroy(_storageController);
+                var multipleStorage = host.AddComponent<MultipleVehicleStorage>();
+                multipleStorage.Setup(new StorageVisualSettings[1] { cachedSettings });
+                multipleStorage.AddStorage(trailer.GetStorage());
+                _storageController = multipleStorage;
+                _storage = multipleStorage.Storage;
+                UpdateStorageLink();
+                OnStorageChangedEvent?.Invoke(_storage);
+            }
+            else
+            {
+                if (_storageController == null) _storageController = gameObject.AddComponent<MultipleVehicleStorage>();
+                (_storageController as MultipleVehicleStorage).AddStorage(trailer.GetStorage());
+            }
+
+            int count = _trailers.Count;
+            if (count == 1) trailer.OnTrailerConnected(this);
+            else trailer.OnTrailerConnected(_trailers[count - 2]);
+        }
+        public void RemoveTrailer()
+        {
+            if (!_haveTrailers) return;
+            int count = _trailers?.Count ?? 0;
+            count--;
+            var trailer = _trailers[count];
+            var storage = (_storageController as MultipleVehicleStorage);
+            if (storage != null)
+            {
+                storage.RemoveStorage(trailer.GetStorage());
+            }
+
+             Destroy(trailer.gameObject);
+            _trailers.RemoveAt(count);
+            _haveTrailers = count != 0;
+        }
     }
 }

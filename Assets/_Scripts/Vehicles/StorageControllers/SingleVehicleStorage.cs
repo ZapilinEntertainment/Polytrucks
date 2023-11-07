@@ -11,6 +11,8 @@ namespace ZE.Polytrucks {
         private Storage _storage;
         private StorageVisualizer _visualizer;
         public override IStorage Storage => _storage;
+        public override Storage MainStorage => _storage;
+        public StorageVisualSettings StorageSettings => _storageSettings;
 
         [Inject]
         public void Inject(StorageVisualizer.Factory visFactory)

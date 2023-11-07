@@ -11,8 +11,9 @@ namespace ZE.Polytrucks {
         private bool _storagesCompositionChanged = false;
         private int _count = 0;
         private StorageVisualizer.Factory _visualizerFactory;
-        private List<Storage> _storages;
+        private List<Storage> _storages = new List<Storage>();
         public override IStorage Storage => this;
+        public override Storage MainStorage => _storages[0];
 
         public int ItemsCount { get; private set; }
         public int FreeSlotsCount { get; private set; }
@@ -37,7 +38,7 @@ namespace ZE.Polytrucks {
             {
                 var storage = new Storage(_storageSettings[i].Capacity);
                 storage.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
-                storage.OnStorageCompositionChangedEvent += OnStorageCompositionChangedEvent;
+                storage.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
                 storage.OnItemAddedEvent += OnItemAddedEvent;
                 storage.OnItemRemovedEvent += OnItemRemovedEvent;
                 _storages.Add(storage);
@@ -48,7 +49,7 @@ namespace ZE.Polytrucks {
         {
             _storagesCompositionChanged = true;
         }
-        private void UpdateValues()
+        public void UpdateValues()
         {
             ItemsCount = 0;
             FreeSlotsCount = 0;
@@ -64,6 +65,10 @@ namespace ZE.Polytrucks {
         }
   
 
+        public void Setup(StorageVisualSettings[] newSettings)
+        {
+            _storageSettings = newSettings;
+        }
         private void Start()
         {
             for (int i = 0; i < _count; i++)
@@ -77,7 +82,26 @@ namespace ZE.Polytrucks {
             if (_storagesCompositionChanged)
             {
                 UpdateValues();
+                OnStorageCompositionChangedEvent?.Invoke();
             }
+        }
+
+        public void AddStorage(Storage storage)
+        {
+            _storages.Add(storage);
+            _storagesCompositionChanged = true;
+        }
+        public void AddStorage(StorageVisualSettings settings)
+        {
+            var storage = new Storage(settings.Capacity);
+            var visualizer = _visualizerFactory.Create();
+            visualizer.Setup(storage, settings);
+            AddStorage(storage);
+        }
+        public void RemoveStorage(Storage storage)
+        {
+            _storages.Remove(storage);
+            _storagesCompositionChanged = true;
         }
 
         #region istorage

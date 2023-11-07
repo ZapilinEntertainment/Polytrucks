@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trailer (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 5551716286575323751, guid: ba3c3f4943c734b429e3e82de5e39402, type: 3}
+      propertyPath: _truck
+      value: 
+      objectReference: {fileID: 3965285396547056772}
     - target: {fileID: 5936635591440261017, guid: ba3c3f4943c734b429e3e82de5e39402, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -179,6 +183,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Trailer (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5551716286575323751, guid: ba3c3f4943c734b429e3e82de5e39402, type: 3}
+      propertyPath: _truck
+      value: 
+      objectReference: {fileID: 3965285396547056772}
     - target: {fileID: 5936635591440261017, guid: ba3c3f4943c734b429e3e82de5e39402, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -244,7 +252,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4371993260159117036, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
       propertyPath: m_Name
-      value: Tractor_with_trailers
+      value: Tractor_with_trailers Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5546162776204444948, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
       propertyPath: m_LocalPosition.z
@@ -301,6 +309,17 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2427993622319677651, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
+--- !u!114 &3965285396547056772 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6094332380567048238, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}
+  m_PrefabInstance: {fileID: 7175620750305862826}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6861407451146125894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b0c37b77e146ec478eee294afb90500, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4191533964222670697 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6467095273634857923, guid: ee2b422f9a1f83d4c882f35e6f041c54, type: 3}

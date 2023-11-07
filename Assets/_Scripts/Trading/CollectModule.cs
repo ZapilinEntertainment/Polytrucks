@@ -12,16 +12,17 @@ namespace ZE.Polytrucks {
         protected float _receiveTime = 0.1f, _lastReceiveTime = - 1f;
         protected IVehicleController _controller;
         protected CollectZone _collectZone;
-        public CollectModule(int colliderID, IStorage storage, float receiveTime) : base(colliderID, storage)
+        public CollectModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, VehicleStorageController storageController, float receiveTime) : base(collidersHandler, colliderListSystem, storageController)
         {
             _receiveTime = receiveTime;
+            colliderListSystem.AddCollector(this);
         }
 
-        public bool TryCollect(ICollectable collectable) => _storage.TryAddItem(collectable.ToVirtual());
-        public bool TryCollect(VirtualCollectable collectable) => _storage.TryAddItem(collectable);
+        public bool TryCollect(ICollectable collectable) => Storage.TryAddItem(collectable.ToVirtual());
+        public bool TryCollect(VirtualCollectable collectable) => Storage.TryAddItem(collectable);
         public void CollectItems(IList<VirtualCollectable> items, out BitArray result)
         {
-            _storage.AddItems(items, out result);
+            Storage.AddItems(items, out result);
             _lastReceiveTime= Time.time;
         }     
         public void OnStartCollect(CollectZone zone)
@@ -34,7 +35,7 @@ namespace ZE.Polytrucks {
         }
         protected void FormCollectContract()
         {
-            _activeContract = new TradeContract(int.MaxValue, _storage.FreeSlotsCount, RarityConditions.Any);
+            _activeContract = new TradeContract(mask: int.MaxValue, maxCount: Storage.FreeSlotsCount, RarityConditions.Any);
             if (_activeContract.IsValid && _collectZone.TryFormCollectionList(_activeContract, out var list))
             {
                 _preparedItemsList = new Stack<VirtualCollectable>(list);
@@ -84,5 +85,7 @@ namespace ZE.Polytrucks {
                 }
             }
         }
+
+        protected override void OnColliderListChanged() => _colliderListSystem.OnCollectorChanged(this);
     }
 }
