@@ -18,10 +18,12 @@ namespace ZE.Polytrucks {
 
 
         [Inject]
-        public void Inject(ColliderListSystem collidersList)
+        public void Inject(ColliderListSystem collidersList, TradeZonesManager zonesManager)
         {
             _collidersList = collidersList;
+            AssignToZones(zonesManager);
         }
+        abstract public void AssignToZones(TradeZonesManager manager);
 
         public void SetActivity(bool x)
         {

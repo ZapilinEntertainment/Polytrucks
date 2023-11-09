@@ -5,7 +5,7 @@ using Zenject;
 
 namespace ZE.Polytrucks
 {
-    public sealed class TradeCollidersHandler : MonoBehaviour
+    public sealed class TradeCollidersHandler : MonoBehaviour, IColliderOwner
     {
         [field: SerializeField] public List<Collider> CollectColliders = new List<Collider>();
         public bool HasMultipleColliders => CollectColliders.Count != 1;

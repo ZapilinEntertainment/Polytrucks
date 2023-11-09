@@ -100,6 +100,18 @@ namespace ZE.Polytrucks {
             }
             return false;
         }
+		public bool CanFulfillContract(TradeContract contract)
+		{
+			if (IsEmpty) return false;
+            foreach (var item in _items)
+            {
+                if (contract.IsItemSuits(item))
+                {
+					return true;
+                }
+            }
+			return false;
+        }
         public bool TryFormItemsList(TradeContract contract, out List<VirtualCollectable> list)
 		{
 			list = new List<VirtualCollectable>();

@@ -28,6 +28,10 @@ namespace ZE.Polytrucks {
         {
             _itemsReceiver = receiver;
         }
+        public override void AssignToZones(TradeZonesManager manager)
+        {
+            manager.AddSellZone(this);
+        }
 
         protected override void OnTradeTriggerEnter(Collider other)
         {

@@ -18,6 +18,7 @@ namespace ZE.Polytrucks {
         abstract public void UnsubscribeFromProvisionListChange(Action action);
 
         abstract public bool TryExtractItem(VirtualCollectable item);
+        abstract public bool CanFulfillContract(TradeContract contract);
         abstract public bool TryExtractItems(TradeContract contract, out List<VirtualCollectable> list);
         abstract public bool TryExtractItems(VirtualCollectable item, int count);
 

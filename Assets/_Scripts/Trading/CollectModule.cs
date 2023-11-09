@@ -18,6 +18,8 @@ namespace ZE.Polytrucks {
             colliderListSystem.AddCollector(this);
         }
 
+        public TradeContract FormCollectContract() => new TradeContract(mask: int.MaxValue, maxCount: Storage.FreeSlotsCount, RarityConditions.Any);
+
         public bool TryCollect(ICollectable collectable) => Storage.TryAddItem(collectable.ToVirtual());
         public bool TryCollect(VirtualCollectable collectable) => Storage.TryAddItem(collectable);
         public void CollectItems(IList<VirtualCollectable> items, out BitArray result)
@@ -30,12 +32,12 @@ namespace ZE.Polytrucks {
             if (_isInTradeZone) i_OnStopCollect();
             _collectZone = zone;
             _isInTradeZone = true;
-            FormCollectContract();
+            PrepareCollectContractAndList();
             _collectZone.OnItemAddedEvent += OnStorageCompositionChanged;
         }
-        protected void FormCollectContract()
+        protected void PrepareCollectContractAndList()
         {
-            _activeContract = new TradeContract(mask: int.MaxValue, maxCount: Storage.FreeSlotsCount, RarityConditions.Any);
+            _activeContract = FormCollectContract();
             if (_activeContract.IsValid && _collectZone.TryFormCollectionList(_activeContract, out var list))
             {
                 _preparedItemsList = new Stack<VirtualCollectable>(list);
@@ -47,6 +49,7 @@ namespace ZE.Polytrucks {
             }
             _storageCompositionChanged = false;
         }
+
         public void OnStopCollect(CollectZone zone)
         {
             if (_isInTradeZone && _collectZone == zone) i_OnStopCollect();
@@ -71,7 +74,7 @@ namespace ZE.Polytrucks {
                 {
                     if (_storageCompositionChanged)
                     {
-                        FormCollectContract();
+                        PrepareCollectContractAndList();
                     }
                     if (_enoughGoodsForTrading)
                     {

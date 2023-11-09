@@ -36,12 +36,7 @@ namespace ZE.Polytrucks {
             _storages = new List<Storage>(_count);
             for (int i = 0; i < _count; i++)
             {
-                var storage = new Storage(_storageSettings[i].Capacity);
-                storage.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
-                storage.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
-                storage.OnItemAddedEvent += OnItemAddedEvent;
-                storage.OnItemRemovedEvent += OnItemRemovedEvent;
-                _storages.Add(storage);
+                AddStorage(new Storage(_storageSettings[i].Capacity));                
             }
             UpdateValues();
         }
@@ -83,12 +78,16 @@ namespace ZE.Polytrucks {
             {
                 UpdateValues();
                 OnStorageCompositionChangedEvent?.Invoke();
+                OnVehicleStorageCompositionChangedEvent?.Invoke();
             }
         }
 
         public void AddStorage(Storage storage)
         {
             _storages.Add(storage);
+            storage.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
+            storage.OnItemAddedEvent += OnItemAddedEvent;
+            storage.OnItemRemovedEvent += OnItemRemovedEvent;
             _storagesCompositionChanged = true;
         }
         public void AddStorage(StorageVisualSettings settings)
@@ -101,6 +100,12 @@ namespace ZE.Polytrucks {
         public void RemoveStorage(Storage storage)
         {
             _storages.Remove(storage);
+            if (storage != null)
+            {
+                storage.OnStorageCompositionChangedEvent -= OnStorageCompositionChanged;
+                storage.OnItemAddedEvent -= OnItemAddedEvent;
+                storage.OnItemRemovedEvent -= OnItemRemovedEvent;
+            }
             _storagesCompositionChanged = true;
         }
 
@@ -280,6 +285,15 @@ namespace ZE.Polytrucks {
         public void UnsubscribeFromProvisionListChange(Action action)
         {
             OnStorageCompositionChangedEvent-= action;
+        }
+
+        public bool CanFulfillContract(TradeContract contract)
+        {
+            foreach (var storage in _storages)
+            {
+                if (storage.CanFulfillContract(contract)) return true;
+            }
+            return false;
         }
         #endregion
         #endregion

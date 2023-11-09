@@ -8,6 +8,7 @@ namespace ZE.Polytrucks {
 	{
         public bool IsReadyToReceive { get; }
         public bool TrySellItem(ISeller seller, VirtualCollectable item);
+
         public void SellItems(IList<VirtualCollectable> list, out BitArray result);
         public Vector3 Position { get; }
         public TradeContract FormTradeContract();

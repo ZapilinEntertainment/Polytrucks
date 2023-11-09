@@ -5,7 +5,7 @@ using System;
 using Zenject;
 
 namespace ZE.Polytrucks {    
-	public sealed class PlayerController : SessionObject, IVehicleController
+	public sealed class PlayerController : SessionObject, IVehicleController, IColliderOwner
 	{
         [SerializeField] private Vehicle _vehicle;
         [SerializeField] private InputController _inputController;
@@ -13,9 +13,21 @@ namespace ZE.Polytrucks {
         public static Vector3 Position { get; private set; }
         public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
         public InputController InputController => _inputController;
+        public Action OnItemCompositionChangedEvent;
+
+
+        #region IColliderOwner
+        public bool HasMultipleColliders => _vehicle.CollidersHandler.HasMultipleColliders;
+        public int GetID() => _vehicle.CollidersHandler.GetID();
+        public int[] GetIDs() => _vehicle.CollidersHandler.GetIDs();
+        #endregion
 
         [Inject]
-        public void Inject(PlayerData playerData) => _playerData = playerData;
+        public void Inject(PlayerData playerData, ColliderListSystem collidersList)
+        {
+            _playerData = playerData;
+            collidersList.AddPlayer(this);
+        }
 
         private void Awake()
         {
@@ -62,6 +74,13 @@ namespace ZE.Polytrucks {
 
         #region trading
         public void OnItemSold(SellOperationContainer info) => _playerData.OnPlayerSoldItem(info);
+        public bool CanFulfillContract(TradeContract contract) => _vehicle.CanFulfillContract(contract);
+        public TradeContract FormCollectContract() => _vehicle.FormCollectContract();
+        public void OnItemCompositionChanged()
+        {
+            OnItemCompositionChangedEvent?.Invoke();
+        }
+
         #endregion
     }
 }

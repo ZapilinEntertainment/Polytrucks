@@ -10,6 +10,10 @@ namespace ZE.Polytrucks {
 
         private bool TryDefineAsCollector(Collider collider, out ICollector collector) => _collidersList.TryGetCollector(collider.GetInstanceID(), out collector);
 
+        public override void AssignToZones(TradeZonesManager manager)
+        {
+            manager.AddCollectZone(this);
+        }
         public void AssignItemsProvider(IItemProvider provider)
         {
             if (_itemProvider != null && _itemProvider != provider)
@@ -38,6 +42,7 @@ namespace ZE.Polytrucks {
 
         public void ReturnItem(VirtualCollectable item) => _itemProvider.ReturnItem(item);
         public bool TryCollect(VirtualCollectable item) => _itemProvider.TryExtractItem(item);
+        public bool CanFulfillContract(TradeContract contract) => _itemProvider.CanFulfillContract(contract);
         public bool TryFormCollectionList(TradeContract contract, out List<VirtualCollectable> list) => _itemProvider.TryExtractItems(contract, out list);
     }
 }

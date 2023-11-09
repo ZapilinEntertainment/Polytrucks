@@ -9,11 +9,11 @@ namespace ZE.Polytrucks {
     {
         [SerializeField] private MassChanger _massChanger;
         [SerializeField] private AxisControllerBase _axisController;
-        [SerializeField] private TruckConfig _truckConfig;
-        [SerializeField] private TradeCollidersHandler _collidersHandler;
+        [SerializeField] private TruckConfig _truckConfig;        
         [SerializeField] private VehicleStorageController _storageController;
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
         private bool _haveTrailers = false;
+        protected IStorage _storage;
         private TruckEngine _engine;
         private SellModule _sellModule;
         private CollectModule _collectModule;
@@ -30,9 +30,8 @@ namespace ZE.Polytrucks {
             return new VirtualPoint(_axisController.Position + rotation * (distance * Vector3.back), rotation);
         }
 
-        public TruckConfig TruckConfig => _truckConfig;
-        public Action<float> OnCargoMassChangedEvent;
-        public Action<IStorage> OnStorageChangedEvent;
+        public TruckConfig TruckConfig => _truckConfig;        
+        public Action<IStorage> OnStorageChangedEvent;        
 
         [Inject]
         public void Inject(ColliderListSystem collidersList) => _colliderListSystem= collidersList;
@@ -40,6 +39,11 @@ namespace ZE.Polytrucks {
         private void Awake()
         {
             UpdateStorageLink();
+            _storageController.OnVehicleStorageCompositionChangedEvent += OnStorageCompositionChanged;
+        }
+        private void OnStorageCompositionChanged()
+        {
+            VehicleController.OnItemCompositionChanged();
         }
         private void Start()
         {
@@ -47,9 +51,7 @@ namespace ZE.Polytrucks {
             _collectModule = new CollectModule(_collidersHandler, _colliderListSystem, _storageController, TruckConfig.CollectTime);
 
             _engine = new TruckEngine(_truckConfig, _axisController);            
-            _axisController.Setup(this);
-
-            
+            _axisController.Setup(this);            
         }
         private void UpdateStorageLink()
         {
@@ -143,5 +145,8 @@ namespace ZE.Polytrucks {
             _trailers.RemoveAt(count);
             _haveTrailers = count != 0;
         }
+
+        public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();
+        public override bool CanFulfillContract(TradeContract contract) => _storage.CanFulfillContract(contract);
     }
 }

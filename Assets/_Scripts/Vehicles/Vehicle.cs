@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace ZE.Polytrucks {
 	public abstract class Vehicle : SessionObject
 	{
 		[SerializeField] private Transform _cameraViewPoint;
+        [SerializeField] protected TradeCollidersHandler _collidersHandler;
         public IVehicleController VehicleController { get; protected set; }
-        protected IStorage _storage;
-        public System.Action<IVehicleController> OnVehicleControllerChangedEvent;
+        public TradeCollidersHandler CollidersHandler => _collidersHandler;
+        public Action<IVehicleController> OnVehicleControllerChangedEvent;
         
         abstract public float GasValue { get; }
         abstract public float SteerValue { get; }
@@ -27,5 +29,7 @@ namespace ZE.Polytrucks {
 
         public void AssignVehicleController(IVehicleController controller) { VehicleController = controller; OnVehicleControllerChangedEvent?.Invoke(VehicleController); }
 
+        public abstract bool CanFulfillContract(TradeContract contract);
+        public abstract TradeContract FormCollectContract();
     }
 }

@@ -53,6 +53,7 @@ namespace ZE.Polytrucks {
 		private ColliderOwnersList<ICollectable> _collectables = new ColliderOwnersList<ICollectable>();
 		private ColliderOwnersList<ICollector> _collectors = new ColliderOwnersList<ICollector>();
 		private ColliderOwnersList<ISeller> _sellers = new ColliderOwnersList<ISeller>();
+		private ColliderOwnersList<PlayerController> _playerColliders = new ColliderOwnersList<PlayerController>();
 		
 		public void AddCollectable(ICollectable collectable) => _collectables.AddOwner(collectable);
 		public void RemoveCollectable(ICollectable collectable) => _collectables.RemoveOwner(collectable);
@@ -67,6 +68,9 @@ namespace ZE.Polytrucks {
 		public void RemoveSeller(ISeller seller) => _sellers.RemoveOwner(seller);
 		public void OnSellerChanged(ISeller seller) => _sellers.OnOwnerChanged(seller);
 		public bool TryGetSeller(int id, out ISeller seller) =>_sellers.TryGetOwner(id, out seller);
+
+		public void AddPlayer( PlayerController player) => _playerColliders.AddOwner(player);
+		public bool TryDefineAsPlayer(int id, out PlayerController player) => _playerColliders.TryGetOwner(id, out player);
 		
 	}
 }

@@ -12,7 +12,6 @@ namespace ZE.Polytrucks {
 
         protected override void OnSetup()
         {
-            Truck.OnCargoMassChangedEvent += OnCargoMassChanged;
             _power = Config.MaxSpeed * _startMass;
             _maxSpeed = Config.MaxSpeed;
         }
@@ -48,12 +47,6 @@ namespace ZE.Polytrucks {
             }
             else return Vector3.zero;
             
-        }
-
-        
-        private void OnCargoMassChanged(float x)
-        {
-            _rigidbody.mass = _startMass + x;
         }
     }
 }

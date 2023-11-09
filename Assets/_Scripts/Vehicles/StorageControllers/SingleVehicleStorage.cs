@@ -23,6 +23,7 @@ namespace ZE.Polytrucks {
         private void Awake()
         {
             _storage = new Storage(_storageSettings.Capacity);
+            _storage.OnStorageCompositionChangedEvent+= OnVehicleStorageCompositionChangedEvent;
         }
         private void Start()
         {            

@@ -6,5 +6,6 @@ namespace ZE.Polytrucks {
 	public interface IVehicleController 
 	{
         public void OnItemSold(SellOperationContainer info);
+        public void OnItemCompositionChanged();
     }
 }
