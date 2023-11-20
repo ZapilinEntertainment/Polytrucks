@@ -49,5 +49,10 @@ namespace ZE.Polytrucks {
         {
             _isDisposed = true;
         }
+        public void Destroy()
+        {
+            SetActivity(false);
+            if (isActiveAndEnabled) Destroy(gameObject);
+        }
     }
 }

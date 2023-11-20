@@ -44,7 +44,7 @@ namespace ZE.Polytrucks {
 
         public bool TrySellItem(ISeller seller, VirtualCollectable item)
         {
-            if (TradeToNowhere || (_itemsReceiver.TryAddItem(item)))
+            if (_isActive && (TradeToNowhere || (_itemsReceiver.TryAddItem(item))))
             {
                 int cost = (int)(_economicSettings.GetCost(item.Rarity) * SellCostCf);
                 seller.OnItemSold(new SellOperationContainer(cost, item.Rarity, Position));

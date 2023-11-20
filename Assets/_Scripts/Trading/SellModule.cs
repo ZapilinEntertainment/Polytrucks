@@ -32,14 +32,14 @@ namespace ZE.Polytrucks {
 						var item = _preparedItemsList.Pop();
 						if (Storage.TryExtractItem(item))
 						{
-							if (!TryReceiveItem(item)) Storage.ReturnItem(item);
+							if (!TrySellItem(item)) Storage.ReturnItem(item);
 						}
 						_enoughGoodsForTrading = _preparedItemsList.Count != 0;
 					}
                 }
 			}
         }
-		virtual protected bool TryReceiveItem(VirtualCollectable item) => _sellZone.TrySellItem(this, item);
+		virtual protected bool TrySellItem(VirtualCollectable item) => _sellZone.TrySellItem(this, item);
 
 
         public void OnEnterSellZone(ISellZone zone)

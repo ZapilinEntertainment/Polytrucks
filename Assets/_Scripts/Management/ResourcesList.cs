@@ -14,24 +14,18 @@ namespace ZE.Polytrucks
         [field: SerializeField] public UIColorsPack ColorsPack { get; private set; }
         [field: SerializeField] public UIElementsPack UiElementsPack { get; private set; }
         [field: SerializeField] public EconomicSettings EconomicSettings { get; private set; }
-    }
+        [field: SerializeField] public EffectsPack EffectsPack { get; private set; }
 
-    public sealed class ResourcesInstaller : Installer<ResourcesInstaller>
-    {
-        private ResourcesList _resourcesManager;
-        public ResourcesInstaller(ResourcesList resourcesManager)
+        public void BindToContainer(DiContainer container)
         {
-            _resourcesManager = resourcesManager;
-        }
-        public override void InstallBindings()
-        {
-            Container.Bind<ObjectsPack>().FromScriptableObject(_resourcesManager.ObjectsPack).AsCached();
-            Container.Bind<IconsPack>().FromScriptableObject(_resourcesManager.IconsPack).AsCached();
-            Container.Bind<CratesPack>().FromScriptableObject(_resourcesManager.CratesPack).AsCached();
+            container.Bind<ObjectsPack>().FromScriptableObject(ObjectsPack).AsCached();
+            container.Bind<IconsPack>().FromScriptableObject(IconsPack).AsCached();
+            container.Bind<CratesPack>().FromScriptableObject(CratesPack).AsCached();
+            container.Bind<EffectsPack>().FromScriptableObject(EffectsPack).AsCached();
 
-            Container.Bind<UIColorsPack>().FromScriptableObject(_resourcesManager.ColorsPack).AsCached();
-            Container.Bind<UIElementsPack>().FromScriptableObject(_resourcesManager.UiElementsPack).AsCached();
-            Container.Bind<EconomicSettings>().FromScriptableObject(_resourcesManager.EconomicSettings).AsCached();
+            container.Bind<UIColorsPack>().FromScriptableObject(ColorsPack).AsCached();
+            container.Bind<UIElementsPack>().FromScriptableObject(UiElementsPack).AsCached();
+            container.Bind<EconomicSettings>().FromScriptableObject(EconomicSettings).AsCached();
         }
     }
 }

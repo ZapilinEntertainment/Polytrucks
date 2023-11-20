@@ -4,14 +4,22 @@ using UnityEngine;
 using DG.Tweening;
 
 namespace ZE.Polytrucks {
-	public sealed class Gates : MonoBehaviour
+	public sealed class Gates : MonoBehaviour, IActivableMechanism
 	{
 		[SerializeField] private bool _isOpened = false;
         [SerializeField] private float _openTime = 1f, _openStep = 2f;
         [SerializeField] private Transform _leftDoor, _rightDoor;
 		private bool _isTweening = false;
-		
-		public void Open()
+
+        private void Start()
+        {
+            if (_isOpened)
+			{
+				_leftDoor.transform.Translate(Vector3.left * _openStep, Space.Self);
+				_rightDoor.transform.Translate(Vector3.right * _openStep, Space.Self);
+			}
+        }
+        public void Open()
 		{
 			if (!_isOpened)
 			{
@@ -32,5 +40,7 @@ namespace ZE.Polytrucks {
 			_rightDoor.gameObject.SetActive(false);
 			_isTweening = false;
 		}
-	}
+
+		public void Activate() => Open();
+    }
 }

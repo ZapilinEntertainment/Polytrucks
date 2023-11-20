@@ -13,7 +13,7 @@ namespace ZE.Polytrucks {
         public override void InstallBindings()
         {
             Container.Bind<ResourcesList>().FromInstance(_resourcesList).AsSingle();
-            ResourcesInstaller.Install(Container);
+            _resourcesList.BindToContainer(Container);
 
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
 
