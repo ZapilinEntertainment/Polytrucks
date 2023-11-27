@@ -5,20 +5,20 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public sealed class SaveManager
 	{
-		private ISaveContainer _saveContainer;
+		public ISaveContainer SaveContainer { get; private set; }
 
 		public SaveManager()
 		{
-			_saveContainer = new LocalSave();
+			SaveContainer = new LocalSave();
 		}
 
 		public void SavePlayerPoint(VirtualPoint point)
 		{
-			_saveContainer.SavePlayerPosition(point);
+			SaveContainer.SavePlayerPosition(point);
 		}
 		public VirtualPoint LoadPlayerPoint()
 		{
-			return _saveContainer.LoadPlayerPosition();
+			return SaveContainer.LoadPlayerPosition();
 		}
 	}
 }

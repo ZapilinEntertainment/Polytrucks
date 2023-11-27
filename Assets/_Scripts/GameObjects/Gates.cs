@@ -29,8 +29,8 @@ namespace ZE.Polytrucks {
 					DOTween.Kill(_rightDoor.transform);
 				}
 				else _isTweening = true;
-				_leftDoor.DOLocalMoveX(-_openStep, _openTime, true);
-				_rightDoor.DOLocalMoveX(_openStep, _openTime, true).OnComplete(OnDoorOpened);
+				_leftDoor.DOLocalMoveX(-_openStep, _openTime, false);
+				_rightDoor.DOLocalMoveX(_openStep, _openTime, false).OnComplete(OnDoorOpened);
 			}
 		}
 		private void OnDoorOpened()

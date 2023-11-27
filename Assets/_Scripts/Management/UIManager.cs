@@ -5,13 +5,14 @@ using Zenject;
 
 namespace ZE.Polytrucks {
 	public sealed class UIManager : SessionObject
-	{       
+	{
 		[SerializeField] private GameObject _playerUI;
         [SerializeField] private Canvas _canvas;
         private PlayerMoneyEffectsHandler _moneyEffectsHandler;
 
         public UIColorsPack ColorsPack { get; private set; }
         public Transform LabelsHost { get; private set; }
+        [field: SerializeField] public ActionPanel ActionPanel { get; private set; }
 
         [Inject]
         public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus)

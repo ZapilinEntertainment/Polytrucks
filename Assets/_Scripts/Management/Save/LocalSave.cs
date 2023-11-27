@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 namespace ZE.Polytrucks {
     public sealed class LocalSave : ISaveContainer
     {
-        private const string PLAYER_POSITION_KEY = "PlayerPosition";       
+        private const string PLAYER_POSITION_KEY = "PlayerPosition", LOCALE_KEY = "LocaleLanguage";       
 
         public void SavePlayerPosition(VirtualPoint point)
         {
@@ -23,5 +23,7 @@ namespace ZE.Polytrucks {
             else return new VirtualPoint();
         }
 
+        public LocalizationLanguage LoadLocale() => (LocalizationLanguage)PlayerPrefs.GetInt(LOCALE_KEY);
+        public void SaveLocale(LocalizationLanguage locale) => PlayerPrefs.SetInt(LOCALE_KEY, (int)locale);
     }
 }

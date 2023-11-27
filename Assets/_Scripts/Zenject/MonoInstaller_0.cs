@@ -51,6 +51,7 @@ namespace ZE.Polytrucks {
             Container.Bind<CollisionHandleSystem>().AsCached();
             Container.Bind<SaveManager>().AsCached();
             Container.Bind<TradeZonesManager>().AsCached();
+            Container.Bind<Localization>().AsCached();
         }
         private void InstallFactories()
         {

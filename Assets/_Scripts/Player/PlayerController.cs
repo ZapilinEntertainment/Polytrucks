@@ -59,18 +59,26 @@ namespace ZE.Polytrucks {
             }
         }
         public void SetSteer(float steer) => _vehicle.Steer(steer);
-        public void Stabilize() => _vehicle.Stabilize();
+        
         #endregion
         private void LateUpdate()
         {
             if (GameSessionActive)  Position = _vehicle.Position;
         }
 
+        #region world positioning
+        public void Stabilize() => _vehicle.Stabilize();
         public void Teleport(VirtualPoint point)
         {
             _vehicle.Teleport(point);
             Position = _vehicle.Position;
         }
+        public bool TryLock(Transform point)
+        {
+            return true;
+        }
+        #endregion
+
 
         #region trading
         public void OnItemSold(SellOperationContainer info) => _playerData.OnPlayerSoldItem(info);

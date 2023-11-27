@@ -7,5 +7,8 @@ namespace ZE.Polytrucks {
 	{
 		public void SavePlayerPosition(VirtualPoint point);
 		public VirtualPoint LoadPlayerPosition();
+
+		public LocalizationLanguage LoadLocale();
+		public void SaveLocale(LocalizationLanguage locale);
 	}
 }

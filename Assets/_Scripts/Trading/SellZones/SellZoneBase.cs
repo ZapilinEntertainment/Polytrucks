@@ -48,6 +48,7 @@ namespace ZE.Polytrucks {
             {
                 int cost = (int)(_economicSettings.GetCost(item.Rarity) * SellCostCf);
                 seller.OnItemSold(new SellOperationContainer(cost, item.Rarity, Position));
+                OnAnyItemSoldEvent?.Invoke();
                 OnItemSoldEvent?.Invoke(item);
                 _lastTradeTime = Time.time;
                 return true;
@@ -72,6 +73,7 @@ namespace ZE.Polytrucks {
                     OnItemSoldEvent.Invoke(item);
                 }
             }
+            OnAnyItemSoldEvent?.Invoke();
         }
 
         public abstract TradeContract FormTradeContract();

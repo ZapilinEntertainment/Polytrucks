@@ -28,5 +28,14 @@ namespace ZE.Polytrucks {
 			AddMoney(sellOperation.MoneyCount);
 			_signalBus.Fire(new PlayerItemSellSignal(sellOperation));
 		}
+		public bool TrySpendMoney(int x)
+		{
+			if (Money >= x)
+			{
+				Money -= x;
+				return true;
+			}
+			else return false;
+		}
 	}
 }
