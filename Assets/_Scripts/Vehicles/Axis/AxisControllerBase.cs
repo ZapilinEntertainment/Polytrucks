@@ -19,6 +19,7 @@ namespace ZE.Polytrucks {
 			_isSetup = true;
 		}
 		virtual protected void OnSetup() { }
+
 		abstract public void Stabilize();
 		abstract public void Teleport(VirtualPoint point);
 	}

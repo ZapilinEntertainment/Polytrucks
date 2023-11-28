@@ -26,6 +26,7 @@ namespace ZE.Polytrucks {
         public abstract void Steer(float x);
         public abstract void Teleport(VirtualPoint point);
         public abstract void Stabilize();
+        virtual public IReadOnlyCollection<Vector3> GetVehicleBounds() => _collidersHandler.GetBounds();
 
         public void AssignVehicleController(IVehicleController controller) { VehicleController = controller; OnVehicleControllerChangedEvent?.Invoke(VehicleController); }
 

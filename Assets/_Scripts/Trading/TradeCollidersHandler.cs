@@ -27,5 +27,16 @@ namespace ZE.Polytrucks
             CollectColliders.Add(collider);
             OnCollidersListChangedEvent?.Invoke();
         }
+
+        public IReadOnlyCollection<Vector3> GetBounds()
+        {
+            var list = new List<Vector3>();
+            foreach (var collider in CollectColliders)
+            {
+                list.Add(collider.bounds.max);
+                list.Add(collider.bounds.min);
+            }
+            return list;
+        }
     }
 }

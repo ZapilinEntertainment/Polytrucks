@@ -7,10 +7,13 @@ using Zenject;
 namespace ZE.Polytrucks {    
 	public sealed class PlayerController : SessionObject, IVehicleController, IColliderOwner
 	{
+       
+
         [SerializeField] private Vehicle _vehicle;
         [SerializeField] private InputController _inputController;
         private PlayerData _playerData;
-        public static Vector3 Position { get; private set; }
+        private Locker _locker = new Locker();
+        public Vector3 Position { get; private set; }
         public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
         public InputController InputController => _inputController;
         public Action OnItemCompositionChangedEvent;
@@ -31,7 +34,7 @@ namespace ZE.Polytrucks {
 
         private void Awake()
         {
-            Position = transform.position;
+            Position = _vehicle.Position;
             _inputController.Setup(this);
             _vehicle.AssignVehicleController(this);
         }
@@ -46,10 +49,12 @@ namespace ZE.Polytrucks {
         #region controls
         public void Move(Vector2 dir)
         {
+            if (_locker.IsLocked) return;
             _vehicle.Move(dir);
         }
         public void ChangeMoveState(PlayerMoveStateType state)
         {
+            if (_locker.IsLocked) return;
             switch (state)
             {
                 case PlayerMoveStateType.Gas: _vehicle.Gas(); break;
@@ -58,12 +63,16 @@ namespace ZE.Polytrucks {
                 default: _vehicle.ReleaseGas(); break;
             }
         }
-        public void SetSteer(float steer) => _vehicle.Steer(steer);
+        public void SetSteer(float steer)
+        {
+            if (_locker.IsLocked) return;
+            _vehicle.Steer(steer);
+        }
         
         #endregion
         private void LateUpdate()
         {
-            if (GameSessionActive)  Position = _vehicle.Position;
+            Position = _vehicle.Position;
         }
 
         #region world positioning
@@ -73,10 +82,16 @@ namespace ZE.Polytrucks {
             _vehicle.Teleport(point);
             Position = _vehicle.Position;
         }
-        public bool TryLock(Transform point)
+        public bool TryLock(Transform point, out int id)
         {
+            ChangeMoveState(PlayerMoveStateType.Idle);
+            SetSteer(0f);
+            Teleport(new VirtualPoint(point));
+            id = _locker.CreateLock();            
             return true;
         }
+        public void Unlock(int id) => _locker.DeleteLock(id);
+        public IReadOnlyCollection<Vector3> GetPlayerBounds() => _vehicle.GetVehicleBounds();
         #endregion
 
 

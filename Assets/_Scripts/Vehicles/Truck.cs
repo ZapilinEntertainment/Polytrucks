@@ -96,9 +96,8 @@ namespace ZE.Polytrucks {
             //if (x == 0f) _axisController.Steer(0f);
         }
 
-
         #endregion
-        
+
         public void AddTrailer(Trailer trailer)
         {
             if (_trailers == null) _trailers = new List<Trailer>();
@@ -144,6 +143,24 @@ namespace ZE.Polytrucks {
              Destroy(trailer.gameObject);
             _trailers.RemoveAt(count);
             _haveTrailers = count != 0;
+        }
+        public override IReadOnlyCollection<Vector3> GetVehicleBounds()
+        {
+            if (_haveTrailers)
+            {
+                var list = new List<Vector3>(base.GetVehicleBounds());
+                foreach (var trailer in _trailers)
+                {
+                    var collider = trailer.Collider;
+                    if (collider != null)
+                    {
+                        list.Add(collider.bounds.min);
+                        list.Add(collider.bounds.max);
+                    }
+                }
+                return list;
+            }
+            else return base.GetVehicleBounds();
         }
 
         public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();

@@ -17,7 +17,7 @@ MonoBehaviour:
   SpringDamper: 500
   MaxSuspensionOffset: 1
   TireGripFactor: 1
-  TireMass: 5
+  TireMass: 10
   PowerCurve:
     serializedVersion: 2
     m_Curve:
