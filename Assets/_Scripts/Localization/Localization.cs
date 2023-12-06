@@ -12,11 +12,15 @@ namespace ZE.Polytrucks {
     public enum LocalizationLanguage : byte { Undefined, English, Russian }
     public enum LocalizedString : ushort
     {
-        Undefined, Unlock, NotEnoughMoney
+        Undefined, Unlock, NotEnoughMoney,
+        ItemsDelivered,
+        Ask_StopQuest,
+        StopQuest,Cancel
     }
     internal interface ILocalizer
     {
         public string GetLocalizedString(LocalizedString localizedString);
+        public string FormDeliveryAddress(PointOfInterest poi);
     }
 
 
@@ -57,7 +61,7 @@ namespace ZE.Polytrucks {
             }
             else return name;
         }
-        public static Action<LocalizationLanguage> OnLocaleChangedEvent;
+        public Action<LocalizationLanguage> OnLocaleChangedEvent;
 
 
         public Localization(SaveManager saveManager)
@@ -87,6 +91,8 @@ namespace ZE.Polytrucks {
             if (Language == LocalizationLanguage.English) ChangeLanguage(LocalizationLanguage.Russian);
             else ChangeLanguage(LocalizationLanguage.English);
         }
+
+        public string FormDeliveryAddress(PointOfInterest poi) => i_localizer.FormDeliveryAddress(poi);
     }
 
     internal class Localizer_RUS : ILocalizer
@@ -113,6 +119,10 @@ namespace ZE.Polytrucks {
             }
             return $"Реклама через {time} " + ending;
         }
+        public string FormDeliveryAddress(PointOfInterest poi)
+        {
+            return $"Доставка в {poi.Region} {poi.PointType}";
+        }
     }
     internal class Localizer_ENG : ILocalizer
     {
@@ -125,5 +135,10 @@ namespace ZE.Polytrucks {
             }
         }
         public string GetInterstitialAwareString(float time) => $"Advertisement in {time} seconds";
+
+        public string FormDeliveryAddress(PointOfInterest poi)
+        {
+            return $"{poi.Region} {poi.PointType} delivery";
+        }
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ZE.Polytrucks {
     public class Elevator : TransportingPlatform
-    {
+    {        
         [Range(0f,1f)][SerializeField] private float _pathPositionPc = 0f;
         [SerializeField] private float _moveTime = 3f;
         [SerializeField] private Vector3 _startPoint, _endPoint;
@@ -15,6 +15,7 @@ namespace ZE.Polytrucks {
         {
             if (_pathPositionPc == 0f) _moveUp = true;
         }
+      
         protected override bool TryReachDestination()
         {
             float target = _moveUp ? 1f : 0f;

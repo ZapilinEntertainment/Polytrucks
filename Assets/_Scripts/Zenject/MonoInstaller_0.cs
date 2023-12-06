@@ -7,17 +7,15 @@ namespace ZE.Polytrucks {
         [SerializeField] private SessionMaster _sessionMaster;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
-        [SerializeField] private ResourcesList _resourcesList;
         [SerializeField] private Trailer _trailerPrefab;
+        [SerializeField] private UIManager _uiManagerPrefab;
 
         public override void InstallBindings()
-        {
-            Container.Bind<ResourcesList>().FromInstance(_resourcesList).AsSingle();
-            _resourcesList.BindToContainer(Container);
-
+        {            
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
+            Container.Bind<UIManager>().FromComponentInNewPrefab( _uiManagerPrefab ).AsCached().NonLazy();
 
-            Container.Bind<PlayerData>().AsCached();
+            Container.Bind<PlayerData>().FromNew().AsCached();
             Container.Bind<PlayerController>().FromComponentInHierarchy(false).AsCached();            
 
             Container.Bind<LevelManager>().FromInstance(_levelManager).AsCached();
@@ -27,11 +25,7 @@ namespace ZE.Polytrucks {
 
             InstallSignals();
             InstallFactories();
-            InstallGameObjects();
-
-            var uiElementsPack = _resourcesList.UiElementsPack;
-            Container.Bind<UIElementsPack>().FromScriptableObject(uiElementsPack).AsCached();
-            Container.Bind<UIManager>().FromComponentInNewPrefab(uiElementsPack.GameUiManager).AsCached().NonLazy();
+            Debug.Log("install 0");
         }
 
         private void InstallSignals()
@@ -60,10 +54,6 @@ namespace ZE.Polytrucks {
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
             Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
             Container.BindFactory<Trailer, Trailer.Factory>().FromComponentInNewPrefab(_trailerPrefab);
-        }
-        private void InstallGameObjects()
-        {
-            
         }
     }
 }

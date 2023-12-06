@@ -8,10 +8,9 @@ namespace ZE.Polytrucks {
     {
         private CratesPack _cratesPack;
         private UIElementsPack _uiElementsPack;
-        public PoolsInstaller(CratesPack cratespack, UIElementsPack uiElementsPack)
+        public PoolsInstaller(CratesPack cratespack)
         {
             _cratesPack = cratespack;
-            _uiElementsPack = uiElementsPack;
         }
 
         public override void InstallBindings()
@@ -25,10 +24,7 @@ namespace ZE.Polytrucks {
                .FromComponentInNewPrefab(_cratesPack.CrateModel)
                .UnderTransformGroup("collectibleModels");
 
-            Container.BindMemoryPool<MoneyEffectLabel, MoneyEffectLabel.Pool>()
-              .WithInitialSize(8)
-              .FromComponentInNewPrefab(_uiElementsPack.MoneyEffectLabel).
-              UnderTransformGroup("uiEffects");
+          
         }
     }
 }

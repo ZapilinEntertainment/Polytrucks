@@ -110,6 +110,7 @@ namespace ZE.Polytrucks {
         }
         #endregion
 
+        [SerializeField] private bool _isActive = true;
         [SerializeField] private Transform _lockPoint;
         [SerializeField] private PlatformSwitchableRenderer _renderer;
         [SerializeField] private PlayerTrigger _playerTrigger;
@@ -124,8 +125,17 @@ namespace ZE.Polytrucks {
         {
             _playerTrigger.OnPlayerEnterEvent += OnPlayerEnter;
             _playerTrigger.OnPlayerExitEvent += OnPlayerExit;
-            _currentState = new ReadyState(this);
-            _currentState.OnStateStart();
+
+            if (_isActive)
+            {
+                _currentState = new ReadyState(this);
+                _currentState.OnStateStart();
+            }
+            else
+            {
+                _currentState = new DisabledState(this);
+                _currentState.OnStateStart();
+            }
         }
         private void Update()
         {

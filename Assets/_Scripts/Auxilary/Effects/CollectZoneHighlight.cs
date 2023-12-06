@@ -9,6 +9,7 @@ namespace ZE.Polytrucks {
 
         protected override void CheckContract()
         {
+            if (_player == null) return;
             _activeContract = _player.FormCollectContract();
             _contractIsSuitable = _activeContract.IsValid && _collectZone.CanFulfillContract(_activeContract);
             _contractUpdateRequested = false;

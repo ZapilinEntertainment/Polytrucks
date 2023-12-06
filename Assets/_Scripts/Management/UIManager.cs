@@ -8,11 +8,13 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private GameObject _playerUI;
         [SerializeField] private Canvas _canvas;
+        
         private PlayerMoneyEffectsHandler _moneyEffectsHandler;
 
         public UIColorsPack ColorsPack { get; private set; }
         public Transform LabelsHost { get; private set; }
         [field: SerializeField] public ActionPanel ActionPanel { get; private set; }
+        [field: SerializeField] public Transform PopupHost { get; private set; }
 
         [Inject]
         public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus)
@@ -21,6 +23,10 @@ namespace ZE.Polytrucks {
             _moneyEffectsHandler = new PlayerMoneyEffectsHandler(this, moneyEffectPool, signalBus);
 
             LabelsHost = _canvas.transform;
+        }
+        public void InstallElements(DiContainer container)
+        {
+
         }
 
         private void Update()
@@ -38,7 +44,5 @@ namespace ZE.Polytrucks {
             base.OnSessionEnd();
 			_playerUI.SetActive(false);
         }
-
-        
     }
 }

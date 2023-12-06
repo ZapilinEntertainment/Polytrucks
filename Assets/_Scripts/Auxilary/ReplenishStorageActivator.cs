@@ -18,7 +18,7 @@ namespace ZE.Polytrucks {
             if (!_itemSold)
             {
                 _itemSold = true;
-                _replenishableStorage.SetActivity(true);
+                _replenishableStorage.Activate();
                 Destroy(this);
             }
         }

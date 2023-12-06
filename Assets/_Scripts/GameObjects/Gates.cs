@@ -10,6 +10,8 @@ namespace ZE.Polytrucks {
         [SerializeField] private float _openTime = 1f, _openStep = 2f;
         [SerializeField] private Transform _leftDoor, _rightDoor;
 		private bool _isTweening = false;
+		public bool IsActive => _isOpened;
+		public System.Action OnActivatedEvent { get; set; }
 
         private void Start()
         {
@@ -39,6 +41,7 @@ namespace ZE.Polytrucks {
 			_leftDoor.gameObject.SetActive(false);
 			_rightDoor.gameObject.SetActive(false);
 			_isTweening = false;
+			OnActivatedEvent?.Invoke();
 		}
 
 		public void Activate() => Open();

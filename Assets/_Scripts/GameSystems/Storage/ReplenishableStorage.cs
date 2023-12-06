@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-	public sealed class ReplenishableStorage : MonoBehaviour
+	public sealed class ReplenishableStorage : MonoBehaviour, IActivableMechanism
 	{
 		[SerializeField] private bool _isActive = false;
         [SerializeField] private int _startCount = 0;
@@ -16,6 +16,8 @@ namespace ZE.Polytrucks {
         private float _lastReplenishTime = 0f;
 		private Storage _storage;
         private StorageVisualizer.Factory _visualizerFactory;
+        public bool IsActive => _isActive;
+        public System.Action OnActivatedEvent { get; set; }
 
         [Inject]
         public void Inject(StorageVisualizer.Factory factory)
@@ -69,7 +71,8 @@ namespace ZE.Polytrucks {
         {
             _isActive = x;
             if (_collectZone != null) _collectZone.SetActivity(_isActive);
-            Debug.Log(Time.time > _lastReplenishTime + _replenishTime);
+            if (_isActive) OnActivatedEvent?.Invoke();
         }
+        public void Activate() => SetActivity(true);
     }
 }
