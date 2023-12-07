@@ -30,7 +30,10 @@ namespace ZE.Polytrucks {
 
         public void AssignVehicleController(IVehicleController controller) { VehicleController = controller; OnVehicleControllerChangedEvent?.Invoke(VehicleController); }
 
+        #region storage
         public abstract bool CanFulfillContract(TradeContract contract);
+        public abstract bool TryLoadCargo(VirtualCollectable item, int count);
         public abstract TradeContract FormCollectContract();
+        #endregion
     }
 }

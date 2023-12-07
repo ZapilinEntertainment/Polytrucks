@@ -10,6 +10,7 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private TMP_Text _questName, _questProgress;
 		[SerializeField] private RectTransform _marker;
+		[SerializeField] private GameObject _rejectButton;
 		private bool _useMarkerTracking = false;
 		private QuestBase _trackingQuest;
 		private Localization _localization;
@@ -33,6 +34,7 @@ namespace ZE.Polytrucks {
 			_marker.gameObject.SetActive(true);
 			UpdateTextDescriptions();
 			_useMarkerTracking = _trackingQuest.UseMarkerTracking;
+			_rejectButton.SetActive(quest.CanBeRejected);
 		}
 		private void OnProgressionChanged()
 		{

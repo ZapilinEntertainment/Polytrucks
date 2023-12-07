@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
         private bool _isPlayerInside = false;
         private int _controllingID = -1;
         private ColliderListSystem _collidersList;
-        private Collider _trigger;
+        protected Collider _trigger;
         private PlayerController _player;
         public bool IsPlayerInside => _isPlayerInside;
         public Action OnPlayerExitEvent;

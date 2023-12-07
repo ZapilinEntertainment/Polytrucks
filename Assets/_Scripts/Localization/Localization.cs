@@ -15,12 +15,14 @@ namespace ZE.Polytrucks {
         Undefined, Unlock, NotEnoughMoney,
         ItemsDelivered,
         Ask_StopQuest,
-        StopQuest,Cancel
+        StopQuest,Cancel,QuestStarted, CannotLoadCargo,
+        Refuse_AlreadyHaveSuchQuest
     }
     internal interface ILocalizer
     {
         public string GetLocalizedString(LocalizedString localizedString);
         public string FormDeliveryAddress(PointOfInterest poi);
+        public string FormSupplyAddress(PointOfInterest poi);
     }
 
 
@@ -93,6 +95,7 @@ namespace ZE.Polytrucks {
         }
 
         public string FormDeliveryAddress(PointOfInterest poi) => i_localizer.FormDeliveryAddress(poi);
+        public string FormSupplyAddress(PointOfInterest poi) => i_localizer.FormSupplyAddress(poi);
     }
 
     internal class Localizer_RUS : ILocalizer
@@ -123,6 +126,10 @@ namespace ZE.Polytrucks {
         {
             return $"Доставка в {poi.Region} {poi.PointType}";
         }
+        public string FormSupplyAddress(PointOfInterest poi)
+        {
+            return $"Снабжение {poi.Region} {poi.PointType}";
+        }
     }
     internal class Localizer_ENG : ILocalizer
     {
@@ -139,6 +146,10 @@ namespace ZE.Polytrucks {
         public string FormDeliveryAddress(PointOfInterest poi)
         {
             return $"{poi.Region} {poi.PointType} delivery";
+        }
+        public string FormSupplyAddress(PointOfInterest poi)
+        {
+            return $"{poi.Region} {poi.PointType} supply";
         }
     }
 }

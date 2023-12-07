@@ -25,7 +25,6 @@ namespace ZE.Polytrucks {
 
             InstallSignals();
             InstallFactories();
-            Debug.Log("install 0");
         }
 
         private void InstallSignals()
@@ -44,8 +43,9 @@ namespace ZE.Polytrucks {
             Container.Bind<ColliderListSystem>().AsCached();
             Container.Bind<CollisionHandleSystem>().AsCached();
             Container.Bind<SaveManager>().AsCached();
-            Container.Bind<TradeZonesManager>().AsCached();
+            Container.Bind<TradeZonesManager>().AsCached().Lazy();
             Container.Bind<Localization>().AsCached();
+            Container.Bind<QuestsManager>().AsCached().Lazy();
         }
         private void InstallFactories()
         {

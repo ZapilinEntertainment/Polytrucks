@@ -56,6 +56,15 @@ namespace ZE.Polytrucks {
         }
 		public void AddItems(IList<VirtualCollectable> items, out BitArray result) => _items.AddRange(items, out result);
 		public int AddItems(VirtualCollectable item, int count) => _items.Add(item, count);
+		public bool TryLoadCargo(VirtualCollectable item, int count)
+		{
+			if (FreeSlotsCount < count) return false;
+			else
+			{
+				_items.Add(item, count);
+				return true;
+			}
+		}
 
         public bool TryExtractItem(VirtualCollectable item)
 		{

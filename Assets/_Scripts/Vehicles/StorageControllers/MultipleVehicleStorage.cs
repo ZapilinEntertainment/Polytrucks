@@ -177,6 +177,21 @@ namespace ZE.Polytrucks {
                 }
             }
         }
+        public bool TryLoadCargo(VirtualCollectable item, int count)
+        {
+            int freeSlots = FreeSlotsCount;
+            if (freeSlots < count) return false;
+            else
+            {
+                int x = AddItems(item, count);
+                if (x == 0) return true;
+                else
+                {
+                    TryExtractItems(item, count - x);
+                    return false;
+                }
+            }
+        }
 
         public int CalculateItemsCount(CollectableType type, Rarity rarity)
         {

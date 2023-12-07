@@ -98,7 +98,8 @@ namespace ZE.Polytrucks {
         #region trading
         public void OnItemSold(SellOperationContainer info) => _playerData.OnPlayerSoldItem(info);
         public bool CanFulfillContract(TradeContract contract) => _vehicle.CanFulfillContract(contract);
-        public TradeContract FormCollectContract() => _vehicle.FormCollectContract();
+        public bool TryLoadCargo(VirtualCollectable item, int count) => _vehicle.TryLoadCargo(item, count);
+        public TradeContract FormCollectContract() => _vehicle.FormCollectContract();       
         public void OnItemCompositionChanged()
         {
             OnItemCompositionChangedEvent?.Invoke();

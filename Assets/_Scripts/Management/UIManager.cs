@@ -10,23 +10,23 @@ namespace ZE.Polytrucks {
         [SerializeField] private Canvas _canvas;
         
         private PlayerMoneyEffectsHandler _moneyEffectsHandler;
+        private AppearingLabel.Pool _appearingLabels;
+        private Camera _camera;
 
         public UIColorsPack ColorsPack { get; private set; }
         public Transform LabelsHost { get; private set; }
         [field: SerializeField] public ActionPanel ActionPanel { get; private set; }
         [field: SerializeField] public Transform PopupHost { get; private set; }
+        [field: SerializeField] public Transform AppearingLabelsHost { get; private set; }
 
         [Inject]
-        public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus)
+        public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus, CameraController cameraController)
         {
             ColorsPack = colorsPack;
             _moneyEffectsHandler = new PlayerMoneyEffectsHandler(this, moneyEffectPool, signalBus);
+            _camera = cameraController.Camera;
 
             LabelsHost = _canvas.transform;
-        }
-        public void InstallElements(DiContainer container)
-        {
-
         }
 
         private void Update()
@@ -44,5 +44,13 @@ namespace ZE.Polytrucks {
             base.OnSessionEnd();
 			_playerUI.SetActive(false);
         }
+
+        #region ui functions
+        public void ShowAppearLabel(Vector3 worldPos, string text)
+        {
+            var label = _appearingLabels.Spawn();
+            label.Setup(_camera.WorldToScreenPoint(worldPos), text);
+        }
+        #endregion
     }
 }
