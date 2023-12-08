@@ -7,10 +7,10 @@ namespace ZE.Polytrucks {
     [Serializable]
     public class QuestPreset
     {
-        public QuestType QuestType;
-        public VirtualCollectable DeliveringItem;
-        public int RequiredCount;
-        public DeliveryPoint DeliveryPoint;
+        [field:SerializeField] public QuestType QuestType{ get; private set; }
+        [field: SerializeField] public VirtualCollectable DeliveringItem{ get; private set; }
+        [field: SerializeField] public int RequiredCount{ get; private set; }
+        [field: SerializeField] public DeliveryPoint DeliveryPoint { get; private set; }
 
         public bool TryStartQuest(PlayerController player, out QuestBase quest)
         {
@@ -29,6 +29,11 @@ namespace ZE.Polytrucks {
                             quest = null;
                             return false;
                         }
+                    }
+                case QuestType.Supply:
+                    {
+                        quest = new SupplyQuest(DeliveryPoint, DeliveringItem, RequiredCount);
+                        return true;
                     }
                 default:
                     {

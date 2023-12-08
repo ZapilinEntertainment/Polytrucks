@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
 		public bool CanBeRejected { get; protected set; } = true;
 		abstract public bool UseMarkerTracking { get; }		
 		public QuestType QuestType { get; protected set; }
-		public Action OnProgressionChangedEvent, OnQuestStoppedEvent, OnQuestCompletedEvent;		
+		public Action OnProgressionChangedEvent, OnQuestStoppedEvent, OnQuestCompletedEvent, OnQuestFailedEvent;		
 
 
 		virtual public void StartQuest() => IsActive = true;

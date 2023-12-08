@@ -20,3 +20,7 @@ MonoBehaviour:
     <Mastery>k__BackingField: {r: 0.754717, g: 0.10323961, b: 0.6412544, a: 1}
     <Legendary>k__BackingField: {r: 1, g: 0.54987025, b: 0, a: 1}
     <Unique>k__BackingField: {r: 1, g: 0.83267355, b: 0, a: 1}
+  _questTypeMarkerColors:
+    <Delivery>k__BackingField: {r: 0, g: 0.91764706, b: 1, a: 1}
+    <Supply>k__BackingField: {r: 1, g: 0.9254902, b: 0, a: 1}
+    <TimedDelivery>k__BackingField: {r: 0, g: 0.48235294, b: 1, a: 1}

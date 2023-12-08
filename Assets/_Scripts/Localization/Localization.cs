@@ -94,8 +94,8 @@ namespace ZE.Polytrucks {
             else ChangeLanguage(LocalizationLanguage.English);
         }
 
-        public string FormDeliveryAddress(PointOfInterest poi) => i_localizer.FormDeliveryAddress(poi);
-        public string FormSupplyAddress(PointOfInterest poi) => i_localizer.FormSupplyAddress(poi);
+        public string FormDeliveryAddress(PointOfInterest poi) => Localizer.FormDeliveryAddress(poi);
+        public string FormSupplyAddress(PointOfInterest poi) => Localizer.FormSupplyAddress(poi);
     }
 
     internal class Localizer_RUS : ILocalizer
@@ -106,6 +106,13 @@ namespace ZE.Polytrucks {
             {
                 case LocalizedString.Unlock: return "Разблокировать";
                 case LocalizedString.NotEnoughMoney: return "Недостаточно денег";
+                case LocalizedString.ItemsDelivered: return "доставлено";
+                case LocalizedString.Ask_StopQuest: return "Прервать задание?";
+                case LocalizedString.StopQuest: return "Прервать";
+                case LocalizedString.Cancel: return "Отмена";
+                case LocalizedString.QuestStarted: return "Задание принято";
+                case LocalizedString.CannotLoadCargo: return "Погрузка невозможна";
+                case LocalizedString.Refuse_AlreadyHaveSuchQuest: return "Задание этого типа уже принято";
                 default: return "<текст>";
             }
         }

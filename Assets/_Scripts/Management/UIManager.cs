@@ -20,11 +20,12 @@ namespace ZE.Polytrucks {
         [field: SerializeField] public Transform AppearingLabelsHost { get; private set; }
 
         [Inject]
-        public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus, CameraController cameraController)
+        public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus, CameraController cameraController, AppearingLabel.Pool appearLabelsPool)
         {
             ColorsPack = colorsPack;
             _moneyEffectsHandler = new PlayerMoneyEffectsHandler(this, moneyEffectPool, signalBus);
             _camera = cameraController.Camera;
+            _appearingLabels = appearLabelsPool;
 
             LabelsHost = _canvas.transform;
         }

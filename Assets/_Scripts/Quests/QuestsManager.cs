@@ -12,6 +12,7 @@ namespace ZE.Polytrucks {
         private PlayerController _player;
         private Dictionary<QuestType, QuestBase> _activeQuests = new Dictionary<QuestType, QuestBase>();
         public Action<QuestBase> OnQuestStartedEvent;
+        public IReadOnlyCollection<QuestBase> GetActiveQuests() => _activeQuests.Values;
 
         [Inject]
         public void Inject(PlayerController player)
@@ -42,6 +43,8 @@ namespace ZE.Polytrucks {
                 }
             }
         }
+
+       
 
         private void StartTrackQuest(QuestBase quest)
         {

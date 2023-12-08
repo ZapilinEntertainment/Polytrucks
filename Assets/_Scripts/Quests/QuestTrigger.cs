@@ -11,22 +11,30 @@ namespace ZE.Polytrucks {
         [SerializeField] protected bool _canBeRestarted = false;
 		[SerializeField] protected QuestPreset _preset;
         [SerializeField] protected PlayerTrigger _playerTrigger;
+        [SerializeField] private ColourableRenderer[] _markerRenderers;
         protected QuestsManager _questManager;
         protected UIManager _uiManager;
         protected Localization _localization;
         protected QuestBase _trackingQuest;
+        protected UIColorsPack _colorsPack;
 
         [Inject]
-        public void Inject(QuestsManager manager, UIManager uiManager, Localization localization)
+        public void Inject(QuestsManager manager, UIManager uiManager, Localization localization, UIColorsPack colorsPack)
         {
             _questManager = manager;
             _uiManager = uiManager;
             _localization = localization;
+            _colorsPack= colorsPack;
         }
 
         private void Start()
         {
             _playerTrigger.OnPlayerEnterEvent += OnPlayerEnter;
+            if (_markerRenderers != null)
+            {
+                var color = _colorsPack.GetQuestMarkerColor(_preset.QuestType);
+                foreach (var renderer in _markerRenderers) renderer.SetColour(color);
+            }
         }
 
         protected void OnPlayerEnter(PlayerController player)
@@ -37,10 +45,7 @@ namespace ZE.Polytrucks {
                 _trackingQuest = quest;
                 HideTrigger();
             }
-            else
-            {
-                _uiManager.ShowAppearLabel(_playerTrigger.transform.position, _localization.GetLocalizedString(msgLabel));
-            }
+            _uiManager.ShowAppearLabel(_playerTrigger.transform.position, _localization.GetLocalizedString(msgLabel));
         }
 
         public void HideTrigger()
@@ -48,7 +53,7 @@ namespace ZE.Polytrucks {
             if (_canBeRestarted)
             {
                 _playerTrigger.SetActivity(false);
-                _trackingQuest.OnQuestCompletedEvent += Restart;
+                _trackingQuest.OnQuestFailedEvent += Restart;
             }
             else
             {

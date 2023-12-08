@@ -29,7 +29,10 @@ namespace ZE.Polytrucks {
     public readonly struct SupplyPointMessage : IQuestMessage
     {
         public readonly DeliveryPoint DeliveryPoint;
-        public SupplyPointMessage(DeliveryPoint point) => DeliveryPoint = point;
+		public SupplyPointMessage(DeliveryPoint point)
+		{
+			DeliveryPoint = point;
+		}
         public string ToString(Localization localization) => localization.FormDeliveryAddress(DeliveryPoint.PointOfInterest);
 
     }

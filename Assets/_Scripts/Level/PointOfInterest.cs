@@ -6,9 +6,11 @@ namespace ZE.Polytrucks {
 
 	public enum Region : byte { UnknownRegion}
 	public enum PointType : byte { UnknownPoint }
+
+	[System.Serializable]
 	public class PointOfInterest
 	{
-		public Region Region { get; protected set; }
-		public PointType PointType { get; protected set; }
+		[field:SerializeField]public Region Region { get; protected set; }
+        [field: SerializeField] public PointType PointType { get; protected set; }
 	}
 }

@@ -20,27 +20,35 @@ namespace ZE.Polytrucks {
 		[Inject]
 		public void Inject(Localization localization, CameraController cameraController, ChoicePopup choicePopup)
 		{
-			_localization = localization;
-			_localization.OnLocaleChangedEvent += OnLocaleChanged;
+			_localization = localization;			
 			_camera = cameraController.Camera;
 			_choicePopup = choicePopup;
 		}
+        private void Start()
+        {
+            _localization.OnLocaleChangedEvent += OnLocaleChanged;
+        }
 
-		public void StartTracking(QuestBase quest)
+        public void StartTracking(QuestBase quest)
 		{
 			if (_trackingQuest != null) StopTracking();
 			
+			_trackingQuest = quest;
 			_trackingQuest.OnProgressionChangedEvent += OnProgressionChanged;			
-			_marker.gameObject.SetActive(true);
+			
 			UpdateTextDescriptions();
 			_useMarkerTracking = _trackingQuest.UseMarkerTracking;
-			_rejectButton.SetActive(quest.CanBeRejected);
+            _marker.gameObject.SetActive(_useMarkerTracking);
+            _rejectButton.SetActive(quest.CanBeRejected);
+			SetVisibility(true);
 		}
-		private void OnProgressionChanged()
+
+
+        private void OnProgressionChanged()
 		{
             _questProgress.text = _trackingQuest.FormProgressionMsg().ToString(_localization);
         }
-		public void StopTracking()
+		private void StopTracking()
 		{
 			_trackingQuest.OnProgressionChangedEvent -= OnProgressionChanged;
 		}
@@ -67,12 +75,19 @@ namespace ZE.Polytrucks {
 		{
 			if (_trackingQuest != null)
 			{
-				_choicePopup.ShowChoice(LocalizedString.Ask_StopQuest, LocalizedString.StopQuest, LocalizedString.Cancel, StopTrackingQuest, null);
+				_choicePopup.ShowChoice(LocalizedString.Ask_StopQuest, LocalizedString.StopQuest, LocalizedString.Cancel, RejectQuest, null);
 			}
 		}
-		private void StopTrackingQuest()
+		private void RejectQuest()
 		{
 
+		}
+		private void SetVisibility(bool x) => gameObject.SetActive(x);
+
+		public void DisableTracker()
+		{
+			if (_trackingQuest != null) StopTracking();
+			SetVisibility(false);
 		}
     }
 }
