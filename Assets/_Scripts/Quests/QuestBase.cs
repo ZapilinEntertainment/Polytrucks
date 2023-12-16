@@ -4,21 +4,22 @@ using UnityEngine;
 using System;
 
 namespace ZE.Polytrucks {	
-	public abstract class QuestBase
+	public abstract class QuestBase : IWorldPositionable
 	{
 		public bool IsCompleted { get; protected set; } = false;
 		public bool IsActive { get; protected set; } = false;
 		public bool CanBeRejected { get; protected set; } = true;
-		abstract public bool UseMarkerTracking { get; }		
-		public QuestType QuestType { get; protected set; }
+		abstract public bool UseMarkerTracking { get; }
+		abstract public QuestType QuestType { get; }
 		public Action OnProgressionChangedEvent, OnQuestStoppedEvent, OnQuestCompletedEvent, OnQuestFailedEvent;		
 
 
 		virtual public void StartQuest() => IsActive = true;
-		public virtual void StopQuest()
+		
+		public void RejectQuest()
 		{
-			IsActive = false;
-			OnQuestStoppedEvent?.Invoke();
+			OnQuestFailedEvent?.Invoke();
+			StopQuest();
 		}
 		public bool TryCompleteQuest()
 		{
@@ -29,14 +30,20 @@ namespace ZE.Polytrucks {
 				{
 					IsCompleted = true;
 					OnQuestCompletedEvent?.Invoke();
+					StopQuest();
 					return true;
 				}
 				else return false;
 			}
 			else return true;
-		}		
-		abstract public bool CheckConditions();
-        abstract public Vector3 GetTargetPosition();
+		}
+        protected virtual void StopQuest()
+        {
+            IsActive = false;
+            OnQuestStoppedEvent?.Invoke();
+        }
+        abstract public bool CheckConditions();
+        abstract public Vector3 GetWorldPosition();
         public abstract IQuestMessage FormNameMsg();
         public abstract IQuestMessage FormProgressionMsg();
     }

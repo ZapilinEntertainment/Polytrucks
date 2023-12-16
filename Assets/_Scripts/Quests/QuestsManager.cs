@@ -49,7 +49,14 @@ namespace ZE.Polytrucks {
         private void StartTrackQuest(QuestBase quest)
         {
             _activeQuests.Add(quest.QuestType, quest);
+            quest.StartQuest();
             OnQuestStartedEvent?.Invoke(quest);
+            var questLink = quest;
+            quest.OnQuestStoppedEvent += () => OnQuestStopped(questLink);
+        }
+        private void OnQuestStopped(QuestBase quest)
+        {
+            _activeQuests.Remove(quest.QuestType);
         }
 	}
 }

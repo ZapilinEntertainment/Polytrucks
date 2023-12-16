@@ -47,6 +47,7 @@ namespace ZE.Polytrucks {
 			_rightChoiceCallBack = rightChoiceCallback;
 
 			_isActive = true;
+			FulfillStrings();
 			_popupWindow.SetActive(true);
 		}
 		private void FulfillStrings()
@@ -57,15 +58,15 @@ namespace ZE.Polytrucks {
 		}
 
 		public void BUTTON_LeftChoice()
-		{
-			ClosePopup();
+		{			
 			_leftChoiceCallback?.Invoke();
-		}
+            ClosePopup();
+        }
 		public void BUTTON_RightChoice()
-		{
-			ClosePopup();
+		{			
 			_rightChoiceCallBack?.Invoke();
-		}
+            ClosePopup();
+        }
 		private void ClosePopup()
 		{
 			_isActive = false;

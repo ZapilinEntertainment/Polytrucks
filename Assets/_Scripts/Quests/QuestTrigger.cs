@@ -11,6 +11,7 @@ namespace ZE.Polytrucks {
         [SerializeField] protected bool _canBeRestarted = false;
 		[SerializeField] protected QuestPreset _preset;
         [SerializeField] protected PlayerTrigger _playerTrigger;
+        [SerializeField] protected GameObject _visiblePart;
         [SerializeField] private ColourableRenderer[] _markerRenderers;
         protected QuestsManager _questManager;
         protected UIManager _uiManager;
@@ -40,6 +41,7 @@ namespace ZE.Polytrucks {
         protected void OnPlayerEnter(PlayerController player)
         {
             if (_trackingQuest != null) return;
+
             if (_questManager.TryStartQuest(_preset, out var quest, out var msgLabel))
             {
                 _trackingQuest = quest;
@@ -52,8 +54,9 @@ namespace ZE.Polytrucks {
         {
             if (_canBeRestarted)
             {
+                _visiblePart.SetActive(false);
                 _playerTrigger.SetActivity(false);
-                _trackingQuest.OnQuestFailedEvent += Restart;
+                _trackingQuest.OnQuestStoppedEvent += TryRestart;
             }
             else
             {
@@ -61,9 +64,14 @@ namespace ZE.Polytrucks {
             }
         }
 
-        public void Restart()
+        public void TryRestart()
         {
-            _playerTrigger.SetActivity(true);
+            if (!_trackingQuest.IsCompleted)
+            {
+                _visiblePart.SetActive(true);
+                _playerTrigger.SetActivity(true);
+                _trackingQuest = null;
+            }
         }
     }
 }

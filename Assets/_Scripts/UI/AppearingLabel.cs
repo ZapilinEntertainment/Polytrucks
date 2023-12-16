@@ -14,7 +14,8 @@ namespace ZE.Polytrucks {
         {
             transform.position = screenPosition;
             _label.text = text;
-            _label.DOFade(0f, fadeTime).OnComplete(() => _pool.Despawn(this));
+            _label.color = Color.white;
+            _label.DOFade(0f, fadeTime).SetDelay(1f).OnComplete(() => _pool.Despawn(this));
         }
         public void OnDespawned()
         {
@@ -23,7 +24,7 @@ namespace ZE.Polytrucks {
 
         public void OnSpawned()
         {
-
+            
         }
 
         public class Pool : MonoMemoryPool<AppearingLabel>

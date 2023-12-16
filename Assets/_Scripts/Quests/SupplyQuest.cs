@@ -8,6 +8,7 @@ namespace ZE.Polytrucks
     public class SupplyQuest : QuestBase
     {
         public override bool UseMarkerTracking => true;
+        public override QuestType QuestType => QuestType.Supply;
         public DeliveryPoint DeliveryPoint { get; protected set; }
         protected int _deliveredItemCount, _requiredItemsCount;
         protected VirtualCollectable _deliveryItem;
@@ -20,6 +21,7 @@ namespace ZE.Polytrucks
             _deliveryItem = itemType;
             DeliveryPoint = endPoint;
             DeliveryPoint.SellZone.OnItemSoldEvent += OnItemReceived;
+
         }
 
         private void OnItemReceived(VirtualCollectable item)
@@ -28,6 +30,7 @@ namespace ZE.Polytrucks
             {
                 _deliveredItemCount++;
                 OnProgressionChangedEvent?.Invoke();
+                TryCompleteQuest();
             }
         }
 
@@ -36,12 +39,12 @@ namespace ZE.Polytrucks
             return _deliveredItemCount >= _requiredItemsCount;
         }
 
-        public override void StopQuest()
+        override protected void StopQuest()
         {
             if (!DeliveryPoint.IsDisposed) DeliveryPoint.SellZone.OnItemSoldEvent -= OnItemReceived;
             base.StopQuest();
         }
-        public override Vector3 GetTargetPosition() => DeliveryPoint.MarkerPosition;
+        public override Vector3 GetWorldPosition() => DeliveryPoint.MarkerPosition;
         public override IQuestMessage FormProgressionMsg() => new DeliveryQuestMessage(_deliveredItemCount, _requiredItemsCount);
         public override IQuestMessage FormNameMsg() => new SupplyPointMessage(DeliveryPoint);
     }

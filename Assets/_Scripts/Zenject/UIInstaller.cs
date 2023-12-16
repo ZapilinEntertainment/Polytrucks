@@ -10,6 +10,7 @@ namespace ZE.Polytrucks {
         [SerializeField] private MoneyEffectLabel _moneyEffectPrefab;
         [SerializeField] private ChoicePopup _choicePopupPrefab;
         [SerializeField] private AppearingLabel _appearingLabelPrefab;
+        [SerializeField] private ObjectScreenMarker _screenMarkerPrefab;
         public override void InstallBindings()
         {            
             // all bindings will work only inside ui game object context;
@@ -23,6 +24,11 @@ namespace ZE.Polytrucks {
             .WithInitialSize(4).WithMaxSize(12)
             .FromComponentInNewPrefab(_appearingLabelPrefab).
             UnderTransform(_uiManager.AppearingLabelsHost);
+
+            Container.BindMemoryPool<ObjectScreenMarker, ObjectScreenMarker.Pool>()
+            .WithInitialSize(2).WithMaxSize(8)
+            .FromComponentInNewPrefab(_screenMarkerPrefab).
+            UnderTransform(_uiManager.MarkersHost);
 
 
             Container.Bind<ChoicePopup>().FromComponentInNewPrefab(_choicePopupPrefab).UnderTransform(_uiManager.PopupHost).AsCached();
