@@ -13,7 +13,10 @@ namespace ZE.Polytrucks
         [field:SerializeField] public IconsPack IconsPack { get; private set; }        
         [field: SerializeField] public UIColorsPack ColorsPack { get; private set; }
         [field: SerializeField] public UIElementsPack UiElementsPack { get; private set; }
+
         [field: SerializeField] public EconomicSettings EconomicSettings { get; private set; }
+        [field:SerializeField] public GameSettings GameSettings { get; private set; }
+
         [field: SerializeField] public EffectsPack EffectsPack { get; private set; }
 
         public override void InstallBindings()
@@ -24,10 +27,11 @@ namespace ZE.Polytrucks
             Container.Bind<IconsPack>().FromScriptableObject(IconsPack).AsCached();
             Container.Bind<CratesPack>().FromScriptableObject(CratesPack).AsCached();
             Container.Bind<EffectsPack>().FromScriptableObject(EffectsPack).AsCached();
-
             Container.Bind<UIColorsPack>().FromScriptableObject(ColorsPack).AsCached();
             Container.Bind<UIElementsPack>().FromScriptableObject(UiElementsPack).AsCached();
+
             Container.Bind<EconomicSettings>().FromScriptableObject(EconomicSettings).AsCached();
+            Container.Bind<GameSettings>().FromScriptableObject(GameSettings).AsCached();
             Debug.Log("install resources");
         }
     }

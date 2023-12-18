@@ -10,14 +10,16 @@ namespace ZE.Polytrucks {
     public sealed class QuestsManager
 	{
         private PlayerController _player;
+        private SignalBus _signalBus;
         private Dictionary<QuestType, QuestBase> _activeQuests = new Dictionary<QuestType, QuestBase>();
         public Action<QuestBase> OnQuestStartedEvent;
         public IReadOnlyCollection<QuestBase> GetActiveQuests() => _activeQuests.Values;
 
         [Inject]
-        public void Inject(PlayerController player)
+        public void Inject(PlayerController player, SignalBus signalBus)
         {
             _player = player;
+            _signalBus = signalBus;
         }
 		public bool TryStartQuest(QuestPreset preset, out QuestBase quest, out LocalizedString message)
         {
@@ -57,6 +59,7 @@ namespace ZE.Polytrucks {
         private void OnQuestStopped(QuestBase quest)
         {
             _activeQuests.Remove(quest.QuestType);
+            if (quest.IsCompleted) _signalBus.Fire(new QuestCompletedSignal(quest));
         }
 	}
 }

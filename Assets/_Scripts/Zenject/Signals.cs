@@ -22,4 +22,17 @@ namespace ZE.Polytrucks {
 			Info = container;
 		}
 	}
+	public class QuestCompletedSignal
+	{
+		public readonly QuestBase Quest;
+		public QuestCompletedSignal(QuestBase quest)
+		{
+			Quest = quest;
+		}
+	}
+	public class PlayerLevelUpSignal
+	{
+		public readonly int Level;
+		public PlayerLevelUpSignal(int level) => Level = level;
+	}
 }

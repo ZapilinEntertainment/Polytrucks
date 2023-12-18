@@ -36,6 +36,8 @@ namespace ZE.Polytrucks {
             Container.DeclareSignal<SessionResumeSignal>();
             Container.DeclareSignal<CameraViewPointSetSignal>();
             Container.DeclareSignal<PlayerItemSellSignal>();
+            Container.DeclareSignal<QuestCompletedSignal>();
+            Container.DeclareSignal<PlayerLevelUpSignal>();
         }
 
         private void InstallSystems()
@@ -56,6 +58,7 @@ namespace ZE.Polytrucks {
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
             Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
             Container.BindFactory<Trailer, Trailer.Factory>().FromComponentInNewPrefab(_trailerPrefab);
+            Container.BindFactory<Experience, Experience.Factory>().AsCached();
         }
     }
 }
