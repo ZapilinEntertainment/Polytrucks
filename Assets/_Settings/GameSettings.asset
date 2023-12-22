@@ -12,3 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5baa5bf52d9ad34386b3bd8974713aa, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
+  _questExperienceRewards:
+    <Delivery>k__BackingField: 1
+    <Supply>k__BackingField: 1
+    <TimedDelivery>k__BackingField: 2

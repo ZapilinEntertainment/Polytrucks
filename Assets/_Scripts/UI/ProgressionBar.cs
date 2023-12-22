@@ -38,6 +38,6 @@ namespace ZE.Polytrucks {
 			_progressLabel.text = $"{current}/{total}";
 			SetProgress(current / (float) total);
 		} 
-		public void SetProgress(float percent) => _progressionBar.fillAmount= percent;
+		virtual public void SetProgress(float percent) => _progressionBar.fillAmount= percent;
 	}
 }
