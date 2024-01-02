@@ -48,6 +48,7 @@ namespace ZE.Polytrucks {
             Container.Bind<TradeZonesManager>().AsCached().Lazy();
             Container.Bind<Localization>().AsCached();
             Container.Bind<QuestsManager>().AsCached().Lazy();
+            Container.Bind<RecoverySystem>().AsCached();
 
             Container.Bind<ColouredMaterialsDepot>().AsCached().Lazy();
         }

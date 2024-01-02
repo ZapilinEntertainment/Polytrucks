@@ -78,8 +78,16 @@ namespace ZE.Polytrucks {
             }
         }
 
+        #region reposition
         public override void Teleport(VirtualPoint point) => _axisController.Teleport(point);
         public override void Stabilize() => _axisController.Stabilize();
+        public override void RecoveryAt(RecoveryPoint point)
+        {
+            RemoveAllTrailers();
+            _storage.MakeEmpty();
+            Teleport(point.GetPoint());
+        }
+        #endregion
 
         #region controls
         override public void Move(Vector2 dir)
@@ -137,12 +145,30 @@ namespace ZE.Polytrucks {
             var storage = (_storageController as MultipleVehicleStorage);
             if (storage != null)
             {
-                storage.RemoveStorage(trailer.GetStorage());
+                if (trailer.IsStorageCreated) storage.RemoveStorage(trailer.GetStorage());
             }
 
              Destroy(trailer.gameObject);
             _trailers.RemoveAt(count);
             _haveTrailers = count != 0;
+        }
+        private void RemoveAllTrailers()
+        {
+            if (!_haveTrailers) return;
+            var storage = (_storageController as MultipleVehicleStorage);
+            if (storage != null)
+            {
+                int count = _trailers.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    var trailer = _trailers[i];
+                    if (trailer.IsStorageCreated) storage.RemoveStorage(trailer.GetStorage());
+                    Destroy(trailer.gameObject);
+                }                
+            }           
+
+            _trailers.Clear();
+            _haveTrailers = false;
         }
         public override IReadOnlyCollection<Vector3> GetVehicleBounds()
         {

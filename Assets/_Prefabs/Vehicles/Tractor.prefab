@@ -87,25 +87,25 @@ MonoBehaviour:
     SuspensionPoint: {fileID: 2601841030384279650}
     IsMotor: 0
     IsSteer: 1
-    WheelRadius: 0.75
-    ScaleCf: 0.86
+    WheelRadius: 0.82
+    ScaleCf: 0.84
   - WheelModel: {fileID: 478382898097550752}
     SuspensionPoint: {fileID: 8390652417914240643}
     IsMotor: 0
     IsSteer: 1
-    WheelRadius: 0.75
-    ScaleCf: 0.86
+    WheelRadius: 0.82
+    ScaleCf: 0.84
   - WheelModel: {fileID: 478382899170225258}
     SuspensionPoint: {fileID: 2135287068291927139}
     IsMotor: 1
     IsSteer: 0
-    WheelRadius: 0.9
+    WheelRadius: 1
     ScaleCf: 1
   - WheelModel: {fileID: 478382897847075119}
     SuspensionPoint: {fileID: 1016921192904930735}
     IsMotor: 1
     IsSteer: 0
-    WheelRadius: 0.9
+    WheelRadius: 1
     ScaleCf: 1
   _wheelSettings: {fileID: 11400000, guid: 2a943399f840e1347bb19a4a5d45acf8, type: 2}
   _rigidbody: {fileID: 7462580848854470767}
@@ -530,7 +530,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2905785249198174714}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2, y: 0.5, z: 0}
+  m_LocalPosition: {x: -1.2, y: 0.817, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -752,11 +752,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraViewPoint: {fileID: 8263390415338152615}
+  _collidersHandler: {fileID: 3451545581879242395}
   _massChanger: {fileID: 0}
   _axisController: {fileID: 1857302639911587231}
   _truckConfig: {fileID: 11400000, guid: 1484b75671c24af4388548db70b30560, type: 2}
-  _collidersHandler: {fileID: 3451545581879242395}
   _storageController: {fileID: 2427993622319677651}
+  <Rigidbody>k__BackingField: {fileID: 0}
 --- !u!114 &2427993622319677651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -812,7 +813,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4868526860196491417}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 0.5, z: 0}
+  m_LocalPosition: {x: 1.2, y: 0.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -957,7 +958,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5921556485300579110}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.2, y: 0.5, z: 0}
+  m_LocalPosition: {x: -1.2, y: 0.98, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1275,7 +1276,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8885910971979378358}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 0.5, z: 0}
+  m_LocalPosition: {x: 1.2, y: 0.81700003, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []

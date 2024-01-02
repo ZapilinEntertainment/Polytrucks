@@ -17,6 +17,8 @@ namespace ZE.Polytrucks {
         private bool _storageCreated = false;
 		private Storage _storage;
 		private StorageVisualizer.Factory _visualizerFactory;
+
+		public bool IsStorageCreated => _storageCreated;
         public VirtualPoint CalculateTrailerPosition(float distance)
         {
             var rotation = Rigidbody.rotation;

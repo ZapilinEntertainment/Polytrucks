@@ -17,7 +17,7 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            foreach (var tracker in _trackers) { tracker.DisableTracker(); }
+            foreach (var tracker in _trackers) { tracker?.DisableTracker(); }
 
             _questsManager.OnQuestStartedEvent += OnQuestStarted;
             var activeQuests = _questsManager.GetActiveQuests();

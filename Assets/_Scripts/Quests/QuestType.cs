@@ -6,15 +6,17 @@ using System;
 namespace ZE.Polytrucks {
     public enum QuestType : byte
     {
-        Delivery, Supply, TimedDelivery,TypesCount
+        Delivery, Supply, TimedDelivery, Tutorial,Storyline, TypesCount
     }
 
-    [System.Serializable]
+    [Serializable]
     public class QuestTypeDefinedValues<T> 
     {
         [field: SerializeField] public T Delivery { get; private set; }
         [field: SerializeField] public T Supply { get; private set; }
         [field: SerializeField] public T TimedDelivery { get; private set; }
+        [field: SerializeField] public T Tutorial { get; private set; }
+        [field: SerializeField] public T Storyline { get; private set; }
         public T this[QuestType rarity]
         {
             get
@@ -23,6 +25,8 @@ namespace ZE.Polytrucks {
                 {
                     case QuestType.Supply: return Supply;
                     case QuestType.TimedDelivery: return TimedDelivery;
+                    case QuestType.Tutorial: return Tutorial;
+                    case QuestType.Storyline: return Storyline;
                     default: return Delivery;
                 }
             }

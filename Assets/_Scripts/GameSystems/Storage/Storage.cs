@@ -66,6 +66,8 @@ namespace ZE.Polytrucks {
 			}
 		}
 
+		public void MakeEmpty() => _items.Clear();
+
         public bool TryExtractItem(VirtualCollectable item)
 		{
             for (int i = 0; i < ItemsCount; i++)

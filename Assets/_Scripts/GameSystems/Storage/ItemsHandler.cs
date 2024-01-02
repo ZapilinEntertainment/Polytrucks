@@ -130,6 +130,11 @@ namespace ZE.Polytrucks {
             _items = list;
             OnCountChanged(compositionChangeEvent);
         }
+        public void Clear()
+        {
+            _items.Clear();
+            OnCountChanged();
+        }
         private void OnCountChanged(bool compositionChanged = true)
         {
             int oldCount = _itemsCount;

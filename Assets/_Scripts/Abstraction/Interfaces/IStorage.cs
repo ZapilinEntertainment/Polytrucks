@@ -14,6 +14,7 @@ namespace ZE.Polytrucks {
         public Action OnItemRemovedEvent { get; set; }
         public Action OnStorageCompositionChangedEvent { get; set; }
 
+        public void MakeEmpty();
         public bool TryFormItemsList(TradeContract contract, out List<VirtualCollectable> list);
         public bool TryLoadCargo(VirtualCollectable item, int count);
     }

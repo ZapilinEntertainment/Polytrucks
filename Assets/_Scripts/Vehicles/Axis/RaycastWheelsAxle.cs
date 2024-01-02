@@ -10,6 +10,7 @@ namespace ZE.Polytrucks {
         protected float _steerAngle = 0f, _power;
         protected Quaternion _steerRotation;
 
+
         protected override void OnSetup()
         {
             _power = Config.MaxSpeed * _startMass;

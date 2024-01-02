@@ -110,6 +110,11 @@ namespace ZE.Polytrucks {
         }
 
         #region istorage
+
+        public void MakeEmpty()
+        {
+            foreach (var storage in _storages) storage.MakeEmpty();
+        }
         public void ReturnItem(VirtualCollectable item) => TryAddItem(item);
         public bool TryAddItem(VirtualCollectable item)
         {

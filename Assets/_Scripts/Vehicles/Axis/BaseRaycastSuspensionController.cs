@@ -26,8 +26,6 @@ namespace ZE.Polytrucks {
         virtual protected void FixedUpdate()
         {            
             float suspensionLength = _wheelSettings.SuspensionLength,
-                maxOffset = _wheelSettings.MaxSuspensionOffset,
-                maxSuspension = _wheelSettings.SuspensionLength + maxOffset,
                 springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper   ;
             _carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
 
@@ -36,9 +34,9 @@ namespace ZE.Polytrucks {
                 Vector3 pos = wheel.SuspensionPoint.position, up = wheel.SuspensionPoint.up;
                 float scaleCf = wheel.ScaleCf;
 
-                if (Physics.Raycast(pos, -up, maxDistance: maxSuspension * scaleCf, hitInfo: out var hit, layerMask: _castMask))
+                if (Physics.Raycast(pos, -up, maxDistance: suspensionLength * scaleCf, hitInfo: out var hit, layerMask: _castMask))
                 {
-                    float offset = (suspensionLength * scaleCf - hit.distance) / (maxOffset * scaleCf);
+                    float offset = (suspensionLength * scaleCf - hit.distance) / (suspensionLength * scaleCf);
                     Vector3 tireVelocity = _rigidbody.GetPointVelocity(pos);
                     float suspensionVelocity = Vector3.Dot(up, tireVelocity);
 
@@ -48,12 +46,11 @@ namespace ZE.Polytrucks {
                     float suspensionForce = (offset * springStrength) - (suspensionVelocity * springDamper);
                     _rigidbody.AddForceAtPosition(up * suspensionForce + accelForce + steeringForce, pos);
 
-                    wheel.PositionWheel(hit.distance);
+                    wheel.SetSuspensionCurrentLength(hit.distance);
                 }
                 else
                 {
-                    wheel.PositionWheel(maxSuspension);
-                    
+                    wheel.SetSuspensionCurrentLength(suspensionLength * scaleCf);                    
                 }
             }
         }
@@ -61,7 +58,7 @@ namespace ZE.Polytrucks {
         {
             foreach (var wheel in _wheels)
             {
-                wheel.Spin(_carSpeed / wheel.WheelRadius * 20f * Time.deltaTime);
+                wheel.Spin(_carSpeed / wheel.WheelRadius * 20f * Time.deltaTime / wheel.ScaleCf );
             }
         }
 
@@ -84,5 +81,26 @@ namespace ZE.Polytrucks {
         {
 
         }
+
+        #if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            if (!Application.isPlaying)
+            {
+                if (_wheels != null && _wheels.Length > 0)
+                {
+                    bool haveSettings = _wheelSettings != null;
+                    foreach (var wheel in _wheels)
+                    {
+                        Vector3 pos = wheel.SuspensionPoint?.position ?? Vector3.zero;
+                        Gizmos.DrawSphere(pos, 0.1f);
+                        float size = wheel.WheelRadius;
+                        Gizmos.DrawWireSphere(pos + size * Vector3.down, size);
+                        if (haveSettings) Gizmos.DrawLine(pos, pos + _wheelSettings.SuspensionLength * wheel.ScaleCf * Vector3.down);
+                    }
+                }
+            }
+        }
+#endif
     }
 }

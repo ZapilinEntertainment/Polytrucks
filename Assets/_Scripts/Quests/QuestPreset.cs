@@ -8,6 +8,7 @@ namespace ZE.Polytrucks {
     public class QuestPreset
     {
         [field:SerializeField] public QuestType QuestType{ get; private set; }
+        [field: SerializeField] public int QuestSubID { get; private set; } = 0;
         [field: SerializeField] public VirtualCollectable DeliveringItem{ get; private set; }
         [field: SerializeField] public int RequiredCount{ get; private set; }
         [field: SerializeField] public DeliveryPoint DeliveryPoint { get; private set; }

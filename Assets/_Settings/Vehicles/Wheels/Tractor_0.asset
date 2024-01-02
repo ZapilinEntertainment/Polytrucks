@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b65a05f70bfdfe49a0d88872cf6d451, type: 3}
   m_Name: Tractor_0
   m_EditorClassIdentifier: 
-  SuspensionLength: 1.3
+  SuspensionLength: 2.2
   SpringStrength: 15000
   SpringDamper: 500
   MaxSuspensionOffset: 1
