@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tractor_PG_2
   m_EditorClassIdentifier: 
   <UsesPhysics>k__BackingField: 1
-  _maxSpeed: 8
+  _maxSpeed: 15
   _maxSteerAngle: 25
   _steerTime: 0.5
   _acceleration: 0.5

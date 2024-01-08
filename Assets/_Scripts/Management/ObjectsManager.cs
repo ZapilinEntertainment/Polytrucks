@@ -29,7 +29,7 @@ namespace ZE.Polytrucks {
         public Crate CreateCrate(CollectableType type, Rarity rarity)
         {
             var crate =  _cratesPool.Spawn();
-            crate.SetModel(GetCollectibleModel(type, rarity));            
+            crate.Setup(type, rarity, GetCollectibleModel(type, rarity));  
             return crate;
         }
         public CollectibleModel GetCollectibleModel(VirtualCollectable item) => GetCollectibleModel(item.CollectableType, item.Rarity);

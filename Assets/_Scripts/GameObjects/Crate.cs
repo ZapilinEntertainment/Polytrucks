@@ -41,9 +41,11 @@ namespace ZE.Polytrucks {
 
         
 
-
-        public void SetModel(CollectibleModel model)
+        public void Setup(CollectableType type, Rarity rarity, CollectibleModel model)
         {
+            _collectableType= type;
+            _rarity= rarity;
+
             _model = model;
             model.transform.parent = transform;
             model.transform.localPosition = Vector3.zero;

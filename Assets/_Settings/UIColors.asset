@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0962c6cac1975074797ca0a054bb7165, type: 3}
   m_Name: UIColors
   m_EditorClassIdentifier: 
+  _resourcesColors: {fileID: 11400000, guid: ec6ba3f8f83d9e046bb3918ca3a2a8e8, type: 2}
   _colors:
     <Regular>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
     <Advanced>k__BackingField: {r: 0, g: 1, b: 0.08719444, a: 1}
@@ -24,3 +25,5 @@ MonoBehaviour:
     <Delivery>k__BackingField: {r: 0, g: 0.91764706, b: 1, a: 1}
     <Supply>k__BackingField: {r: 1, g: 0.9254902, b: 0, a: 1}
     <TimedDelivery>k__BackingField: {r: 0, g: 0.48235294, b: 1, a: 1}
+    <Tutorial>k__BackingField: {r: 0, g: 0, b: 0, a: 0}
+    <Storyline>k__BackingField: {r: 0, g: 0, b: 0, a: 0}

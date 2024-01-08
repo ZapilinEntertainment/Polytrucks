@@ -11,6 +11,7 @@ namespace ZE.Polytrucks {
         [SerializeField] private ChoicePopup _choicePopupPrefab;
         [SerializeField] private AppearingLabel _appearingLabelPrefab;
         [SerializeField] private ObjectScreenMarker _screenMarkerPrefab;
+        [SerializeField] private CollectionTriggerPanel _collectionTriggerPanelPrefab;
         public override void InstallBindings()
         {            
             // all bindings will work only inside ui game object context;
@@ -29,6 +30,11 @@ namespace ZE.Polytrucks {
             .WithInitialSize(2).WithMaxSize(8)
             .FromComponentInNewPrefab(_screenMarkerPrefab).
             UnderTransform(_uiManager.MarkersHost);
+
+            Container.BindMemoryPool<CollectionTriggerPanel, CollectionTriggerPanel.Pool>()
+            .WithInitialSize(2).WithMaxSize(8)
+            .FromComponentInNewPrefab(_collectionTriggerPanelPrefab).
+            UnderTransform(_uiManager.PanelsHost);
 
 
             Container.Bind<ChoicePopup>().FromComponentInNewPrefab(_choicePopupPrefab).UnderTransform(_uiManager.PopupHost).AsCached();

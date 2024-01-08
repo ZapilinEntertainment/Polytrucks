@@ -8,6 +8,11 @@ namespace ZE.Polytrucks {
 	{
 		Regular = 0,Advanced, Industrial,Rare,Mastery,Legendary,Unique
 	}
+    public static class RarityExtension
+    {
+        public static Rarity MaximumRarity => Rarity.Unique;
+        public static Rarity MinimumRarity => Rarity.Regular;
+    }
 
 	[Flags]
 	public enum RarityConditions : byte
@@ -21,7 +26,18 @@ namespace ZE.Polytrucks {
 			int maskVal = 1 << (int)rarity;
 			return ((int)conditions & maskVal) != 0;
 		}
-		
+		public static Rarity MinimumRarity(this RarityConditions conditions)
+        {
+            if (conditions == RarityConditions.Any) return RarityExtension.MinimumRarity;
+            else
+            {
+                for (Rarity i = 0; i < RarityExtension.MaximumRarity + 1; i++)
+                {
+                    if (conditions.Contains(i)) return i;
+                }
+                return RarityExtension.MaximumRarity;
+            }
+        }
     }
 
     [Serializable]

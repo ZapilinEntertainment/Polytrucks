@@ -6,25 +6,26 @@ namespace ZE.Polytrucks {
 	public sealed class CountTracker : MonoBehaviour, ICountTracker
 	{
 		[SerializeField] private TMPro.TMP_Text _label;
+        private bool _isActive = false; 
         private int _maxCount = 1;
+        private ICountTrackable _trackableObject;
 
-        public void Setup(int maxCount, int currentCount, bool isActive)
+        public void SetTrackingObject(ICountTrackable trackable)
         {
-            _maxCount= maxCount;
-            OnCountChanged(currentCount);
-            OnTrackStatusChanged(isActive);
+            _trackableObject = trackable;
+            _trackableObject.Subscribe(this);
+
+            _maxCount = _trackableObject.TargetCount;
+            OnCountChanged(_trackableObject.CollectedCount);
+            _isActive = true;
+            gameObject.SetActive(true);
         }
         public void OnCountChanged(int x)
         {
             _label.text = x.ToString() + '/' + _maxCount.ToString();
         }
 
-        public void OnTrackStatusChanged(bool x)
-        {
-            gameObject.SetActive(x);
-        }
-
-        public void StopTracking()
+        public void OnTrackableDisposed()
         {
            Destroy(gameObject);
         }

@@ -15,6 +15,7 @@ namespace ZE.Polytrucks {
         private Camera _camera;
         private ChoicePopup _choicePopup;
         private MonoMemoryPool<ObjectScreenMarker> _markersPool;
+        private MonoMemoryPool<CollectionTriggerPanel> _collectionTriggerPanels;
 
         public UIColorsPack ColorsPack { get; private set; }
         public Transform LabelsHost { get; private set; }
@@ -22,10 +23,11 @@ namespace ZE.Polytrucks {
         [field: SerializeField] public Transform MarkersHost { get; private set; }
         [field: SerializeField] public Transform PopupHost { get; private set; }
         [field: SerializeField] public Transform AppearingLabelsHost { get; private set; }
+        [field: SerializeField] public Transform PanelsHost { get; private set; }
 
         [Inject]
         public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus, CameraController cameraController,
-            AppearingLabel.Pool appearLabelsPool, ChoicePopup choicePopup, ObjectScreenMarker.Pool markersPool)
+            AppearingLabel.Pool appearLabelsPool, ChoicePopup choicePopup, ObjectScreenMarker.Pool markersPool, CollectionTriggerPanel.Pool collectionTriggersPool)
         {
             ColorsPack = colorsPack;
             _moneyEffectsHandler = new PlayerMoneyEffectsHandler(this, moneyEffectPool, signalBus);
@@ -33,6 +35,7 @@ namespace ZE.Polytrucks {
             _appearingLabels = appearLabelsPool;
             _choicePopup = choicePopup;
             _markersPool = markersPool;
+            _collectionTriggerPanels = collectionTriggersPool;
 
             LabelsHost = _canvas.transform;
         }
@@ -62,6 +65,7 @@ namespace ZE.Polytrucks {
             label.Setup(_camera.WorldToScreenPoint(worldPos), text);
         }
         public ObjectScreenMarker GetObjectMarker() => _markersPool.Spawn();
+        public CollectionTriggerPanel GetCollectionTriggerPanel() => _collectionTriggerPanels.Spawn();
         #endregion
     }
 }
