@@ -10,7 +10,7 @@ namespace ZE.Polytrucks {
         [field:SerializeField] virtual public float SellCostCf { get; private set; } = 1f;
         [SerializeField] protected float _tradeTick = 0.25f;
         protected float _lastTradeTime = 0f;
-        protected IItemReceiver _itemsReceiver;
+        protected IItemReceiver _itemsReceiver; // an object, to those this sell zone will send objects when received. Can be none - all goods will gone nowhere
         private EconomicSettings _economicSettings;
 
         public bool IsReadyToReceive => Time.time > _lastTradeTime + _tradeTick;

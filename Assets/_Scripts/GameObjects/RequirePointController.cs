@@ -9,8 +9,9 @@ namespace ZE.Polytrucks {
 		[Serializable]
 		public struct RequireZoneStage
 		{
-			public CollectionActivatedTrigger Trigger;
-			public GameObject StageObject;
+			[Tooltip("Trigger invokes signal to pass to new stage")] public CollectionActivatedTrigger Trigger;
+            [Tooltip("Stage object will be activated when the stage starts")] public GameObject StageObject;
+            [Tooltip("Activable script will be called when the stage starts")] public MonoBehaviour ActivableScript;
 
 			public void Hide() => StageObject.SetActive(false);
 		}
@@ -18,15 +19,16 @@ namespace ZE.Polytrucks {
 		[SerializeField] private RequireZoneStage[] _stages;
 		private int _currentStage = 0;
 
-        private void Awake()
+        private void Start()
         {
 			SubscribeToStage(_currentStage);
         }
 
 		private void SubscribeToStage(int index)
 		{
-			var stage = _stages[index];
-			stage.Trigger.OnConditionCompletedEvent += OnStageConditionComplete;
+			//Debug.Log(_stages.Length);
+			var stageTrigger = _stages[index].Trigger;
+			if (stageTrigger != null) stageTrigger.OnConditionCompletedEvent += OnStageConditionComplete;
 		}
 		private void UnsubscribeFromStage(int index)
 		{
@@ -39,7 +41,17 @@ namespace ZE.Polytrucks {
 			_stages[_currentStage].Hide();
 			UnsubscribeFromStage(_currentStage);
 			_currentStage++;
-			if (_currentStage < _stages.Length) SubscribeToStage(_currentStage);
+			if (_currentStage < _stages.Length)
+			{
+				var stage = _stages[_currentStage];
+
+				var obj = stage.StageObject;
+				if (obj != null) obj.SetActive(true);
+				var script = stage.ActivableScript;
+				if (script != null && script is IActivableMechanism) (script as IActivableMechanism).Activate();
+
+				SubscribeToStage(_currentStage);
+			}
 		}
     }
 }

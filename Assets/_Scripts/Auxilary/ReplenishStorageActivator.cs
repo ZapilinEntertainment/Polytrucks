@@ -6,7 +6,7 @@ namespace ZE.Polytrucks {
 	public sealed class ReplenishStorageActivator : MonoBehaviour
 	{
 		[SerializeField] private SellZoneBase _sellZoneTarget;
-		[SerializeField] private ReplenishableStorage _replenishableStorage;
+		[SerializeField] private ReplenishableStorageBase _replenishableStorage;
         private bool _itemSold = false;
 
         private void Start()

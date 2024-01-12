@@ -81,7 +81,7 @@ namespace ZE.Polytrucks {
 		}
         private void Start()
         {
-            _localization.OnLocaleChangedEvent += OnLocaleChanged;
+            _localization.Subscribe(this);
 			_animator.OnAnimationEndsEvent += () => SetVisibility(false);
         }
 

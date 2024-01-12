@@ -20,7 +20,7 @@ namespace ZE.Polytrucks {
 		public void Inject(Localization localization, UIManager uiManager)
 		{
 			_localization = localization;
-			transform.parent = uiManager.PopupHost;
+			transform.SetParent( uiManager.PopupHost);
 		}
         private void Awake()
         {
@@ -29,7 +29,7 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            _localization.OnLocaleChangedEvent += OnLocaleChanged;
+            _localization.Subscribe(this);
         }
 
 		public void OnLocaleChanged(LocalizationLanguage language)

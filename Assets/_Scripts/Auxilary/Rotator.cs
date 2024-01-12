@@ -7,7 +7,7 @@ namespace ZE.Polytrucks
     public class Rotator : MonoBehaviour
     {
         [SerializeField] private Vector3 _rotationVector = Vector3.up * 90f;
-        void Update()
+        virtual protected void Update()
         {
             transform.Rotate(_rotationVector * Time.deltaTime, Space.Self);
         }

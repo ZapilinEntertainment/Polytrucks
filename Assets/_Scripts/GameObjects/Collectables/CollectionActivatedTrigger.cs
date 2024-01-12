@@ -10,6 +10,7 @@ namespace ZE.Polytrucks {
 		[SerializeField] private SingleItemSellZone _sellZone;
         [SerializeField] private MonoBehaviour _activableScript;
         [SerializeField] private CountTracker _countTracker;
+        [SerializeField] private string _requireInfoStringID = string.Empty;
         private bool _allItemsCollected = false;
         private int _itemsCollected = 0;
         private Action<int> OnCountChangedEvent;
@@ -19,6 +20,11 @@ namespace ZE.Polytrucks {
         public CollectableType ItemType => _sellZone.ItemType;
         public RarityConditions RarityConditions => _sellZone.RarityConditions;
         public Action OnConditionCompletedEvent;
+        public bool TryGetInfoString(out string stringID)
+        {
+            stringID = _requireInfoStringID;
+            return _requireInfoStringID != string.Empty;
+        }
 
         private void Start()
         {
@@ -36,7 +42,7 @@ namespace ZE.Polytrucks {
                 _sellZone.OnItemSoldEvent -= OnItemSoldEvent;
                 _sellZone.SetActivity(false);
 
-                (_activableScript as IActivableMechanism).Activate();
+                if (_activableScript != null) (_activableScript as IActivableMechanism).Activate();
                 OnConditionCompletedEvent?.Invoke();
 
                 if (_countTracker != null)

@@ -35,6 +35,7 @@ namespace ZE.Polytrucks {
 
         #region storage
         public abstract bool CanFulfillContract(TradeContract contract);
+        public abstract int LoadCargo(VirtualCollectable item, int count);
         public abstract bool TryLoadCargo(VirtualCollectable item, int count);
         public abstract TradeContract FormCollectContract();
         #endregion

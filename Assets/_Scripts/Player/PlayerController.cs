@@ -16,6 +16,7 @@ namespace ZE.Polytrucks {
         public Vector3 Position { get; private set; }
         public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
         public InputController InputController => _inputController;
+        public Vehicle ActiveVehicle => _vehicle;
         public Action OnItemCompositionChangedEvent;
 
 

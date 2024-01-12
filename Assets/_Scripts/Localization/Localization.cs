@@ -16,7 +16,8 @@ namespace ZE.Polytrucks {
         ItemsDelivered,
         Ask_StopQuest,
         StopQuest,Cancel,QuestStarted, CannotLoadCargo,
-        Refuse_AlreadyHaveSuchQuest
+        Refuse_AlreadyHaveSuchQuest,
+        RequestZone_RebuildMine, RequestZone_RebuildBridge
     }
     internal interface ILocalizer
     {
@@ -63,7 +64,20 @@ namespace ZE.Polytrucks {
             }
             else return name;
         }
-        public Action<LocalizationLanguage> OnLocaleChangedEvent;
+        public bool TryGetLocalizedEnum(string id, out LocalizedString localEnum)
+        {
+            if (Enum.TryParse(typeof(LocalizedString), id, out var key))
+            {
+                localEnum = (LocalizedString)key;
+                return true;
+            }
+            else
+            {
+                localEnum = LocalizedString.Undefined;
+                return false;
+            }
+        }
+        private Action<LocalizationLanguage> OnLocaleChangedEvent;
 
 
         public Localization(SaveManager saveManager)
@@ -96,6 +110,9 @@ namespace ZE.Polytrucks {
 
         public string FormDeliveryAddress(PointOfInterest poi) => Localizer.FormDeliveryAddress(poi);
         public string FormSupplyAddress(PointOfInterest poi) => Localizer.FormSupplyAddress(poi);
+
+        public void Subscribe(IDynamicLocalizer localizer) => OnLocaleChangedEvent += localizer.OnLocaleChanged;
+        public void Unsubscribe(IDynamicLocalizer localizer) => OnLocaleChangedEvent-= localizer.OnLocaleChanged;
     }
 
     internal class Localizer_RUS : ILocalizer
@@ -113,6 +130,9 @@ namespace ZE.Polytrucks {
                 case LocalizedString.QuestStarted: return "Задание принято";
                 case LocalizedString.CannotLoadCargo: return "Погрузка невозможна";
                 case LocalizedString.Refuse_AlreadyHaveSuchQuest: return "Задание этого типа уже принято";
+
+                case LocalizedString.RequestZone_RebuildBridge: return "Починить мост";
+                case LocalizedString.RequestZone_RebuildMine: return "Запустить шахту";
                 default: return "<текст>";
             }
         }

@@ -191,6 +191,7 @@ namespace ZE.Polytrucks {
 
         public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();
         public override bool CanFulfillContract(TradeContract contract) => _storage.CanFulfillContract(contract);
+        public override int LoadCargo(VirtualCollectable item, int count) => _storage.AddItems(item, count);
         public override bool TryLoadCargo(VirtualCollectable item, int count) => _storage.TryLoadCargo(item, count);
     }
 }

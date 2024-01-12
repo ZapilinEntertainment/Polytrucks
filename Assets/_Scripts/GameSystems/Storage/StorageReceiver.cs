@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
+    // a wrapper, containing link to items-receiving objects. Receiver may be either storage or conveyor (look for inheritor class)
 	public abstract class StorageReceiver : MonoBehaviour, IItemReceiver
 	{
 		protected IStorage _storage;
