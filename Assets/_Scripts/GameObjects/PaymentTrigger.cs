@@ -10,20 +10,21 @@ namespace ZE.Polytrucks {
         [SerializeField] private int _moneyCost = 100;
         [SerializeField] private MonoBehaviour _activableScript;
         [SerializeField] private TMPro.TMP_Text _costLabel;
+        [SerializeField] private string PayStringID = "Unlock";
         private bool _isShown = false;
         private int _playerColliderId = -1, _showingLabelID = -1;
         private ColliderListSystem _colliderList;
         private UIManager _uiManager;
         private Localization _localization;
-        private PlayerData _playerData;
+        private IAccountDataAgent _accountAgent;
 
         [Inject]
-        public void Inject(ColliderListSystem colliderListSystem, UIManager uiManager, Localization localization, PlayerData playerData)
+        public void Inject(ColliderListSystem colliderListSystem, UIManager uiManager, Localization localization, IAccountDataAgent accountAgent)
         {
             _colliderList = colliderListSystem;
             _uiManager= uiManager;
             _localization = localization;
-            _playerData = playerData;
+            _accountAgent= accountAgent;
         }
 
         private void Start()
@@ -33,7 +34,7 @@ namespace ZE.Polytrucks {
 
         public bool TryMakePayment()
         {
-            if (_playerData.TrySpendMoney(_moneyCost))
+            if (_accountAgent.PlayerDataAgent.TrySpendMoney(_moneyCost))
             {
                 OnPaymentComplete();
                 return true;
@@ -44,7 +45,7 @@ namespace ZE.Polytrucks {
         {
             HideLabel();
             (_activableScript as IActivableMechanism).Activate();
-            Destroy(_costLabel.gameObject);
+            if (_costLabel != null) Destroy(_costLabel.gameObject);
             Destroy(gameObject);
         }
 
@@ -62,9 +63,9 @@ namespace ZE.Polytrucks {
                     new ActionContainer()
                     {
                         WorldPos = transform.position,
-                        MainLabel = _localization.GetLocalizedString(LocalizedString.Unlock),
+                        MainLabel = _localization.GetStringID(PayStringID),
                         CostLabel = _moneyCost.ToString(),
-                        RejectionLabel = _localization.GetLocalizedString(LocalizedString.NotEnoughMoney),
+                        RejectionLabel = LocalizedString.NotEnoughMoney,
                         ResultFunc = TryMakePayment
                     }
                    );

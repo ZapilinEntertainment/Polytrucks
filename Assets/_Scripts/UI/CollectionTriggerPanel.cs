@@ -35,7 +35,7 @@ namespace ZE.Polytrucks {
             _requireInfoStringID = LocalizedString.Undefined;
             if (collectionTrigger.TryGetInfoString(out var infoStringID))
             {
-                if (!_localization.TryGetLocalizedEnum(infoStringID, out _requireInfoStringID))
+                if (!_localization.TryDefineStringID(infoStringID, out _requireInfoStringID))
                 {
 #if UNITY_EDITOR
                     Debug.LogWarning($"string {infoStringID} not recognized");
@@ -46,6 +46,7 @@ namespace ZE.Polytrucks {
 
             collectionTrigger.Subscribe(this);
             _isActive = true;
+            _hitEffect?.StopEffect();
         }
         private void ShowRequireInfo()
         {
@@ -71,6 +72,7 @@ namespace ZE.Polytrucks {
         public void OnCountChanged(int x)
         {
             _countLabel.text = $"{_collectionTrigger.CollectedCount}/{_collectionTrigger.TargetCount}";
+            _hitEffect?.Hit();
         }
 
         public void OnDespawned() {

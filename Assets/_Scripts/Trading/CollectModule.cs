@@ -30,10 +30,15 @@ namespace ZE.Polytrucks {
         public void OnStartCollect(CollectZone zone)
         {
             if (_isInTradeZone) i_OnStopCollect();
+
             _collectZone = zone;
-            _isInTradeZone = true;
-            PrepareCollectContractAndList();
-            _collectZone.OnItemAddedEvent += OnStorageCompositionChanged;
+            if (_collectZone != null)
+            {
+                _isInTradeZone = true;
+                PrepareCollectContractAndList();
+                _collectZone.OnItemAddedEvent += OnStorageCompositionChanged;
+                _collectZone.OnTradeZoneDisposedEvent += i_OnStopCollect;
+            }
         }
         protected void PrepareCollectContractAndList()
         {
@@ -59,6 +64,7 @@ namespace ZE.Polytrucks {
             if (_collectZone != null)
             {
                 _collectZone.OnItemAddedEvent -= OnStorageCompositionChanged;
+                _collectZone.OnTradeZoneDisposedEvent -= i_OnStopCollect;
                 _collectZone = null;
             }
             _isInTradeZone = false;

@@ -17,7 +17,8 @@ namespace ZE.Polytrucks {
         Ask_StopQuest,
         StopQuest,Cancel,QuestStarted, CannotLoadCargo,
         Refuse_AlreadyHaveSuchQuest,
-        RequestZone_RebuildMine, RequestZone_RebuildBridge
+        RequestZone_RebuildMine, RequestZone_RebuildBridge,RequestZone_LaunchLumbermill,
+        STRING_NOT_RECOGNISED_ERROR
     }
     internal interface ILocalizer
     {
@@ -64,9 +65,10 @@ namespace ZE.Polytrucks {
             }
             else return name;
         }
-        public bool TryGetLocalizedEnum(string id, out LocalizedString localEnum)
+
+        public bool TryDefineStringID(string rawName, out LocalizedString localEnum)
         {
-            if (Enum.TryParse(typeof(LocalizedString), id, out var key))
+            if (Enum.TryParse(typeof(LocalizedString), rawName, out var key))
             {
                 localEnum = (LocalizedString)key;
                 return true;
@@ -76,6 +78,11 @@ namespace ZE.Polytrucks {
                 localEnum = LocalizedString.Undefined;
                 return false;
             }
+        }
+        public LocalizedString GetStringID(string rawname)
+        {
+            if (TryDefineStringID(rawname, out var id)) return id;
+            else return LocalizedString.STRING_NOT_RECOGNISED_ERROR;
         }
         private Action<LocalizationLanguage> OnLocaleChangedEvent;
 
@@ -133,6 +140,7 @@ namespace ZE.Polytrucks {
 
                 case LocalizedString.RequestZone_RebuildBridge: return "Починить мост";
                 case LocalizedString.RequestZone_RebuildMine: return "Запустить шахту";
+                case LocalizedString.RequestZone_LaunchLumbermill: return "Запустить лесопилку";
                 default: return "<текст>";
             }
         }

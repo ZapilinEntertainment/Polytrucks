@@ -33,7 +33,7 @@ namespace ZE.Polytrucks {
             {
                 _progress = Mathf.MoveTowards(_progress, 1f, Time.deltaTime / _duration);
                 Vector2 offset = Vector2.one * _offset * (_progress - 1f);
-                _rectTransform.offsetMin = offset;
+                _rectTransform.offsetMin = -offset;
                 _rectTransform.offsetMax = offset;
 
                 if (_progress == 1f)

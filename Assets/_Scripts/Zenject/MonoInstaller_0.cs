@@ -4,6 +4,7 @@ using Zenject;
 namespace ZE.Polytrucks {
     public class MonoInstaller_0 : MonoInstaller
     {
+        [SerializeField] private bool _useTestOptions = false;
         [SerializeField] private SessionMaster _sessionMaster;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
@@ -11,11 +12,11 @@ namespace ZE.Polytrucks {
         [SerializeField] private UIManager _uiManagerPrefab;
 
         public override void InstallBindings()
-        {            
+        {
             Container.Bind<SessionMaster>().FromInstance( _sessionMaster ).AsSingle();
             Container.Bind<UIManager>().FromComponentInNewPrefab( _uiManagerPrefab ).AsCached().NonLazy();
 
-            Container.Bind<PlayerData>().FromNew().AsCached();
+            InstallAccountInfo();
             Container.Bind<PlayerController>().FromComponentInHierarchy(false).AsCached();            
 
             Container.Bind<LevelManager>().FromInstance(_levelManager).AsCached();
@@ -38,6 +39,7 @@ namespace ZE.Polytrucks {
             Container.DeclareSignal<PlayerItemSellSignal>();
             Container.DeclareSignal<QuestCompletedSignal>();
             Container.DeclareSignal<PlayerLevelUpSignal>();
+            Container.DeclareSignal<RequestCompletedSignal>(); 
         }
 
         private void InstallSystems()
@@ -53,6 +55,8 @@ namespace ZE.Polytrucks {
             Container.Bind<ColouredMaterialsDepot>().AsCached().Lazy();
             Container.Bind<CollectablesSpawnManager>().AsCached().Lazy();
             Container.Bind<VisibilityController>().FromNewComponentOnNewGameObject().AsCached().Lazy();
+            Container.Bind<EffectsManager>().AsCached().Lazy();
+            Container.Bind<RequestZonesManager>().AsCached().Lazy();
         }
         private void InstallFactories()
         {
@@ -61,7 +65,16 @@ namespace ZE.Polytrucks {
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
             Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
             Container.BindFactory<Trailer, Trailer.Factory>().FromComponentInNewPrefab(_trailerPrefab);
-            Container.BindFactory<Experience, Experience.Factory>().AsCached();
         }
+        
+        private void InstallAccountInfo()
+        {
+            var accountDataBind = Container.Bind<IAccountDataAgent>().FromSubContainerResolve().ByMethod(PlayerDataInstall).AsCached(); // with kernel
+        }
+        private void PlayerDataInstall(DiContainer subcontainer)
+        {
+            AccountData.PlayerDataInstaller.Install(subcontainer, _useTestOptions);
+        }
+        
     }
 }

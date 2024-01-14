@@ -7,27 +7,31 @@ using System;
 namespace ZE.Polytrucks {
 	public class Experience
 	{
+        public float ExpMultiplier { get; private set; } = 1f;
         public int Points { get; private set; }
         public int Level { get; private set; }
         public int PointsToNextLevel { get; private set; }
         public float ProgressPercent => Points / (float)PointsToNextLevel;
-
+        
         private SignalBus _signalBus;
         private GameSettings _gameSettings;
         public Action OnExperienceCountChangedEvent;
 
-        public Experience(PlayerData playerData, SignalBus signalBus, GameSettings gameSettings) {
+        public Experience(SignalBus signalBus, GameSettings gameSettings) {
             Points = 0;
             Level= 0;
             PointsToNextLevel = GetExperienceLimit(Level);
 
             _signalBus= signalBus;
             _signalBus.Subscribe<QuestCompletedSignal>(OnQuestCompleted);
+            _signalBus.Subscribe<RequestCompletedSignal>(OnRequestCompleted);
 
             _gameSettings= gameSettings;
+            ExpMultiplier = _gameSettings.ExperienceMultiplier;
         }
 
         private void OnQuestCompleted(QuestCompletedSignal signal) => AddExperiencePoints(signal.Quest.GetExperienceReward(_gameSettings));
+        private void OnRequestCompleted(RequestCompletedSignal signal) => AddExperiencePoints((int)(signal.Report.ExperienceCollected * _gameSettings.ExperienceRewardBase * ExpMultiplier));
 
         private void AddExperiencePoints(int x)
         {
@@ -50,11 +54,7 @@ namespace ZE.Polytrucks {
         }
         private int GetExperienceLimit(int level)
         {
-            return level * 2 + 2;
-        }
-
-        public class Factory : PlaceholderFactory<Experience>
-        {
+            return level * 5 + 10;
         }
     }
 }

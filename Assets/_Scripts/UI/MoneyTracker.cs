@@ -13,19 +13,20 @@ namespace ZE.Polytrucks {
 		private int _showingValue = 0,_startShowingValue = 0, _targetShowingValue = 0;
 		private float _numbersProgress = 1f, _coinProgress = 1f;
 		private Color _cachedCoinColor;
-		private PlayerData _playerData;
+		private IAccountDataAgent _dataReader;
 
 		[Inject]
-		public void Inject(PlayerData playerData)
+		public void Inject(IAccountDataAgent accountReader)
 		{
-			_playerData = playerData;
-			playerData.SubscribeToMoneyChange(OnMoneyCollected);
+			_dataReader = accountReader;
 		}
 
         private void Start()
         {
+			var playerData = _dataReader.PlayerDataAgent;
+			playerData.SubscribeToMoneyChange(OnMoneyCollected);
 			_cachedCoinColor = _coinImage.color;
-			UpdateMoneyValue(_playerData.Money);
+			UpdateMoneyValue(playerData.Money);
         }
 		private void UpdateMoneyValue(int money)
 		{

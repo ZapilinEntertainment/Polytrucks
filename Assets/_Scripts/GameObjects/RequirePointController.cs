@@ -14,6 +14,7 @@ namespace ZE.Polytrucks {
             [Tooltip("Activable script will be called when the stage starts")] public MonoBehaviour ActivableScript;
 
 			public void Hide() => StageObject.SetActive(false);
+			public void Show() => StageObject.SetActive(true);
 		}
 
 		[SerializeField] private RequireZoneStage[] _stages;
@@ -22,6 +23,11 @@ namespace ZE.Polytrucks {
         private void Start()
         {
 			SubscribeToStage(_currentStage);
+			for (int i = 0; i < _stages.Length; i++)
+			{
+				if (i != _currentStage) _stages[i].Hide();
+				else _stages[i].Show();
+			}
         }
 
 		private void SubscribeToStage(int index)

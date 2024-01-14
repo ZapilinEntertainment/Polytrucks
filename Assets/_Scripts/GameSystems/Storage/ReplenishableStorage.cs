@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	public class ReplenishableStorage : ReplenishableStorageBase
 	{
 		[SerializeField] private StorageVisualSettings _storageSettings;
+		[SerializeField] private CollectZone _collectZone;
 		private StorageVisualizer.Factory _visualizerFactory;
 
 		[Inject]
@@ -22,7 +23,8 @@ namespace ZE.Polytrucks {
 		{
             var storage = new Storage(_storageSettings.Capacity);
             _visualizerFactory.Create().Setup(storage, _storageSettings);
-			return storage;
+            if (_collectZone != null) _collectZone.AssignItemsProvider(storage);
+            return storage;
         }
     }
 }

@@ -15,6 +15,7 @@ namespace ZE.Polytrucks {
         protected bool _isActive = true;
         protected bool TradeToNowhere => _tradeToNowhere;
         virtual public bool IsOperable => _isActive & !_isDisposed;
+        public System.Action OnTradeZoneDisposedEvent;
 
 
         [Inject]
@@ -47,7 +48,11 @@ namespace ZE.Polytrucks {
 
         public void LateDispose()
         {
-            _isDisposed = true;
+            if (!_isDisposed)
+            {
+                _isDisposed = true;
+                OnTradeZoneDisposedEvent?.Invoke();
+            }
         }
         public void Destroy()
         {

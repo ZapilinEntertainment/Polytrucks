@@ -8,21 +8,22 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private ProgressionBar _progressBar;
 		[SerializeField] private TMPro.TMP_Text _levelLabel;
-		private PlayerData _playerData;
+		private IAccountDataAgent _accountDataAgent;
+		private Experience _experience;
 
 		[Inject]
-		public void Inject(PlayerData playerData, SignalBus signalBus)
+		public void Inject(IAccountDataAgent accountDataAgent, SignalBus signalBus)
 		{
-			_playerData= playerData;
+			_accountDataAgent = accountDataAgent;
 			signalBus.Subscribe<PlayerLevelUpSignal>(OnPlayerLevelUp);			
 		}
 
         private void Start()
         {
-			var exp = _playerData.Experience;
-			_progressBar.Setup(exp.PointsToNextLevel, exp.ProgressPercent);
-			_levelLabel.text = exp.Level.ToString();
-			exp.OnExperienceCountChangedEvent += OnExperiencePercentChanged;
+            _experience = _accountDataAgent.PlayerDataAgent.Experience;
+			_progressBar.Setup(Mathf.Clamp( _experience.PointsToNextLevel - 1,1,9), _experience.Points, _experience.PointsToNextLevel);
+			_levelLabel.text = _experience.Level.ToString();
+            _experience.OnExperienceCountChangedEvent += OnExperienceCountChanged;
         }
 		private void OnPlayerLevelUp(PlayerLevelUpSignal signal)
 		{
@@ -30,10 +31,9 @@ namespace ZE.Polytrucks {
 			_levelLabel.text = level.ToString();
 			// make an effect for the level
 		}
-		private void OnExperiencePercentChanged()
+		private void OnExperienceCountChanged()
 		{
-			float percent = _playerData.Experience.ProgressPercent;
-			_progressBar.SetProgress(percent);
+			_progressBar.SetProgress(_experience.Points, _experience.PointsToNextLevel);
 		}
     }
 }

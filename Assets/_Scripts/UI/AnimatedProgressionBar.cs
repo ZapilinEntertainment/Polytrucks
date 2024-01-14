@@ -10,7 +10,7 @@ namespace ZE.Polytrucks {
         [SerializeField] private float _duration = 0.5f;
         private bool _animate = false;
 
-        public override void SetProgress(float percent)
+        protected override void SetProgress(float percent)
         {
             base.SetProgress(percent);
             _animatedProgressionBar.DOFillAmount(percent, _duration);

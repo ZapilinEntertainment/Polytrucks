@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c59635fb7c874e84cba4198246820c27, type: 3}
   m_Name: ByType
   m_EditorClassIdentifier: 
-  <DefaultColor>k__BackingField: {r: 0, g: 0, b: 0, a: 1}
+  <DefaultColor>k__BackingField: {r: 1, g: 1, b: 1, a: 1}
   <Colors>k__BackingField:
   - Type: 1
-    Color: {r: 0.83137256, g: 0.12941177, b: 0.22745098, a: 1}
+    Color: {r: 1, g: 1, b: 1, a: 1}
+  - Type: 3
+    Color: {r: 0.9811321, g: 0.9811321, b: 0.9811321, a: 1}

@@ -8,7 +8,8 @@ using UnityEngine.UI;
 namespace ZE.Polytrucks {
 	public struct ActionContainer
 	{
-		public string MainLabel, CostLabel, RejectionLabel;
+		public string CostLabel;
+        public LocalizedString MainLabel, RejectionLabel;
 		public Vector3 WorldPos;
 		public Func<bool> ResultFunc;
 
@@ -18,7 +19,7 @@ namespace ZE.Polytrucks {
 			else return false;
 		}
 	} 
-	public sealed class ActionPanel : MonoBehaviour
+	public sealed class ActionPanel : MonoBehaviour, IDynamicLocalizer
 	{
 		[SerializeField] private TMPro.TMP_Text _mainLabel, _costLabel, _rejectionLabel;
 		[SerializeField] private Image _icon;
@@ -26,31 +27,41 @@ namespace ZE.Polytrucks {
 		[SerializeField] private float _rejectionLabelTime = 2f;
 		private bool _isShowing = false;
 		private int _actionID = 0;
+		private LocalizedString _mainLabelString, _rejectionLabelString;
 		private ActionContainer _currentActionContainer;
 		private CameraController _cameraController;
+		private Localization _localization;
 
 		[Inject]
-		public void Inject(CameraController cameraController)
+		public void Inject(CameraController cameraController, Localization localization)
 		{
 			_cameraController= cameraController;
+			_localization= localization;			
 		}
 
         private void Start()
         {
             _labelObject.SetActive(false);
 			_rejectionLabel.enabled = false;
+            _localization.Subscribe(this);
         }
         public int Show(ActionContainer actionContainer)
 		{
 			_actionID++;
 			_currentActionContainer = actionContainer;
-			_mainLabel.text = actionContainer.MainLabel;
+			_mainLabelString = actionContainer.MainLabel;
 			_costLabel.text = actionContainer.CostLabel;
-			_rejectionLabel.text = actionContainer.RejectionLabel;
+			_rejectionLabelString = actionContainer.RejectionLabel;
+			LocalizeStrings();
 			
 			SetActivity(true);
             Update();
             return _actionID;
+		}
+		private void LocalizeStrings()
+		{
+			_mainLabel.text = _localization.GetLocalizedString(_mainLabelString);
+			_rejectionLabel.text = _localization.GetLocalizedString(_rejectionLabelString);
 		}
         private void Update()
         {
@@ -97,5 +108,10 @@ namespace ZE.Polytrucks {
 				_rejectionLabel.enabled = true;
 			}
 		}
-	}
+
+        public void OnLocaleChanged(LocalizationLanguage language)
+		{
+			if (_isShowing) LocalizeStrings();
+		}
+    }
 }

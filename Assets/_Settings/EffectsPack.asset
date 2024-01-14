@@ -16,3 +16,4 @@ MonoBehaviour:
     <EffectPrefab>k__BackingField: {fileID: 8070804032571572169, guid: 64ad83589da74fd40932e3247b045716, type: 3}
     <SpawnHeight>k__BackingField: 10
     <FallTime>k__BackingField: 1
+  <CompleteEffectPrefab>k__BackingField: {fileID: 4631719089912935218, guid: 698dcb8365870164db9b89a271236a6c, type: 3}

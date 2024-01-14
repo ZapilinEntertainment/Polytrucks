@@ -648,6 +648,7 @@ MonoBehaviour:
   _rejectionLabel: {fileID: 3258302779842927864}
   _icon: {fileID: 3942191419660055009}
   _labelObject: {fileID: 8320800678638489993}
+  _rejectionLabelTime: 2
 --- !u!1 &6608786464208550762
 GameObject:
   m_ObjectHideFlags: 0
@@ -837,7 +838,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21321802, g: 0.36200002, b: 0.35208124, a: 0.7294118}
+  m_Color: {r: 0.16647384, g: 0.2735849, b: 0.26794747, a: 0.92941177}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0

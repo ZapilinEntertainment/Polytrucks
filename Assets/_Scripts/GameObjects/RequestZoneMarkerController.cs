@@ -4,11 +4,11 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-	public sealed class RequestZoneController : MonoBehaviour, IVisibilityListener
+	public sealed class RequestZoneMarkerController : MonoBehaviour, IVisibilityListener
 	{
         [SerializeField] private float _visibilityDistance = 40f;
 		[SerializeField] private CollectionActivatedTrigger _triggerZone;
-		private bool _isVisible = false;
+		private bool _isVisible = false, _isDisposed = false;
 		private UIManager _uiManager;
         private VisibilityController _visibilityController;
         private CollectionTriggerPanel _collectionPanel;
@@ -27,12 +27,13 @@ namespace ZE.Polytrucks {
         {
             Position = _triggerZone.Position;
             _visibilityController.AddListener(new VisibilityConditions(this, UPDATE_INTERVAL, _visibilityDistance));
+            _triggerZone.OnConditionCompletedEvent += StopActivity;
         }
 
 
         void IVisibilityListener.OnBecameVisible()
         {
-            if (!_isVisible)
+            if (!_isVisible & !_isDisposed)
             {
                 _isVisible = true;
                 _collectionPanel = _uiManager.GetCollectionTriggerPanel();
@@ -42,7 +43,7 @@ namespace ZE.Polytrucks {
 
         void IVisibilityListener.OnBecameInvisible()
         {
-            if (_isVisible)
+            if (_isVisible & !_isDisposed)
             {
                 _isVisible = false;
                 if (_collectionPanel != null)
@@ -53,18 +54,16 @@ namespace ZE.Polytrucks {
             }
         }
 
-        private void OnDestroy()
-        {
-            if (Application.isPlaying) StopActivity();
-        }
-        private void OnDisable()
-        {
-            (this as IVisibilityListener).OnBecameInvisible();
-            StopActivity();
-        }
+        private void OnDisable() => StopActivity();
         private void StopActivity()
         {
-            if (_visibilityController != null) _visibilityController.RemoveListener(this, UPDATE_INTERVAL);
+            if (!_isDisposed)
+            {
+                (this as IVisibilityListener).OnBecameInvisible();
+                _isDisposed = true;
+                if (_visibilityController != null) _visibilityController.RemoveListener(this, UPDATE_INTERVAL);
+                Destroy(this);
+            }
         }
     }
 }

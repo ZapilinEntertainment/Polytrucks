@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-	public class ResourceLoader
+	public sealed class IPlayerDataController : MonoBehaviour
 	{
-		
+	
 	}
 }

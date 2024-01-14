@@ -10,10 +10,10 @@ namespace ZE.Polytrucks {
 		[SerializeField] private Image _progressionBar;
 		[SerializeField] private TMPro.TMP_Text _progressLabel;
 
-		public void Setup(int divisions, float startPercent = 0f)
+		public void Setup(int divisions, int currentValue, int maxValue)
 		{
 			SetDivisions(divisions);
-			SetProgress(startPercent);
+			SetProgress(currentValue, maxValue);
 		}
 
 		private void SetDivisions(int x)
@@ -38,6 +38,6 @@ namespace ZE.Polytrucks {
 			_progressLabel.text = $"{current}/{total}";
 			SetProgress(current / (float) total);
 		} 
-		virtual public void SetProgress(float percent) => _progressionBar.fillAmount= percent;
+		virtual protected void SetProgress(float percent) => _progressionBar.fillAmount= percent;
 	}
 }

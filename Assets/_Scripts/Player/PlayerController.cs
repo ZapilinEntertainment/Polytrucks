@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
 
         [SerializeField] private Vehicle _vehicle;
         [SerializeField] private InputController _inputController;
-        private PlayerData _playerData;
+        private IAccountDataAgent _accountDataAgent;
         private Locker _locker = new Locker();
         public Vector3 Position { get; private set; }
         public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
@@ -27,9 +27,9 @@ namespace ZE.Polytrucks {
         #endregion
 
         [Inject]
-        public void Inject(PlayerData playerData, ColliderListSystem collidersList)
+        public void Inject(IAccountDataAgent accountDataAgent, ColliderListSystem collidersList)
         {
-            _playerData = playerData;
+            _accountDataAgent= accountDataAgent;
             collidersList.AddPlayer(this);
         }
 
@@ -97,7 +97,7 @@ namespace ZE.Polytrucks {
 
 
         #region trading
-        public void OnItemSold(SellOperationContainer info) => _playerData.OnPlayerSoldItem(info);
+        public void OnItemSold(SellOperationContainer info) => _accountDataAgent.PlayerDataAgent.OnPlayerSoldItem(info);
         public bool CanFulfillContract(TradeContract contract) => _vehicle.CanFulfillContract(contract);
         public bool TryLoadCargo(VirtualCollectable item, int count) => _vehicle.TryLoadCargo(item, count);
         public TradeContract FormCollectContract() => _vehicle.FormCollectContract();       

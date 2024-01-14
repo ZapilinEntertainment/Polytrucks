@@ -30,6 +30,14 @@ namespace ZE.Polytrucks {
 			Quest = quest;
 		}
 	}
+	public class RequestCompletedSignal
+	{
+		public readonly CompletedRequestReport Report;
+		public RequestCompletedSignal(CompletedRequestReport report)
+		{
+			Report = report;
+		}
+	}
 	public class PlayerLevelUpSignal
 	{
 		public readonly int Level;
