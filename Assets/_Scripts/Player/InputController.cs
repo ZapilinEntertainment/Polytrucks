@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ZE.Polytrucks {
     public enum PlayerMoveStateType : byte { Idle, Gas, Brake, Reverse}
-	public sealed class InputController : SessionObject
+	public sealed class InputController
 	{
         private class ControlsMask
         {
@@ -18,17 +18,17 @@ namespace ZE.Polytrucks {
 
         private float _steerValue = 0f;
         private PlayerMoveStateType _currentPlayerMoveState = PlayerMoveStateType.Idle;
-        private PlayerController _player;
+        private readonly PlayerController _player;
         private ControlsMask _controlsMask = new ControlsMask();
 
-        public void Setup(PlayerController player)
+        public InputController (PlayerController player)
         {
-            _player = player;
+            _player = player;           
         }
 
         public void MoveCommand(Vector2 dir)
         {
-            if (GameSessionActive) _player.Move(dir);
+             _player.Move(dir);
         }
         public void StabilizeCommand()
         {

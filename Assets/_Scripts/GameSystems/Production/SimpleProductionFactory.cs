@@ -30,8 +30,8 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            _visualizerFactory.Create().Setup(_inputStorage, _inputStorageSettings);
-            _visualizerFactory.Create().Setup(_outputStorage, _outputStorageSettings);
+            if (_inputStorageSettings._zeroPoint != null) _visualizerFactory.Create().Setup(_inputStorage, _inputStorageSettings);
+            if (_outputStorageSettings._zeroPoint != null) _visualizerFactory.Create().Setup(_outputStorage, _outputStorageSettings);
 
             if (_inputReceiver != null)
             {

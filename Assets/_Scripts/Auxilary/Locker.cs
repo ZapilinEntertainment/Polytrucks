@@ -21,5 +21,10 @@ namespace ZE.Polytrucks {
             _activeLocks.Remove(id);
             IsLocked = _activeLocks.Count > 0;
         }
+        public void ClearAllLocks()
+        {
+            _activeLocks.Clear();
+            IsLocked = false;
+        }
     }
 }

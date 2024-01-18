@@ -17,7 +17,7 @@ namespace ZE.Polytrucks {
         Ask_StopQuest,
         StopQuest,Cancel,QuestStarted, CannotLoadCargo,
         Refuse_AlreadyHaveSuchQuest,
-        RequestZone_RebuildMine, RequestZone_RebuildBridge,RequestZone_LaunchLumbermill,
+        RequestZone_RebuildMine, RequestZone_RebuildBridge,RequestZone_LaunchLumbermill,RequestZone_RebuildElevator,
         STRING_NOT_RECOGNISED_ERROR
     }
     internal interface ILocalizer
@@ -141,6 +141,7 @@ namespace ZE.Polytrucks {
                 case LocalizedString.RequestZone_RebuildBridge: return "Починить мост";
                 case LocalizedString.RequestZone_RebuildMine: return "Запустить шахту";
                 case LocalizedString.RequestZone_LaunchLumbermill: return "Запустить лесопилку";
+                case LocalizedString.RequestZone_RebuildElevator: return "Починить лифт";
                 default: return "<текст>";
             }
         }

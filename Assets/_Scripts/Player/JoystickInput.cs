@@ -11,9 +11,9 @@ namespace ZE.Polytrucks {
         private InputController _inputController;
 
         [Inject]
-        public void Setup(PlayerController player, CameraController cameraController)
+        public void Setup(InputController inputController, CameraController cameraController)
         {
-            _inputController = player.InputController;
+            _inputController = inputController;
             _cameraTransform = cameraController.Camera.transform;
         }
 

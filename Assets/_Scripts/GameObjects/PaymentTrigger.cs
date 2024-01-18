@@ -59,7 +59,7 @@ namespace ZE.Polytrucks {
                 _playerColliderId = id;
 
 
-                _showingLabelID = _uiManager.ShowPayPanel(
+                _showingLabelID = _uiManager.ShowActionPanel(
                     new ActionContainer()
                     {
                         WorldPos = transform.position,
@@ -83,7 +83,7 @@ namespace ZE.Polytrucks {
         }
         private void HideLabel()
         {
-            _uiManager.HidePayPanel(_showingLabelID);
+            _uiManager.HideActionPanel(_showingLabelID);
             _showingLabelID = -1;
         }
     }

@@ -4,6 +4,11 @@ using UnityEngine;
 using System;
 
 namespace ZE.Polytrucks {
+
+    public enum VehicleType : byte
+    {
+        None = 0, Truck
+    }
 	public abstract class Vehicle : SessionObject
 	{
 		[SerializeField] private Transform _cameraViewPoint;
@@ -25,18 +30,24 @@ namespace ZE.Polytrucks {
         public abstract void ReleaseGas();
         public abstract void Steer(float x);
 
+        #region world positioning
         public abstract void Teleport(VirtualPoint point);
         public abstract void Stabilize();
-        public abstract void RecoveryAt(RecoveryPoint point);
+        public abstract void PhysicsLock(Rigidbody point);
+        public abstract void PhysicsUnlock(Rigidbody point = null);
+        public abstract void RecoveryAt(RecoveryPoint point);       
 
         virtual public IReadOnlyCollection<Vector3> GetVehicleBounds() => _collidersHandler.GetBounds();
+        #endregion
 
         public void AssignVehicleController(IVehicleController controller) { VehicleController = controller; OnVehicleControllerChangedEvent?.Invoke(VehicleController); }
 
         #region storage
+        public abstract void ClearCargo(bool destroy = true);
         public abstract bool CanFulfillContract(TradeContract contract);
         public abstract int LoadCargo(VirtualCollectable item, int count);
         public abstract bool TryLoadCargo(VirtualCollectable item, int count);
+       
         public abstract TradeContract FormCollectContract();
         #endregion
     }

@@ -18,6 +18,7 @@ namespace ZE.Polytrucks
         [field:SerializeField] public GameSettings GameSettings { get; private set; }
 
         [field: SerializeField] public EffectsPack EffectsPack { get; private set; }
+        [field: SerializeField] public HangarTrucksList TrucksList { get; private set; }
 
         public override void InstallBindings()
         {            

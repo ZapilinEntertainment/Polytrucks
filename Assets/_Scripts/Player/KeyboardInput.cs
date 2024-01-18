@@ -11,9 +11,9 @@ namespace ZE.Polytrucks {
         private BitArray _controlsMask = new BitArray((int)ControlButtonID.Total, false);
 
         [Inject]
-        public void Setup(PlayerController player)
-        {
-            _inputController = player.InputController;
+        public void Inject(InputController inputController)
+        {            
+            _inputController = inputController;
         }
         public void Update()
         {
@@ -49,15 +49,6 @@ namespace ZE.Polytrucks {
                 }
                 
             }
-        }
-
-        public override void OnSessionPause()
-        {
-            base.OnSessionPause();
-        }
-        public override void OnSessionResume()
-        {
-            base.OnSessionResume();
         }
     }
 }

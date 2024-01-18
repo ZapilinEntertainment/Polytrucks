@@ -5,6 +5,7 @@ using Zenject;
 using System;
 
 namespace ZE.Polytrucks {
+    public enum TruckID : byte { Undefined, TractorRosa, TruckRobert, CosettaRig}
     public class Truck : Vehicle, ITrailerConnectionPoint
     {
         [SerializeField] private MassChanger _massChanger;
@@ -19,6 +20,7 @@ namespace ZE.Polytrucks {
         private CollectModule _collectModule;
         private ColliderListSystem _colliderListSystem;
         private List<Trailer> _trailers;
+        private Joint _lock;
 
         override public float SteerValue => _engine.SteerValue;
         override public float GasValue => _engine.GasValue;
@@ -86,6 +88,23 @@ namespace ZE.Polytrucks {
             RemoveAllTrailers();
             _storage.MakeEmpty();
             Teleport(point.GetPoint());
+        }
+        public override void PhysicsLock(Rigidbody point)
+        {
+            if (_lock != null) Destroy(_lock);
+            _lock = Rigidbody.gameObject.AddComponent<FixedJoint>();
+            _lock.connectedBody = point;
+            Rigidbody.angularVelocity = Vector3.zero;
+            Rigidbody.velocity = Vector3.zero;
+            Rigidbody.ResetInertiaTensor();
+        }
+        public override void PhysicsUnlock(Rigidbody point = null)
+        {
+            if (_lock != null && ( point == null || _lock.connectedBody == point))
+            {
+                Destroy(_lock);
+                _lock = null;
+            }
         }
         #endregion
 
@@ -189,6 +208,10 @@ namespace ZE.Polytrucks {
             else return base.GetVehicleBounds();
         }
 
+        public override void ClearCargo(bool destroy = true)
+        {
+            _storage.MakeEmpty();
+        }
         public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();
         public override bool CanFulfillContract(TradeContract contract) => _storage.CanFulfillContract(contract);
         public override int LoadCargo(VirtualCollectable item, int count) => _storage.AddItems(item, count);

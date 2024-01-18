@@ -7,17 +7,14 @@ using Zenject;
 namespace ZE.Polytrucks {    
 	public sealed class PlayerController : SessionObject, IVehicleController, IColliderOwner
 	{
-       
-
         [SerializeField] private Vehicle _vehicle;
-        [SerializeField] private InputController _inputController;
         private IAccountDataAgent _accountDataAgent;
-        private Locker _locker = new Locker();
+        private Locker _controlsLocker = new Locker();
         public Vector3 Position { get; private set; }
         public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
-        public InputController InputController => _inputController;
         public Vehicle ActiveVehicle => _vehicle;
         public Action OnItemCompositionChangedEvent;
+        public Action<Vehicle> OnVehicleChangedEvent;
 
 
         #region IColliderOwner
@@ -36,26 +33,28 @@ namespace ZE.Polytrucks {
         private void Awake()
         {
             Position = _vehicle.Position;
-            _inputController.Setup(this);
-            _vehicle.AssignVehicleController(this);
+            _vehicle.AssignVehicleController(this);            
+        }
+        private void ChangeCameraPoint(Transform t)
+        {
+            if (isActiveAndEnabled) _signalBus.Fire(new CameraViewPointSetSignal(t));
         }
 
         public override void OnSessionStart()
         {
             base.OnSessionStart();
-            Transform pointLink = _vehicle.CameraViewPoint;
-            if (isActiveAndEnabled) _signalBus.Fire(new CameraViewPointSetSignal(pointLink));
+            ChangeCameraPoint( _vehicle.CameraViewPoint);            
         }
 
         #region controls
         public void Move(Vector2 dir)
         {
-            if (_locker.IsLocked) return;
+            if (_controlsLocker.IsLocked) return;
             _vehicle.Move(dir);
         }
         public void ChangeMoveState(PlayerMoveStateType state)
         {
-            if (_locker.IsLocked) return;
+            if (_controlsLocker.IsLocked) return;
             switch (state)
             {
                 case PlayerMoveStateType.Gas: _vehicle.Gas(); break;
@@ -66,7 +65,7 @@ namespace ZE.Polytrucks {
         }
         public void SetSteer(float steer)
         {
-            if (_locker.IsLocked) return;
+            if (_controlsLocker.IsLocked) return;
             _vehicle.Steer(steer);
         }
         
@@ -83,18 +82,30 @@ namespace ZE.Polytrucks {
             _vehicle.Teleport(point);
             Position = _vehicle.Position;
         }
-        public bool TryLock(Transform point, out int id)
+        public void PhysicsLock(Rigidbody point, out int id)
+        {
+            if (TryLockControls(out id))  _vehicle.PhysicsLock(point);
+        }
+        private void ReleaseControls()
         {
             ChangeMoveState(PlayerMoveStateType.Idle);
             SetSteer(0f);
-            Teleport(new VirtualPoint(point));
-            id = _locker.CreateLock();            
+        }
+        public bool TryLockControls(out int id)
+        {
+            ReleaseControls();
+            
+            id = _controlsLocker.CreateLock();            
             return true;
         }
-        public void Unlock(int id) => _locker.DeleteLock(id);
+        public void RemovePhysicsLock(Rigidbody point, int id)
+        {
+            UnlockControls(id);
+            _vehicle.PhysicsUnlock(point);
+        }
+        public void UnlockControls(int id) => _controlsLocker.DeleteLock(id);
         public IReadOnlyCollection<Vector3> GetPlayerBounds() => _vehicle.GetVehicleBounds();
         #endregion
-
 
         #region trading
         public void OnItemSold(SellOperationContainer info) => _accountDataAgent.PlayerDataAgent.OnPlayerSoldItem(info);
@@ -106,6 +117,25 @@ namespace ZE.Polytrucks {
             OnItemCompositionChangedEvent?.Invoke();
         }
 
+        #endregion
+
+        #region player options
+        public void ChangeActiveVehicle(Vehicle vehicle)
+        {
+            if (_vehicle != null)
+            {
+                _controlsLocker.ClearAllLocks();
+                ReleaseControls();
+
+                _vehicle.AssignVehicleController(null);
+                _vehicle.PhysicsUnlock();
+            }
+            _vehicle = vehicle;
+            _vehicle.AssignVehicleController(this);
+            ChangeCameraPoint(_vehicle.CameraViewPoint);
+            Position = _vehicle.Position;
+            OnVehicleChangedEvent?.Invoke(vehicle);
+        }
         #endregion
     }
 }

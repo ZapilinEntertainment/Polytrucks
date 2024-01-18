@@ -17,6 +17,7 @@ namespace ZE.Polytrucks {
             Container.Bind<UIManager>().FromComponentInNewPrefab( _uiManagerPrefab ).AsCached().NonLazy();
 
             InstallAccountInfo();
+            Container.Bind<InputController>().FromNew().AsCached();
             Container.Bind<PlayerController>().FromComponentInHierarchy(false).AsCached();            
 
             Container.Bind<LevelManager>().FromInstance(_levelManager).AsCached();
@@ -39,7 +40,9 @@ namespace ZE.Polytrucks {
             Container.DeclareSignal<PlayerItemSellSignal>();
             Container.DeclareSignal<QuestCompletedSignal>();
             Container.DeclareSignal<PlayerLevelUpSignal>();
-            Container.DeclareSignal<RequestCompletedSignal>(); 
+            Container.DeclareSignal<RequestCompletedSignal>();
+            Container.DeclareSignal<GarageOpenedSignal>();
+            Container.DeclareSignal<GarageClosedSignal>();
         }
 
         private void InstallSystems()

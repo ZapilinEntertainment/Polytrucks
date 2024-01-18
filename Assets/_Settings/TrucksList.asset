@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345c2f0987ab94441b9eacb401e1babd, type: 3}
+  m_Name: TrucksList
+  m_EditorClassIdentifier: 
+  _trucksInfo:
+  - <ID>k__BackingField: 1
+    <TruckPrefab>k__BackingField: {fileID: 8702596829126323439, guid: 63015b390be14334da2375c154e7250a, type: 3}
+    <TruckConfig>k__BackingField: {fileID: 11400000, guid: 742f9d36d8b2c5c42aa758eafce68cc6, type: 2}
+    <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 5c769028d061ef64a887cdca1ebea246, type: 2}
+  - <ID>k__BackingField: 2
+    <TruckPrefab>k__BackingField: {fileID: 4908018578481662965, guid: ac8de24369739bd41bfeb8c5ec024d76, type: 3}
+    <TruckConfig>k__BackingField: {fileID: 11400000, guid: 30ea5113abd61274eb06ed24cbafab0c, type: 2}
+    <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}

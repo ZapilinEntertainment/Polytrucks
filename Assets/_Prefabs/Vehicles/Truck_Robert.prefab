@@ -200,7 +200,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 681869601896649459}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.6, y: 0.22, z: 1.62}
+  m_LocalPosition: {x: 1.2, y: 0.1, z: 1.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -690,8 +690,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3122948724232612133}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5772}
-  m_LocalScale: {x: 2.6, y: 0.3, z: 4.1544}
+  m_LocalPosition: {x: 0, y: 0, z: -0.7344}
+  m_LocalScale: {x: 2.3, y: 0.3, z: 4.4688883}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8117634233348394247}
@@ -761,7 +761,7 @@ GameObject:
   - component: {fileID: 6444464248493203871}
   - component: {fileID: 5572407598730845388}
   m_Layer: 0
-  m_Name: Truck_Rays
+  m_Name: Truck_Robert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -796,11 +796,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _cameraViewPoint: {fileID: 7071449846526245244}
+  _collidersHandler: {fileID: 5572407598730845388}
   _massChanger: {fileID: 6444464248493203871}
   _axisController: {fileID: 669300281718445636}
   _truckConfig: {fileID: 11400000, guid: 30ea5113abd61274eb06ed24cbafab0c, type: 2}
-  _collidersHandler: {fileID: 5572407598730845388}
   _storageController: {fileID: 1979156597565627395}
+  <Rigidbody>k__BackingField: {fileID: 8583801894704270260}
 --- !u!114 &1979156597565627395
 MonoBehaviour:
   m_ObjectHideFlags: 0

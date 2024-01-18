@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2e422fad9cbeef849bc8ffd58cd52a20, type: 3}
-  m_Name: Truck_Physics
+  m_Name: Tractor_Rosa
   m_EditorClassIdentifier: 
   <UsesPhysics>k__BackingField: 1
-  _maxSpeed: 5
-  _maxSteerAngle: 40
+  _maxSpeed: 15
+  _maxSteerAngle: 25
   _steerTime: 0.5
-  _acceleration: 35
+  _acceleration: 0.5
   _naturalDeceleration: 30
   _brakeDeceleration: 70
   _reverseSpeedCf: 0.5
@@ -68,3 +68,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  <CollectTime>k__BackingField: 0.25

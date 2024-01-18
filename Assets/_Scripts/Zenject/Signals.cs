@@ -43,4 +43,10 @@ namespace ZE.Polytrucks {
 		public readonly int Level;
 		public PlayerLevelUpSignal(int level) => Level = level;
 	}
+	public class GarageOpenedSignal
+	{
+		public readonly Garage Garage;
+		public GarageOpenedSignal(Garage garage) => Garage= garage;
+	}
+	public class GarageClosedSignal { }
 }

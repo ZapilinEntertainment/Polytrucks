@@ -5,15 +5,14 @@ using Zenject;
 
 namespace ZE.Polytrucks {
 	public sealed class UIManager : SessionObject
-	{
+	{        
 		[SerializeField] private GameObject _playerUI;
         [SerializeField] private Canvas _canvas;
-        [SerializeField] private ActionPanel ActionPanel;
 
         private PlayerMoneyEffectsHandler _moneyEffectsHandler;
         private AppearingLabel.Pool _appearingLabels;
         private Camera _camera;
-        private ChoicePopup _choicePopup;
+        private PanelsManager _panelsManager;
         private MonoMemoryPool<ObjectScreenMarker> _markersPool;
         private MonoMemoryPool<CollectionTriggerPanel> _collectionTriggerPanels;
 
@@ -27,13 +26,15 @@ namespace ZE.Polytrucks {
 
         [Inject]
         public void Inject(UIColorsPack colorsPack, MoneyEffectLabel.Pool moneyEffectPool, SignalBus signalBus, CameraController cameraController,
-            AppearingLabel.Pool appearLabelsPool, ChoicePopup choicePopup, ObjectScreenMarker.Pool markersPool, CollectionTriggerPanel.Pool collectionTriggersPool)
+            AppearingLabel.Pool appearLabelsPool, ObjectScreenMarker.Pool markersPool, CollectionTriggerPanel.Pool collectionTriggersPool,
+            UIInstaller.ElementsResolver elementsResolver
+            )
         {
             ColorsPack = colorsPack;
             _moneyEffectsHandler = new PlayerMoneyEffectsHandler(this, moneyEffectPool, signalBus);
             _camera = cameraController.Camera;
             _appearingLabels = appearLabelsPool;
-            _choicePopup = choicePopup;
+            _panelsManager = new PanelsManager(elementsResolver, signalBus);
             _markersPool = markersPool;
             _collectionTriggerPanels = collectionTriggersPool;
 
@@ -57,8 +58,8 @@ namespace ZE.Polytrucks {
         }
 
         #region ui functions
-        public int ShowPayPanel(ActionContainer container) => ActionPanel.Show(container);
-        public void HidePayPanel(int actionId) => ActionPanel.Hide(actionId);
+        public int ShowActionPanel(ActionContainer container) => _panelsManager.OpenActionPanel(container);
+        public void HideActionPanel(int actionId) => _panelsManager.CloseActionPanel(actionId);
         public void ShowAppearLabel(Vector3 worldPos, string text)
         {
             var label = _appearingLabels.Spawn();
@@ -66,6 +67,8 @@ namespace ZE.Polytrucks {
         }
         public ObjectScreenMarker GetObjectMarker() => _markersPool.Spawn();
         public CollectionTriggerPanel GetCollectionTriggerPanel() => _collectionTriggerPanels.Spawn();
+        #endregion
+        #region panels
         #endregion
     }
 }

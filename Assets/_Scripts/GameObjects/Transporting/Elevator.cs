@@ -8,19 +8,26 @@ namespace ZE.Polytrucks {
         [Range(0f,1f)][SerializeField] private float _pathPositionPc = 0f;
         [SerializeField] private float _moveTime = 3f;
         [SerializeField] private Vector3 _startPoint, _endPoint;
-        [SerializeField] private Transform _model;
+        [SerializeField] private Rigidbody _platform;
         private bool _moveUp = false;
+        protected override Rigidbody LockPoint => _platform;
 
         private void Awake()
         {
+            _platform.MovePosition( transform.TransformPoint(Vector3.Lerp(_startPoint, _endPoint, _pathPositionPc)));
             if (_pathPositionPc == 0f) _moveUp = true;
+            if (!IsActive) OnActivatedEvent += OnActivated;
         }
-      
-        protected override bool TryReachDestination()
+        private void OnActivated()
+        {
+            if (_pathPositionPc == 0f || _pathPositionPc == 1f) ChangeState(PlatformState.Ready);
+            else ChangeState(PlatformState.Moving);
+        }
+        protected override bool TryReachDestination(float t)
         {
             float target = _moveUp ? 1f : 0f;
-            _pathPositionPc = Mathf.MoveTowards(_pathPositionPc, target, Time.deltaTime / _moveTime);
-            _model.transform.position = transform.TransformPoint( Vector3.Lerp(_startPoint, _endPoint, _pathPositionPc));
+            _pathPositionPc = Mathf.MoveTowards(_pathPositionPc, target, t / _moveTime);
+            _platform.MovePosition(transform.TransformPoint( Vector3.Lerp(_startPoint, _endPoint, _pathPositionPc)));
             if (_pathPositionPc == target)
             {
                 _moveUp = !_moveUp;

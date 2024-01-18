@@ -8,7 +8,7 @@ namespace ZE.Polytrucks {
 	public abstract class TradeZone : MonoBehaviour, ILateDisposable, IActivitySwitchable
 	{
         [SerializeField] private SwitchableRenderer[] _switchableRenderers;
-        [SerializeField] private bool _tradeToNowhere = true;
+        [SerializeField] protected bool _tradeToNowhere = true;
         [SerializeField] private Collider _trigger;
         protected ColliderListSystem _collidersList;
         private bool _isDisposed = false;

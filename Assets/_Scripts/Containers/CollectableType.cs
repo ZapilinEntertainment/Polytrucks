@@ -6,7 +6,7 @@ namespace ZE.Polytrucks {
 	[System.Serializable]
 	public enum CollectableType : byte
 	{
-		Undefined = 0, Fruits, Metals, Lumber
+		Undefined = 0, Fruits, IronIngot, Lumber, SteelBeam, WoodenBeam
 	}
 	public static class CollectableTypeExtension
 	{
@@ -18,7 +18,7 @@ namespace ZE.Polytrucks {
 			{
 				case CollectableType.Lumber: return new Color(0.52f, 0.39f, 0.13f);
 				case CollectableType.Fruits: return Color.green;
-				case CollectableType.Metals: return Color.black;
+				case CollectableType.IronIngot: return Color.black;
 				default: return Color.white;
 			}
 		}

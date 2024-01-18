@@ -138,7 +138,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 04bf8e14dd57ba04a853cabb3f8376ba, type: 3}
-  m_Color: {r: 0.7921569, g: 1, b: 0, a: 1}
+  m_Color: {r: 0.7921569, g: 1, b: 0, a: 0.7490196}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -161,8 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteRender: {fileID: 3178354682691514845}
-  _activeColor: {r: 0.7921569, g: 1, b: 0, a: 1}
-  _disabledColor: {r: 0.16981131, g: 0.14978638, b: 0.14978638, a: 1}
+  _activeColor: {r: 0.7921569, g: 1, b: 0, a: 0.7490196}
+  _disabledColor: {r: 0.16981131, g: 0.14978638, b: 0.14978638, a: 0.7490196}
 --- !u!1 &5518961711167556383
 GameObject:
   m_ObjectHideFlags: 0

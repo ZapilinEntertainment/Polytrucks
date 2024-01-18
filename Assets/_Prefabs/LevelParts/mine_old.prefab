@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1508172399435654056}
   m_Layer: 0
-  m_Name: IronMine
+  m_Name: mine_old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

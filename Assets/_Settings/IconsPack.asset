@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: IconsPack
   m_EditorClassIdentifier: 
   _fruitsIcon: {fileID: 21300000, guid: da8ba04ecfc72ab4d84587e40e1c4641, type: 3}
-  _metalsIcon: {fileID: 21300000, guid: 0557ffa42a9122944bddf11c868c49cc, type: 3}
+  _ironIngotIcon: {fileID: 21300000, guid: 0557ffa42a9122944bddf11c868c49cc, type: 3}
   _lumberIcon: {fileID: 21300000, guid: 4aabad774781e094392a52dbfab4faf4, type: 3}
+  _steelBeamIngot: {fileID: 21300000, guid: eb8ef47449c8f324b9bd090865a5a08b, type: 3}
+  _woodenBeamIcon: {fileID: 21300000, guid: 9f01f3a8fd9ba3b4292cf8b843d19f75, type: 3}

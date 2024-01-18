@@ -9,7 +9,7 @@ namespace ZE.Polytrucks {
 	public class PlayerTrigger : MonoBehaviour
 	{
         private bool _isPlayerInside = false;
-        private int _controllingID = -1;
+        private int _insideColliderID = -1;
         private ColliderListSystem _collidersList;
         protected Collider _trigger;
         private PlayerController _player;
@@ -52,7 +52,7 @@ namespace ZE.Polytrucks {
             int id = other.GetInstanceID();
             if (_collidersList.TryDefineAsPlayer(id, out var player))
             {
-                _controllingID = id;
+                _insideColliderID = id;
                 _player = player;
                 OnPlayerEnter(player);
             }
@@ -64,10 +64,10 @@ namespace ZE.Polytrucks {
         }
         private void OnTriggerExit(Collider other)
         {
-            if (_isPlayerInside && other.GetInstanceID() == _controllingID)
+            if (_isPlayerInside && other.GetInstanceID() == _insideColliderID)
             {
                 _isPlayerInside = false;
-                _controllingID = -1;
+                _insideColliderID = -1;
                 OnPlayerExitEvent?.Invoke();
             }
         }

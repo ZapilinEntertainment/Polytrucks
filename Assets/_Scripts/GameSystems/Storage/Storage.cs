@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Zenject;
-using System.Linq;
 
 namespace ZE.Polytrucks {
 	public class Storage : IStorage

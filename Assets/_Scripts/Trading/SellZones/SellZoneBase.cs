@@ -27,6 +27,7 @@ namespace ZE.Polytrucks {
         public void AssignReceiver(IItemReceiver receiver)
         {
             _itemsReceiver = receiver;
+            _tradeToNowhere = receiver == null;
         }
         public override void AssignToZones(TradeZonesManager manager)
         {

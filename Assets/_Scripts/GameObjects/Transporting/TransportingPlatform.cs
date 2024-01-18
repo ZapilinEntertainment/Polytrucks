@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace ZE.Polytrucks {
 
     public enum PlatformState : byte { Ready, Blocked, Moving, Disabled}
 
-	public abstract class TransportingPlatform : MonoBehaviour
+	public abstract class TransportingPlatform : MonoBehaviour, IActivableMechanism
 	{
         #region states
         protected abstract class PlatformStateClass
@@ -23,7 +24,7 @@ namespace ZE.Polytrucks {
             }
 
             public virtual void OnStateStart() { }
-            public virtual void Update() { }
+            public virtual void FixedUpdate() { }
             public virtual void OnStateEnd() { }
             public virtual void OnPlayerEnter() { }
             public virtual void OnPlayerExit() { }
@@ -53,7 +54,7 @@ namespace ZE.Polytrucks {
                 _platform.SetRendererState(PlatformState.Blocked);
                 _platform._playerTrigger.SetActivity(true);
             }
-            public override void Update()
+            public override void FixedUpdate()
             {
                 if (_platform.CanStartMovement())
                 {
@@ -91,9 +92,9 @@ namespace ZE.Polytrucks {
                 _platform.SetRendererState(PlatformState.Moving);
                 _platform._playerTrigger.SetActivity(false);
             }
-            public override void Update()
+            public override void FixedUpdate()
             {
-                if (_platform.TryReachDestination())
+                if (_platform.TryReachDestination(Time.fixedDeltaTime))
                 {
                     if (_platform._playerTrigger.IsPlayerInside) _platform.ChangeState(PlatformState.Blocked);
                     else _platform.ChangeState(PlatformState.Ready);                    
@@ -111,15 +112,18 @@ namespace ZE.Polytrucks {
         #endregion
 
         [SerializeField] private bool _isActive = true;
-        [SerializeField] private Transform _lockPoint;
         [SerializeField] private PlatformSwitchableRenderer _renderer;
         [SerializeField] private PlayerTrigger _playerTrigger;
 
         protected bool _waitUntilPlayerLeaves = false;
         protected int _lockedId = -1;
+        protected abstract Rigidbody LockPoint { get; } 
         protected PlatformStateClass _currentState;
         private PlayerController _player;
         protected PlatformState CurrentStateName => _currentState?.StateName ?? PlatformState.Disabled;
+
+        public bool IsActive => _isActive;
+        public Action OnActivatedEvent { get; set; }
 
         private void Start()
         {
@@ -137,9 +141,9 @@ namespace ZE.Polytrucks {
                 _currentState.OnStateStart();
             }
         }
-        private void Update()
+        private void FixedUpdate()
         {
-            _currentState.Update();
+            _currentState.FixedUpdate();
         }
 
         protected void ChangeState(PlatformState state)
@@ -152,7 +156,7 @@ namespace ZE.Polytrucks {
                 case PlatformState.Blocked: _currentState = new BlockedState(this);break;
                 default: _currentState = new ReadyState(this); break;
             }
-            _renderer.SetState(_currentState.VisualState);
+            if (_renderer != null) _renderer.SetState(_currentState.VisualState);
             _playerTrigger.SetActivity(_currentState.InnerTriggerActive);
             _currentState.OnStateStart();            
         }
@@ -168,16 +172,19 @@ namespace ZE.Polytrucks {
             _currentState.OnPlayerExit();            
         }
 
-        abstract protected bool TryReachDestination();
-        private void SetRendererState(PlatformState state) => _renderer?.SetState(state);
+        abstract protected bool TryReachDestination(float t);
+        private void SetRendererState(PlatformState state)
+        {
+            if (_renderer != null) _renderer.SetState(state);
+        }
         private bool TryLockPlayer()
         {
-            if (_player != null) return _player.TryLock(_lockPoint, out _lockedId);
-            else return true;
+            if (_player != null) _player.PhysicsLock(LockPoint, out _lockedId);
+            return true;
         }
         private void UnlockPlayer()
         {
-            if (_player != null) _player.Unlock(_lockedId);
+            if (_player != null) _player.RemovePhysicsLock(LockPoint, _lockedId);
         }
         private bool CanStartMovement()
         {
@@ -193,6 +200,15 @@ namespace ZE.Polytrucks {
         virtual protected void OnDrawGizmosSelected()
         {
             if (_player != null) Gizmos.DrawSphere(_player.Position,0.5f);
+        }
+
+        public void Activate()
+        {
+            if (!_isActive)
+            {
+                _isActive = true;
+                OnActivatedEvent?.Invoke();
+            }
         }
     }
 }
