@@ -10,33 +10,51 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b65a05f70bfdfe49a0d88872cf6d451, type: 3}
-  m_Name: Truck_Robert
+  m_Name: Car_Inessa
   m_EditorClassIdentifier: 
   SuspensionLength: 1.2
-  SpringStrength: 10000
-  SpringDamper: 2000
+  SpringStrength: 5000
+  SpringDamper: 500
   MaxSuspensionOffset: 0.5
-  TireMass: 10
+  TireMass: 1.5
   TireGripCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0.60002136
+      inSlope: 0.86591977
+      outSlope: 0.86591977
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.30893633
     - serializedVersion: 3
-      time: 1
-      value: 0.6
-      inSlope: -1.2882342
-      outSlope: -1.2882342
+      time: 0.26
+      value: 1
+      inSlope: -0.037064657
+      outSlope: -0.037064657
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.051324844
+      inWeight: 0.87076324
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6997753
+      value: 1.000342
+      inSlope: -0.010635314
+      outSlope: -0.010635314
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3488743
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.4
+      inSlope: -0.013811561
+      outSlope: -0.013811561
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.23877788
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

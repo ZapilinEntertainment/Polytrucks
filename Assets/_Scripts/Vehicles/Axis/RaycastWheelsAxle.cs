@@ -13,12 +13,11 @@ namespace ZE.Polytrucks {
 
         protected override void OnSetup()
         {
-            _power = Config.MaxSpeed * _startMass;
-            _maxSpeed = Config.MaxSpeed;
+            _power = TruckConfig.MaxSpeed * _startMass;
         }
         override protected void FixedUpdate()
         {
-            _steerAngle = Truck.SteerValue * Config.MaxSteerAngle;
+            _steerAngle = Truck.SteerValue * TruckConfig.MaxSteerAngle;
             _steerRotation = Quaternion.Euler(0f, _steerAngle, 0f);
             base.FixedUpdate();
         }
@@ -29,7 +28,7 @@ namespace ZE.Polytrucks {
            
             Vector3 steeringDir = isSteer ? _steerRotation * wheel.SuspensionPoint.right : wheel.SuspensionPoint.right;
             float steeringVel = Vector3.Dot(steeringDir, tireVelocity);
-            float desiredVelChange = -steeringVel * _wheelSettings.TireGripFactor;
+            float desiredVelChange = -steeringVel * _wheelSettings.TireGripCurve.Evaluate(_speedPc);
             float desiredAccel = desiredVelChange / Time.fixedDeltaTime;
             Vector3 steeringForce = _wheelSettings.TireMass * desiredAccel * steeringDir;
             if (isSteer) wheel.SetSteer(_steerAngle);
@@ -41,8 +40,7 @@ namespace ZE.Polytrucks {
             float accelInput = Truck.GasValue;
             if (accelInput != 0f)
             {
-                float normalizedSpeed = Mathf.Clamp01(_carSpeed / _maxSpeed);
-                float availableTorque = _wheelSettings.PowerCurve.Evaluate(normalizedSpeed) * accelInput;
+                float availableTorque = TruckConfig.CalculatePowerEffort(_speedPc) * accelInput;
                 Vector3 accelForce = availableTorque * _power * accelDir;
                 return accelForce;
             }

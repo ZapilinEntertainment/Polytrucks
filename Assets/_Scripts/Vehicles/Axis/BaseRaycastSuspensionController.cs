@@ -10,7 +10,8 @@ namespace ZE.Polytrucks {
         [SerializeField] protected Rigidbody _rigidbody;
         [SerializeField] protected Transform _centerOfMass;
         protected int _castMask;
-        protected float _startMass = 1f, _carSpeed = 0f, _maxSpeed = 10;
+        protected float _startMass = 1f, _carSpeed = 0f, _speedPc = 0f;
+        override public float Speed => _carSpeed;
 
         public override Vector3 Forward => _rigidbody.transform.forward;
         public override Vector3 Position => _rigidbody.position;
@@ -28,6 +29,7 @@ namespace ZE.Polytrucks {
             float suspensionLength = _wheelSettings.SuspensionLength,
                 springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper   ;
             _carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
+            _speedPc = Mathf.Clamp01(_carSpeed / TruckConfig.MaxSpeed);
 
             foreach (var wheel in _wheels)
             {
@@ -66,7 +68,7 @@ namespace ZE.Polytrucks {
         {
             Vector3 steeringDir = wheel.SuspensionPoint.right;
             float steeringVel = Vector3.Dot(steeringDir, tireVelocity);
-            float desiredVelChange = -steeringVel * _wheelSettings.TireGripFactor;
+            float desiredVelChange = -steeringVel * _wheelSettings.TireGripCurve.Evaluate(_speedPc);
             float desiredAccel = desiredVelChange / Time.fixedDeltaTime;
             Vector3 steeringForce = _wheelSettings.TireMass * desiredAccel * steeringDir;
             return steeringForce;

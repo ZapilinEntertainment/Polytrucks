@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	{
         [SerializeField] private LocalPointAxle _fwdAxle, _rearAxle;
         [SerializeField] private Rigidbody _rigidbody;
+        public override float Speed => throw new System.NotImplementedException();
         public override Vector3 Forward => _fwdAxle?.Forward ?? transform.forward;
         public override Vector3 Position => _rigidbody.position;
         public override Quaternion Rotation => _rigidbody.rotation;
@@ -24,10 +25,10 @@ namespace ZE.Polytrucks {
             if (IsActive)
             {
                 float steer = Truck.SteerValue;
-                _fwdAxle.Steer(steer * Config.MaxSteerAngle);
+                _fwdAxle.Steer(steer * TruckConfig.MaxSteerAngle);
 
                 float steerCfRight = _fwdAxle.SteerCfRight, steerCfLeft = _fwdAxle.SteerCfLeft;
-                float step = Time.fixedDeltaTime * Truck.GasValue * Config.MaxSpeed;
+                float step = Time.fixedDeltaTime * Truck.GasValue * TruckConfig.MaxSpeed;
                 _rigidbody.AddForceAtPosition(step * transform.forward * steerCfLeft, _fwdAxle.Forward, ForceMode.VelocityChange);
                 //Debug.Log($"{steerCfLeft}-{steerCfRight}");
                 _rigidbody.AddForceAtPosition(step * transform.forward * steerCfRight, _fwdAxle.Forward, ForceMode.VelocityChange);

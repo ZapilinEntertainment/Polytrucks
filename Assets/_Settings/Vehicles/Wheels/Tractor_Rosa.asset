@@ -16,55 +16,27 @@ MonoBehaviour:
   SpringStrength: 55000
   SpringDamper: 500
   MaxSuspensionOffset: 0
-  TireGripFactor: 1
   TireMass: 10
-  PowerCurve:
+  TireGripCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -1
-      value: -0.5
-      inSlope: 1.1580763
-      outSlope: 1.1580763
+      time: 0
+      value: 1
+      inSlope: 0.0043638935
+      outSlope: 0.0043638935
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.10264903
-    - serializedVersion: 3
-      time: 0.0059373453
-      value: 0.49104887
-      inSlope: 1.3840925
-      outSlope: 4.5423717
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.0695488
-    - serializedVersion: 3
-      time: 0.3966736
-      value: 1.0049515
-      inSlope: 0.09308603
-      outSlope: -0.0044183806
-      tangentMode: 1
-      weightedMode: 0
-      inWeight: 0.43046114
-      outWeight: 0.4321934
-    - serializedVersion: 3
-      time: 0.79664004
-      value: 0.9990071
-      inSlope: -0.055109642
-      outSlope: -0.055109642
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.16767742
-      outWeight: 0.33333334
+      outWeight: 0.14172156
     - serializedVersion: 3
       time: 1
-      value: 0.3
-      inSlope: -3.4372897
-      outSlope: -3.4372897
-      tangentMode: 34
+      value: 0.8
+      inSlope: -0.6989879
+      outSlope: -0.6989879
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.0678038
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2

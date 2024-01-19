@@ -18,7 +18,7 @@ namespace ZE.Polytrucks {
 		}
 
 		[SerializeField] private RequireZoneStage[] _stages;
-		private int _currentStage = 0;
+		[SerializeField] private int _currentStage = 0;
 
         private void Start()
         {

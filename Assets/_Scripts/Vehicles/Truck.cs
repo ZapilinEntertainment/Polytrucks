@@ -5,7 +5,7 @@ using Zenject;
 using System;
 
 namespace ZE.Polytrucks {
-    public enum TruckID : byte { Undefined, TractorRosa, TruckRobert, CosettaRig}
+    public enum TruckID : byte { Undefined, TractorRosa, TruckRobert, RigCosetta, CarInessa, PickupCortney}
     public class Truck : Vehicle, ITrailerConnectionPoint
     {
         [SerializeField] private MassChanger _massChanger;
@@ -24,6 +24,8 @@ namespace ZE.Polytrucks {
 
         override public float SteerValue => _engine.SteerValue;
         override public float GasValue => _engine.GasValue;
+        public override float Speed => _axisController.Speed;
+        public override float SpeedPc => _axisController.Speed / _truckConfig.MaxSpeed;
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
         public VirtualPoint CalculateTrailerPosition(float distance)
@@ -40,6 +42,7 @@ namespace ZE.Polytrucks {
 
         private void Awake()
         {
+            Rigidbody.mass = _truckConfig.Mass; 
             UpdateStorageLink();
             _storageController.OnVehicleStorageCompositionChangedEvent += OnStorageCompositionChanged;
         }

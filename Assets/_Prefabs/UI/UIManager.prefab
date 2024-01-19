@@ -375,7 +375,7 @@ MonoBehaviour:
   _garagePanelPrefab: {fileID: 5710577339446247276, guid: 97f02fe905154e74badf091096500174, type: 3}
   _choicePopupPrefab: {fileID: 6904459193768772970, guid: a1a993516b0354345ad8fc397de6a151, type: 3}
   _actionPanelPrefab: {fileID: 4685907488013765721, guid: a7a5fd0e1c245dd46aeb1a75c4ea5daa, type: 3}
-  _questsPanelPrefab: {fileID: 0}
+  _questsPanelPrefab: {fileID: 8928808197580458116, guid: 9a602cc8756b2844799d70c43d7a9a4e, type: 3}
 --- !u!114 &4042190737461992588
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -19,6 +19,8 @@ namespace ZE.Polytrucks {
         
         abstract public float GasValue { get; }
         abstract public float SteerValue { get; }
+        abstract public float Speed { get; }
+        abstract public float SpeedPc { get; }  
         abstract public Vector3 Position { get; }
         abstract public VirtualPoint FormVirtualPoint();
 		public Transform CameraViewPoint => _cameraViewPoint;

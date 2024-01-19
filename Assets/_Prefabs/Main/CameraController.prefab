@@ -81,6 +81,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 7808666530349505992}
   _followCamera: {fileID: 7808666530246742537}
+  _modifyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7808666529936885079
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,9 +164,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: 0, y: 40, z: -15}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_XDamping: 0.1
+  m_YDamping: 0.1
+  m_ZDamping: 0.1
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0

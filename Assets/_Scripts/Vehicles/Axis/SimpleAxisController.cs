@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private VirtualPointAxle _fwdAxle, _rearAxle;
         private float _axisDistance = 1f, _centerDistance;
+        public override float Speed => throw new System.NotImplementedException();
         public override Vector3 Forward => _fwdAxle?.Forward ?? transform.forward;
         public override Vector3 Position => transform.position;
         public override Quaternion Rotation => transform.rotation;
@@ -26,9 +27,9 @@ namespace ZE.Polytrucks {
         {
             if (IsActive)
             {
-                _fwdAxle.Steer(Truck.SteerValue * Config.MaxSteerAngle);
+                _fwdAxle.Steer(Truck.SteerValue * TruckConfig.MaxSteerAngle);
 
-                VirtualPoint fwdPoint = _fwdAxle.Move(Time.deltaTime * Truck.GasValue * Config.MaxSpeed);
+                VirtualPoint fwdPoint = _fwdAxle.Move(Time.deltaTime * Truck.GasValue * TruckConfig.MaxSpeed);
 
                 Vector3 dir = (fwdPoint.Position - _rearAxle.Position).normalized;
                 _rearAxle.Move(fwdPoint.Position - dir * _axisDistance);
