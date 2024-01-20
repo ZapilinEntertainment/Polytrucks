@@ -7,10 +7,11 @@ using Zenject;
 namespace ZE.Polytrucks {
     public sealed class MultipleVehicleStorage : VehicleStorageController, IStorage
     {
-        [SerializeField] private StorageVisualSettings[] _storageSettings;
+        
         private bool _storagesCompositionChanged = false;
         private int _count = 0;
         private StorageVisualizer.Factory _visualizerFactory;
+        private VisualStorageSettings[] _storageSettings = new VisualStorageSettings[0];
         private List<Storage> _storages = new List<Storage>();
         public override IStorage Storage => this;
         public override Storage MainStorage => _storages[0];
@@ -26,6 +27,7 @@ namespace ZE.Polytrucks {
         public int AvailableItemsCount => ItemsCount;
         public bool IsReadyToReceive => ItemsCount < Capacity;
 
+        public override void SetOnVehicleStorageConfig(VisualStorageSettings config) => AddStorage(config);
 
         [Inject]
         public void Inject(StorageVisualizer.Factory factory)
@@ -60,7 +62,7 @@ namespace ZE.Polytrucks {
         }
   
 
-        public void Setup(StorageVisualSettings[] newSettings)
+        public void Setup(VisualStorageSettings[] newSettings)
         {
             _storageSettings = newSettings;
         }
@@ -90,7 +92,7 @@ namespace ZE.Polytrucks {
             storage.OnItemRemovedEvent += OnItemRemovedEvent;
             _storagesCompositionChanged = true;
         }
-        public void AddStorage(StorageVisualSettings settings)
+        public void AddStorage(VisualStorageSettings settings)
         {
             var storage = new Storage(settings.Capacity);
             var visualizer = _visualizerFactory.Create();

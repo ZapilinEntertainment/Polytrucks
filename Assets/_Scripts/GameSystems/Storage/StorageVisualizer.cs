@@ -5,31 +5,11 @@ using Zenject;
 using System;
 
 namespace ZE.Polytrucks {
-    [Serializable]
-    public struct StorageVisualSettings
-    {
-        public Transform _zeroPoint;
-        public float Gap, ModelScale;
-        public Vector3Int Extents;
-		public int Width => Extents.x;
-		public int Height => Extents.y;
-		public int Length => Extents.z;
-		public int ItemsInLayer => Width * Length;
-
-        public int Capacity => Extents.x * Extents.y * Extents.z;
-
-        public StorageVisualSettings(Transform zeroPoint, Vector3Int extents, float gap = 0.1f, float modelScale =1f)
-		{
-			_zeroPoint= zeroPoint;
-			Extents= extents;
-			Gap = gap;
-			ModelScale = modelScale;
-		}
-    }
     public class StorageVisualizer : ITickable, IDisposable
-	{	
+	{
+		private VisualStorageSettingsBase _visualStorageSettings;
 		private bool _isSetup = false, _isCompositionChanged = false;
-		private StorageVisualSettings _visualSettings;
+		
 		private Storage _storage;
 		private ObjectsManager _objectsManager;
 		private CollectibleVisualRepresentation[] _collectibles;
@@ -40,10 +20,10 @@ namespace ZE.Polytrucks {
 			tickableManager.Add(this);
 		}
 
-		public void Setup(Storage storage, StorageVisualSettings settings)
+		public void Setup(Storage storage, VisualStorageSettingsBase settings)
 		{
 			_storage = storage;
-			_visualSettings = settings;
+            _visualStorageSettings = settings;
 			
 			_collectibles = new CollectibleVisualRepresentation[_storage.Capacity];
             CompareCompositionAndModels();
@@ -57,11 +37,11 @@ namespace ZE.Polytrucks {
 		private void CompareCompositionAndModels()
 		{
 			var contents = _storage.GetContents();
-			int length = _storage.Capacity, itemsInLayer = _visualSettings.ItemsInLayer, width = _visualSettings.Width;
-			float gap = _visualSettings.Gap, scale = _visualSettings.ModelScale;
+			var storageConfiguration = _visualStorageSettings.GetStorageConfiguration();
+			int length = _storage.Capacity, itemsInLayer = storageConfiguration.ItemsInLayer, width = storageConfiguration.Width;
+			float gap = storageConfiguration.Gap, scale = storageConfiguration.ModelScale;
 			const float crateSize = GameConstants.DEFAULT_COLLECTABLE_SIZE;
 			float step = (crateSize * scale) + gap;
-			Transform host = _visualSettings._zeroPoint;
 
 			for (int i = 0; i < length; i++)
 			{
@@ -94,7 +74,7 @@ namespace ZE.Polytrucks {
 
                         model = collectible.transform;
 
-                        model.parent = host;
+                        model.parent = _visualStorageSettings.ZeroPoint;
                         model.localRotation = Quaternion.identity;
 
                         int layer = i / itemsInLayer, indexInLayer = i % itemsInLayer;

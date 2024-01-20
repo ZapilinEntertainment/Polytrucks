@@ -8,7 +8,7 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] protected SingleItemSellZone _sellZone;
         [SerializeField] protected CollectZone _collectZone;
-		[SerializeField] private StorageVisualSettings _inputStorageSettings, _outputStorageSettings;
+		[SerializeField] private VisualStorageSettings _inputStorageSettings, _outputStorageSettings;
         [SerializeField] private StorageReceiver _inputReceiver, _outputReceiver;
         [SerializeField] protected Recipe _recipe;
 		protected Storage _outputStorage, _inputStorage;
@@ -30,8 +30,8 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            if (_inputStorageSettings._zeroPoint != null) _visualizerFactory.Create().Setup(_inputStorage, _inputStorageSettings);
-            if (_outputStorageSettings._zeroPoint != null) _visualizerFactory.Create().Setup(_outputStorage, _outputStorageSettings);
+            if (_inputStorageSettings.ZeroPoint != null) _visualizerFactory.Create().Setup(_inputStorage, _inputStorageSettings);
+            if (_outputStorageSettings.ZeroPoint != null) _visualizerFactory.Create().Setup(_outputStorage, _outputStorageSettings);
 
             if (_inputReceiver != null)
             {

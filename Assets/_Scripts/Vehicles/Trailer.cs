@@ -9,7 +9,7 @@ namespace ZE.Polytrucks {
         [SerializeField] private MassChanger _massChanger;
         [SerializeField] private Truck _truck;
 		[SerializeField] private ConfigurableJoint _joint;
-        [field:SerializeField] public StorageVisualSettings StorageSettings { get; private set; }
+        [field:SerializeField] public VisualStorageSettings StorageSettings { get; private set; }
 		[field:SerializeField] public Collider Collider { get; private set; }
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
 

@@ -6,14 +6,15 @@ using Zenject;
 namespace ZE.Polytrucks {
 	public sealed class CameraController : MonoBehaviour
 	{
-		[SerializeField] private Camera _camera;
+		[SerializeField] private float _fovChangeSpeed = 0.1f, _offsetChangeSpeed = 0.1f;
+        [SerializeField] private Camera _camera;
 		[SerializeField] private Cinemachine.CinemachineVirtualCamera _followCamera;
 		private float _modifiedCameraValue = 0f, _defaultFov = 60f, _modifiedOffsetValue;
 		private Vector3 _prevPoint, _defaultOffset;
 		private Transform _cameraTransform, _targetPoint;
 		private Cinemachine.CinemachineTransposer _transposer;
 		public Camera Camera => _camera;
-		private const float MAX_FOV = 90f, MAX_CAMERA_SPEED = 100f, FOV_CHANGE_SPEED = 0.1f, MAX_OFFSET_FAR = 20f, OFFSET_CHANGE_SPEED =0.1f;
+		private const float MAX_FOV = 90f, MAX_CAMERA_SPEED = 100f, MAX_OFFSET_FAR = 20f;
 
 		[Inject]
 		public void Inject(SignalBus signalBus)
@@ -37,7 +38,7 @@ namespace ZE.Polytrucks {
 			_followCamera.m_LookAt = _targetPoint;
 			_followCamera.m_Follow = _targetPoint;
 		}
-        private void LateUpdate()
+        private void Update()
         {
 			Vector3 currentPosition = _targetPoint.position;
 			float speed = Vector3.Distance(_prevPoint, currentPosition), t = Time.deltaTime;
@@ -48,13 +49,13 @@ namespace ZE.Polytrucks {
 			}
 			if (modifyTarget != _modifiedCameraValue)
 			{
-				_modifiedCameraValue = Mathf.MoveTowards(_modifiedCameraValue, modifyTarget, FOV_CHANGE_SPEED * t );
+				_modifiedCameraValue = Mathf.MoveTowards(_modifiedCameraValue, modifyTarget, _fovChangeSpeed * t );
 				_followCamera.m_Lens.FieldOfView = Mathf.Lerp(_defaultFov, MAX_FOV, _modifiedCameraValue);
 				
 			}
 			if (modifyTarget != _modifiedOffsetValue)
 			{
-                _modifiedOffsetValue = Mathf.MoveTowards(_modifiedOffsetValue, modifyTarget, OFFSET_CHANGE_SPEED * t );
+                _modifiedOffsetValue = Mathf.MoveTowards(_modifiedOffsetValue, modifyTarget, _offsetChangeSpeed * t );
                 _transposer.m_FollowOffset = _defaultOffset + _modifiedOffsetValue * MAX_OFFSET_FAR * Vector3.ProjectOnPlane(_targetPoint.forward, Vector3.up).normalized;
             }           
 

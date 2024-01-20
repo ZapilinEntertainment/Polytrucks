@@ -6,7 +6,7 @@ using System;
 
 namespace ZE.Polytrucks {
     public enum TruckID : byte { Undefined, TractorRosa, TruckRobert, RigCosetta, CarInessa, PickupCortney}
-    public class Truck : Vehicle, ITrailerConnectionPoint
+    public class Truck : Vehicle, ITrailerConnectionPoint, IAxisController
     {
         [SerializeField] private MassChanger _massChanger;
         [SerializeField] private AxisControllerBase _axisController;
@@ -14,18 +14,21 @@ namespace ZE.Polytrucks {
         [SerializeField] private VehicleStorageController _storageController;
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
         private bool _haveTrailers = false;
-        protected IStorage _storage;
         private TruckEngine _engine;
         private SellModule _sellModule;
         private CollectModule _collectModule;
         private ColliderListSystem _colliderListSystem;
         private List<Trailer> _trailers;
         private Joint _lock;
+        protected IStorage Storage => _storageController.Storage;
 
         override public float SteerValue => _engine.SteerValue;
         override public float GasValue => _engine.GasValue;
         public override float Speed => _axisController.Speed;
         public override float SpeedPc => _axisController.Speed / _truckConfig.MaxSpeed;
+        public float MaxSteerAngle => _truckConfig.MaxSteerAngle;
+        public float MaxEngineSpeed => _truckConfig.MaxSpeed;
+       
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
         public VirtualPoint CalculateTrailerPosition(float distance)
@@ -33,6 +36,7 @@ namespace ZE.Polytrucks {
             var rotation = _axisController.Rotation;
             return new VirtualPoint(_axisController.Position + rotation * (distance * Vector3.back), rotation);
         }
+        public float CalculatePowerEffort(float pc) => _truckConfig.CalculatePowerEffort(pc);
 
         public TruckConfig TruckConfig => _truckConfig;        
         public Action<IStorage> OnStorageChangedEvent;        
@@ -60,8 +64,11 @@ namespace ZE.Polytrucks {
         }
         private void UpdateStorageLink()
         {
-            _storage = _storageController.Storage;
-            if (_massChanger != null) _massChanger.Setup(_storageController.MainStorage);
+            var storageConfig = _truckConfig.StorageConfiguration;
+            if (storageConfig != null) {
+                _storageController.SetOnVehicleStorageConfig(new VisualStorageSettings(null, storageConfig)); // #problem
+                if (_massChanger != null) _massChanger.Setup(_storageController.MainStorage);
+            }           
         }
         
         private void Update()
@@ -89,7 +96,7 @@ namespace ZE.Polytrucks {
         public override void RecoveryAt(RecoveryPoint point)
         {
             RemoveAllTrailers();
-            _storage.MakeEmpty();
+            ClearCargo();
             Teleport(point.GetPoint());
         }
         public override void PhysicsLock(Rigidbody point)
@@ -138,15 +145,13 @@ namespace ZE.Polytrucks {
             if (_storageController is SingleVehicleStorage)
             {
                 var host = _storageController.gameObject;
-                var cachedSettings = (_storageController as SingleVehicleStorage).StorageSettings;
                 Destroy(_storageController);
                 var multipleStorage = host.AddComponent<MultipleVehicleStorage>();
-                multipleStorage.Setup(new StorageVisualSettings[1] { cachedSettings });
+                multipleStorage.Setup(new VisualStorageSettings[1] { new VisualStorageSettings(null, TruckConfig.StorageConfiguration) }); // #problem
                 multipleStorage.AddStorage(trailer.GetStorage());
                 _storageController = multipleStorage;
-                _storage = multipleStorage.Storage;
                 UpdateStorageLink();
-                OnStorageChangedEvent?.Invoke(_storage);
+                OnStorageChangedEvent?.Invoke(_storageController.Storage);
             }
             else
             {
@@ -213,11 +218,11 @@ namespace ZE.Polytrucks {
 
         public override void ClearCargo(bool destroy = true)
         {
-            _storage.MakeEmpty();
+            Storage.MakeEmpty();
         }
         public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();
-        public override bool CanFulfillContract(TradeContract contract) => _storage.CanFulfillContract(contract);
-        public override int LoadCargo(VirtualCollectable item, int count) => _storage.AddItems(item, count);
-        public override bool TryLoadCargo(VirtualCollectable item, int count) => _storage.TryLoadCargo(item, count);
+        public override bool CanFulfillContract(TradeContract contract) => Storage.CanFulfillContract(contract);
+        public override int LoadCargo(VirtualCollectable item, int count) => Storage.AddItems(item, count);
+        public override bool TryLoadCargo(VirtualCollectable item, int count) => Storage.TryLoadCargo(item, count);
     }
 }

@@ -15,7 +15,7 @@ namespace ZE.Polytrucks {
         public CollectModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, VehicleStorageController storageController, float receiveTime) : base(collidersHandler, colliderListSystem, storageController)
         {
             _receiveTime = receiveTime;
-            colliderListSystem.AddCollector(this);
+            colliderListSystem?.AddCollector(this);
         }
 
         public TradeContract FormCollectContract() => new TradeContract(mask: int.MaxValue, maxCount: Storage.FreeSlotsCount, RarityConditions.Any);

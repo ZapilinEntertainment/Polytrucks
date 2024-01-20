@@ -27,9 +27,9 @@ namespace ZE.Polytrucks {
         {
             if (IsActive)
             {
-                _fwdAxle.Steer(Truck.SteerValue * TruckConfig.MaxSteerAngle);
+                _fwdAxle.Steer(_axisController.SteerValue * _axisController.MaxSteerAngle);
 
-                VirtualPoint fwdPoint = _fwdAxle.Move(Time.deltaTime * Truck.GasValue * TruckConfig.MaxSpeed);
+                VirtualPoint fwdPoint = _fwdAxle.Move(Time.deltaTime * _axisController.GasValue * _axisController.MaxEngineSpeed);
 
                 Vector3 dir = (fwdPoint.Position - _rearAxle.Position).normalized;
                 _rearAxle.Move(fwdPoint.Position - dir * _axisDistance);

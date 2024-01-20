@@ -25,6 +25,8 @@ namespace ZE.Polytrucks {
         public string GetLocalizedString(LocalizedString localizedString);
         public string FormDeliveryAddress(PointOfInterest poi);
         public string FormSupplyAddress(PointOfInterest poi);
+        public string GetParameterName(TruckParameterType parameter);
+        public string GetTruckName(TruckID truckID);
     }
 
 
@@ -117,6 +119,8 @@ namespace ZE.Polytrucks {
 
         public string FormDeliveryAddress(PointOfInterest poi) => Localizer.FormDeliveryAddress(poi);
         public string FormSupplyAddress(PointOfInterest poi) => Localizer.FormSupplyAddress(poi);
+        public string GetParameterName(TruckParameterType parameter) => Localizer.GetParameterName(parameter);
+        public string GetTruckName(TruckID truckID) => Localizer.GetTruckName(truckID);
 
         public void Subscribe(IDynamicLocalizer localizer) => OnLocaleChangedEvent += localizer.OnLocaleChanged;
         public void Unsubscribe(IDynamicLocalizer localizer) => OnLocaleChangedEvent-= localizer.OnLocaleChanged;
@@ -142,6 +146,7 @@ namespace ZE.Polytrucks {
                 case LocalizedString.RequestZone_RebuildMine: return "Запустить шахту";
                 case LocalizedString.RequestZone_LaunchLumbermill: return "Запустить лесопилку";
                 case LocalizedString.RequestZone_RebuildElevator: return "Починить лифт";
+               
                 default: return "<текст>";
             }
         }
@@ -166,6 +171,30 @@ namespace ZE.Polytrucks {
         {
             return $"Снабжение {poi.Region} {poi.PointType}";
         }
+        public string GetParameterName(TruckParameterType parameter)
+        {
+            switch (parameter)
+            {
+                case TruckParameterType.MaxSpeed: return "Макс. скорость";
+                case TruckParameterType.Acceleration: return "Разгон";
+                case TruckParameterType.Mass: return "Масса";
+                case TruckParameterType.Passability: return "Проходимость";
+                case TruckParameterType.Capacity: return "Вместимость";
+                default: return "<Параметр>";
+            }
+        }
+        public string GetTruckName(TruckID truckID)
+        {
+            switch (truckID)
+            {
+                case TruckID.TractorRosa: return "Трактор Роза";
+                case TruckID.TruckRobert: return "Грузовик Роберт";
+                case TruckID.RigCosetta: return "Тягач Козетта";
+                case TruckID.CarInessa: return "Седан Инесса";
+                case TruckID.PickupCortney: return "Пикап Кортни";
+                default: return "<Грузовик>";
+            }
+        }
     }
     internal class Localizer_ENG : ILocalizer
     {
@@ -186,6 +215,18 @@ namespace ZE.Polytrucks {
         public string FormSupplyAddress(PointOfInterest poi)
         {
             return $"{poi.Region} {poi.PointType} supply";
+        }
+        public string GetParameterName(TruckParameterType parameter)
+        {
+            return "<Parameter name>";
+        }
+        public string GetTruckName(TruckID truckID)
+        {
+            switch (truckID)
+            {
+                
+                default: return "<Truck>";
+            }
         }
     }
 }

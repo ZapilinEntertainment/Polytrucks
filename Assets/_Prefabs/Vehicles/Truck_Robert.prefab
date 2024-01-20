@@ -814,11 +814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1b992fcd28f4b478c6189877d59490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageSettings:
-    _zeroPoint: {fileID: 3151278718214146661}
-    Gap: 0.1
-    ModelScale: 1
-    Extents: {x: 2, y: 2, z: 3}
+  _zeroPoint: {fileID: 3151278718214146661}
 --- !u!114 &6444464248493203871
 MonoBehaviour:
   m_ObjectHideFlags: 0

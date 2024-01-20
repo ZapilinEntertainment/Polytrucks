@@ -14,7 +14,7 @@ namespace ZE.Polytrucks {
 			_vehicleController = vehicle.VehicleController;
 			vehicle.OnVehicleControllerChangedEvent += (IVehicleController controller) => _vehicleController = controller;
 
-			colliderListSystem.AddSeller(this);
+			colliderListSystem?.AddSeller(this);
         }
 
         override public void Update()

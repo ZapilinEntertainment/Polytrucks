@@ -10,5 +10,7 @@ namespace ZE.Polytrucks {
 		public abstract Storage MainStorage { get; }
 		public Action OnVehicleStorageCompositionChangedEvent;
 		public Action<IStorage> OnStorageChangedEvent;
+
+		public abstract void SetOnVehicleStorageConfig(VisualStorageSettings config);
 	}
 }

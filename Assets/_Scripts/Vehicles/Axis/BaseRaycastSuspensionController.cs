@@ -25,11 +25,12 @@ namespace ZE.Polytrucks {
         }
 
         virtual protected void FixedUpdate()
-        {            
+        {
+            if (!IsActive) return;
             float suspensionLength = _wheelSettings.SuspensionLength,
                 springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper   ;
             _carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
-            _speedPc = Mathf.Clamp01(_carSpeed / TruckConfig.MaxSpeed);
+            _speedPc = Mathf.Clamp01(_carSpeed / GameConstants.MAX_SPEED);
 
             foreach (var wheel in _wheels)
             {

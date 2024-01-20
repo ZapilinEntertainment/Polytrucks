@@ -7,19 +7,25 @@ using Zenject;
 namespace ZE.Polytrucks {
     public sealed class SingleVehicleStorage : VehicleStorageController
     {
-        [SerializeField] private StorageVisualSettings _storageSettings;
+        [SerializeField] private Transform _zeroPoint;
         private bool _storageSet = false;
         private Storage i_storage;
         private StorageVisualizer _visualizer;
+        private IStorageConfiguration _storageConfig;
         public override IStorage Storage => GetStorage();
         public override Storage MainStorage => GetStorage();
-        public StorageVisualSettings StorageSettings => _storageSettings;
 
+        public override void SetOnVehicleStorageConfig(VisualStorageSettings config)
+        {
+            _storageConfig = config.StorageConfiguration;
+            if (_zeroPoint == null) _zeroPoint = config.ZeroPoint;            
+        }
         private Storage GetStorage()
         {
             if (!_storageSet)
             {
-                i_storage = new Storage(_storageSettings.Capacity);
+                if (_storageConfig == null) _storageConfig = new VirtualStorageConfiguration();
+                i_storage = new Storage(_storageConfig.Capacity);
                 i_storage.OnStorageCompositionChangedEvent += OnVehicleStorageCompositionChangedEvent;
                 _storageSet = true;
             }
@@ -34,7 +40,7 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {            
-            _visualizer.Setup(MainStorage, _storageSettings);
+            _visualizer?.Setup(MainStorage, new VirtualVisualStorageSettings(_storageConfig, _zeroPoint));
         }
     }
 }

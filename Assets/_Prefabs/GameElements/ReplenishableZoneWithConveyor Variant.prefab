@@ -149,10 +149,8 @@ MonoBehaviour:
     CollectableType: 2
     Rarity: 0
   _storageSettings:
-    _zeroPoint: {fileID: 4741787088479296948}
-    Gap: 0.1
-    ModelScale: 1
-    Extents: {x: 4, y: 4, z: 4}
+    <ZeroPoint>k__BackingField: {fileID: 4741787088479296948}
+    <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: 6c25b9f627ea25640a2cfc4b831d14c7, type: 2}
   _collectZone: {fileID: 8523057946865204726}
   _receiver: {fileID: 1145393586}
 --- !u!1 &6767621036556863100

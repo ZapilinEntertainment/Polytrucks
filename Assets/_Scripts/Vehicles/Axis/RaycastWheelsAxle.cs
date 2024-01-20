@@ -10,14 +10,13 @@ namespace ZE.Polytrucks {
         protected float _steerAngle = 0f, _power;
         protected Quaternion _steerRotation;
 
-
         protected override void OnSetup()
         {
-            _power = TruckConfig.MaxSpeed * _startMass;
+            _power = _axisController.MaxEngineSpeed * _startMass;
         }
         override protected void FixedUpdate()
         {
-            _steerAngle = Truck.SteerValue * TruckConfig.MaxSteerAngle;
+            _steerAngle = _axisController.SteerValue * _axisController.MaxSteerAngle;
             _steerRotation = Quaternion.Euler(0f, _steerAngle, 0f);
             base.FixedUpdate();
         }
@@ -37,10 +36,10 @@ namespace ZE.Polytrucks {
         protected override Vector3 CalculateAccelerationForce(RaycastWheel wheel)
         {
             Vector3 accelDir = wheel.IsSteer ? _steerRotation * wheel.SuspensionPoint.forward : wheel.SuspensionPoint.forward;
-            float accelInput = Truck.GasValue;
+            float accelInput = _axisController.GasValue;
             if (accelInput != 0f)
             {
-                float availableTorque = TruckConfig.CalculatePowerEffort(_speedPc) * accelInput;
+                float availableTorque = _axisController.CalculatePowerEffort(_speedPc) * accelInput;
                 Vector3 accelForce = availableTorque * _power * accelDir;
                 return accelForce;
             }

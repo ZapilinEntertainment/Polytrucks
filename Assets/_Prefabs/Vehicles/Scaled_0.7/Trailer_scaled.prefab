@@ -1015,10 +1015,8 @@ MonoBehaviour:
   _truck: {fileID: 0}
   _joint: {fileID: 8729423948559862658}
   <StorageSettings>k__BackingField:
-    _zeroPoint: {fileID: 7330408415559343420}
-    Gap: 0.1
-    ModelScale: 1
-    Extents: {x: 2, y: 1, z: 3}
+    <ZeroPoint>k__BackingField: {fileID: 7330408415559343420}
+    <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: ce74235d037f28c40b5a8d9783efbbe0, type: 2}
   <Collider>k__BackingField: {fileID: 2402453421867074153}
   <Rigidbody>k__BackingField: {fileID: 6631765258238334985}
 --- !u!153 &8729423948559862658

@@ -114,3 +114,4 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   <CollectTime>k__BackingField: 0.25
+  <AccelerationMeterResult>k__BackingField: 3.06

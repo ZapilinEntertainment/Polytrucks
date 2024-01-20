@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e422fad9cbeef849bc8ffd58cd52a20, type: 3}
   m_Name: Tractor_Rosa
   m_EditorClassIdentifier: 
-  <TruckID>k__BackingField: 1
-  <UsesPhysics>k__BackingField: 1
+  _noCargoSpace: 1
   _maxSpeed: 15
   _maxSteerAngle: 25
   _steerTime: 0.5
@@ -122,4 +121,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _storageConfiguration: {fileID: 11400000, guid: ce74235d037f28c40b5a8d9783efbbe0, type: 2}
+  <TruckID>k__BackingField: 1
+  <UsesPhysics>k__BackingField: 1
   <CollectTime>k__BackingField: 0.25
+  <AccelerationMeterResult>k__BackingField: 9.88

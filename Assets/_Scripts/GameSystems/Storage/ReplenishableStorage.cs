@@ -6,7 +6,7 @@ using Zenject;
 namespace ZE.Polytrucks {
 	public class ReplenishableStorage : ReplenishableStorageBase
 	{
-		[SerializeField] private StorageVisualSettings _storageSettings;
+		[SerializeField] private VisualStorageSettings _storageSettings;
 		[SerializeField] private CollectZone _collectZone;
 		private StorageVisualizer.Factory _visualizerFactory;
 

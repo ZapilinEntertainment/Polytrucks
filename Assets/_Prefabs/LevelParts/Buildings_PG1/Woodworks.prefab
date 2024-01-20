@@ -298,15 +298,11 @@ MonoBehaviour:
   _sellZone: {fileID: 2525720761547764233}
   _collectZone: {fileID: 2477855407181168589}
   _inputStorageSettings:
-    _zeroPoint: {fileID: 6653119845331929623}
-    Gap: 0.1
-    ModelScale: 1
-    Extents: {x: 4, y: 4, z: 4}
+    <ZeroPoint>k__BackingField: {fileID: 6653119845331929623}
+    <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: 6c25b9f627ea25640a2cfc4b831d14c7, type: 2}
   _outputStorageSettings:
-    _zeroPoint: {fileID: 1579310383498239887}
-    Gap: 0.1
-    ModelScale: 1
-    Extents: {x: 4, y: 4, z: 4}
+    <ZeroPoint>k__BackingField: {fileID: 1579310383498239887}
+    <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: 6c25b9f627ea25640a2cfc4b831d14c7, type: 2}
   _inputReceiver: {fileID: 3974454348844042705}
   _outputReceiver: {fileID: 0}
   _recipe:

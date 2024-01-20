@@ -24,11 +24,11 @@ namespace ZE.Polytrucks {
         {
             if (IsActive)
             {
-                float steer = Truck.SteerValue;
-                _fwdAxle.Steer(steer * TruckConfig.MaxSteerAngle);
+                float steer = _axisController.SteerValue;
+                _fwdAxle.Steer(steer * _axisController.MaxSteerAngle);
 
                 float steerCfRight = _fwdAxle.SteerCfRight, steerCfLeft = _fwdAxle.SteerCfLeft;
-                float step = Time.fixedDeltaTime * Truck.GasValue * TruckConfig.MaxSpeed;
+                float step = Time.fixedDeltaTime * _axisController.GasValue * _axisController.MaxEngineSpeed;
                 _rigidbody.AddForceAtPosition(step * transform.forward * steerCfLeft, _fwdAxle.Forward, ForceMode.VelocityChange);
                 //Debug.Log($"{steerCfLeft}-{steerCfRight}");
                 _rigidbody.AddForceAtPosition(step * transform.forward * steerCfRight, _fwdAxle.Forward, ForceMode.VelocityChange);

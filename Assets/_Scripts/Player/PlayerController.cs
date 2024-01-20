@@ -33,7 +33,16 @@ namespace ZE.Polytrucks {
         private void Awake()
         {
             Position = _vehicle.Position;
-            _vehicle.AssignVehicleController(this);            
+#if UNITY_EDITOR
+            if ((_vehicle == null || !_vehicle.gameObject.activeSelf) && transform.childCount > 0)
+            {
+               for (int i = 0; i < transform.childCount; i++)
+                {
+                    if (transform.GetChild(i).TryGetComponent<Vehicle>(out _vehicle)) break;
+                }
+            }
+#endif
+            _vehicle?.AssignVehicleController(this);            
         }
         private void ChangeCameraPoint(Transform t)
         {

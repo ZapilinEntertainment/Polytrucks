@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e422fad9cbeef849bc8ffd58cd52a20, type: 3}
   m_Name: Truck_Robert
   m_EditorClassIdentifier: 
-  <TruckID>k__BackingField: 2
-  <UsesPhysics>k__BackingField: 1
   _maxSpeed: 23
   _maxSteerAngle: 35
   _steerTime: 0.5
@@ -122,4 +120,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _storageConfiguration: {fileID: 11400000, guid: 12f0bccd8adef654ba9b4cc9ff101436, type: 2}
+  <TruckID>k__BackingField: 2
+  <UsesPhysics>k__BackingField: 1
   <CollectTime>k__BackingField: 0.25
+  <AccelerationMeterResult>k__BackingField: 5.56
