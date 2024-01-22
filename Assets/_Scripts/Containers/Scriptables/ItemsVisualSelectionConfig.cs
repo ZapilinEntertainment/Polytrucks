@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ZE.Polytrucks {
     [CreateAssetMenu(menuName = "ScriptableObjects/UI/ItemsVisualSelectionConfig")]
-	public sealed class ItemsVisualSelectionConfig : MonoBehaviour
+	public class ItemsVisualSelectionConfig : ScriptableObject
 	{
 		[System.Serializable]
 		public class ItemColors

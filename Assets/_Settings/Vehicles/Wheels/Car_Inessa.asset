@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b65a05f70bfdfe49a0d88872cf6d451, type: 3}
   m_Name: Car_Inessa
   m_EditorClassIdentifier: 
-  SuspensionLength: 1.2
-  SpringStrength: 5000
+  SuspensionLength: 0.7
+  SpringStrength: 3000
   SpringDamper: 500
   MaxSuspensionOffset: 0.5
-  TireMass: 1.5
+  TireMass: 3
   TireGripCurve:
     serializedVersion: 2
     m_Curve:
@@ -30,26 +30,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.30893633
     - serializedVersion: 3
-      time: 0.26
-      value: 1
-      inSlope: -0.037064657
-      outSlope: -0.037064657
+      time: 0.1368434
+      value: 0.8643638
+      inSlope: -2.4338677
+      outSlope: -2.4338677
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.87076324
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.6997753
-      value: 1.000342
-      inSlope: -0.010635314
-      outSlope: -0.010635314
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.3488743
-      outWeight: 0.33333334
+      inWeight: 0.7715519
+      outWeight: 0.04951153
     - serializedVersion: 3
       time: 1
-      value: 0.4
+      value: 0
       inSlope: -0.013811561
       outSlope: -0.013811561
       tangentMode: 0

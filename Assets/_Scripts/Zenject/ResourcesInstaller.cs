@@ -33,6 +33,7 @@ namespace ZE.Polytrucks
 
             Container.Bind<EconomicSettings>().FromScriptableObject(EconomicSettings).AsCached();
             Container.Bind<GameSettings>().FromScriptableObject(GameSettings).AsCached();
+            Container.Bind<HangarTrucksList>().FromScriptableObject(TrucksList).AsCached();
             Debug.Log("install resources");
         }
     }

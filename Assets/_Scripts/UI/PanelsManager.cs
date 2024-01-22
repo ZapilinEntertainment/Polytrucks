@@ -24,6 +24,7 @@ namespace ZE.Polytrucks {
         }
 		public void OpenGaragePanel(Garage garage)
 		{
+			Debug.Log("open garage");
 			if (_garagePanel == null)
 			{
 				_garagePanel = _elementsResolver.GaragePanel;				

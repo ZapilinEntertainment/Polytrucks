@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	public sealed class Garage : PlayerTrigger
 	{
         private SignalBus _signalBus;
+        [Inject]
         public void Inject(SignalBus signalBus)
         {
             _signalBus= signalBus;
@@ -15,6 +16,7 @@ namespace ZE.Polytrucks {
         {
             base.OnPlayerEnter(player);
             _signalBus.Fire(new GarageOpenedSignal(this));
+            Debug.Log("here");
         }
     }
 }

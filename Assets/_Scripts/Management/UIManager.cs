@@ -40,7 +40,6 @@ namespace ZE.Polytrucks {
 
             LabelsHost = _canvas.transform;
         }
-
         private void Update()
         {
             if (GameSessionActive) _moneyEffectsHandler.Update();
