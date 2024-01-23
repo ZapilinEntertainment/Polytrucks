@@ -46,7 +46,7 @@ namespace ZE.Polytrucks {
                 if (!_playerLinkSet)
                 {
                     _player = player;
-                    _player.OnItemCompositionChangedEvent += () => _contractUpdateRequested = true;
+                    _player.OnVehicleStorageContentChangedEvent += () => _contractUpdateRequested = true;
                     _playerLinkSet= true;
                 }
 

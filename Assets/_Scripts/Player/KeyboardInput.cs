@@ -7,13 +7,18 @@ namespace ZE.Polytrucks {
     public sealed class KeyboardInput : SessionObject
     {
         private InputController _inputController;
+        private PlayerController _player;
         private float _previousHorizontal = 0f, _previousVertical = 0f;
         private BitArray _controlsMask = new BitArray((int)ControlButtonID.Total, false);
 
         [Inject]
-        public void Inject(InputController inputController)
+        public void Inject(PlayerController playerController)
         {            
-            _inputController = inputController;
+            _player = playerController;
+        }
+        private void Start()
+        {
+            _inputController = new InputController(_player);
         }
         public void Update()
         {

@@ -40,6 +40,7 @@ namespace ZE.Polytrucks {
 		}
         private void Update()
         {
+			if (_targetPoint == null) return;
 			Vector3 currentPosition = _targetPoint.position;
 			float speed = Vector3.Distance(_prevPoint, currentPosition), t = Time.deltaTime;
 			float modifyTarget = 0f;

@@ -10,25 +10,36 @@ namespace ZE.Polytrucks {
     {
         public bool IsReadyToReceive => Time.time - _lastReceiveTime > _receiveTime;
         protected float _receiveTime = 0.1f, _lastReceiveTime = - 1f;
-        protected IVehicleController _controller;
+        protected Vehicle _vehicle;
         protected CollectZone _collectZone;
-        public CollectModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, VehicleStorageController storageController, float receiveTime) : base(collidersHandler, colliderListSystem, storageController)
+        public CollectModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, Vehicle vehicle, float receiveTime) : base(collidersHandler, colliderListSystem, vehicle.VehicleStorageController)
         {
             _receiveTime = receiveTime;
+            _vehicle = vehicle;
+            _vehicle.OnVehicleDisposeEvent += Dispose;
             colliderListSystem?.AddCollector(this);
         }
 
         public TradeContract FormCollectContract() => new TradeContract(mask: int.MaxValue, maxCount: Storage.FreeSlotsCount, RarityConditions.Any);
 
-        public bool TryCollect(ICollectable collectable) => Storage.TryAddItem(collectable.ToVirtual());
-        public bool TryCollect(VirtualCollectable collectable) => Storage.TryAddItem(collectable);
+        public bool TryCollect(ICollectable collectable) => _isDisposed ?false : Storage.TryAddItem(collectable.ToVirtual());
+        public bool TryCollect(VirtualCollectable collectable) => _isDisposed ? false : Storage.TryAddItem(collectable);
         public void CollectItems(IList<VirtualCollectable> items, out BitArray result)
         {
-            Storage.AddItems(items, out result);
-            _lastReceiveTime= Time.time;
+            if (_isDisposed)
+            {
+                result = new BitArray(0);
+                return;
+            }
+            else
+            {
+                Storage.AddItems(items, out result);
+                _lastReceiveTime = Time.time;
+            }
         }     
         public void OnStartCollect(CollectZone zone)
         {
+            if (_isDisposed) return;
             if (_isInTradeZone) i_OnStopCollect();
 
             _collectZone = zone;
@@ -74,7 +85,7 @@ namespace ZE.Polytrucks {
 
         override public void Update()
         {
-            if (_isInTradeZone)
+            if (_isInTradeZone & !_isDisposed)
             {
                 if (IsReadyToReceive)
                 {
@@ -95,6 +106,16 @@ namespace ZE.Polytrucks {
             }
         }
 
-        protected override void OnColliderListChanged() => _colliderListSystem.OnCollectorChanged(this);
+        protected override void OnColliderListChanged()
+        {
+            if (!_isDisposed)  _colliderListSystem.OnCollectorChanged(this);
+        }
+
+        protected override void OnDispose()
+        {
+            i_OnStopCollect();
+            _colliderListSystem?.RemoveCollector(this);
+            if (_vehicle != null) _vehicle.OnVehicleDisposeEvent -= Dispose;
+        }
     }
 }

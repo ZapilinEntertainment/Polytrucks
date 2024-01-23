@@ -3,8 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-	public sealed class IPlayerDataController : MonoBehaviour
-	{
-	
-	}
+	public enum TruckSwitchReport : byte { Undefined, SwitchSucceed, TruckIsLocked}
 }

@@ -9,16 +9,18 @@ namespace ZE.Polytrucks {
 		[SerializeField] private Joystick _joystick;
         private Transform _cameraTransform;
         private InputController _inputController;
+        private PlayerController _player;
 
         [Inject]
-        public void Setup(InputController inputController, CameraController cameraController)
+        public void Setup(PlayerController playerController, CameraController cameraController)
         {
-            _inputController = inputController;
+            _player = playerController;            
             _cameraTransform = cameraController.Camera.transform;
         }
 
         private void Start()
         {
+            _inputController = new InputController(_player);
             _joystick.gameObject.SetActive(true);
         }
         public void Update()

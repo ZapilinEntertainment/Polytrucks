@@ -9,7 +9,7 @@ namespace ZE.Polytrucks {
     {
         public Transform WheelModel;
         public Transform SuspensionPoint;
-        public bool IsMotor, IsSteer;
+        public bool IsMotor, IsSteer, HasBrakes;
         public float WheelRadius, ScaleCf;
 
         public void SetSuspensionCurrentLength(float length) {

@@ -35,16 +35,15 @@ namespace ZE.Polytrucks {
         }
         protected override Vector3 CalculateAccelerationForce(RaycastWheel wheel)
         {
-            Vector3 accelDir = wheel.IsSteer ? _steerRotation * wheel.SuspensionPoint.forward : wheel.SuspensionPoint.forward;
             float accelInput = _axisController.GasValue;
             if (accelInput != 0f)
             {
+                Vector3 accelDir = wheel.IsSteer ? _steerRotation * wheel.SuspensionPoint.forward : wheel.SuspensionPoint.forward;
                 float availableTorque = _axisController.CalculatePowerEffort(_speedPc) * accelInput;
                 Vector3 accelForce = availableTorque * _power * accelDir;
                 return accelForce;
             }
             else return Vector3.zero;
-            
         }
     }
 }

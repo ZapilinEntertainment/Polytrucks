@@ -173,24 +173,28 @@ MonoBehaviour:
     SuspensionPoint: {fileID: 3516942537943588496}
     IsMotor: 0
     IsSteer: 1
+    HasBrakes: 0
     WheelRadius: 0.3
     ScaleCf: 1
   - WheelModel: {fileID: 5785346713830302724}
     SuspensionPoint: {fileID: 6963899625477308529}
     IsMotor: 0
     IsSteer: 1
+    HasBrakes: 0
     WheelRadius: 0.3
     ScaleCf: 1
   - WheelModel: {fileID: 6961844768893694950}
     SuspensionPoint: {fileID: 682075980114129553}
     IsMotor: 1
     IsSteer: 0
+    HasBrakes: 1
     WheelRadius: 0.3
     ScaleCf: 1
   - WheelModel: {fileID: 4473349631398850139}
     SuspensionPoint: {fileID: 1930351356840495965}
     IsMotor: 1
     IsSteer: 0
+    HasBrakes: 1
     WheelRadius: 0.3
     ScaleCf: 1
   _wheelSettings: {fileID: 11400000, guid: 6d339634697134644b32bc389688e745, type: 2}

@@ -5,7 +5,7 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-    public sealed class MultipleVehicleStorage : VehicleStorageController, IStorage
+    public sealed class MultipleVehicleStorage : StorageController, IStorage
     {
         
         private bool _storagesCompositionChanged = false;
@@ -13,6 +13,7 @@ namespace ZE.Polytrucks {
         private StorageVisualizer.Factory _visualizerFactory;
         private VisualStorageSettings[] _storageSettings = new VisualStorageSettings[0];
         private List<Storage> _storages = new List<Storage>();
+        private Dictionary<Storage, StorageVisualizer> _activeVisualizers = new Dictionary<Storage, StorageVisualizer>();
         public override IStorage Storage => this;
         public override Storage MainStorage => _storages[0];
 
@@ -22,12 +23,13 @@ namespace ZE.Polytrucks {
 
         public Action OnItemAddedEvent { get; set; }
         public Action OnItemRemovedEvent { get; set; }
-        public Action OnStorageCompositionChangedEvent { get; set; }
 
         public int AvailableItemsCount => ItemsCount;
         public bool IsReadyToReceive => ItemsCount < Capacity;
 
-        public override void SetOnVehicleStorageConfig(VisualStorageSettings config) => AddStorage(config);
+        Action IStorage.OnStorageCompositionChangedEvent { get => OnStorageCompositionChangedEvent; set => OnStorageCompositionChangedEvent = value; }
+
+        public override void SetInitialStorageConfig(VisualStorageSettings config) => AddStorage(config);
 
         [Inject]
         public void Inject(StorageVisualizer.Factory factory)
@@ -71,16 +73,18 @@ namespace ZE.Polytrucks {
             for (int i = 0; i < _count; i++)
             {
                 var visualizer = _visualizerFactory.Create();
-                visualizer.Setup(_storages[i], _storageSettings[i]);
+                var storage = _storages[i];
+                visualizer.Setup(storage, _storageSettings[i]);
+                _activeVisualizers.Add(storage, visualizer);
             }
         }
         private void Update()
         {
-            if (_storagesCompositionChanged)
+            if (_storagesCompositionChanged )
             {
                 UpdateValues();
                 OnStorageCompositionChangedEvent?.Invoke();
-                OnVehicleStorageCompositionChangedEvent?.Invoke();
+                base.OnStorageCompositionChangedEvent?.Invoke();
             }
         }
 
@@ -97,11 +101,17 @@ namespace ZE.Polytrucks {
             var storage = new Storage(settings.Capacity);
             var visualizer = _visualizerFactory.Create();
             visualizer.Setup(storage, settings);
+            _activeVisualizers.Add(storage, visualizer);
             AddStorage(storage);
         }
         public void RemoveStorage(Storage storage)
         {
             _storages.Remove(storage);
+            if (_activeVisualizers.TryGetValue(storage, out var visualizer))
+            {
+                visualizer.Dispose();
+                _activeVisualizers.Remove(storage);
+            }
             if (storage != null)
             {
                 storage.OnStorageCompositionChangedEvent -= OnStorageCompositionChanged;
@@ -319,5 +329,13 @@ namespace ZE.Polytrucks {
         }
         #endregion
         #endregion
+
+        private void OnDestroy()
+        {
+            if (_activeVisualizers.Count > 0)
+            {
+                foreach (var visualizer in _activeVisualizers.Values) visualizer.Dispose();
+            }
+        }
     }
 }

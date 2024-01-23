@@ -6,9 +6,9 @@ using Zenject;
 namespace ZE.Polytrucks {
 	public abstract class TradeModule
     {
-        protected bool _isInTradeZone = false, _enoughGoodsForTrading = false, _storageCompositionChanged = false;
+        protected bool _isInTradeZone = false, _enoughGoodsForTrading = false, _storageCompositionChanged = false, _isDisposed = false;
         protected HashSet<int> _activeColliders = new HashSet<int>();
-        protected VehicleStorageController _storageController;
+        protected IStorageController _storageController;
         protected IStorage Storage => _storageController.Storage;
         protected TradeCollidersHandler _collidersHandler;
         protected ColliderListSystem _colliderListSystem;
@@ -18,10 +18,10 @@ namespace ZE.Polytrucks {
         protected Stack<VirtualCollectable> _preparedItemsList;
         public bool HasMultipleColliders => _collidersHandler.HasMultipleColliders;
         public int FreeSlotsCount => Storage.FreeSlotsCount;
-        public int GetID() => _collidersHandler.GetID();
-        public int[] GetIDs() => _collidersHandler.GetIDs();
+        public int GetColliderID() => _collidersHandler.GetColliderID();
+        public int[] GetColliderIDs() => _collidersHandler.GetColliderIDs();
 
-        public TradeModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, VehicleStorageController storageController)
+        public TradeModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, IStorageController storageController)
         {
             _collidersHandler = collidersHandler;
             _colliderListSystem = colliderListSystem;
@@ -35,5 +35,19 @@ namespace ZE.Polytrucks {
         }
         abstract public void Update();
         abstract protected void OnColliderListChanged();
+
+        protected void Dispose()
+        {
+            if (!_isDisposed)
+            {
+                OnDispose();
+                _isDisposed = true;
+                if (_collidersHandler != null)
+                {
+                    _collidersHandler.OnCollidersListChangedEvent-= OnColliderListChanged;
+                }
+            }
+        }
+        abstract protected void OnDispose();
     }
 }

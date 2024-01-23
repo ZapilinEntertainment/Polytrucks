@@ -5,145 +5,94 @@ using System;
 using Zenject;
 
 namespace ZE.Polytrucks {    
-	public sealed class PlayerController : SessionObject, IVehicleController, IColliderOwner
+	public sealed class PlayerController : SessionObject, IColliderOwner
 	{
-        [SerializeField] private Vehicle _vehicle;
+        [SerializeField] private Vehicle _presettedVehicle;
         private IAccountDataAgent _accountDataAgent;
-        private Locker _controlsLocker = new Locker();
+        private PlayerVehicleController _vehicleController;
+        private PlayerControlsLocker _controlsLocker;
+        private ColliderListSystem _colliderListSystem;
+        
         public Vector3 Position { get; private set; }
-        public VirtualPoint FormVirtualPoint() => _vehicle.FormVirtualPoint();
-        public Vehicle ActiveVehicle => _vehicle;
-        public Action OnItemCompositionChangedEvent;
+        public VirtualPoint FormVirtualPoint() => _vehicleController.ActiveVehicle.FormVirtualPoint();
+        
+        public IVehicleController VehicleController => _vehicleController;
+        public Vehicle ActiveVehicle => VehicleController.ActiveVehicle;
+        public Action OnVehicleStorageContentChangedEvent;
         public Action<Vehicle> OnVehicleChangedEvent;
-
-
-        #region IColliderOwner
-        public bool HasMultipleColliders => _vehicle.CollidersHandler.HasMultipleColliders;
-        public int GetID() => _vehicle.CollidersHandler.GetID();
-        public int[] GetIDs() => _vehicle.CollidersHandler.GetIDs();
-        #endregion
+       
 
         [Inject]
-        public void Inject(IAccountDataAgent accountDataAgent, ColliderListSystem collidersList)
+        public void Inject(IAccountDataAgent accountDataAgent, ColliderListSystem collidersList, SignalBus signalBus)
         {
             _accountDataAgent= accountDataAgent;
-            collidersList.AddPlayer(this);
+            _controlsLocker = new PlayerControlsLocker(signalBus);
+            _vehicleController = new PlayerVehicleController(_presettedVehicle, this, _controlsLocker);
+            _vehicleController.OnActiveVehicleChangedEvent += OnVehicleChanged;
+
+            _colliderListSystem = collidersList;
+        }
+        private void OnVehicleChanged(Vehicle vehicle)
+        {
+            Position = vehicle.Position;
+            if (isActiveAndEnabled) _signalBus.Fire(new CameraViewPointSetSignal(vehicle.CameraViewPoint));
+            _colliderListSystem.AddPlayerColliders(this);
+            OnVehicleChangedEvent?.Invoke(vehicle);
         }
 
-        private void Awake()
+
+        private void Start()
         {
-            Position = _vehicle.Position;
-#if UNITY_EDITOR
-            if ((_vehicle == null || !_vehicle.gameObject.activeSelf) && transform.childCount > 0)
-            {
-               for (int i = 0; i < transform.childCount; i++)
-                {
-                    if (transform.GetChild(i).TryGetComponent<Vehicle>(out _vehicle)) break;
-                }
-            }
-#endif
-            _vehicle?.AssignVehicleController(this);            
-        }
-        private void ChangeCameraPoint(Transform t)
-        {
-            if (isActiveAndEnabled) _signalBus.Fire(new CameraViewPointSetSignal(t));
+            OnVehicleChanged(ActiveVehicle);
         }
 
-        public override void OnSessionStart()
-        {
-            base.OnSessionStart();
-            ChangeCameraPoint( _vehicle.CameraViewPoint);            
-        }
-
-        #region controls
-        public void Move(Vector2 dir)
-        {
-            if (_controlsLocker.IsLocked) return;
-            _vehicle.Move(dir);
-        }
-        public void ChangeMoveState(PlayerMoveStateType state)
-        {
-            if (_controlsLocker.IsLocked) return;
-            switch (state)
-            {
-                case PlayerMoveStateType.Gas: _vehicle.Gas(); break;
-                case PlayerMoveStateType.Brake: _vehicle.Brake(); break;
-                case PlayerMoveStateType.Reverse: _vehicle.Reverse(); break;
-                default: _vehicle.ReleaseGas(); break;
-            }
-        }
-        public void SetSteer(float steer)
-        {
-            if (_controlsLocker.IsLocked) return;
-            _vehicle.Steer(steer);
-        }
-        
-        #endregion
         private void LateUpdate()
         {
-            Position = _vehicle.Position;
+            if (ActiveVehicle != null) Position = ActiveVehicle.Position;
         }
 
-        #region world positioning
-        public void Stabilize() => _vehicle.Stabilize();
+        
         public void Teleport(VirtualPoint point)
         {
-            _vehicle.Teleport(point);
-            Position = _vehicle.Position;
+            if (ActiveVehicle != null)
+            {
+                ActiveVehicle.Teleport(point);
+                Position = ActiveVehicle.Position;
+            }
         }
-        public void PhysicsLock(Rigidbody point, out int id)
-        {
-            if (TryLockControls(out id))  _vehicle.PhysicsLock(point);
-        }
-        private void ReleaseControls()
-        {
-            ChangeMoveState(PlayerMoveStateType.Idle);
-            SetSteer(0f);
-        }
+       
+       
         public bool TryLockControls(out int id)
         {
-            ReleaseControls();
-            
             id = _controlsLocker.CreateLock();            
             return true;
-        }
-        public void RemovePhysicsLock(Rigidbody point, int id)
-        {
-            UnlockControls(id);
-            _vehicle.PhysicsUnlock(point);
-        }
+        }        
         public void UnlockControls(int id) => _controlsLocker.DeleteLock(id);
-        public IReadOnlyCollection<Vector3> GetPlayerBounds() => _vehicle.GetVehicleBounds();
-        #endregion
+        public IReadOnlyCollection<Vector3> GetPlayerBounds() => ActiveVehicle.GetVehicleBounds();
+        
 
         #region trading
         public void OnItemSold(SellOperationContainer info) => _accountDataAgent.PlayerDataAgent.OnPlayerSoldItem(info);
-        public bool CanFulfillContract(TradeContract contract) => _vehicle.CanFulfillContract(contract);
-        public bool TryLoadCargo(VirtualCollectable item, int count) => _vehicle.TryLoadCargo(item, count);
-        public TradeContract FormCollectContract() => _vehicle.FormCollectContract();       
-        public void OnItemCompositionChanged()
-        {
-            OnItemCompositionChangedEvent?.Invoke();
-        }
+        public bool CanFulfillContract(TradeContract contract) => ActiveVehicle.CanFulfillContract(contract);
+        public bool TryLoadCargo(VirtualCollectable item, int count) => ActiveVehicle.TryLoadCargo(item, count);
+        public TradeContract FormCollectContract() => ActiveVehicle.FormCollectContract();
 
+        #endregion
+
+        #region IColliderOwner
+        public bool HasMultipleColliders => ActiveVehicle.HasMultipleColliders;
+        public int GetColliderID() => ActiveVehicle.GetColliderID();
+        public int[] GetColliderIDs() => ActiveVehicle.GetColliderIDs();
         #endregion
 
         #region player options
         public void ChangeActiveVehicle(Vehicle vehicle)
         {
-            if (_vehicle != null)
+            if (ActiveVehicle != null)
             {
-                _controlsLocker.ClearAllLocks();
-                ReleaseControls();
-
-                _vehicle.AssignVehicleController(null);
-                _vehicle.PhysicsUnlock();
+                _colliderListSystem.RemovePlayerCollider(this);
             }
-            _vehicle = vehicle;
-            _vehicle.AssignVehicleController(this);
-            ChangeCameraPoint(_vehicle.CameraViewPoint);
-            Position = _vehicle.Position;
-            OnVehicleChangedEvent?.Invoke(vehicle);
+           _vehicleController.ChangeActiveVehicle(vehicle); 
         }
         #endregion
     }

@@ -18,7 +18,6 @@ MonoBehaviour:
   _steerTime: 0.1
   _acceleration: 0.4
   _naturalDeceleration: 25
-  _brakeDeceleration: 400
   _reverseSpeedCf: 0.2
   _mass: 55
   _passability: 0.2

@@ -21,8 +21,8 @@ namespace ZE.Polytrucks {
         public bool HasMultipleColliders => false;
         public CollectableType CollectableType => _collectableType;
         public Rarity Rarity => _rarity;
-        public int GetID() => _collider.GetInstanceID();
-        public int[] GetIDs() => new int[1] { GetID() };
+        public int GetColliderID() => _collider.GetInstanceID();
+        public int[] GetColliderIDs() => new int[1] { GetColliderID() };
 
         [Inject]
         public void Inject(ColliderListSystem colliderList, CollisionHandleSystem collisionHandleSystem)

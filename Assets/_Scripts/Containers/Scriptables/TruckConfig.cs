@@ -9,7 +9,7 @@ namespace ZE.Polytrucks {
 		[SerializeField] private bool _noCargoSpace = false;
         [SerializeField]
         private float _maxSpeed = 15f, _maxSteerAngle = 60f, _steerTime = 0.5f,
-            _acceleration = 5f, _naturalDeceleration = 1f, _brakeDeceleration = 4f,
+            _acceleration = 5f, _reverseAcceleration = 4f, _engineStopTime = 1f,
             _reverseSpeedCf = 0.5f, _mass = 100f, _passability = 1f;
         [SerializeField] private AnimationCurve _rotationToSpeedCurve, _steerCurve, _powerCurve;
 		[SerializeField] private StorageConfiguration _storageConfiguration;
@@ -27,8 +27,7 @@ namespace ZE.Polytrucks {
 		public StorageConfiguration StorageConfiguration => _noCargoSpace ?null : _storageConfiguration;
 
 		public float Acceleration => _acceleration;
-		public float NaturalDeceleration => _naturalDeceleration;
-		public float BrakeDeceleration => _brakeDeceleration;
+		public float ReverseAcceleration => _reverseAcceleration;
 		public float ReverseSpeedCf => _reverseSpeedCf;
 		public float SteerTime => _steerTime;
 		public float Mass => _mass;

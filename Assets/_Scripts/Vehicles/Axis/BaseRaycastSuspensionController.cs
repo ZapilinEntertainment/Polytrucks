@@ -28,9 +28,10 @@ namespace ZE.Polytrucks {
         {
             if (!IsActive) return;
             float suspensionLength = _wheelSettings.SuspensionLength,
-                springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper   ;
+                springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper;
             _carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
             _speedPc = Mathf.Clamp01(_carSpeed / GameConstants.MAX_SPEED);
+            bool isBraking = _axisController.IsBraking;
 
             foreach (var wheel in _wheels)
             {
@@ -44,12 +45,22 @@ namespace ZE.Polytrucks {
                     float suspensionVelocity = Vector3.Dot(up, tireVelocity);
 
                     Vector3 steeringForce = CalculateSteerForce(wheel, tireVelocity);
-                    Vector3 accelForce = wheel.IsMotor ? CalculateAccelerationForce(wheel) : Vector3.zero;
+                    Vector3 accelForce;
+                    if (isBraking && wheel.HasBrakes)
+                    {
+                        float brakeForce = _wheelSettings.BrakeForce, tireVel = tireVelocity.magnitude;
+                        accelForce = (tireVel > brakeForce ? brakeForce : tireVel) * -tireVelocity;
+                    }
+                    else
+                    {
+                        accelForce = wheel.IsMotor ? CalculateAccelerationForce(wheel) : Vector3.zero;
+                    }
 
                     float suspensionForce = (offset * springStrength) - (suspensionVelocity * springDamper);
                     _rigidbody.AddForceAtPosition(up * suspensionForce + accelForce + steeringForce, pos);
 
                     wheel.SetSuspensionCurrentLength(hit.distance);
+
                 }
                 else
                 {

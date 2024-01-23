@@ -50,11 +50,11 @@ namespace ZE.Polytrucks {
 			config = null;
 			return -1;
 		}
-		public TruckConfig GetTruckConfig(int index)
+		public TruckInfo GetTruckInfo(int index)
 		{
             for (int i = 0; i < _trucksInfo.Length; i++)
             {
-                if (index == i) return _trucksInfo[i].TruckConfig;
+                if (index == i) return _trucksInfo[i];
             }
             return null;
         }

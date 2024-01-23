@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace ZE.Polytrucks {
     [RequireComponent(typeof(Truck))]
-	public sealed class TEST_AccelerationMeter : MonoBehaviour, IVehicleController
+	public sealed class TEST_AccelerationMeter : MonoBehaviour
 	{
         [SerializeField] private float _speedPc = 0f, _speedValue = 0f, _targetPathLength = 100f;
 		private Truck _truck;
@@ -12,13 +12,10 @@ namespace ZE.Polytrucks {
         private Vector3 _targetPoint;
        // private const float MIN_ACCELERATION_TIME = 1f;
 
-        public void OnItemCompositionChanged() { }
-        public void OnItemSold(SellOperationContainer info) { }
-
         private void Awake()
         {
             _truck = GetComponent<Truck>();
-            _truck.AssignVehicleController(this);
+            _truck.AssignVehicleController(null);
             _targetPoint = _truck.Position + _targetPathLength * Vector3.forward;
         }
         private IEnumerator Start()

@@ -9,12 +9,14 @@ namespace ZE.Polytrucks {
     {
         None = 0, Truck
     }
-	public abstract class Vehicle : SessionObject
+	public abstract class Vehicle : SessionObject, IColliderOwner
 	{
 		[SerializeField] private Transform _cameraViewPoint;
         [SerializeField] protected TradeCollidersHandler _collidersHandler;
+        public abstract StorageController VehicleStorageController { get; }
         public IVehicleController VehicleController { get; protected set; }
         public TradeCollidersHandler CollidersHandler => _collidersHandler;
+        public Action OnVehicleDisposeEvent;
         public Action<IVehicleController> OnVehicleControllerChangedEvent;
         
         abstract public float GasValue { get; }
@@ -30,6 +32,7 @@ namespace ZE.Polytrucks {
         public abstract void Brake();
         public abstract void Reverse();
         public abstract void ReleaseGas();
+        public abstract void ReleaseBrake();
         public abstract void Steer(float x);
 
         #region world positioning
@@ -52,5 +55,15 @@ namespace ZE.Polytrucks {
        
         public abstract TradeContract FormCollectContract();
         #endregion
+        #region IColliderOwner
+        public bool HasMultipleColliders => CollidersHandler.HasMultipleColliders;
+        public int GetColliderID() => CollidersHandler.GetColliderID();
+        public int[] GetColliderIDs() => CollidersHandler.GetColliderIDs();
+        #endregion
+
+        private void OnDestroy()
+        {
+            OnVehicleDisposeEvent?.Invoke();            
+        }
     }
 }

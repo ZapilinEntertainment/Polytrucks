@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-    public enum PlayerMoveStateType : byte { Idle, Gas, Brake, Reverse}
+    public enum PlayerMoveStateType : byte { Idle, Gas, Reverse}
 	public sealed class InputController
 	{
         private class ControlsMask
@@ -16,23 +16,39 @@ namespace ZE.Polytrucks {
             }
         }
 
+        private bool _playerIsBraking = false, _areControlsLocked = false;
         private float _steerValue = 0f;
         private PlayerMoveStateType _currentPlayerMoveState = PlayerMoveStateType.Idle;
-        private readonly PlayerController _player;
+        private readonly IVehicleController _vehicleController;
         private ControlsMask _controlsMask = new ControlsMask();
 
         public InputController (PlayerController player)
         {
-            _player = player;           
+            _vehicleController = player.VehicleController;
+            _areControlsLocked = _vehicleController.AreControlsLocked;
+            _vehicleController.OnLoseControlsEvent += OnControlsLocked;
+            _vehicleController.OnRestoreControlsEvent += OnControlsUnlocked;
+        }
+        private void OnControlsLocked()
+        {
+            _areControlsLocked = true;
+            _steerValue = 0f;
+            _playerIsBraking = false;
+            _currentPlayerMoveState|= PlayerMoveStateType.Idle;
+        }
+        private void OnControlsUnlocked()
+        {
+            _areControlsLocked = false;
+            Recalculation();
         }
 
         public void MoveCommand(Vector2 dir)
         {
-             _player.Move(dir);
+             _vehicleController.Move(dir);
         }
         public void StabilizeCommand()
         {
-            _player.Stabilize();
+            _vehicleController.Stabilize();
         }
         public void OnButtonDown(ControlButtonID button) {
             _controlsMask[button] = true;
@@ -44,6 +60,7 @@ namespace ZE.Polytrucks {
         }
         private void Recalculation()
         {
+            if (_areControlsLocked) return;
             PlayerMoveStateType newPlayerMoveState;
             if (_controlsMask[ControlButtonID.Gas])
             {
@@ -51,29 +68,22 @@ namespace ZE.Polytrucks {
             }
             else
             {
-                if (_controlsMask[ControlButtonID.Brake])
+                if (_controlsMask[ControlButtonID.Reverse])
                 {
-                    newPlayerMoveState = PlayerMoveStateType.Brake;
+                    newPlayerMoveState = PlayerMoveStateType.Reverse;
                 }
                 else
                 {
-                    if (_controlsMask[ControlButtonID.Reverse])
-                    {
-                        newPlayerMoveState = PlayerMoveStateType.Reverse;
-                    }
-                    else
-                    {
-                        newPlayerMoveState = PlayerMoveStateType.Idle;
-                    }
+                    newPlayerMoveState = PlayerMoveStateType.Idle;
                 }
             }
             if (_currentPlayerMoveState != newPlayerMoveState)
             {
                 _currentPlayerMoveState = newPlayerMoveState;
-                _player.ChangeMoveState(_currentPlayerMoveState);
+                _vehicleController.ChangeMoveState(_currentPlayerMoveState);
             }
 
-            float newSteer = 0f;
+            float newSteer;
             if (_controlsMask[ControlButtonID.SteerLeft])
             {
                 if (_controlsMask[ControlButtonID.SteerRight]) newSteer = 0f;
@@ -87,7 +97,14 @@ namespace ZE.Polytrucks {
             if (newSteer != _steerValue)
             {
                 _steerValue = newSteer;
-                _player.SetSteer(_steerValue);
+                _vehicleController.SetSteer(_steerValue);
+            }
+
+            bool braking = _controlsMask[ControlButtonID.Brake];
+            if (braking != _playerIsBraking)
+            {
+                _playerIsBraking = braking;
+                _vehicleController.SetBrake(_playerIsBraking);
             }
         }
     }

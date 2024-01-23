@@ -275,7 +275,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3541577539587389071}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 656805985154360284}
+        m_TargetAssemblyTypeName: ZE.Polytrucks.ItemButtonHandler, Assembly-CSharp
+        m_MethodName: BUTTON_Click
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &656805985154360284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fe8120e1d63fe144bea1f51ad7b1323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _baseRect: {fileID: 1858790032034676148}
   _icon: {fileID: 6654930201347859778}
   _background: {fileID: 3541577539587389071}
   _selectionFrame: {fileID: 3632148835146604654}

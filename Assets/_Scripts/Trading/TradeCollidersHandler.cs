@@ -9,8 +9,8 @@ namespace ZE.Polytrucks
     {
         [field: SerializeField] public List<Collider> CollectColliders = new List<Collider>();
         public bool HasMultipleColliders => CollectColliders.Count != 1;
-        public int GetID() => CollectColliders[0].GetInstanceID();
-        public int[] GetIDs()
+        public int GetColliderID() => CollectColliders[0].GetInstanceID();
+        public int[] GetColliderIDs()
         {
             int count = CollectColliders.Count;
             var ids = new int[count];

@@ -7,6 +7,7 @@ using Zenject;
 namespace ZE.Polytrucks.AccountData {
 	public sealed class PlayerData : IPlayerDataAgent
 	{
+		public TruckID ActiveTruckID { get; private set; }
 		private SignalBus _signalBus;
         private Action<int> OnMoneyChangedEvent;
         public int Money { get; private set; }
@@ -41,6 +42,11 @@ namespace ZE.Polytrucks.AccountData {
 			else return false;
 		}
 
-        
+        public bool TrySwitchVehicle(TruckID id, out TruckSwitchReport msg)
+		{
+			msg = TruckSwitchReport.SwitchSucceed;
+			ActiveTruckID = id;
+			return true;
+		}
     }
 }

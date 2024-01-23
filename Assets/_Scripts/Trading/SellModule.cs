@@ -7,19 +7,19 @@ namespace ZE.Polytrucks {
 	public class SellModule : TradeModule,ISeller
 	{
         protected ISellZone _sellZone;
-		protected IVehicleController _vehicleController;
-        public SellModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, VehicleStorageController storageController, Vehicle vehicle) : base(collidersHandler, colliderListSystem, storageController)
+		protected Vehicle _vehicle;
+        public SellModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, Vehicle vehicle) : base(collidersHandler, colliderListSystem, vehicle.VehicleStorageController)
         {
             Storage.OnItemAddedEvent += OnStorageCompositionChanged;
-			_vehicleController = vehicle.VehicleController;
-			vehicle.OnVehicleControllerChangedEvent += (IVehicleController controller) => _vehicleController = controller;
+			_vehicle = vehicle;
+            _vehicle.OnVehicleDisposeEvent += Dispose;
 
 			colliderListSystem?.AddSeller(this);
         }
 
         override public void Update()
         {
-            if (_isInTradeZone)
+            if (_isInTradeZone & !_isDisposed)
 			{
 				if (_sellZone.IsReadyToReceive)
 				{
@@ -74,11 +74,27 @@ namespace ZE.Polytrucks {
 			_preparedItemsList?.Clear();
 			_enoughGoodsForTrading = false;
         }
-		
-     
-        public bool TryStartSell(TradeContract contract, out List<VirtualCollectable> list) => Storage.TryFormItemsList(contract, out list);
-        public void OnItemSold(SellOperationContainer sellInfo) => _vehicleController?.OnItemSold(sellInfo);
+
+
+		public bool TryStartSell(TradeContract contract, out List<VirtualCollectable> list)
+		{
+			if (!_isDisposed) return Storage.TryFormItemsList(contract, out list);
+			else
+			{
+				list = null;
+				return false;
+			}
+		}
+        public void OnItemSold(SellOperationContainer sellInfo) => _vehicle.VehicleController?.OnItemSold(sellInfo);
 
 		protected override void OnColliderListChanged() => _colliderListSystem.OnSellerChanged(this);
+
+        protected override void OnDispose()
+        {
+			if (Storage != null) Storage.OnItemAddedEvent -= OnStorageCompositionChanged;
+			if (_vehicle != null) _vehicle.OnVehicleDisposeEvent -= Dispose;
+			_colliderListSystem?.RemoveSeller(this);
+			i_OnExitSellZone();
+        }
     }
 }

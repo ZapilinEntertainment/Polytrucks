@@ -179,12 +179,12 @@ namespace ZE.Polytrucks {
         }
         private bool TryLockPlayer()
         {
-            if (_player != null) _player.PhysicsLock(LockPoint, out _lockedId);
+            if (_player != null) _player.ActiveVehicle.PhysicsLock(LockPoint);
             return true;
         }
         private void UnlockPlayer()
         {
-            if (_player != null) _player.RemovePhysicsLock(LockPoint, _lockedId);
+            if (_player != null) _player.ActiveVehicle.PhysicsUnlock(LockPoint);
         }
         private bool CanStartMovement()
         {

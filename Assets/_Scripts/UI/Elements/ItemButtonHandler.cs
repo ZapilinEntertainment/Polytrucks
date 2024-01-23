@@ -7,11 +7,24 @@ using System;
 namespace ZE.Polytrucks {
 	public sealed class ItemButtonHandler : MonoBehaviour
 	{
+		[SerializeField] private RectTransform _baseRect;
 		[SerializeField] private Image _icon, _background;
 		[SerializeField] private GameObject _selectionFrame;
 		private ItemsVisualSelectionConfig _visualConfig;
 		private Action _clickAction;
 
+		public void SetSize(float width, float height)
+		{
+			_baseRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+			_baseRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        }
+		public void FitIntoAnchors(float minX, float maxX, float minY, float maxY)
+		{
+			_baseRect.anchorMin = new Vector2(minX, minY);
+			_baseRect.anchorMax = new Vector2(maxX, maxY);
+			_baseRect.offsetMin = Vector2.zero;
+			_baseRect.offsetMax = Vector2.zero;
+		}
 		public void Setup(Sprite icon, ItemsVisualSelectionConfig config, bool isSelected, Action clickAction)
 		{
 			_clickAction= clickAction;

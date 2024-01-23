@@ -12,36 +12,36 @@ namespace ZE.Polytrucks {
 			{
 				if (owner.HasMultipleColliders)
 				{
-					var ids = owner.GetIDs();
+					var ids = owner.GetColliderIDs();
 					foreach (var id in ids ) { _list.Add(id, owner); }
 				}
 				else
 				{
-					_list.Add(owner.GetID(), owner);
+					_list.Add(owner.GetColliderID(), owner);
 				}
 			}
 			public void OnOwnerChanged(T owner)
 			{
                 if (owner.HasMultipleColliders)
                 {
-                    var ids = owner.GetIDs();
+                    var ids = owner.GetColliderIDs();
                     foreach (var id in ids) { _list.TryAdd(id, owner); }
                 }
                 else
                 {
-                    _list.TryAdd(owner.GetID(), owner);
+                    _list.TryAdd(owner.GetColliderID(), owner);
                 }
             }
 			public void RemoveOwner(T owner)
 			{
 				if (owner.HasMultipleColliders)
 				{
-                    var ids = owner.GetIDs();
+                    var ids = owner.GetColliderIDs();
                     foreach (var id in ids) { _list.Remove(id); }
                 }
 				else
 				{
-					_list.Remove(owner.GetID());
+					_list.Remove(owner.GetColliderID());
 				}
 			}
 			public bool TryGetOwner(int id, out T owner)
@@ -69,7 +69,8 @@ namespace ZE.Polytrucks {
 		public void OnSellerChanged(ISeller seller) => _sellers.OnOwnerChanged(seller);
 		public bool TryGetSeller(int id, out ISeller seller) =>_sellers.TryGetOwner(id, out seller);
 
-		public void AddPlayer( PlayerController player) => _playerColliders.AddOwner(player);
+		public void AddPlayerColliders( PlayerController player) => _playerColliders.AddOwner(player);
+		public void RemovePlayerCollider(PlayerController player) => _playerColliders.RemoveOwner(player);
 		public bool TryDefineAsPlayer(int id, out PlayerController player) => _playerColliders.TryGetOwner(id, out player);
 		
 	}

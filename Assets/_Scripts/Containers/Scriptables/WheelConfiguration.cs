@@ -11,6 +11,7 @@ namespace ZE.Polytrucks {
         public float SpringDamper = 10f;
         public float MaxSuspensionOffset = 1f;
         public float TireMass = 1f;
+        public float BrakeForce = 1000f;
         public AnimationCurve TireGripCurve;
     }
 }

@@ -17,7 +17,6 @@ namespace ZE.Polytrucks {
             Container.Bind<UIManager>().FromComponentInNewPrefab( _uiManagerPrefab ).AsCached().NonLazy();
 
             InstallAccountInfo();
-            Container.Bind<InputController>().FromNew().AsCached();
             Container.Bind<PlayerController>().FromComponentInHierarchy(false).AsCached();            
 
             Container.Bind<LevelManager>().FromInstance(_levelManager).AsCached();
@@ -68,6 +67,7 @@ namespace ZE.Polytrucks {
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
             Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
             Container.BindFactory<Trailer, Trailer.Factory>().FromComponentInNewPrefab(_trailerPrefab);
+            Container.BindFactory<UnityEngine.Object, Truck, Truck.Factory>().FromFactory<PrefabFactory<Truck>>();
         }
         
         private void InstallAccountInfo()

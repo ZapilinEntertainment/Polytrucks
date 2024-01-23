@@ -20,21 +20,25 @@ namespace ZE.Polytrucks {
 
 
             signalBus.Subscribe((GarageOpenedSignal signal) => OpenGaragePanel(signal.Garage));
-            signalBus.Subscribe<GarageClosedSignal>(() => ClosePanel(UIPanel.Garage));
+            signalBus.Subscribe<GarageClosedSignal>(() => ClosePanel(UIPanel.Garage)); 
         }
 		public void OpenGaragePanel(Garage garage)
 		{
-			Debug.Log("open garage");
 			if (_garagePanel == null)
 			{
-				_garagePanel = _elementsResolver.GaragePanel;				
+				_garagePanel = _elementsResolver.GaragePanel;	
 			}
 			_garagePanel.Open(garage);
 		}
 		public void ClosePanel(UIPanel panel)
 		{
-			if (panel == UIPanel.Garage && _garagePanel != null) _garagePanel.Close(); 
+			if (panel == UIPanel.Garage)
+			{
+				if (_garagePanel != null && _garagePanel.IsActive)	_garagePanel.Close();
+			}
 		}
+
+
 		public int OpenActionPanel(ActionContainer container)
 		{
 			if (_actionPanel == null)
