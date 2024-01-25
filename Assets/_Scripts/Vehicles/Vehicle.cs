@@ -16,7 +16,7 @@ namespace ZE.Polytrucks {
         public abstract StorageController VehicleStorageController { get; }
         public IVehicleController VehicleController { get; protected set; }
         public TradeCollidersHandler CollidersHandler => _collidersHandler;
-        public Action OnVehicleDisposeEvent;
+        public Action OnVehicleDisposeEvent, OnVehicleDeactivatedEvent, OnVehicleActivatedEvent;
         public Action<IVehicleController> OnVehicleControllerChangedEvent;
         
         abstract public float GasValue { get; }
@@ -45,7 +45,11 @@ namespace ZE.Polytrucks {
         virtual public IReadOnlyCollection<Vector3> GetVehicleBounds() => _collidersHandler.GetBounds();
         #endregion
 
-        public void AssignVehicleController(IVehicleController controller) { VehicleController = controller; OnVehicleControllerChangedEvent?.Invoke(VehicleController); }
+        public void AssignVehicleController(IVehicleController controller) { 
+            VehicleController = controller;
+            if (CollidersHandler != null) CollidersHandler.SetLayer(controller?.GetColliderLayer() ?? GameConstants.GetDefinedLayer(DefinedLayer.Default));
+            OnVehicleControllerChangedEvent?.Invoke(VehicleController); 
+        }
 
         #region storage
         public abstract void ClearCargo(bool destroy = true);
@@ -60,6 +64,23 @@ namespace ZE.Polytrucks {
         public int GetColliderID() => CollidersHandler.GetColliderID();
         public int[] GetColliderIDs() => CollidersHandler.GetColliderIDs();
         #endregion
+
+        public void SetVisibility(bool x)
+        {
+            _collidersHandler.SetColliderActivity(x);
+            gameObject.SetActive(x);
+            if (x)
+            {
+                ReleaseBrake();
+                OnVehicleActivatedEvent?.Invoke();
+            }
+            else
+            {
+                ReleaseGas();
+                Brake();
+                OnVehicleDeactivatedEvent?.Invoke();
+            }
+        }
 
         private void OnDestroy()
         {

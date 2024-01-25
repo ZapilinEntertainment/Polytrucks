@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: TrucksList
   m_EditorClassIdentifier: 
   _trucksInfo:
-  - <ID>k__BackingField: 1
+  - <TruckID>k__BackingField: 1
     <TruckPrefab>k__BackingField: {fileID: 8702596829126323439, guid: 63015b390be14334da2375c154e7250a, type: 3}
     <TruckConfig>k__BackingField: {fileID: 11400000, guid: 742f9d36d8b2c5c42aa758eafce68cc6, type: 2}
     <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 5c769028d061ef64a887cdca1ebea246, type: 2}
     <Icon>k__BackingField: {fileID: 21300000, guid: c4549f1675bbce64199aaa61e6093356, type: 3}
-  - <ID>k__BackingField: 2
+  - <TruckID>k__BackingField: 2
     <TruckPrefab>k__BackingField: {fileID: 4908018578481662965, guid: ac8de24369739bd41bfeb8c5ec024d76, type: 3}
     <TruckConfig>k__BackingField: {fileID: 11400000, guid: 30ea5113abd61274eb06ed24cbafab0c, type: 2}
     <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}
     <Icon>k__BackingField: {fileID: 21300000, guid: 75112bc5868a72b4889baaf915e7f3c8, type: 3}
-  - <ID>k__BackingField: 4
+  - <TruckID>k__BackingField: 4
     <TruckPrefab>k__BackingField: {fileID: 4631463182267707100, guid: de75277696ac9644d97462cec89ee8a8, type: 3}
     <TruckConfig>k__BackingField: {fileID: 11400000, guid: b97c1af1ad1d4244c8d5287f0cde15b3, type: 2}
     <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}

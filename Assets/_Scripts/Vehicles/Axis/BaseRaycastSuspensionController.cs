@@ -9,8 +9,10 @@ namespace ZE.Polytrucks {
         [SerializeField] protected WheelConfiguration _wheelSettings;
         [SerializeField] protected Rigidbody _rigidbody;
         [SerializeField] protected Transform _centerOfMass;
+        private bool _physicsDelay = false;
         protected int _castMask;
         protected float _startMass = 1f, _carSpeed = 0f, _speedPc = 0f;
+        protected override bool IsActive => base.IsActive & !_physicsDelay;
         override public float Speed => _carSpeed;
 
         public override Vector3 Forward => _rigidbody.transform.forward;
@@ -26,7 +28,14 @@ namespace ZE.Polytrucks {
 
         virtual protected void FixedUpdate()
         {
-            if (!IsActive) return;
+            if (!IsActive)
+            {
+                if (_physicsDelay)
+                {
+                    _physicsDelay = false;
+                }
+                return;
+            }
             float suspensionLength = _wheelSettings.SuspensionLength,
                 springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper;
             _carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
@@ -57,7 +66,7 @@ namespace ZE.Polytrucks {
                     }
 
                     float suspensionForce = (offset * springStrength) - (suspensionVelocity * springDamper);
-                    _rigidbody.AddForceAtPosition(up * suspensionForce + accelForce + steeringForce, pos);
+                    _rigidbody.AddForceAtPosition(suspensionForce * up + accelForce + steeringForce, pos);
 
                     wheel.SetSuspensionCurrentLength(hit.distance);
 
@@ -93,7 +102,12 @@ namespace ZE.Polytrucks {
         }
         public override void Teleport(VirtualPoint point)
         {
-
+            _physicsDelay = true;
+            _rigidbody.MovePosition(point.Position + Vector3.up * _wheelSettings.SuspensionLength * 0.1f);
+            _rigidbody.MoveRotation(point.Rotation);
+            _rigidbody.velocity = Vector3.zero;
+            _rigidbody.angularVelocity= Vector3.zero;
+            _rigidbody.ResetInertiaTensor();            
         }
 
         #if UNITY_EDITOR

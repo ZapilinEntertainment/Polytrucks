@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	public class PlayerVehicleController : IVehicleController
 	{
         public bool AreControlsLocked => _controlsLocker.IsLocked;
+        public int GetColliderLayer() => GameConstants.GetDefinedLayer(DefinedLayer.Player);
         public Vehicle ActiveVehicle { get; private set; }
         public Action OnLoseControlsEvent { get; set ; }
         public Action OnRestoreControlsEvent { get; set ; }
@@ -18,10 +19,13 @@ namespace ZE.Polytrucks {
         public PlayerVehicleController(Vehicle presetVehicle, PlayerController player, Locker controlsLocker)
         {
             ActiveVehicle = presetVehicle;
+            
             _player = player;
             _controlsLocker = controlsLocker;
             _controlsLocker.OnLockStartEvent += OnControlsLocked;
             _controlsLocker.OnLockEndEvent += OnRestoreControls;
+
+            if (ActiveVehicle != null) ActiveVehicle.AssignVehicleController(this);
         }
 
         #region IVehicleController

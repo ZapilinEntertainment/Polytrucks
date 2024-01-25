@@ -6,7 +6,7 @@ namespace ZE.Polytrucks {
 	public abstract class AxisControllerBase : MonoBehaviour
 	{
 		private bool _isSetup = false;
-		protected bool IsActive => _isSetup;
+		virtual protected bool IsActive => _isSetup;
 		protected IAxisController _axisController;
 
 		public abstract float Speed { get; }

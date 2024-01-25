@@ -890,7 +890,7 @@ GameObject:
   - component: {fileID: 2987772267496215069}
   - component: {fileID: 941688342614146152}
   - component: {fileID: 8729423948559862658}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Trailer_scaled
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -934,24 +934,28 @@ MonoBehaviour:
     SuspensionPoint: {fileID: 2619693536434701496}
     IsMotor: 0
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.435
     ScaleCf: 1
   - WheelModel: {fileID: 6541350691160379096}
     SuspensionPoint: {fileID: 1268979726657150243}
     IsMotor: 0
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.435
     ScaleCf: 1
   - WheelModel: {fileID: 7048417530253757084}
     SuspensionPoint: {fileID: 6180896668989533424}
     IsMotor: 0
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.435
     ScaleCf: 1
   - WheelModel: {fileID: 1604196484178956185}
     SuspensionPoint: {fileID: 7769725002101323365}
     IsMotor: 0
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.435
     ScaleCf: 1
   _wheelSettings: {fileID: 11400000, guid: a05832c326186e24bba2963a8a0db24e, type: 2}

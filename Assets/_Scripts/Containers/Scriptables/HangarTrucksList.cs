@@ -10,7 +10,7 @@ namespace ZE.Polytrucks {
 		[Serializable]
 		public class TruckInfo
 		{
-			[field: SerializeField] public TruckID ID { get; private set; }
+			[field: SerializeField] public TruckID TruckID { get; private set; }
 			[field: SerializeField] public Truck TruckPrefab { get; private set; }
 			[field: SerializeField] public TruckConfig TruckConfig { get; private set; }
 			[field: SerializeField] public WheelConfiguration WheelsConfig { get; private set; }
@@ -41,7 +41,7 @@ namespace ZE.Polytrucks {
 		{
 			for (int i = 0; i < _trucksInfo.Length; i++)
 			{
-				if (_trucksInfo[i].ID == id)
+				if (_trucksInfo[i].TruckID == id)
 				{
 					config = _trucksInfo[i].TruckConfig;
 					return i;
@@ -58,5 +58,18 @@ namespace ZE.Polytrucks {
             }
             return null;
         }
-	}
+        public TruckInfo GetTruckInfo(TruckID id)
+        {
+            foreach (var info in _trucksInfo)
+			{
+				if (info.TruckID == id) return info;
+			}
+            return null;
+        }
+		public bool TryGetTruckInfo(TruckID id, out TruckInfo info)
+		{
+			info = GetTruckInfo(id);
+			return info != null;
+		}
+    }
 }

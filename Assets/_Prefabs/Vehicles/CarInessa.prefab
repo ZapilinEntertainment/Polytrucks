@@ -476,7 +476,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5937263192406322743}
   - component: {fileID: 9146932381041232439}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: InessaCar
   m_TagString: Untagged
   m_Icon: {fileID: 0}

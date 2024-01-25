@@ -49,7 +49,8 @@ namespace ZE.Polytrucks {
 
         private void Awake()
         {
-            Rigidbody.mass = _truckConfig.Mass; 
+            Rigidbody.mass = _truckConfig.Mass;
+            _engine = new TruckEngine(_truckConfig, _axisController);
             UpdateStorageLink();
             _storageController.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
             OnVehicleDisposeEvent += RemoveAllTrailers;
@@ -63,7 +64,7 @@ namespace ZE.Polytrucks {
             _sellModule = new SellModule(_collidersHandler, _colliderListSystem,  this);
             _collectModule = new CollectModule(_collidersHandler, _colliderListSystem, this, TruckConfig.CollectTime);
 
-            _engine = new TruckEngine(_truckConfig, _axisController);            
+                      
             _axisController.Setup(this);            
         }
         private void UpdateStorageLink()
@@ -233,5 +234,5 @@ namespace ZE.Polytrucks {
         public class Factory : PlaceholderFactory<UnityEngine.Object, Truck>
         {
         }
-    }
+    }    
 }

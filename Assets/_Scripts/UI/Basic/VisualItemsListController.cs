@@ -65,7 +65,7 @@ namespace ZE.Polytrucks {
 
 		private void OnItemSelected(int x)
 		{
-			if (_selectedIndex > 0 && x != _selectedIndex)
+			if (_selectedIndex >= 0 && x != _selectedIndex)
 			{
 				_itemButtons[_selectedIndex].SetSelection(false);
 			}

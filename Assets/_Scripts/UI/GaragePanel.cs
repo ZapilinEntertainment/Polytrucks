@@ -9,23 +9,22 @@ namespace ZE.Polytrucks {
 		[SerializeField] private VisualItemsListController _buttonsController;
 		[SerializeField] private StatsPanel _statsPanel;
 		private bool _isActive = false;
-		private TruckID _playerActiveTruck = TruckID.Undefined, _selectedTruck = TruckID.Undefined;
+		private TruckID _selectedTruckID = TruckID.Undefined;
 		private HangarTrucksList _trucksList;
 		private Garage _observingGarage;
 		private PlayerController _player;
 		private SignalBus _signalBus;
-		private Truck _selectedTruckModel = null;
-		private IPlayerDataAgent _playerData;
+		private GarageService _garageService;		
 		private IReadOnlyList<Sprite> _trucksIcons = null;
 		public bool IsActive => _isActive;
 
 		[Inject]
-		public void Inject(HangarTrucksList trucksList, PlayerController playerController, SignalBus signalBus, IAccountDataAgent accountDataAgent)
+		public void Inject(HangarTrucksList trucksList, PlayerController playerController, SignalBus signalBus, GarageService garageService)
 		{
 			_trucksList= trucksList;
 			_player = playerController;
 			_signalBus= signalBus;
-			_playerData = accountDataAgent.PlayerDataAgent;
+			_garageService = garageService;
 		}
 
         private void Start()
@@ -34,15 +33,14 @@ namespace ZE.Polytrucks {
         }
 
 
+		// panel invokes from panels manager
         public void Open(Garage garage)
 		{
 			_observingGarage= garage;
-			_playerActiveTruck = (_player.ActiveVehicle as Truck).TruckConfig.TruckID;
 
 			if (_trucksIcons == null) _trucksIcons = _trucksList.GetTruckIcons();
-			int selectedTruckIndex = _trucksList.DefineTruckIndex(_playerActiveTruck, out var activeTruckConfig);
-			if (activeTruckConfig != null) _selectedTruck = activeTruckConfig.TruckID;
-			else _selectedTruck = TruckID.Undefined;
+			_selectedTruckID = (_player.ActiveVehicle as Truck).TruckID;
+			int selectedTruckIndex = _trucksList.DefineTruckIndex(_selectedTruckID, out var activeTruckConfig);
             _buttonsController.Setup(selectedTruckIndex, _trucksIcons);
 			_statsPanel.Show(activeTruckConfig);
 
@@ -62,23 +60,18 @@ namespace ZE.Polytrucks {
 		private void ShowTruck(int index)
 		{
 			var info = _trucksList.GetTruckInfo(index);
+			_selectedTruckID = info.TruckID;
 			_statsPanel.Show(info.TruckConfig);
-			_selectedTruckModel = _observingGarage.SpawnTruck(info.TruckPrefab);
+			_garageService.ShowTruck(_selectedTruckID, _observingGarage.ModelPoint);
 		}
 		public void BUTTON_SelectTruck()
 		{
-			if (_selectedTruck != TruckID.Undefined && _selectedTruckModel != null  && _playerData.TrySwitchVehicle(_selectedTruck, out var msg))
+			if (_garageService.TrySwitchToTruck(_selectedTruckID, out var report)) BUTTON_Close();
+			else
 			{
-				if (_selectedTruck != _playerActiveTruck)
-				{
-					var oldVehicle = _player.ActiveVehicle;
-					_player.ChangeActiveVehicle(_selectedTruckModel);
-					_selectedTruckModel = null;
-					Destroy(oldVehicle);
-					BUTTON_Close();
-				}
+				// show info of the report
 			}
-		}
+        }
 		public void BUTTON_Close() => _signalBus.Fire<GarageClosedSignal>();
 
 		public void Close() => SetActivity(false); // outer call

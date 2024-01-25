@@ -166,37 +166,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &8702596828651254233
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8702596828651254234}
-  m_Layer: 0
-  m_Name: centerOfMass
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8702596828651254234
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8702596828651254233}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.62500006, z: 0.31}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children: []
-  m_Father: {fileID: 8702596828882577074}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8702596828856005441
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +240,6 @@ Transform:
   - {fileID: 8702596829883850220}
   - {fileID: 8702596829699289276}
   - {fileID: 8702596829383484840}
-  - {fileID: 8702596828651254234}
   m_Father: {fileID: 8702596829126323432}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -292,29 +260,33 @@ MonoBehaviour:
     SuspensionPoint: {fileID: 8702596828929433031}
     IsMotor: 0
     IsSteer: 1
+    HasBrakes: 0
     WheelRadius: 0.58
     ScaleCf: 0.84
   - WheelModel: {fileID: 3165184151646964405}
     SuspensionPoint: {fileID: 8702596830026709421}
     IsMotor: 0
     IsSteer: 1
+    HasBrakes: 0
     WheelRadius: 0.58
     ScaleCf: 0.84
   - WheelModel: {fileID: 3165184152006409806}
     SuspensionPoint: {fileID: 8702596829324370981}
     IsMotor: 1
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.7
     ScaleCf: 1
   - WheelModel: {fileID: 3165184152162995336}
     SuspensionPoint: {fileID: 8702596829535293951}
     IsMotor: 1
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.7
     ScaleCf: 1
   _wheelSettings: {fileID: 11400000, guid: 5c769028d061ef64a887cdca1ebea246, type: 2}
   _rigidbody: {fileID: 8702596828882577073}
-  _centerOfMass: {fileID: 8702596828651254234}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &8702596828882577073
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -525,7 +497,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65e2ba9107f7f934b97d884d11802f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _storageSettings: []
 --- !u!1 &8702596829244065173
 GameObject:
   m_ObjectHideFlags: 0
@@ -1062,7 +1033,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8702596830069812652}
   - component: {fileID: 8702596830069812653}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: meshes
   m_TagString: Untagged
   m_Icon: {fileID: 0}

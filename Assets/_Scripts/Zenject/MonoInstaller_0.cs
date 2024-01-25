@@ -26,6 +26,7 @@ namespace ZE.Polytrucks {
 
             InstallSignals();
             InstallFactories();
+            InstallServices();
         }
 
         private void InstallSignals()
@@ -52,13 +53,13 @@ namespace ZE.Polytrucks {
             Container.Bind<TradeZonesManager>().AsCached().Lazy();
             Container.Bind<Localization>().AsCached();
             Container.Bind<QuestsManager>().AsCached().Lazy();
-            Container.Bind<RecoverySystem>().AsCached();
+            Container.Bind<RecoverySystem>().AsCached();            
 
             Container.Bind<ColouredMaterialsDepot>().AsCached().Lazy();
             Container.Bind<CollectablesSpawnManager>().AsCached().Lazy();
             Container.Bind<VisibilityController>().FromNewComponentOnNewGameObject().AsCached().Lazy();
             Container.Bind<EffectsManager>().AsCached().Lazy();
-            Container.Bind<RequestZonesManager>().AsCached().Lazy();
+            Container.Bind<RequestZonesManager>().AsCached().Lazy();            
         }
         private void InstallFactories()
         {
@@ -69,7 +70,13 @@ namespace ZE.Polytrucks {
             Container.BindFactory<Trailer, Trailer.Factory>().FromComponentInNewPrefab(_trailerPrefab);
             Container.BindFactory<UnityEngine.Object, Truck, Truck.Factory>().FromFactory<PrefabFactory<Truck>>();
         }
-        
+        private void InstallServices()
+        {
+            Container.Bind<CachedVehiclesService>().AsCached().Lazy();
+            Container.Bind<GarageService>().FromNew().AsCached().Lazy();
+            Container.Bind<TruckSpawnService>().FromNew().AsCached().Lazy();
+        }
+
         private void InstallAccountInfo()
         {
             var accountDataBind = Container.Bind<IAccountDataAgent>().FromSubContainerResolve().ByMethod(PlayerDataInstall).AsCached(); // with kernel

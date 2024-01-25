@@ -128,7 +128,7 @@ GameObject:
   m_Component:
   - component: {fileID: 144767197520116831}
   - component: {fileID: 8657606356179407698}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: truck0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,8 +174,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2, y: 1.0528316, z: 6.779976}
-  m_Center: {x: 0, y: 1.4735848, z: -0.794818}
+  m_Size: {x: 2, y: 1.991383, z: 6.76543}
+  m_Center: {x: 0, y: 1.4778932, z: -0.80209094}
 --- !u!1 &681869601896649459
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,24 +459,28 @@ MonoBehaviour:
     SuspensionPoint: {fileID: 3788718365701422009}
     IsMotor: 0
     IsSteer: 1
+    HasBrakes: 0
     WheelRadius: 0.6
     ScaleCf: 1
   - WheelModel: {fileID: 1583404407612991190}
     SuspensionPoint: {fileID: 7277313478887089496}
     IsMotor: 0
     IsSteer: 1
+    HasBrakes: 0
     WheelRadius: 0.6
     ScaleCf: 1
   - WheelModel: {fileID: 1599644461065323067}
     SuspensionPoint: {fileID: 949612596232738744}
     IsMotor: 1
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.6
     ScaleCf: 1
   - WheelModel: {fileID: 3384075833726080315}
     SuspensionPoint: {fileID: 2203236075627671156}
     IsMotor: 1
     IsSteer: 0
+    HasBrakes: 0
     WheelRadius: 0.6
     ScaleCf: 1
   _wheelSettings: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}
