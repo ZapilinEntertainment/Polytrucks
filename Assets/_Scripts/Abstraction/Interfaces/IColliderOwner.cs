@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public interface IColliderOwner 
 	{
-		abstract public bool HasMultipleColliders { get; }
+		abstract public bool HaveMultipleColliders { get; }
 		public int GetColliderID();
 		public int[] GetColliderIDs();
 	}

@@ -9,13 +9,14 @@ namespace ZE.Polytrucks {
         [SerializeField] private Transform _modelPoint;
         [SerializeField] private Cinemachine.CinemachineVirtualCamera _virtualCamera;
         private bool _waitUntilPlayerLeave = false;
+        private Truck _playerTruck;
         private SignalBus _signalBus;
-        private GarageService _garageService;
+        private TruckSwitchService _garageService;
         private int? _playerLockId = null;
         public VirtualPoint ModelPoint => new VirtualPoint(_modelPoint);
 
         [Inject]
-        public void Inject(SignalBus signalBus, GarageService garageService)
+        public void Inject(SignalBus signalBus, TruckSwitchService garageService)
         {
             _signalBus= signalBus;
             _garageService= garageService;
@@ -39,8 +40,8 @@ namespace ZE.Polytrucks {
                 vehicle.Teleport(ModelPoint);
                 vehicle.ReleaseGas();
                 vehicle.Brake();
-                _signalBus.Fire(new GarageOpenedSignal(this));
-                
+                _playerTruck = vehicle as Truck;                
+                _signalBus.Fire(new GarageOpenedSignal(this));                
             }
         }
         private void OnPlayerExit()
@@ -48,13 +49,21 @@ namespace ZE.Polytrucks {
             _waitUntilPlayerLeave = false;
         }
 
-        public void SetObservingStatus(bool x)
+        public void SetObservingStatus(bool isActive)
         {
-            _virtualCamera.enabled = x;
-            if (x == false && _playerLockId != null)
+            _virtualCamera.enabled = isActive;
+            if (isActive == false && _playerLockId != null)
             {
                 _player.UnlockControls(_playerLockId.Value);
                 _playerLockId = null;
+            }
+            SetTrailersVisibility(!isActive);
+        }
+        private void SetTrailersVisibility(bool x)
+        {
+            if (_playerTruck != null && _playerTruck.HaveTrailers)
+            {
+                _playerTruck.TrailerConnector.SetTrailersVisibility(x);
             }
         }
     }

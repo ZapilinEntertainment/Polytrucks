@@ -18,7 +18,7 @@ namespace ZE.Polytrucks {
 
         public Action OnCollectedEvent;
 
-        public bool HasMultipleColliders => false;
+        public bool HaveMultipleColliders => false;
         public CollectableType CollectableType => _collectableType;
         public Rarity Rarity => _rarity;
         public int GetColliderID() => _collider.GetInstanceID();

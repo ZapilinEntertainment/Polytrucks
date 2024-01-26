@@ -6,24 +6,34 @@ using System;
 
 namespace ZE.Polytrucks {
     public enum TruckID : byte { Undefined, TractorRosa, TruckRobert, RigCosetta, CarInessa, PickupCortney}
-    public class Truck : Vehicle, ITrailerConnectionPoint, IAxisController
+    public class Truck : Vehicle, IAxisController, ICachableVehicle, ITeleportable
     {
         [SerializeField] private MassChanger _massChanger;
         [SerializeField] private AxisControllerBase _axisController;
         [SerializeField] private TruckConfig _truckConfig;        
         [SerializeField] private StorageController _storageController;
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
-        private bool _haveTrailers = false;
         private TruckEngine _engine;
         private SellModule _sellModule;
         private CollectModule _collectModule;
-        private ColliderListSystem _colliderListSystem;
-        private List<Trailer> _trailers;
+        private ColliderListSystem _colliderListSystem;        
         private Joint _physicsLock;
+        private TrailerConnector.Handler _trailerConnectorHandler;
+
         protected IStorage Storage => _storageController.Storage;
         public override StorageController VehicleStorageController => _storageController;
+        public TrailerConnector TrailerConnector => _trailerConnectorHandler.Connector;
 
         public bool IsBraking { get; private set; } = false;
+        public bool HaveTrailers
+        {
+            get
+            {
+                if (_trailerConnectorHandler.IsActivated) return TrailerConnector.HaveTrailers;
+                else return false;
+            }
+        }
+        public override bool IsTeleporting => _axisController.IsTeleporting;
         override public float SteerValue => _engine.SteerValue;
         override public float GasValue => _engine.GasValue;
         public override float Speed => _axisController.Speed;
@@ -33,19 +43,18 @@ namespace ZE.Polytrucks {
        
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
-        public VirtualPoint CalculateTrailerPosition(float distance)
-        {
-            var rotation = _axisController.Rotation;
-            return new VirtualPoint(_axisController.Position + rotation * (distance * Vector3.back), rotation);
-        }
         public float CalculatePowerEffort(float pc) => _truckConfig.CalculatePowerEffort(pc);
 
         public TruckID TruckID => TruckConfig.TruckID;
         public TruckConfig TruckConfig => _truckConfig;        
-        public Action<IStorage> OnStorageChangedEvent;        
+        public Action<IStorage> OnStorageChangedEvent;
 
         [Inject]
-        public void Inject(ColliderListSystem collidersList) => _colliderListSystem= collidersList;
+        public void Inject(ColliderListSystem collidersList, TrailerConnector.Handler.Factory trailerConnectorHandlerFactory)
+        {
+            _colliderListSystem = collidersList;
+            _trailerConnectorHandler= trailerConnectorHandlerFactory.Create(this);
+        }
 
         private void Awake()
         {
@@ -53,19 +62,17 @@ namespace ZE.Polytrucks {
             _engine = new TruckEngine(_truckConfig, _axisController);
             UpdateStorageLink();
             _storageController.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
-            OnVehicleDisposeEvent += RemoveAllTrailers;
         }
         private void OnStorageCompositionChanged()
         {
-            VehicleController.OnItemCompositionChanged();
+            VehicleController?.OnItemCompositionChanged();
         }
         private void Start()
         {
             _sellModule = new SellModule(_collidersHandler, _colliderListSystem,  this);
             _collectModule = new CollectModule(_collidersHandler, _colliderListSystem, this, TruckConfig.CollectTime);
-
                       
-            _axisController.Setup(this);            
+            _axisController.Setup(this);
         }
         private void UpdateStorageLink()
         {
@@ -96,13 +103,16 @@ namespace ZE.Polytrucks {
         }
 
         #region reposition
-        public override void Teleport(VirtualPoint point) => _axisController.Teleport(point);
+        public override void Teleport(VirtualPoint point, Action onTeleportComplete = null)
+        {            
+           // if (_trailerConnectorHandler.IsActivated) TrailerConnector.Teleport(initialPoint, point);
+            _axisController.Teleport(point, onTeleportComplete);            
+        }
         public override void Stabilize() => _axisController.Stabilize();
         public override void RecoveryAt(RecoveryPoint point)
-        {
-            RemoveAllTrailers();
+        {         
             ClearCargo();
-            Teleport(point.GetPoint());
+            Teleport(point.GetPoint(), null);
         }
         public override void PhysicsLock(Rigidbody point)
         {
@@ -141,13 +151,28 @@ namespace ZE.Polytrucks {
 
         #endregion
 
-        public void AddTrailer(Trailer trailer)
+        public override IReadOnlyCollection<Vector3> GetVehicleBounds()
         {
-            if (_trailers == null) _trailers = new List<Trailer>();
-            _haveTrailers = true;
-            _trailers.Add(trailer);
-           // _collidersHandler.AddCollider(trailer.Collider);
+            if (_trailerConnectorHandler.IsActivated)
+            {
+                var list = new List<Vector3>(base.GetVehicleBounds());
+                TrailerConnector.GetTrailersBounds(ref list);
+                return list;
+            }
+            else return base.GetVehicleBounds();
+        }
 
+        public override void ClearCargo(bool destroy = true)
+        {
+            Storage.MakeEmpty();
+        }
+        public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();
+        public override bool CanFulfillContract(TradeContract contract) => Storage.CanFulfillContract(contract);
+        public override int LoadCargo(VirtualCollectable item, int count) => Storage.AddItems(item, count);
+        public override bool TryLoadCargo(VirtualCollectable item, int count) => Storage.TryLoadCargo(item, count);
+
+        public void OnTrailerConnected(Trailer trailer)
+        {
             if (_storageController is SingleVehicleStorage)
             {
                 var host = _storageController.gameObject;
@@ -164,72 +189,18 @@ namespace ZE.Polytrucks {
                 if (_storageController == null) _storageController = gameObject.AddComponent<MultipleVehicleStorage>();
                 (_storageController as MultipleVehicleStorage).AddStorage(trailer.GetStorage());
             }
-
-            int count = _trailers.Count;
-            if (count == 1) trailer.OnTrailerConnected(this);
-            else trailer.OnTrailerConnected(_trailers[count - 2]);
+            Rigidbody.velocity = Vector3.zero;
+            Rigidbody.angularVelocity = Vector3.zero;
+            Rigidbody.ResetInertiaTensor();
         }
-        public void RemoveTrailer()
+        public void OnTrailerDisconnected(Trailer trailer)
         {
-            if (!_haveTrailers) return;
-            int count = _trailers?.Count ?? 0;
-            count--;
-            var trailer = _trailers[count];
             var storage = (_storageController as MultipleVehicleStorage);
             if (storage != null)
             {
-                if (trailer.IsStorageCreated) storage.RemoveStorage(trailer.GetStorage());
+                if (trailer.TryGetStorage(out var trailerStorage)) storage.RemoveStorage(trailerStorage);
             }
-
-             Destroy(trailer.gameObject);
-            _trailers.RemoveAt(count);
-            _haveTrailers = count != 0;
         }
-        private void RemoveAllTrailers()
-        {
-            if (!_haveTrailers) return;
-            var storage = (_storageController as MultipleVehicleStorage);
-            if (storage != null)
-            {
-                int count = _trailers.Count;
-                for (int i = 0; i < count; i++)
-                {
-                    var trailer = _trailers[i];
-                    if (trailer.IsStorageCreated) storage.RemoveStorage(trailer.GetStorage());
-                    Destroy(trailer.gameObject);
-                }                
-            }           
-
-            _trailers.Clear();
-            _haveTrailers = false;
-        }
-        public override IReadOnlyCollection<Vector3> GetVehicleBounds()
-        {
-            if (_haveTrailers)
-            {
-                var list = new List<Vector3>(base.GetVehicleBounds());
-                foreach (var trailer in _trailers)
-                {
-                    var collider = trailer.Collider;
-                    if (collider != null)
-                    {
-                        list.Add(collider.bounds.min);
-                        list.Add(collider.bounds.max);
-                    }
-                }
-                return list;
-            }
-            else return base.GetVehicleBounds();
-        }
-
-        public override void ClearCargo(bool destroy = true)
-        {
-            Storage.MakeEmpty();
-        }
-        public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();
-        public override bool CanFulfillContract(TradeContract contract) => Storage.CanFulfillContract(contract);
-        public override int LoadCargo(VirtualCollectable item, int count) => Storage.AddItems(item, count);
-        public override bool TryLoadCargo(VirtualCollectable item, int count) => Storage.TryLoadCargo(item, count);
 
         public class Factory : PlaceholderFactory<UnityEngine.Object, Truck>
         {

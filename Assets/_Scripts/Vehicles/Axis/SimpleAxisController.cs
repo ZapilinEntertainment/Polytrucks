@@ -27,20 +27,21 @@ namespace ZE.Polytrucks {
         {
             if (IsActive)
             {
-                _fwdAxle.Steer(_axisController.SteerValue * _axisController.MaxSteerAngle);
+                _fwdAxle.Steer(AxisController.SteerValue * AxisController.MaxSteerAngle);
 
-                VirtualPoint fwdPoint = _fwdAxle.Move(Time.deltaTime * _axisController.GasValue * _axisController.MaxEngineSpeed);
+                VirtualPoint fwdPoint = _fwdAxle.Move(Time.deltaTime * AxisController.GasValue * AxisController.MaxEngineSpeed);
 
                 Vector3 dir = (fwdPoint.Position - _rearAxle.Position).normalized;
                 _rearAxle.Move(fwdPoint.Position - dir * _axisDistance);
                 SetPoint(fwdPoint.Position - dir * _centerDistance, Quaternion.LookRotation(dir, Vector3.up));
             }
         }
-        public override void Teleport(VirtualPoint point)
+        public override void Teleport(VirtualPoint point, System.Action onTeleportComplete)
         {
             SetPoint(point.Position, point.Rotation);
             _fwdAxle.SyncToTransform();
             _rearAxle.SyncToTransform();
+            onTeleportComplete?.Invoke();
         }
         private void SetPoint(Vector3 pos, Quaternion rotation) => transform.SetPositionAndRotation(pos, rotation);
     }

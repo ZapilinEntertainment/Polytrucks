@@ -10,7 +10,7 @@ namespace ZE.Polytrucks {
 			private Dictionary<int, T> _list = new Dictionary<int, T>();
 			public void AddOwner(T owner)
 			{
-				if (owner.HasMultipleColliders)
+				if (owner.HaveMultipleColliders)
 				{
 					var ids = owner.GetColliderIDs();
 					foreach (var id in ids ) { _list.Add(id, owner); }
@@ -22,7 +22,7 @@ namespace ZE.Polytrucks {
 			}
 			public void OnOwnerChanged(T owner)
 			{
-                if (owner.HasMultipleColliders)
+                if (owner.HaveMultipleColliders)
                 {
                     var ids = owner.GetColliderIDs();
                     foreach (var id in ids) { _list.TryAdd(id, owner); }
@@ -34,7 +34,7 @@ namespace ZE.Polytrucks {
             }
 			public void RemoveOwner(T owner)
 			{
-				if (owner.HasMultipleColliders)
+				if (owner.HaveMultipleColliders)
 				{
                     var ids = owner.GetColliderIDs();
                     foreach (var id in ids) { _list.Remove(id); }

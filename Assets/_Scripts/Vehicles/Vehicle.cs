@@ -9,16 +9,18 @@ namespace ZE.Polytrucks {
     {
         None = 0, Truck
     }
-	public abstract class Vehicle : SessionObject, IColliderOwner
+	public abstract class Vehicle : SessionObject, IColliderOwner, ITeleportable
 	{
 		[SerializeField] private Transform _cameraViewPoint;
         [SerializeField] protected TradeCollidersHandler _collidersHandler;
         public abstract StorageController VehicleStorageController { get; }
         public IVehicleController VehicleController { get; protected set; }
         public TradeCollidersHandler CollidersHandler => _collidersHandler;
-        public Action OnVehicleDisposeEvent, OnVehicleDeactivatedEvent, OnVehicleActivatedEvent;
+        public Action OnVehicleDisposeEvent;
+        public Action<bool> OnVisibilityChangedEvent;
         public Action<IVehicleController> OnVehicleControllerChangedEvent;
-        
+
+        virtual public bool IsTeleporting { get; protected set; } = false;
         abstract public float GasValue { get; }
         abstract public float SteerValue { get; }
         abstract public float Speed { get; }
@@ -36,7 +38,7 @@ namespace ZE.Polytrucks {
         public abstract void Steer(float x);
 
         #region world positioning
-        public abstract void Teleport(VirtualPoint point);
+        public abstract void Teleport(VirtualPoint point, Action onTeleportComplete = null);
         public abstract void Stabilize();
         public abstract void PhysicsLock(Rigidbody point);
         public abstract void PhysicsUnlock(Rigidbody point = null);
@@ -60,7 +62,7 @@ namespace ZE.Polytrucks {
         public abstract TradeContract FormCollectContract();
         #endregion
         #region IColliderOwner
-        public bool HasMultipleColliders => CollidersHandler.HasMultipleColliders;
+        public bool HaveMultipleColliders => CollidersHandler.HaveMultipleColliders;
         public int GetColliderID() => CollidersHandler.GetColliderID();
         public int[] GetColliderIDs() => CollidersHandler.GetColliderIDs();
         #endregion
@@ -72,19 +74,19 @@ namespace ZE.Polytrucks {
             if (x)
             {
                 ReleaseBrake();
-                OnVehicleActivatedEvent?.Invoke();
+                OnVisibilityChangedEvent?.Invoke(true);
             }
             else
             {
                 ReleaseGas();
                 Brake();
-                OnVehicleDeactivatedEvent?.Invoke();
+                OnVisibilityChangedEvent?.Invoke(false);
             }
         }
 
-        private void OnDestroy()
+        public override void OnObjectDispose()
         {
-            OnVehicleDisposeEvent?.Invoke();            
+            OnVehicleDisposeEvent?.Invoke();
         }
     }
 }

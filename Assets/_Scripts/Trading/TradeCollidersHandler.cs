@@ -9,7 +9,7 @@ namespace ZE.Polytrucks
     {
         [field: SerializeField] public List<Collider> CollectColliders = new List<Collider>();
         private int _layer;
-        public bool HasMultipleColliders => CollectColliders.Count != 1;
+        public bool HaveMultipleColliders => CollectColliders.Count != 1;
         public int GetColliderID() => CollectColliders[0].GetInstanceID();
         public int[] GetColliderIDs()
         {

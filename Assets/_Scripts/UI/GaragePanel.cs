@@ -14,12 +14,12 @@ namespace ZE.Polytrucks {
 		private Garage _observingGarage;
 		private PlayerController _player;
 		private SignalBus _signalBus;
-		private GarageService _garageService;		
+		private TruckSwitchService _garageService;		
 		private IReadOnlyList<Sprite> _trucksIcons = null;
 		public bool IsActive => _isActive;
 
 		[Inject]
-		public void Inject(HangarTrucksList trucksList, PlayerController playerController, SignalBus signalBus, GarageService garageService)
+		public void Inject(HangarTrucksList trucksList, PlayerController playerController, SignalBus signalBus, TruckSwitchService garageService)
 		{
 			_trucksList= trucksList;
 			_player = playerController;

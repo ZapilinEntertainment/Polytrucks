@@ -6,27 +6,43 @@ namespace ZE.Polytrucks {
     public class TruckSpawnService
     {
         private readonly Truck.Factory _truckFactory;
+        private readonly Trailer.Factory _trailerFactory;
         private readonly HangarTrucksList _trucksList;
         private readonly CachedVehiclesService _cachedVehiclesService;
 
-        public TruckSpawnService(Truck.Factory truckFactory, CachedVehiclesService cachedVehiclesService, HangarTrucksList trucksList)
+        public TruckSpawnService(Truck.Factory truckFactory, Trailer.Factory trailerFactory, CachedVehiclesService cachedVehiclesService, HangarTrucksList trucksList)
         {
             _truckFactory = truckFactory;
+            _trailerFactory = trailerFactory;
             _cachedVehiclesService = cachedVehiclesService;
             _trucksList = trucksList;
         }
 
         public Truck CreateTruck(TruckID truckID)
         {
-            if (_cachedVehiclesService.TryGetTruck(truckID, out var truck))
+            Truck truck;
+            if (!_cachedVehiclesService.TryGetTruck(truckID, out truck))
             {
-                return truck;
+                if (_trucksList.TryGetTruckInfo(truckID, out var info)) truck = _truckFactory.Create(info.TruckPrefab);
             }
-            else
+            return truck;
+        }
+
+        public bool TryCreateTrailer(TrailerID id, out Trailer trailer)
+        {
+            if (!_cachedVehiclesService.TryGetTrailer(id, out trailer))
             {
-                if (_trucksList.TryGetTruckInfo(truckID, out var info)) return _truckFactory.Create(info.TruckPrefab);
-                else return null;
+                if (_trucksList.TryGetTrailerInfo(id, out var info))
+                {
+                    trailer = _trailerFactory.Create(info.TrailerPrefab);
+                }
+                else
+                {
+                    trailer = null;
+                    return false;
+                }
             }
+            return trailer != null;
         }
     }
 }

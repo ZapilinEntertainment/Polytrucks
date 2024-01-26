@@ -41,6 +41,7 @@ namespace ZE.Polytrucks {
         {
             _isPaused = false;
         }
+        virtual public void OnObjectDispose() { }
 
         public void Dispose()
         {
@@ -50,6 +51,8 @@ namespace ZE.Polytrucks {
                 _signalBus.Unsubscribe<SessionStopSignal>(OnSessionEnd);
                 _signalBus.Unsubscribe<SessionPauseSignal>(OnSessionPause);
                 _signalBus.Unsubscribe<SessionResumeSignal>(OnSessionResume);
+
+                OnObjectDispose();
             }
         }
         private void OnApplicationQuit()

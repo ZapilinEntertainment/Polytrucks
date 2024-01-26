@@ -80,7 +80,7 @@ namespace ZE.Polytrucks {
         #endregion
 
         #region IColliderOwner
-        public bool HasMultipleColliders => ActiveVehicle.HasMultipleColliders;
+        public bool HaveMultipleColliders => ActiveVehicle.HaveMultipleColliders;
         public int GetColliderID() => ActiveVehicle.GetColliderID();
         public int[] GetColliderIDs() => ActiveVehicle.GetColliderIDs();
         #endregion

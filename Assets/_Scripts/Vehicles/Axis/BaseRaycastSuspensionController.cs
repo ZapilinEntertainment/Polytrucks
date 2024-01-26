@@ -12,7 +12,7 @@ namespace ZE.Polytrucks {
         private bool _physicsDelay = false;
         protected int _castMask;
         protected float _startMass = 1f, _carSpeed = 0f, _speedPc = 0f;
-        protected override bool IsActive => base.IsActive & !_physicsDelay;
+        public override bool IsActive => base.IsActive & !_physicsDelay;
         override public float Speed => _carSpeed;
 
         public override Vector3 Forward => _rigidbody.transform.forward;
@@ -40,7 +40,7 @@ namespace ZE.Polytrucks {
                 springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper;
             _carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
             _speedPc = Mathf.Clamp01(_carSpeed / GameConstants.MAX_SPEED);
-            bool isBraking = _axisController.IsBraking;
+            bool isBraking = AxisController.IsBraking;
 
             foreach (var wheel in _wheels)
             {
@@ -100,14 +100,21 @@ namespace ZE.Polytrucks {
         {
 
         }
-        public override void Teleport(VirtualPoint point)
+        public override void Teleport(VirtualPoint point, System.Action onTeleportComplete)
         {
             _physicsDelay = true;
             _rigidbody.MovePosition(point.Position + Vector3.up * _wheelSettings.SuspensionLength * 0.1f);
             _rigidbody.MoveRotation(point.Rotation);
             _rigidbody.velocity = Vector3.zero;
             _rigidbody.angularVelocity= Vector3.zero;
-            _rigidbody.ResetInertiaTensor();            
+            _rigidbody.ResetInertiaTensor();
+
+            if (onTeleportComplete != null) StartCoroutine(PhysicsDelayCoroutine(onTeleportComplete));
+        }
+        private IEnumerator PhysicsDelayCoroutine(System.Action callback)
+        {
+            yield return new WaitUntil(() => _physicsDelay == false);
+            callback.Invoke();
         }
 
         #if UNITY_EDITOR

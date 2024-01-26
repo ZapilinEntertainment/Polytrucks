@@ -5,7 +5,7 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public interface IAxisController 
 	{
-		public static IAxisController Default { get; private set; }
+        public static IAxisController Default { get; private set; } = new DefaultController();
 
         public bool IsBraking { get; }
 		public float SteerValue { get; }

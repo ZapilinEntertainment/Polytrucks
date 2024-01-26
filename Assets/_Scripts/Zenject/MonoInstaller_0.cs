@@ -8,7 +8,6 @@ namespace ZE.Polytrucks {
         [SerializeField] private SessionMaster _sessionMaster;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
-        [SerializeField] private Trailer _trailerPrefab;
         [SerializeField] private UIManager _uiManagerPrefab;
 
         public override void InstallBindings()
@@ -23,10 +22,10 @@ namespace ZE.Polytrucks {
             Container.Bind<CameraController>().FromInstance(_cameraController).AsSingle();
 
             InstallSystems();
-
             InstallSignals();
             InstallFactories();
             InstallServices();
+            InstallAuxiliaries();
         }
 
         private void InstallSignals()
@@ -67,14 +66,20 @@ namespace ZE.Polytrucks {
             Container.Bind<ObjectsManager>().AsSingle();
             Container.BindFactory<StorageVisualizer, StorageVisualizer.Factory>().AsSingle();
             Container.BindFactory<ProductionModule, ProductionModule.Factory>().AsSingle();  
-            Container.BindFactory<Trailer, Trailer.Factory>().FromComponentInNewPrefab(_trailerPrefab);
             Container.BindFactory<UnityEngine.Object, Truck, Truck.Factory>().FromFactory<PrefabFactory<Truck>>();
+            Container.BindFactory<UnityEngine.Object, Trailer, Trailer.Factory>().FromFactory<PrefabFactory<Trailer>>();
+            Container.BindFactory<Truck, TrailerConnector, TrailerConnector.Factory>().AsCached();
+            Container.BindFactory<Truck, TrailerConnector.Handler, TrailerConnector.Handler.Factory>().AsCached();
         }
         private void InstallServices()
         {
             Container.Bind<CachedVehiclesService>().AsCached().Lazy();
-            Container.Bind<GarageService>().FromNew().AsCached().Lazy();
+            Container.Bind<TruckSwitchService>().FromNew().AsCached().Lazy();
             Container.Bind<TruckSpawnService>().FromNew().AsCached().Lazy();
+        }
+        private void InstallAuxiliaries()
+        {
+            
         }
 
         private void InstallAccountInfo()

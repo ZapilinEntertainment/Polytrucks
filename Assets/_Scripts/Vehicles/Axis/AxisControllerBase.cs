@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-	public abstract class AxisControllerBase : MonoBehaviour
+	public abstract class AxisControllerBase : MonoBehaviour, ITeleportable
 	{
 		private bool _isSetup = false;
-		virtual protected bool IsActive => _isSetup;
-		protected IAxisController _axisController;
+		virtual public bool IsActive => _isSetup;
+		public bool IsTeleporting { get; private set; } = false;
+		private IAxisController _axisController = IAxisController.Default;
+		protected IAxisController AxisController => _axisController;
 
 		public abstract float Speed { get; }
         public abstract Vector3 Forward { get; }
@@ -20,14 +22,12 @@ namespace ZE.Polytrucks {
 		}
 		virtual protected void OnSetup() { }
 
-        private IEnumerator Start()
+        private void Start()
         {
-			if (_axisController == null) yield return new WaitForSecondsRealtime(1f);
-			else yield break;
-            if (_axisController == null) Setup(IAxisController.Default);
+            if (!_isSetup) Setup(IAxisController.Default);
         }
 
         abstract public void Stabilize();
-		abstract public void Teleport(VirtualPoint point);
-	}
+        public abstract void Teleport(VirtualPoint point, System.Action onTeleportComplete);
+    }
 }

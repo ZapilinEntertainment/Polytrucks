@@ -10,12 +10,14 @@ namespace ZE.Polytrucks {
 		[SerializeField] private ParameterLine[] _parameterLines;
 		[SerializeField] private TMP_Text _truckNameLabel, _capacityParameterLabel, _capacityParameterValue;
 		private TruckID _showingTruck = TruckID.Undefined;
-		private Localization _localization;		
+		private Localization _localization;
+		private HangarTrucksList _trucksList;
 
 		[Inject]
-		public void Inject(Localization localization)
+		public void Inject(Localization localization, HangarTrucksList trucksList)
 		{
 			_localization = localization;
+			_trucksList = trucksList;
 			_localization.Subscribe(this);
 		}
 
@@ -37,7 +39,19 @@ namespace ZE.Polytrucks {
 			FillLine(2, TruckParameterType.Mass);
 			FillLine(3, TruckParameterType.Passability);
 			FillStrings();
-			_capacityParameterValue.text = truckConfig.GetParameterValue(TruckParameterType.Capacity).ToString(); // todo: add upgrade val by another color
+
+			int capacity;
+			if (truckConfig.HasCargoSpace) capacity = (int)truckConfig.GetParameterValue(TruckParameterType.Capacity);
+			else
+			{
+				if (truckConfig.TrailerID == TrailerID.NoTrailer || !_trucksList.TryGetTrailerInfo(truckConfig.TrailerID, out var info)) capacity = 0;
+				else
+				{
+					capacity = info.StorageConfiguration.Capacity;
+				}
+			}
+
+            _capacityParameterValue.text = capacity.ToString(); // todo: add upgrade val by another color
 
 			void FillLine(int index, TruckParameterType parameter)
 			{

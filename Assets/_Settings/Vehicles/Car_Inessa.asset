@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e422fad9cbeef849bc8ffd58cd52a20, type: 3}
   m_Name: Car_Inessa
   m_EditorClassIdentifier: 
-  _noCargoSpace: 0
   _maxSpeed: 65
   _maxSteerAngle: 35
   _steerTime: 0.1
   _acceleration: 0.4
-  _naturalDeceleration: 25
+  _reverseAcceleration: 4
+  _engineStopTime: 1
   _reverseSpeedCf: 0.2
   _mass: 55
   _passability: 0.2
@@ -113,6 +113,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _storageConfiguration: {fileID: 0}
   <TruckID>k__BackingField: 4
+  <TrailerID>k__BackingField: 0
   <UsesPhysics>k__BackingField: 1
   <CollectTime>k__BackingField: 0.25
   <AccelerationMeterResult>k__BackingField: 3.06

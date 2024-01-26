@@ -6,7 +6,6 @@ namespace ZE.Polytrucks {
     [CreateAssetMenu(fileName = "TruckConfig", menuName = "ScriptableObjects/TruckConfig", order = 1)]
     public sealed class TruckConfig : ScriptableObject
 	{
-		[SerializeField] private bool _noCargoSpace = false;
         [SerializeField]
         private float _maxSpeed = 15f, _maxSteerAngle = 60f, _steerTime = 0.5f,
             _acceleration = 5f, _reverseAcceleration = 4f, _engineStopTime = 1f,
@@ -15,16 +14,19 @@ namespace ZE.Polytrucks {
 		[SerializeField] private StorageConfiguration _storageConfiguration;
 
         [field: SerializeField] public TruckID TruckID { get; private set; } = TruckID.Undefined;
+		[field: SerializeField] public TrailerID TrailerID { get; private set; } = TrailerID.NoTrailer;
         [field: SerializeField] public bool UsesPhysics { get; private set; } = false;		
 		[field: SerializeField] public float CollectTime { get; private set; } = 0.25f;
 		[Tooltip("Test-defined value, displayed in garage")] [field: SerializeField] public float AccelerationMeterResult { get; private set; } = 10f;
 
+		public bool HasCargoSpace => _storageConfiguration != null;
+		public bool TrailerRequired => !HasCargoSpace && TrailerID != TrailerID.NoTrailer;
 		public float MaxSpeed => _maxSpeed;
 		public float MaxSteerAngle => _maxSteerAngle;
 		public float CalculateSpeedCf(float steerValue) => _rotationToSpeedCurve.Evaluate(steerValue);
 		public float CalculateSteer(float steerValue) => _steerCurve.Evaluate(steerValue);
 		public float CalculatePowerEffort(float speedPc) => _powerCurve.Evaluate(speedPc);
-		public StorageConfiguration StorageConfiguration => _noCargoSpace ?null : _storageConfiguration;
+		public StorageConfiguration StorageConfiguration => _storageConfiguration;
 
 		public float Acceleration => _acceleration;
 		public float ReverseAcceleration => _reverseAcceleration;

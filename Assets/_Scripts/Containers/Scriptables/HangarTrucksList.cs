@@ -19,6 +19,7 @@ namespace ZE.Polytrucks {
 		[Serializable]
 		public class TrailerInfo
 		{
+			[field: SerializeField] public TrailerID TrailerID { get; private set; }
 			[field: SerializeField] public Trailer TrailerPrefab { get; private set; }
 			[field: SerializeField] public WheelConfiguration WheelConfiguration { get; private set; }
 			[field: SerializeField] public StorageConfiguration StorageConfiguration { get; private set; }
@@ -70,6 +71,21 @@ namespace ZE.Polytrucks {
 		{
 			info = GetTruckInfo(id);
 			return info != null;
+		}
+
+
+		public TrailerInfo GetTrailerInfo(TrailerID id)
+		{
+			foreach (var trailerInfo in _trailersInfo)
+			{
+				if (trailerInfo.TrailerID == id) return trailerInfo;
+			}
+			return null;
+		}
+		public bool TryGetTrailerInfo(TrailerID id, out TrailerInfo trailerInfo)
+		{
+			trailerInfo = GetTrailerInfo(id);
+			return trailerInfo != null;
 		}
     }
 }

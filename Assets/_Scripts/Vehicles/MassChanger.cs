@@ -31,5 +31,12 @@ namespace ZE.Polytrucks {
 		{
 			_rigidbody.mass = _initialMass + _storage.CargoMass;
 		}
-	}
+        private void OnDestroy()
+        {
+            if (_storage != null)
+			{
+				_storage.OnStorageCompositionChangedEvent -= RecalculateMass;
+			}
+        }
+    }
 }

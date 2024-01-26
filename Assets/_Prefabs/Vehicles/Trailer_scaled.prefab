@@ -1018,6 +1018,7 @@ MonoBehaviour:
   _massChanger: {fileID: 2987772267496215069}
   _truck: {fileID: 0}
   _joint: {fileID: 8729423948559862658}
+  <TrailerID>k__BackingField: 1
   <StorageSettings>k__BackingField:
     <ZeroPoint>k__BackingField: {fileID: 7330408415559343420}
     <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: ce74235d037f28c40b5a8d9783efbbe0, type: 2}

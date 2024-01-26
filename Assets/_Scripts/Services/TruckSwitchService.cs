@@ -4,14 +4,14 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-    public class GarageService
+    public class TruckSwitchService
     {
         private IPlayerDataAgent _playerData;
         private PlayerController _playerController;
         private Truck _playerTruck = null, _showingTruck = null;
         private TruckSpawnService _truckSpawnService;
         private CachedVehiclesService _cachedVehiclesManager;
-        public GarageService(PlayerController playerController, TruckSpawnService truckSpawnService, CachedVehiclesService cachedVehiclesManager,
+        public TruckSwitchService(PlayerController playerController, TruckSpawnService truckSpawnService, CachedVehiclesService cachedVehiclesManager,
             SignalBus signalBus,IAccountDataAgent accountDataAgent)
         {
             _playerController = playerController;
@@ -40,7 +40,6 @@ namespace ZE.Polytrucks {
 
         public Truck ShowTruck(TruckID truckID, VirtualPoint point)
         {
-            Debug.Log($"{_showingTruck.TruckID} -> {truckID}");
             if (_showingTruck != null)
             {
                 if (_showingTruck.TruckID != truckID)
@@ -79,7 +78,20 @@ namespace ZE.Polytrucks {
             {
                 _playerTruck = ShowTruck(truckID, _playerController.ActiveVehicle.FormVirtualPoint());
                 _playerController.ChangeActiveVehicle(_playerTruck);
+                if (_playerTruck.TruckConfig.TrailerRequired)
+                {
+                    _playerTruck.StartCoroutine(ConnectTrailer(_playerTruck, _playerTruck.TruckConfig.TrailerID));
+                }
                 return true;
+            }
+        }
+        public IEnumerator ConnectTrailer(Truck truck, TrailerID trailerID)
+        {
+            yield return new WaitForFixedUpdate();
+            if (_truckSpawnService.TryCreateTrailer(trailerID, out var trailer))
+            {
+                yield return new WaitForFixedUpdate();
+                truck.TrailerConnector.AddTrailer(trailer);
             }
         }
     }

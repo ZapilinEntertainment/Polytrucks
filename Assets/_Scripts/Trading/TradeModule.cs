@@ -16,7 +16,7 @@ namespace ZE.Polytrucks {
         protected TradeContract _activeContract;
 
         protected Stack<VirtualCollectable> _preparedItemsList;
-        public bool HasMultipleColliders => _collidersHandler.HasMultipleColliders;
+        public bool HaveMultipleColliders => _collidersHandler.HaveMultipleColliders;
         public int FreeSlotsCount => Storage.FreeSlotsCount;
         public int GetColliderID() => _collidersHandler.GetColliderID();
         public int[] GetColliderIDs() => _collidersHandler.GetColliderIDs();

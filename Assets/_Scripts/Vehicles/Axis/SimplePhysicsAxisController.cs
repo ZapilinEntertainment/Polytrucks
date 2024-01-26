@@ -24,11 +24,11 @@ namespace ZE.Polytrucks {
         {
             if (IsActive)
             {
-                float steer = _axisController.SteerValue;
-                _fwdAxle.Steer(steer * _axisController.MaxSteerAngle);
+                float steer = AxisController.SteerValue;
+                _fwdAxle.Steer(steer * AxisController.MaxSteerAngle);
 
                 float steerCfRight = _fwdAxle.SteerCfRight, steerCfLeft = _fwdAxle.SteerCfLeft;
-                float step = Time.fixedDeltaTime * _axisController.GasValue * _axisController.MaxEngineSpeed;
+                float step = Time.fixedDeltaTime * AxisController.GasValue * AxisController.MaxEngineSpeed;
                 _rigidbody.AddForceAtPosition(step * transform.forward * steerCfLeft, _fwdAxle.Forward, ForceMode.VelocityChange);
                 //Debug.Log($"{steerCfLeft}-{steerCfRight}");
                 _rigidbody.AddForceAtPosition(step * transform.forward * steerCfRight, _fwdAxle.Forward, ForceMode.VelocityChange);
@@ -38,12 +38,17 @@ namespace ZE.Polytrucks {
                 _rigidbody.AddRelativeTorque(Vector3.up * steer * step, ForceMode.VelocityChange);
             }
         }
-        public override void Teleport(VirtualPoint point)
+        public override void Teleport(VirtualPoint point, System.Action onTeleportComplete)
         {
             _rigidbody.MovePosition(point.Position);
             _rigidbody.MoveRotation(point.Rotation);
+            if (onTeleportComplete != null) StartCoroutine(WaitForTeleportEnds(onTeleportComplete));
         }
-
+        private IEnumerator WaitForTeleportEnds(System.Action onTeleportComplete)
+        {
+            yield return new WaitForFixedUpdate();
+            onTeleportComplete.Invoke();
+        }
  
     }
 }
