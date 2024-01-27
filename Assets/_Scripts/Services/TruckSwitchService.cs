@@ -78,7 +78,7 @@ namespace ZE.Polytrucks {
             {
                 _playerTruck = ShowTruck(truckID, _playerController.ActiveVehicle.FormVirtualPoint());
                 _playerController.ChangeActiveVehicle(_playerTruck);
-                if (_playerTruck.TruckConfig.TrailerRequired)
+                if (_playerTruck.TruckConfig.TrailerRequired && !_playerTruck.HaveTrailers)
                 {
                     _playerTruck.StartCoroutine(ConnectTrailer(_playerTruck, _playerTruck.TruckConfig.TrailerID));
                 }
@@ -87,6 +87,7 @@ namespace ZE.Polytrucks {
         }
         public IEnumerator ConnectTrailer(Truck truck, TrailerID trailerID)
         {
+            yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
             if (_truckSpawnService.TryCreateTrailer(trailerID, out var trailer))
             {

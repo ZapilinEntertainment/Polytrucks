@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 using System;
-using DG.Tweening;
+
 
 namespace ZE.Polytrucks {
 	public class RigidbodyTeleportationService 	{
@@ -25,12 +25,20 @@ namespace ZE.Polytrucks {
                 CompleteCallback?.Invoke();
             }
         }
+
+        private static TeleportationHandler _teleportationHandler;
+        public  static TeleportationHandler TeleportationHandler { get { if (_teleportationHandler == null) _teleportationHandler = new GameObject("teleportationHandler").AddComponent<TeleportationHandler>();  return _teleportationHandler; } }
         public static void Teleport(Rigidbody rigidbody, VirtualPoint point, Action OnTeleportationComplete = null) {
             var waiter = new RigidbodyWaiter(rigidbody, OnTeleportationComplete);
             rigidbody.MoveRotation(point.Rotation);
-            var tw = rigidbody.DOMove(point.Position, 0f);
-			if (OnTeleportationComplete != null) tw.OnComplete(() => waiter.Complete());		
-                     		
+            rigidbody.MovePosition(point.Position);
+            TeleportationHandler.StartCoroutine(TeleportCoroutine(waiter));
+        }
+
+        private static IEnumerator TeleportCoroutine(RigidbodyWaiter waiter)
+        {
+            yield return new WaitForFixedUpdate();
+            waiter.Complete();
         }
 	}
 }

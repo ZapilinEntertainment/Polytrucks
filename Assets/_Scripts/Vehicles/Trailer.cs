@@ -7,19 +7,20 @@ namespace ZE.Polytrucks {
 	public enum TrailerID : byte { NoTrailer, FarmerTrailer}
 	public sealed class Trailer : MonoBehaviour, ITrailerConnectionPoint, ICachableVehicle, ITeleportable
 	{
-		
         [SerializeField] private MassChanger _massChanger;
         [SerializeField] private Truck _truck;
-		[SerializeField] private ConfigurableJoint _joint;
+        [SerializeField] private TrailerJointConfig _trailerJointConfig;
+		[field: SerializeField] public float ConnectDistance { get; private set; } = 5.4f;
         [field: SerializeField] public TrailerID TrailerID { get; private set; } = TrailerID.NoTrailer;
         [field:SerializeField] public VisualStorageSettings StorageSettings { get; private set; }
 		[field:SerializeField] public Collider Collider { get; private set; }
         [field: SerializeField] public Rigidbody Rigidbody { get; private set; }
 
 
-        private bool _storageCreated = false;
+        private bool _storageCreated = false;		
 		private ITrailerConnectionPoint _activeConnectionPoint;
-		private StorageVisualizer _visualizer;
+        private ConfigurableJoint _joint;
+        private StorageVisualizer _visualizer;
 		private Storage _storage;
 		private StorageVisualizer.Factory _visualizerFactory;
 
@@ -76,49 +77,60 @@ namespace ZE.Polytrucks {
         }
 		public void OnTrailerConnected(ITrailerConnectionPoint connector)
 		{
-			_activeConnectionPoint = connector;
-			SetJointLock(false);
-			_joint.connectedBody = _activeConnectionPoint.Rigidbody;
-			var point = _activeConnectionPoint.CalculateTrailerPosition(_joint.anchor.z - _joint.connectedAnchor.z);
-			Teleport(point, null);
-        }
-		private void OnTeleported()
+			_activeConnectionPoint = connector;			
+			var point = _activeConnectionPoint.CalculateTrailerPosition(ConnectDistance);
+			Teleport(point);
+        }	
+
+
+		private void RestoreJoint()
 		{
-			if (_activeConnectionPoint != null)
-			{
-				SetJointLock(true);
-			}
-		}
-		private void SetJointLock(bool isLocked)
-		{
-            if (isLocked)
+            if (_joint == null && _activeConnectionPoint?.Rigidbody != null)
             {
+               _joint = gameObject.AddComponent<ConfigurableJoint>();
+
+				_joint.autoConfigureConnectedAnchor = false;
+                _joint.connectedBody = _activeConnectionPoint.Rigidbody;
+                _trailerJointConfig.FillValuesTo(_joint);
                 _joint.xMotion = ConfigurableJointMotion.Locked;
                 _joint.yMotion = ConfigurableJointMotion.Locked;
                 _joint.zMotion = ConfigurableJointMotion.Locked;
+                _joint.angularXMotion = ConfigurableJointMotion.Limited;
+                _joint.angularYMotion = ConfigurableJointMotion.Limited;
+				_joint.angularZMotion = ConfigurableJointMotion.Locked;
             }
-            else
-            {
-                _joint.xMotion = ConfigurableJointMotion.Free;
-                _joint.yMotion = ConfigurableJointMotion.Free;
-                _joint.zMotion = ConfigurableJointMotion.Free;
-            }
+        }
+		private void ClearJoint()
+		{
+			if (_joint != null)
+			{
+				_joint = null;
+				Destroy(_joint);
+			}
         }
 
 		public void SetVisibility(bool x)
 		{
 			gameObject.SetActive(x);
-			if (!x && _activeConnectionPoint != null)
+			if (x)
 			{
-				_joint.connectedBody = null;
-				_activeConnectionPoint = null;
+				RestoreJoint();
+			}
+			else
+			{
+				ClearJoint();
 			}
 		}
 
-		public void Teleport(VirtualPoint point, System.Action onTeleportCompleted)
+		public void Teleport(VirtualPoint point, System.Action onTeleportCompleted = null)
 		{
-            SetJointLock(false);
+			ClearJoint();
             RigidbodyTeleportationService.Teleport(Rigidbody, point, OnTeleported + onTeleportCompleted);
+
+        }
+        private void OnTeleported()
+        {
+			RestoreJoint();
         }
 
         private void OnDestroy()

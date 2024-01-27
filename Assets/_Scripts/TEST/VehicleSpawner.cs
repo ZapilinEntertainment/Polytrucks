@@ -24,16 +24,30 @@ namespace ZE.Polytrucks.TestModule {
 		{
             if (_withTrailer && _truckSpawn.TryCreateTrailer(truck.TruckConfig.TrailerID, out var trailer))
             {
-				trailer.Teleport(truck.TrailerConnector.CalculateTrailerPosition(5f), () => OnTrailerTeleported(truck, trailer));
-               // truck.TrailerConnector.AddTrailer(trailer);
+				var point = truck.TrailerConnector.CalculateTrailerPosition(trailer.ConnectDistance);
+                //trailer.Teleport(point, () => truck.TrailerConnector.AddTrailer(trailer));
+                truck.TrailerConnector.AddTrailer(trailer)
+                ;
+				
+
+				//StartCoroutine(testcor(truck));
             }
         }
-		private void OnTrailerTeleported(Truck truck, Trailer trailer)
+		private IEnumerator testcor(Truck truck)
 		{
-			VirtualPoint pos = truck.FormVirtualPoint();
+			yield return new WaitForSeconds(1f);
+			var point = truck.FormVirtualPoint();
 
-			trailer.Teleport(new VirtualPoint(pos.Position + Vector3.back * 5f, truck.Rigidbody.rotation), null);
-			truck.Teleport(pos);
+			var truck2 = _truckSpawn.CreateTruck(TruckID.TruckRobert);
+			truck2.Teleport(new VirtualPoint(point.Position + Vector3.left * 3f + Vector3.up, point.Rotation));
+
+			if ( _truckSpawn.TryCreateTrailer(TrailerID.FarmerTrailer, out var trailer))
+			{
+				trailer.Teleport(new VirtualPoint(point.Position + Vector3.right * 3f + Vector3.up, point.Rotation));
+				trailer.gameObject.SetActive(false);
+			}
+
+			
         }
     }
 }

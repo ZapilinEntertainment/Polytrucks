@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b4e00b3514df8348927ea7d4f809daf, type: 3}
+  m_Name: FarmerTrailer
+  m_EditorClassIdentifier: 
+  Anchor: {x: 0, y: 1.1, z: 2.4}
+  Axis: {x: 0, y: 1, z: 0}
+  ConnectedAnchor: {x: 0, y: 1.15, z: -3}
+  SecondaryAxis: {x: 0, y: -1, z: 0}
+  LinearLimit:
+    Limit: 1000
+    Bounciness: 0
+    ContactDistance: 0
+  LowAngularXLimit:
+    Limit: -60
+    Bounciness: 0
+    ContactDistance: 0
+  HighAngularXLimit:
+    Limit: 60
+    Bounciness: 0
+    ContactDistance: 0
+  AngularYLimit:
+    Limit: 19.766876
+    Bounciness: 0
+    ContactDistance: 0
+  MassScale: 1
+  ConnectedMassScale: 0.25
