@@ -8,14 +8,20 @@ namespace ZE.Polytrucks.AccountData {
 	public sealed class PlayerData : IPlayerDataAgent
 	{
 		public TruckID ActiveTruckID { get; private set; }
+		private VirtualPoint _recoveryPoint;
+		private IPlayerDataSave _dataSave;
 		private SignalBus _signalBus;
         private Action<int> OnMoneyChangedEvent;
         public int Money { get; private set; }
 		public Experience Experience { get; private set; }
 
-		public PlayerData(SignalBus signalBus, GameSettings gameSettings) {
+		public PlayerData(SignalBus signalBus, GameSettings gameSettings, IPlayerDataSave save) {
 			_signalBus= signalBus;		
+			_dataSave= save;
 			Experience= new Experience(signalBus, gameSettings);
+
+			ActiveTruckID = _dataSave.PlayerTruckID;
+			_recoveryPoint= _dataSave.RecoveryPoint;
 		}
 
         public void AddMoney(int x)
@@ -47,6 +53,10 @@ namespace ZE.Polytrucks.AccountData {
 			msg = TruckSwitchReport.SwitchSucceed;
 			ActiveTruckID = id;
 			return true;
+		}
+		public VirtualPoint GetRecoveryPoint()
+		{
+			return _recoveryPoint;
 		}
     }
 }

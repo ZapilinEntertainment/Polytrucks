@@ -4,6 +4,7 @@ using UnityEngine;
 using Newtonsoft.Json;
 
 namespace ZE.Polytrucks {
+    [System.Serializable]
     public struct VirtualPoint
     {
         public Vector3 Position;

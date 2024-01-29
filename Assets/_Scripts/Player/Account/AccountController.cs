@@ -12,9 +12,9 @@ namespace ZE.Polytrucks.AccountData {
 		public IRewarder RewardAgent => _rewardService;
 		public IPlayerDataAgent PlayerDataAgent => _playerData;
 
-		public AccountController(SignalBus signalBus, GameSettings gameSettings)
+		public AccountController(SignalBus signalBus, GameSettings gameSettings, IPlayerDataSave playerDataSave)
 		{
-			_playerData = new PlayerData(signalBus, gameSettings);
+			_playerData = new PlayerData(signalBus, gameSettings, playerDataSave);
 			_rewardService = new RewardService(_playerData);
 		}
 	}

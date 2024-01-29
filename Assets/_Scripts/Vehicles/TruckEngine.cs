@@ -9,6 +9,7 @@ namespace ZE.Polytrucks {
         private float _steerTarget = 0f, _gasValue = 0f;
         private TruckConfig _config;
         private AxisControllerBase _axis;
+        virtual protected bool CanAccelerate => _isClutched;
         public float GasValue
         {
             get
@@ -39,7 +40,7 @@ namespace ZE.Polytrucks {
             float gasTarget;
             float deltaSpeed;
 
-            if (_isClutched)
+            if (CanAccelerate)
             {
                 gasTarget = _config.CalculateSpeedCf(SteerValue);
                 deltaSpeed = _config.Acceleration * deltaTime;

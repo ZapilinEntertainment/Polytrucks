@@ -13,6 +13,8 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private Transform _cameraViewPoint;
         [SerializeField] protected TradeCollidersHandler _collidersHandler;
+
+        public bool IsVisible { get; private set; } = true;
         public abstract StorageController VehicleStorageController { get; }
         public IVehicleController VehicleController { get; protected set; }
         public TradeCollidersHandler CollidersHandler => _collidersHandler;
@@ -47,12 +49,19 @@ namespace ZE.Polytrucks {
         virtual public IReadOnlyCollection<Vector3> GetVehicleBounds() => _collidersHandler.GetBounds();
         #endregion
 
+        #region modules
         public void AssignVehicleController(IVehicleController controller) { 
             VehicleController = controller;
             if (CollidersHandler != null) CollidersHandler.SetLayer(controller?.GetColliderLayer() ?? GameConstants.GetDefinedLayer(DefinedLayer.Default));
             OnVehicleControllerChangedEvent?.Invoke(VehicleController); 
         }
+        public virtual bool TryGetFuelModule(out FuelModule module)
+        {
+            module = null;
+            return false;
+        }
 
+        #endregion
         #region storage
         public abstract void ClearCargo(bool destroy = true);
         public abstract bool CanFulfillContract(TradeContract contract);
@@ -71,7 +80,8 @@ namespace ZE.Polytrucks {
         {
             _collidersHandler.SetColliderActivity(x);
             gameObject.SetActive(x);
-            if (x)
+            IsVisible= x;
+            if (IsVisible)
             {
                 ReleaseBrake();
                 OnVisibilityChangedEvent?.Invoke(true);

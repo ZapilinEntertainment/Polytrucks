@@ -35,9 +35,14 @@ namespace ZE.Polytrucks {
 		}
 		public void SetProgress(int current, int total)
 		{
-			_progressLabel.text = $"{current}/{total}";
-			SetProgress(current / (float) total);
+			if (_progressLabel != null) _progressLabel.text = $"{current}/{total}";
+			i_SetProgress(current / (float) total);
 		} 
-		virtual protected void SetProgress(float percent) => _progressionBar.fillAmount= percent;
+		public void SetProgress(float pc)
+		{
+            if (_progressLabel != null) _progressLabel.text = ((int)(pc * 100f)).ToString();
+			i_SetProgress(pc);
+        }
+		virtual protected void i_SetProgress(float percent) => _progressionBar.fillAmount= percent;
 	}
 }

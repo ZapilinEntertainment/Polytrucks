@@ -14,5 +14,7 @@ namespace ZE.Polytrucks {
         public void SubscribeToMoneyChange(Action<int> action);
         public bool TrySpendMoney(int x);
         public bool TrySwitchVehicle(TruckID truckID, out TruckSwitchReport errormsg);
+
+        public VirtualPoint GetRecoveryPoint();
     }
 }

@@ -2,13 +2,13 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-    public class MonoInstaller_0 : MonoInstaller
+    public class SceneInstaller : MonoInstaller
     {
-        [SerializeField] private bool _useTestOptions = false;
         [SerializeField] private SessionMaster _sessionMaster;
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private CameraController _cameraController;
         [SerializeField] private UIManager _uiManagerPrefab;
+        [SerializeField] private TestModule.TestModuleContainer _testModuleContainer;
 
         public override void InstallBindings()
         {
@@ -88,7 +88,15 @@ namespace ZE.Polytrucks {
         }
         private void PlayerDataInstall(DiContainer subcontainer)
         {
-            AccountData.PlayerDataInstaller.Install(subcontainer, _useTestOptions);
+            AccountData.PlayerDataInstaller playerDataInstaller;
+            if (_testModuleContainer == null) playerDataInstaller = new (subcontainer);
+            else
+            {
+                // subcontainer.Bind<TestModule.TestModuleContainer>().FromInstance(_testModuleContainer);
+                // TestModule.TestPlayerDataInstaller.Install(subcontainer);
+                playerDataInstaller = new TestModule.TestPlayerDataInstaller(subcontainer, _testModuleContainer);
+            }
+            playerDataInstaller.InstallBindings();
         }
         
     }

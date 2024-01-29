@@ -16,6 +16,7 @@ namespace ZE.Polytrucks {
         private TruckEngine _engine;
         private SellModule _sellModule;
         private CollectModule _collectModule;
+        private FuelModule _fuelModule;
         private ColliderListSystem _colliderListSystem;        
         private Joint _physicsLock;
         private TrailerConnector.Handler _trailerConnectorHandler;
@@ -44,6 +45,19 @@ namespace ZE.Polytrucks {
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
         public float CalculatePowerEffort(float pc) => _truckConfig.CalculatePowerEffort(pc);
+        public override bool TryGetFuelModule(out FuelModule module)
+        {
+            if (_truckConfig.UseFuel)
+            {
+                module = _fuelModule;
+                return true;
+            }
+            else
+            {
+                module = null;
+                return false;
+            }
+        }
 
         public TruckID TruckID => TruckConfig.TruckID;
         public TruckConfig TruckConfig => _truckConfig;        
@@ -59,7 +73,18 @@ namespace ZE.Polytrucks {
         private void Awake()
         {
             Rigidbody.mass = _truckConfig.Mass;
-            _engine = new TruckEngine(_truckConfig, _axisController);
+
+            if (_truckConfig.UseFuel)
+            {
+                _fuelModule = new FuelModule(_truckConfig.FuelConfiguration, this);
+                _engine = new FueledTruckEngine(_fuelModule, _truckConfig, _axisController);
+            }
+            else
+            {
+                _fuelModule = null;
+                _engine = new TruckEngine(_truckConfig, _axisController);
+            }
+
             UpdateStorageLink();
             _storageController.OnStorageCompositionChangedEvent += OnStorageCompositionChanged;
         }
@@ -85,6 +110,7 @@ namespace ZE.Polytrucks {
         
         private void Update()
         {
+            if (!IsVisible) return;
             if (!_truckConfig.UsesPhysics)
             {
                 float t = Time.fixedDeltaTime;
@@ -95,10 +121,15 @@ namespace ZE.Polytrucks {
         }
         private void FixedUpdate()
         {
+            if (!IsVisible) return;
+            float t = Time.fixedDeltaTime;
             if (_truckConfig.UsesPhysics)
-            {
-                float t = Time.fixedDeltaTime;
+            {                
                 _engine.Update(t);
+            }
+            if (_truckConfig.UseFuel)
+            {
+                _fuelModule.Update(t);
             }
         }
 

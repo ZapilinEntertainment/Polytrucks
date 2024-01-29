@@ -4,55 +4,28 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks.AccountData {
-	public sealed class PlayerDataInstaller :Installer<bool,PlayerDataInstaller>
+	public class PlayerDataInstaller
 	{
-        bool _useTestModule = false;
-        public PlayerDataInstaller(bool useTestModule)
+        protected readonly DiContainer _container;
+        public PlayerDataInstaller(DiContainer container)
         {
-            _useTestModule= useTestModule;
+            _container = container;            
         }
-        override public void InstallBindings()
-        {            
-            Container.BindInterfacesAndSelfTo<PlayerData>().AsCached();
-            Container.BindInterfacesAndSelfTo<RewardService>().AsCached();
-            if (_useTestModule)
-            {
-                Container.BindInterfacesAndSelfTo<TestingAccountController>().AsCached();
-            }
-            else
-            {
-                Container.BindInterfacesAndSelfTo<AccountController>().AsCached();
-            }
+        public void InstallBindings()
+        {
+            _container.BindInterfacesAndSelfTo<RewardService>().AsCached();
+            InstallPlayerDataSave();
+            _container.Bind<IPlayerDataAgent>().To<PlayerData>().FromNew().AsCached();
+            InstallAccountController();
         }
-    }
 
-    /*
-    public sealed class PlayerDataLinksInstaller
-    {
-        bool _useTestModule = false;
-        public PlayerDataLinksInstaller(bool useTestModule) => _useTestModule = useTestModule;
-
-        public void InstallBindings(DiContainer mainContainer) {
-            var subcontainer = mainContainer.CreateSubContainer();
-            subcontainer.Bind<AccountController>().AsCached();
-            subcontainer.Bind<PlayerData>().AsCached();
-            subcontainer.Bind<RewardService>().AsCached();  
-
-            subcontainer.Bind<IAccountDataReader>().To<AccountController>().FromResolve();
-            mainContainer.Bind<IAccountDataReader>().FromResolveGetter;
-
-            subcontainer.Bind<IPlayerDataReader>().To<PlayerData>().FromResolve();
-            mainContainer.Bind<IAccountDataReader>().AsCached();
-
-            subcontainer.Bind<IRewarder>().To<RewardService>().FromResolve(,);
-            mainContainer.Bind<IRewarder>().AsCached();
-
-            if (_useTestModule)
-            {
-                subcontainer.Bind<Account_TEST_links>().AsCached();
-                mainContainer.Bind<Account_TEST_links>().AsCached();
-            }
+        virtual protected void InstallPlayerDataSave()
+        {
+            _container.Bind<IPlayerDataSave>().To<PlayerDataSave>().FromInstance(PlayerDataSave.Default).AsCached();            
+        }
+        virtual protected void InstallAccountController()
+        {
+            _container.BindInterfacesAndSelfTo<AccountController>().AsCached();
         }
     }
-    */
 }

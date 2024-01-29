@@ -7,8 +7,7 @@ using Zenject;
 namespace ZE.Polytrucks {    
 	public sealed class PlayerController : SessionObject, IColliderOwner
 	{
-        [SerializeField] private Vehicle _presettedVehicle;
-        private IAccountDataAgent _accountDataAgent;
+        private IPlayerDataAgent _playerData;
         private PlayerVehicleController _vehicleController;
         private PlayerControlsLocker _controlsLocker;
         private ColliderListSystem _colliderListSystem;
@@ -23,11 +22,13 @@ namespace ZE.Polytrucks {
        
 
         [Inject]
-        public void Inject(IAccountDataAgent accountDataAgent, ColliderListSystem collidersList, SignalBus signalBus)
+        public void Inject(IAccountDataAgent accountDataAgent, ColliderListSystem collidersList, SignalBus signalBus, TruckSpawnService truckSpawner)
         {
-            _accountDataAgent= accountDataAgent;
+            _playerData = accountDataAgent.PlayerDataAgent;
             _controlsLocker = new PlayerControlsLocker(signalBus);
-            _vehicleController = new PlayerVehicleController(_presettedVehicle, this, _controlsLocker);
+
+            Truck truck = truckSpawner.CreateTruck(_playerData.ActiveTruckID);
+            _vehicleController = new PlayerVehicleController(truck, this, _controlsLocker);
             _vehicleController.OnActiveVehicleChangedEvent += OnVehicleChanged;
 
             _colliderListSystem = collidersList;
@@ -43,7 +44,10 @@ namespace ZE.Polytrucks {
 
         private void Start()
         {
-            OnVehicleChanged(ActiveVehicle);
+            if (ActiveVehicle != null)
+            {
+                ActiveVehicle.Teleport(_playerData.GetRecoveryPoint(), () => OnVehicleChanged(ActiveVehicle));
+            }
         }
 
         private void LateUpdate()
@@ -72,7 +76,7 @@ namespace ZE.Polytrucks {
         
 
         #region trading
-        public void OnItemSold(SellOperationContainer info) => _accountDataAgent.PlayerDataAgent.OnPlayerSoldItem(info);
+        public void OnItemSold(SellOperationContainer info) => _playerData.OnPlayerSoldItem(info);
         public bool CanFulfillContract(TradeContract contract) => ActiveVehicle.CanFulfillContract(contract);
         public bool TryLoadCargo(VirtualCollectable item, int count) => ActiveVehicle.TryLoadCargo(item, count);
         public TradeContract FormCollectContract() => ActiveVehicle.FormCollectContract();
