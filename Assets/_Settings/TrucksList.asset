@@ -28,6 +28,11 @@ MonoBehaviour:
     <TruckConfig>k__BackingField: {fileID: 11400000, guid: b97c1af1ad1d4244c8d5287f0cde15b3, type: 2}
     <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}
     <Icon>k__BackingField: {fileID: 21300000, guid: a350583851b9c454c826976ea06d2298, type: 3}
+  - <TruckID>k__BackingField: 3
+    <TruckPrefab>k__BackingField: {fileID: 7587992288452754177, guid: 0d5883e868227a3449a97053b60bfa2d, type: 3}
+    <TruckConfig>k__BackingField: {fileID: 11400000, guid: d17f613c88a72794799348fa1f27c483, type: 2}
+    <WheelsConfig>k__BackingField: {fileID: 11400000, guid: f7faa3722fde96b45b1e96df963bdb76, type: 2}
+    <Icon>k__BackingField: {fileID: 0}
   _trailersInfo:
   - <TrailerID>k__BackingField: 1
     <TrailerPrefab>k__BackingField: {fileID: 941688342614146152, guid: f33034afca847424296826c0d65b868f, type: 3}
