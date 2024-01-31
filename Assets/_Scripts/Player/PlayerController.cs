@@ -30,6 +30,7 @@ namespace ZE.Polytrucks {
             Truck truck = truckSpawner.CreateTruck(_playerData.ActiveTruckID);
             _vehicleController = new PlayerVehicleController(truck, this, _controlsLocker);
             _vehicleController.OnActiveVehicleChangedEvent += OnVehicleChanged;
+            truckSpawner.CheckForTrailer(truck);
 
             _colliderListSystem = collidersList;
         }

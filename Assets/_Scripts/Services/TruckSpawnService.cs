@@ -28,6 +28,24 @@ namespace ZE.Polytrucks {
             return truck;
         }
 
+        public void CheckForTrailer(Truck truck)
+        {
+            if (truck.TruckConfig.TrailerRequired && !truck.HaveTrailers)
+            {
+                truck.StartCoroutine(ConnectTrailer(truck, truck.TruckConfig.TrailerID));
+            }
+        }
+        public IEnumerator ConnectTrailer(Truck truck, TrailerID trailerID)
+        {
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+            if (TryCreateTrailer(trailerID, out var trailer))
+            {
+                yield return new WaitForFixedUpdate();
+                truck.TrailerConnector.AddTrailer(trailer);
+            }
+        }
+
         public bool TryCreateTrailer(TrailerID id, out Trailer trailer)
         {
             if (!_cachedVehiclesService.TryGetTrailer(id, out trailer))

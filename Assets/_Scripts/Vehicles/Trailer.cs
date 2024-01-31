@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-	public enum TrailerID : byte { NoTrailer, FarmerTrailer}
+	public enum TrailerID : byte { NoTrailer, FarmerTrailer, RigTrailer}
 	public sealed class Trailer : MonoBehaviour, ITrailerConnectionPoint, ICachableVehicle, ITeleportable
 	{
         [SerializeField] private MassChanger _massChanger;
@@ -97,7 +97,7 @@ namespace ZE.Polytrucks {
                 _joint.zMotion = ConfigurableJointMotion.Locked;
                 _joint.angularXMotion = ConfigurableJointMotion.Limited;
                 _joint.angularYMotion = ConfigurableJointMotion.Limited;
-				_joint.angularZMotion = ConfigurableJointMotion.Locked;
+				_joint.angularZMotion = _trailerJointConfig.AngularZMotion;
             }
         }
 		private void ClearJoint()

@@ -27,6 +27,8 @@ namespace ZE.Polytrucks {
         [SerializeField] private SoftJointLimitSerialized LowAngularXLimit;
         [SerializeField] private SoftJointLimitSerialized HighAngularXLimit;
 		[SerializeField] private SoftJointLimitSerialized AngularYLimit;
+		[SerializeField] private SoftJointLimitSerialized AngularZLimit;
+		[field:SerializeField] public ConfigurableJointMotion AngularZMotion { get; private set; }
         [SerializeField] private float MassScale;
         [SerializeField] private float ConnectedMassScale;
 
@@ -40,6 +42,8 @@ namespace ZE.Polytrucks {
 			joint.lowAngularXLimit= LowAngularXLimit.FormLimit();
 			joint.highAngularXLimit= HighAngularXLimit.FormLimit();
 			joint.angularYLimit= AngularYLimit.FormLimit();
+			joint.angularZLimit = AngularZLimit.FormLimit();
+			joint.angularZMotion = AngularZMotion;
 
 			joint.massScale = MassScale;
 			joint.connectedMassScale = ConnectedMassScale;
@@ -55,6 +59,8 @@ namespace ZE.Polytrucks {
 			LowAngularXLimit= new SoftJointLimitSerialized(joint.lowAngularXLimit);
 			HighAngularXLimit= new SoftJointLimitSerialized(joint.highAngularXLimit);
 			AngularYLimit= new SoftJointLimitSerialized(joint.angularYLimit);
+			AngularZLimit = new SoftJointLimitSerialized(joint.angularZLimit);
+			AngularZMotion = joint.angularZMotion;
 
 			MassScale = joint.massScale;
 			ConnectedMassScale = joint.connectedMassScale;

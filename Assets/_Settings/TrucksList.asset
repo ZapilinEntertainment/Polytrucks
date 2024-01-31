@@ -38,3 +38,7 @@ MonoBehaviour:
     <TrailerPrefab>k__BackingField: {fileID: 941688342614146152, guid: f33034afca847424296826c0d65b868f, type: 3}
     <WheelConfiguration>k__BackingField: {fileID: 11400000, guid: a05832c326186e24bba2963a8a0db24e, type: 2}
     <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: ce74235d037f28c40b5a8d9783efbbe0, type: 2}
+  - <TrailerID>k__BackingField: 2
+    <TrailerPrefab>k__BackingField: {fileID: 1032046003335528694, guid: 5a5f91ca6fd5b0f4c9da378f6dae50b2, type: 3}
+    <WheelConfiguration>k__BackingField: {fileID: 11400000, guid: f7faa3722fde96b45b1e96df963bdb76, type: 2}
+    <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: 2cb73aaaca638cd498c4150d881bd090, type: 2}
