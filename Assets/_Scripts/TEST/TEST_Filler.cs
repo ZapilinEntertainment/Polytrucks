@@ -27,26 +27,30 @@ namespace ZE.Polytrucks {
         private void Update()
         {
             if (!Input.anyKeyDown) return;
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (_player.ActiveVehicle != null && _player.ActiveVehicle.TryGetStorage(out var storage))
             {
-                _player.ActiveVehicle.LoadCargo(new VirtualCollectable(CollectableType.Fruits, Rarity.Regular), 10);
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    storage.TryLoadCargo(new VirtualCollectable(CollectableType.Fruits, Rarity.Regular), 10);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    storage.TryLoadCargo(new VirtualCollectable(CollectableType.IronIngot, Rarity.Regular), 10);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    storage.TryLoadCargo(new VirtualCollectable(CollectableType.Lumber, Rarity.Regular), 10);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    storage.TryLoadCargo(new VirtualCollectable(CollectableType.SteelBeam, Rarity.Advanced), 10);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    storage.TryLoadCargo(new VirtualCollectable(CollectableType.WoodenBeam, Rarity.Advanced), 10);
+                }
             }
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                _player.ActiveVehicle.LoadCargo(new VirtualCollectable(CollectableType.IronIngot, Rarity.Regular), 10);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                _player.ActiveVehicle.LoadCargo(new VirtualCollectable(CollectableType.Lumber, Rarity.Regular), 10);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                _player.ActiveVehicle.LoadCargo(new VirtualCollectable(CollectableType.SteelBeam, Rarity.Advanced), 10);
-            }
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                _player.ActiveVehicle.LoadCargo(new VirtualCollectable(CollectableType.WoodenBeam, Rarity.Advanced), 10);
-            }
+
 
             if (Input.GetKeyDown(KeyCode.X))
             {

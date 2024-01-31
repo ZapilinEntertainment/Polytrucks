@@ -122,8 +122,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   _storageConfiguration: {fileID: 11400000, guid: 12f0bccd8adef654ba9b4cc9ff101436, type: 2}
   _fuelConfiguration: {fileID: 11400000, guid: 9a98b436032207c4ab2c20cf2d808326, type: 2}
+  _integrityConfiguration: {fileID: 0}
   <TruckID>k__BackingField: 2
   <TrailerID>k__BackingField: 0
   <UsesPhysics>k__BackingField: 1
   <CollectTime>k__BackingField: 0.25
-  <AccelerationMeterResult>k__BackingField: 5.56
+  <AccelerationMeterResult>k__BackingField: 3.95

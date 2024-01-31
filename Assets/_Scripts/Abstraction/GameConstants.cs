@@ -4,12 +4,13 @@ using UnityEngine;
 
 namespace ZE.Polytrucks
 {
-    public enum CustomLayermask : byte { Default, Tyres}
+    public enum CustomLayermask : byte { Default, Tyres, VehicleDamageMask}
     public enum DefinedLayer : byte { Default, Collectible, Player, Terrain}
 
     public static class GameConstants
     {
-        public const float GROUND_HEIGHT = 0f, CRATE_COLLECT_RADIUS = 1f, DEFAULT_COLLECTABLE_SIZE = 1.5f, BASE_CRATE_MASS = 5f, MAX_SPEED = 100f;
+        public const float GROUND_HEIGHT = 0f, CRATE_COLLECT_RADIUS = 1f, DEFAULT_COLLECTABLE_SIZE = 1.5f, BASE_CRATE_MASS = 5f, MAX_SPEED = 100f,
+            WALL_HIT_DAMAGE_CF = 0.01f;
 
         public const string  DEFAULT_LAYERNAME = "Default", COLLECTIBLE_LAYERNAME = "Collectible", PLAYER_LAYERNAME = "Player", TERRAIN_LAYERNAME = "Terrain";
 
@@ -40,6 +41,7 @@ namespace ZE.Polytrucks
             {
                 switch (customLayer)
                 {
+                    case CustomLayermask.VehicleDamageMask: value = LayerMask.GetMask(DEFAULT_LAYERNAME, TERRAIN_LAYERNAME); break;
                     case CustomLayermask.Tyres: value = LayerMask.GetMask(DEFAULT_LAYERNAME, TERRAIN_LAYERNAME); break;
                     default: value = LayerMask.GetMask(DEFAULT_LAYERNAME); break;
                 }

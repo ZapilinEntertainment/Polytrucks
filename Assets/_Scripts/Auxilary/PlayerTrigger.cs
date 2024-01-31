@@ -8,12 +8,12 @@ namespace ZE.Polytrucks {
     [RequireComponent(typeof(Collider))]
 	public class PlayerTrigger : MonoBehaviour
 	{
-        private bool _isPlayerInside = false;
+        
         private int _insideColliderID = -1;
         private ColliderListSystem _collidersList;
         protected Collider _trigger;
         protected PlayerController _player;
-        public bool IsPlayerInside => _isPlayerInside;
+        public bool IsPlayerInside { get; private set; } = false;
         public Action OnPlayerExitEvent;
         public Action<PlayerController> OnPlayerEnterEvent;
 
@@ -29,7 +29,7 @@ namespace ZE.Polytrucks {
 
         public bool IsPlayerFullyInside()
         {
-            if (_isPlayerInside)
+            if (IsPlayerInside)
             {
                 var triggerBounds = _trigger.bounds;
                 var playerBounds = _player.GetPlayerBounds();
@@ -59,14 +59,14 @@ namespace ZE.Polytrucks {
         }
         virtual protected void OnPlayerEnter(PlayerController player)
         {
-            _isPlayerInside = true;
+            IsPlayerInside = true;
             OnPlayerEnterEvent?.Invoke(_player);
         }
         private void OnTriggerExit(Collider other)
         {
-            if (_isPlayerInside && other.GetInstanceID() == _insideColliderID)
+            if (IsPlayerInside && other.GetInstanceID() == _insideColliderID)
             {
-                _isPlayerInside = false;
+                IsPlayerInside = false;
                 _insideColliderID = -1;
                 OnPlayerExitEvent?.Invoke();
             }

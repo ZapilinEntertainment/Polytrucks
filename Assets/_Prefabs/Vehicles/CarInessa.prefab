@@ -129,6 +129,7 @@ GameObject:
   - component: {fileID: 7925586120302764433}
   - component: {fileID: 942201003553502061}
   - component: {fileID: 8306117128786505373}
+  - component: {fileID: 7686167148663023904}
   m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
@@ -216,6 +217,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &7686167148663023904
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1438519506637757417}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.82, y: 1.26, z: 4.72}
+  m_Center: {x: 0, y: 0.79, z: 0}
 --- !u!1 &1470330343813147464
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,11 +338,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2916459608521201694}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f07ec719510afbe4cbcbfbbe637b83e7, type: 3}
+  m_Script: {fileID: 11500000, guid: b4222c4a713408349a049f62db6a2c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CollectColliders:
-  - {fileID: 9146932381041232439}
+  - {fileID: 7686167148663023904}
 --- !u!114 &1318306098002705223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,7 +489,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5937263192406322743}
-  - component: {fileID: 9146932381041232439}
   m_Layer: 0
   m_Name: InessaCar
   m_TagString: Untagged
@@ -501,19 +514,6 @@ Transform:
   m_Father: {fileID: 7925586120302764433}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &9146932381041232439
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6426273581315994765}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.82, y: 1.26, z: 4.72}
-  m_Center: {x: 0, y: 0.79, z: 0}
 --- !u!1 &7000318232964142160
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ namespace ZE.Polytrucks {
         protected float _receiveTime = 0.1f, _lastReceiveTime = - 1f;
         protected Vehicle _vehicle;
         protected CollectZone _collectZone;
-        public CollectModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, Vehicle vehicle, float receiveTime) : base(collidersHandler, colliderListSystem, vehicle.VehicleStorageController)
+        public CollectModule(CollidersHandler collidersHandler, ColliderListSystem colliderListSystem, Vehicle vehicle, float receiveTime) : base(collidersHandler, colliderListSystem, vehicle.VehicleStorageController)
         {
             _receiveTime = receiveTime;
             _vehicle = vehicle;

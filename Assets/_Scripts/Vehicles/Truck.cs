@@ -17,6 +17,7 @@ namespace ZE.Polytrucks {
         private SellModule _sellModule;
         private CollectModule _collectModule;
         private FuelModule _fuelModule;
+        private IntegrityModule _integrityModule;
         private ColliderListSystem _colliderListSystem;        
         private Joint _physicsLock;
         private TrailerConnector.Handler _trailerConnectorHandler;
@@ -45,11 +46,29 @@ namespace ZE.Polytrucks {
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };
         public float CalculatePowerEffort(float pc) => _truckConfig.CalculatePowerEffort(pc);
+        public override bool TryGetStorage(out IStorage storage)
+        {
+            storage = Storage;
+            return storage != null;
+        }
         public override bool TryGetFuelModule(out FuelModule module)
         {
             if (_truckConfig.UseFuel)
             {
                 module = _fuelModule;
+                return true;
+            }
+            else
+            {
+                module = null;
+                return false;
+            }
+        }
+        public override bool TryGetIntegrityModule(out IntegrityModule module)
+        {
+            if (_truckConfig.UseIntegrity)
+            {
+                module = _integrityModule;
                 return true;
             }
             else
@@ -83,6 +102,11 @@ namespace ZE.Polytrucks {
             {
                 _fuelModule = null;
                 _engine = new TruckEngine(_truckConfig, _axisController);
+            }
+            if (_truckConfig.UseIntegrity)
+            {
+                _integrityModule = new IntegrityModule(_collidersHandler, _truckConfig.IntegrityConfiguration);
+                _integrityModule.OnDestructedEvent += OnVehicleLoseIntegrity;
             }
 
             UpdateStorageLink();
@@ -130,6 +154,10 @@ namespace ZE.Polytrucks {
             if (_truckConfig.UseFuel)
             {
                 _fuelModule.Update(t);
+            }
+            if (_truckConfig.UseIntegrity)
+            {
+                _integrityModule.Update(t);
             }
         }
 
@@ -197,10 +225,7 @@ namespace ZE.Polytrucks {
         {
             Storage.MakeEmpty();
         }
-        public override TradeContract FormCollectContract() => _collectModule.FormCollectContract();
-        public override bool CanFulfillContract(TradeContract contract) => Storage.CanFulfillContract(contract);
-        public override int LoadCargo(VirtualCollectable item, int count) => Storage.AddItems(item, count);
-        public override bool TryLoadCargo(VirtualCollectable item, int count) => Storage.TryLoadCargo(item, count);
+        public override TradeContract FormCollectContract() =>  _collectModule.FormCollectContract();
 
         public void OnTrailerConnected(Trailer trailer)
         {
@@ -231,6 +256,11 @@ namespace ZE.Polytrucks {
             {
                 if (trailer.TryGetStorage(out var trailerStorage)) storage.RemoveStorage(trailerStorage);
             }
+        }
+
+        private void OnVehicleLoseIntegrity()
+        {
+
         }
 
         public class Factory : PlaceholderFactory<UnityEngine.Object, Truck>

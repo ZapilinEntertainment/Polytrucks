@@ -13,6 +13,7 @@ namespace ZE.Polytrucks {
         [SerializeField] private AnimationCurve _rotationToSpeedCurve, _steerCurve, _powerCurve;
 		[SerializeField] private StorageConfiguration _storageConfiguration;
 		[SerializeField] private FuelConfiguration _fuelConfiguration;
+		[SerializeField] private IntegrityConfiguration _integrityConfiguration;
 
         [field: SerializeField] public TruckID TruckID { get; private set; } = TruckID.Undefined;
 		[field: SerializeField] public TrailerID TrailerID { get; private set; } = TrailerID.NoTrailer;
@@ -23,6 +24,7 @@ namespace ZE.Polytrucks {
 		
 		public bool HasCargoSpace => _storageConfiguration != null;		
 		public bool UseFuel => _fuelConfiguration != null;
+		public bool UseIntegrity => _integrityConfiguration!= null;
 		public bool TrailerRequired => !HasCargoSpace && TrailerID != TrailerID.NoTrailer;
 		public float MaxSpeed => _maxSpeed;
 		public float MaxSteerAngle => _maxSteerAngle;
@@ -31,6 +33,7 @@ namespace ZE.Polytrucks {
 		public float CalculatePowerEffort(float speedPc) => _powerCurve.Evaluate(speedPc);
 		public StorageConfiguration StorageConfiguration => _storageConfiguration;
 		public FuelConfiguration FuelConfiguration => _fuelConfiguration;
+		public IntegrityConfiguration IntegrityConfiguration => _integrityConfiguration;
 
 		public float Acceleration => _acceleration;
 		public float ReverseAcceleration => _reverseAcceleration;

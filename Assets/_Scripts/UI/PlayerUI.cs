@@ -7,8 +7,8 @@ namespace ZE.Polytrucks {
 	public class PlayerUI : MonoBehaviour
 	{
 		[SerializeField] protected RectTransform _vehicleStatLineHost;
-		[SerializeField] protected ModuleTrackPanel _fuelPanelPrefab;
-		protected ModuleTrackPanel _fuelPanel;
+		[SerializeField] protected ModuleTrackPanel _fuelPanelPrefab, _integrityPanelPrefab;
+		protected ModuleTrackPanel _fuelPanel, _integrityPanel;
 		protected PlayerController _player;
 
 		[Inject]
@@ -25,7 +25,8 @@ namespace ZE.Polytrucks {
 
         private void OnPlayerVehicleChanged(Vehicle vehicle)
 		{
-			if (vehicle != null && vehicle.TryGetFuelModule(out var fuelModule))
+			bool noVehicle = vehicle == null;
+			if (!noVehicle && vehicle.TryGetFuelModule(out var fuelModule))
 			{
 				if (_fuelPanel == null) _fuelPanel = Instantiate(_fuelPanelPrefab, _vehicleStatLineHost);
 				_fuelPanel.StartTracking(fuelModule);
@@ -33,6 +34,16 @@ namespace ZE.Polytrucks {
 			else
 			{
 				if (_fuelPanel != null) _fuelPanel.StopTracking();
+			}
+
+			if (!noVehicle && vehicle.TryGetIntegrityModule(out var module))
+			{
+				if (_integrityPanel == null) _integrityPanel = Instantiate(_integrityPanelPrefab, _vehicleStatLineHost);
+				_integrityPanel.StartTracking(module);
+			}
+			else
+			{
+				if (_integrityPanel != null) _integrityPanel.StopTracking();
 			}
 		}
 	}

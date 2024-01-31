@@ -27,6 +27,12 @@ namespace ZE.Polytrucks {
             if (Fuel < 0f) Fuel = 0f;
         }
 
+        public void Refuel(float percent)
+        {
+            float maxVolume = _fuelConfiguration.TankVolume;
+            Fuel = Mathf.Clamp(Fuel + maxVolume * percent, 0f, maxVolume);
+        }
+
         private void OnDisposed()
         {
             OnModuleDisposedEvent?.Invoke();

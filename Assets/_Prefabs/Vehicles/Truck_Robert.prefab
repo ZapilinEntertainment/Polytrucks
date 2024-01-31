@@ -127,7 +127,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144767197520116831}
-  - component: {fileID: 8657606356179407698}
   m_Layer: 0
   m_Name: truck0
   m_TagString: Untagged
@@ -163,19 +162,6 @@ Transform:
   m_Father: {fileID: 7613296999644693688}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &8657606356179407698
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 669207115186890469}
-  m_Material: {fileID: 13400000, guid: acd0e25fd83e5154286363e417fa91b2, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 1.991383, z: 6.76543}
-  m_Center: {x: 0, y: 1.4778932, z: -0.80209094}
 --- !u!1 &681869601896649459
 GameObject:
   m_ObjectHideFlags: 0
@@ -415,6 +401,7 @@ GameObject:
   - component: {fileID: 7613296999644693688}
   - component: {fileID: 669300281718445636}
   - component: {fileID: 8583801894704270260}
+  - component: {fileID: 6629232598207547192}
   m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
@@ -502,6 +489,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &6629232598207547192
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1705788952971722432}
+  m_Material: {fileID: 13400000, guid: acd0e25fd83e5154286363e417fa91b2, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.991383, z: 6.76543}
+  m_Center: {x: 0, y: 1.4778932, z: -0.80209094}
 --- !u!1 &2290548987232408048
 GameObject:
   m_ObjectHideFlags: 0
@@ -841,11 +841,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 3180618113940553015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f07ec719510afbe4cbcbfbbe637b83e7, type: 3}
+  m_Script: {fileID: 11500000, guid: b4222c4a713408349a049f62db6a2c62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   CollectColliders:
-  - {fileID: 8657606356179407698}
+  - {fileID: 6629232598207547192}
 --- !u!1 &3756722552491207849
 GameObject:
   m_ObjectHideFlags: 0

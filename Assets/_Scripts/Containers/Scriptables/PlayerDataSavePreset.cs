@@ -6,6 +6,7 @@ namespace ZE.Polytrucks {
     [CreateAssetMenu(menuName = "ScriptableObjects/GameSettings/PlayerDataSavePreset")]
     public class PlayerDataSavePreset : ScriptableObject, IPlayerDataSave
     {
+        [field: SerializeField] public float IntegrityPercent { get; private set; }
         [field: SerializeField] public TruckID PlayerTruckID { get; private set; }
         [field: SerializeField] public VirtualPoint RecoveryPoint { get; private set; }
     }

@@ -12,12 +12,12 @@ namespace ZE.Polytrucks {
 	public abstract class Vehicle : SessionObject, IColliderOwner, ITeleportable
 	{
 		[SerializeField] private Transform _cameraViewPoint;
-        [SerializeField] protected TradeCollidersHandler _collidersHandler;
+        [SerializeField] protected CollidersHandler _collidersHandler;
 
         public bool IsVisible { get; private set; } = true;
         public abstract StorageController VehicleStorageController { get; }
         public IVehicleController VehicleController { get; protected set; }
-        public TradeCollidersHandler CollidersHandler => _collidersHandler;
+        public CollidersHandler CollidersHandler => _collidersHandler;
         public Action OnVehicleDisposeEvent;
         public Action<bool> OnVisibilityChangedEvent;
         public Action<IVehicleController> OnVehicleControllerChangedEvent;
@@ -55,7 +55,18 @@ namespace ZE.Polytrucks {
             if (CollidersHandler != null) CollidersHandler.SetLayer(controller?.GetColliderLayer() ?? GameConstants.GetDefinedLayer(DefinedLayer.Default));
             OnVehicleControllerChangedEvent?.Invoke(VehicleController); 
         }
+
+        public virtual bool TryGetStorage(out IStorage storage)
+        {
+            storage = null;
+            return false;
+        }
         public virtual bool TryGetFuelModule(out FuelModule module)
+        {
+            module = null;
+            return false;
+        }
+        public virtual bool TryGetIntegrityModule(out IntegrityModule module)
         {
             module = null;
             return false;
@@ -63,11 +74,7 @@ namespace ZE.Polytrucks {
 
         #endregion
         #region storage
-        public abstract void ClearCargo(bool destroy = true);
-        public abstract bool CanFulfillContract(TradeContract contract);
-        public abstract int LoadCargo(VirtualCollectable item, int count);
-        public abstract bool TryLoadCargo(VirtualCollectable item, int count);
-       
+        public abstract void ClearCargo(bool destroy = true);       
         public abstract TradeContract FormCollectContract();
         #endregion
         #region IColliderOwner
@@ -93,6 +100,7 @@ namespace ZE.Polytrucks {
                 OnVisibilityChangedEvent?.Invoke(false);
             }
         }
+
 
         public override void OnObjectDispose()
         {

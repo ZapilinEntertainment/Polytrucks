@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e422fad9cbeef849bc8ffd58cd52a20, type: 3}
   m_Name: CosettaRig
   m_EditorClassIdentifier: 
-  _maxSpeed: 23
+  _maxSpeed: 15
   _maxSteerAngle: 35
   _steerTime: 0.5
   _acceleration: 0.5
@@ -20,7 +20,7 @@ MonoBehaviour:
   _engineStopTime: 1
   _reverseSpeedCf: 0.5
   _mass: 200
-  _passability: 0.5
+  _passability: 0.3
   _rotationToSpeedCurve:
     serializedVersion: 2
     m_Curve:
@@ -82,37 +82,28 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.10264903
     - serializedVersion: 3
-      time: 0.0059373453
-      value: 0.49104887
+      time: 0
+      value: 0.5
       inSlope: 1.3840925
-      outSlope: 4.5423717
+      outSlope: 0.0105285505
       tangentMode: 1
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.0695488
+      outWeight: 0.5926786
     - serializedVersion: 3
       time: 0.3966736
       value: 1.0049515
-      inSlope: 0.09308603
+      inSlope: 1.4756949
       outSlope: -0.0044183806
       tangentMode: 1
       weightedMode: 0
-      inWeight: 0.43046114
+      inWeight: 0.19028476
       outWeight: 0.4321934
-    - serializedVersion: 3
-      time: 0.79664004
-      value: 0.9990071
-      inSlope: -0.055109642
-      outSlope: -0.055109642
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.16767742
-      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0.3
-      inSlope: -3.4372897
-      outSlope: -3.4372897
+      inSlope: -1.1684412
+      outSlope: -1.1684412
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
@@ -122,8 +113,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   _storageConfiguration: {fileID: 0}
   _fuelConfiguration: {fileID: 0}
+  _integrityConfiguration: {fileID: 11400000, guid: 96238bed92ebd0d45b2a2af41d962dcc, type: 2}
   <TruckID>k__BackingField: 3
   <TrailerID>k__BackingField: 2
   <UsesPhysics>k__BackingField: 1
   <CollectTime>k__BackingField: 0.25
-  <AccelerationMeterResult>k__BackingField: 5.56
+  <AccelerationMeterResult>k__BackingField: 5.97

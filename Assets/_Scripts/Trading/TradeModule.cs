@@ -10,7 +10,7 @@ namespace ZE.Polytrucks {
         protected HashSet<int> _activeColliders = new HashSet<int>();
         protected IStorageController _storageController;
         protected IStorage Storage => _storageController.Storage;
-        protected TradeCollidersHandler _collidersHandler;
+        protected CollidersHandler _collidersHandler;
         protected ColliderListSystem _colliderListSystem;
         
         protected TradeContract _activeContract;
@@ -21,7 +21,7 @@ namespace ZE.Polytrucks {
         public int GetColliderID() => _collidersHandler.GetColliderID();
         public int[] GetColliderIDs() => _collidersHandler.GetColliderIDs();
 
-        public TradeModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, IStorageController storageController)
+        public TradeModule(CollidersHandler collidersHandler, ColliderListSystem colliderListSystem, IStorageController storageController)
         {
             _collidersHandler = collidersHandler;
             _colliderListSystem = colliderListSystem;

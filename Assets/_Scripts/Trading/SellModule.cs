@@ -8,7 +8,7 @@ namespace ZE.Polytrucks {
 	{
         protected ISellZone _sellZone;
 		protected Vehicle _vehicle;
-        public SellModule(TradeCollidersHandler collidersHandler, ColliderListSystem colliderListSystem, Vehicle vehicle) : base(collidersHandler, colliderListSystem, vehicle.VehicleStorageController)
+        public SellModule(CollidersHandler collidersHandler, ColliderListSystem colliderListSystem, Vehicle vehicle) : base(collidersHandler, colliderListSystem, vehicle.VehicleStorageController)
         {
             Storage.OnItemAddedEvent += OnStorageCompositionChanged;
 			_vehicle = vehicle;

@@ -121,8 +121,10 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _storageConfiguration: {fileID: 0}
+  _fuelConfiguration: {fileID: 0}
+  _integrityConfiguration: {fileID: 0}
   <TruckID>k__BackingField: 1
   <TrailerID>k__BackingField: 1
   <UsesPhysics>k__BackingField: 1
   <CollectTime>k__BackingField: 0.25
-  <AccelerationMeterResult>k__BackingField: 9.88
+  <AccelerationMeterResult>k__BackingField: 5.02
