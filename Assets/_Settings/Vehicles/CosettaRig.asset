@@ -112,7 +112,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _storageConfiguration: {fileID: 0}
-  _fuelConfiguration: {fileID: 0}
+  _fuelConfiguration: {fileID: 11400000, guid: 6ff77374043227e48ab24c68b1beaf21, type: 2}
   _integrityConfiguration: {fileID: 11400000, guid: 96238bed92ebd0d45b2a2af41d962dcc, type: 2}
   <TruckID>k__BackingField: 3
   <TrailerID>k__BackingField: 2

@@ -42,6 +42,7 @@ namespace ZE.Polytrucks {
         public override float SpeedPc => _axisController.Speed / _truckConfig.MaxSpeed;
         public float MaxSteerAngle => _truckConfig.MaxSteerAngle;
         public float MaxEngineSpeed => _truckConfig.MaxSpeed;
+        public float Passability => _truckConfig.Passability;
        
         public override Vector3 Position => _axisController.Position;
         public override VirtualPoint FormVirtualPoint() => new VirtualPoint() { Position = _axisController.Position, Rotation = _axisController.Rotation };

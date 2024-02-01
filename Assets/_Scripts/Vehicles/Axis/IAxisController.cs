@@ -12,6 +12,7 @@ namespace ZE.Polytrucks {
 		public float MaxSteerAngle { get; }
 		public float GasValue { get; }
         public float MaxEngineSpeed { get; }
+        public float Passability { get; }
         public float CalculatePowerEffort(float pc);
 
         public class DefaultController : IAxisController
@@ -21,6 +22,7 @@ namespace ZE.Polytrucks {
             public float MaxSteerAngle => 45f;
             public float GasValue => 0f;
             public float MaxEngineSpeed => GameConstants.MAX_SPEED;
+            public float Passability => 0.5f;
             public float CalculatePowerEffort(float pc) => 0f;
         }
     }

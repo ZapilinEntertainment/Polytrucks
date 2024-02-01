@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace ZE.Polytrucks {
 	public class BaseRaycastSuspensionController : AxisControllerBase
@@ -12,6 +13,7 @@ namespace ZE.Polytrucks {
         private bool _physicsDelay = false;
         protected int _castMask;
         protected float _startMass = 1f, _carSpeed = 0f, _speedPc = 0f;
+        protected ColliderListSystem _colliderListSystem;
         public override bool IsActive => base.IsActive & !_physicsDelay;
         override public float Speed => _carSpeed;
 
@@ -26,6 +28,12 @@ namespace ZE.Polytrucks {
             _startMass = _rigidbody.mass;
         }
 
+        [Inject]
+        public void Inject(ColliderListSystem colliderListSystem)
+        {
+            _colliderListSystem= colliderListSystem;
+        }
+
         virtual protected void FixedUpdate()
         {
             if (!IsActive)
@@ -37,7 +45,8 @@ namespace ZE.Polytrucks {
                 return;
             }
             float suspensionLength = _wheelSettings.SuspensionLength,
-                springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper;
+                springStrength = _wheelSettings.SpringStrength, springDamper = _wheelSettings.SpringDamper,
+                passability = AxisController.Passability;
             _carSpeed = Vector3.Dot(Forward, _rigidbody.velocity);
             _speedPc = Mathf.Clamp01(_carSpeed / GameConstants.MAX_SPEED);
             bool isBraking = AxisController.IsBraking;
@@ -49,7 +58,21 @@ namespace ZE.Polytrucks {
 
                 if (Physics.Raycast(pos, -up, maxDistance: suspensionLength * scaleCf, hitInfo: out var hit, layerMask: _castMask))
                 {
-                    float offset = (suspensionLength * scaleCf - hit.distance) / (suspensionLength * scaleCf);
+                    float hitDistance = hit.distance;
+                    float resistance;
+
+                    GroundCastInfo castInfo;
+                    if (_colliderListSystem.TryGetGroundInfoCollider(hit.colliderInstanceID, out var collider))
+                    {
+                        castInfo = collider.GetCastInfo(hit.point);
+                        hitDistance += castInfo.AdditionalDepth;
+                        resistance = castInfo.Resistance;
+                    }
+                    else resistance = 0f;
+
+                    
+
+                    float offset = (suspensionLength * scaleCf - hitDistance) / (suspensionLength * scaleCf);
                     Vector3 tireVelocity = _rigidbody.GetPointVelocity(pos);
                     float suspensionVelocity = Vector3.Dot(up, tireVelocity);
 
@@ -66,9 +89,9 @@ namespace ZE.Polytrucks {
                     }
 
                     float suspensionForce = (offset * springStrength) - (suspensionVelocity * springDamper);
-                    _rigidbody.AddForceAtPosition(suspensionForce * up + accelForce + steeringForce, pos);
+                    _rigidbody.AddForceAtPosition(suspensionForce * up + (accelForce * (passability + (1f - passability) * (1f - resistance) )) + steeringForce, pos);
 
-                    wheel.SetSuspensionCurrentLength(hit.distance);
+                    wheel.SetSuspensionCurrentLength(hitDistance);
 
                 }
                 else

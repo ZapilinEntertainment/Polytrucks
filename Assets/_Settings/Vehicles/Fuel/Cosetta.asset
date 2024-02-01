@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Cosetta
   m_EditorClassIdentifier: 
   <FuelType>k__BackingField: 1
-  <TankVolume>k__BackingField: 100
-  <FuelConsumption>k__BackingField: 0.5
+  <TankVolume>k__BackingField: 400
+  <FuelConsumption>k__BackingField: 1.5
