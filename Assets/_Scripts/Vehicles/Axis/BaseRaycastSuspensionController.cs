@@ -59,21 +59,20 @@ namespace ZE.Polytrucks {
                 if (Physics.Raycast(pos, -up, maxDistance: suspensionLength * scaleCf, hitInfo: out var hit, layerMask: _castMask))
                 {
                     float hitDistance = hit.distance;
-                    float resistance;
+                    float groundResistance;
+                    Vector3 tireVelocity = _rigidbody.GetPointVelocity(pos);
 
-                    GroundCastInfo castInfo;
                     if (_colliderListSystem.TryGetGroundInfoCollider(hit.colliderInstanceID, out var collider))
                     {
-                        castInfo = collider.GetCastInfo(hit.point);
+                        var castInfo = collider.GetCastInfo(hit.point, tireVelocity);
                         hitDistance += castInfo.AdditionalDepth;
-                        resistance = castInfo.Resistance;
+                        groundResistance = castInfo.Resistance;
                     }
-                    else resistance = 0f;
+                    else groundResistance = 0f;
 
                     
 
                     float offset = (suspensionLength * scaleCf - hitDistance) / (suspensionLength * scaleCf);
-                    Vector3 tireVelocity = _rigidbody.GetPointVelocity(pos);
                     float suspensionVelocity = Vector3.Dot(up, tireVelocity);
 
                     Vector3 steeringForce = CalculateSteerForce(wheel, tireVelocity);
@@ -89,7 +88,17 @@ namespace ZE.Polytrucks {
                     }
 
                     float suspensionForce = (offset * springStrength) - (suspensionVelocity * springDamper);
-                    _rigidbody.AddForceAtPosition(suspensionForce * up + (accelForce * (passability + (1f - passability) * (1f - resistance) )) + steeringForce, pos);
+                    Vector3 moveVector;
+                    if (groundResistance == 0f)
+                    {
+                        moveVector = accelForce;
+                    }
+                    else
+                    {
+                        float passabilityCf = passability + (1f - passability) * groundResistance;
+                        moveVector = accelForce * passabilityCf - tireVelocity * groundResistance * 0.95f;
+                    }
+                    _rigidbody.AddForceAtPosition(suspensionForce * up + steeringForce + moveVector, pos);
 
                     wheel.SetSuspensionCurrentLength(hitDistance);
 

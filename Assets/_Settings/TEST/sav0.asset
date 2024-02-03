@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: sav0
   m_EditorClassIdentifier: 
   <IntegrityPercent>k__BackingField: 0
-  <PlayerTruckID>k__BackingField: 4
+  <PlayerTruckID>k__BackingField: 3
   <RecoveryPoint>k__BackingField:
     Position: {x: 0.8, y: 0, z: 199.4}
     Rotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}

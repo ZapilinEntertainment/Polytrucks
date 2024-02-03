@@ -4,35 +4,22 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {    
-    [System.Serializable]
-    public class VolumeScalableEmitter
-    {
-        public ParticleSystem _system;
-        public int _baseCount;
-        public const float DEFAULT_SCALE = 0f;
-
-        public void Play(Vector3 pos, float scale = 0f)
-        {
-            _system.transform.position = pos;
-            if (scale != 0f) _system.Emit((int)(_baseCount * scale));
-            _system.Play(true);
-        }
-        public void Play(Vector3 pos, Vector3 normal, float scale = DEFAULT_SCALE)
-        {
-            _system.transform.forward = normal;
-            Play(pos, scale);
-        }
-    }
-    public sealed class EffectsManager
+    public sealed class EffectsService
 	{
         private class EffectEmitter
         {
             private ParticleSystem _particleSystem;
             private Transform _transform;
+            private int _baseCount = 5;
 
             public EffectEmitter(ParticleSystem particleSystemPrefab)
             {
                 _particleSystem = UnityEngine.Object.Instantiate(particleSystemPrefab);
+                var emissionModule = _particleSystem.emission;
+                if (emissionModule.burstCount > 0)
+                {
+                    _baseCount = (int)(emissionModule.GetBurst(0).count.constant);
+                }                
                 _transform = _particleSystem.transform;
             }
 
@@ -45,6 +32,17 @@ namespace ZE.Polytrucks {
             {
                 _transform.forward = dir;
                 Play(pos);
+            }
+            // Emit works better with multiple calls per frame
+            public void Emit(Vector3 pos, float percent = 1f)
+            {
+                _transform.position = pos;
+                _particleSystem.Emit((int)(_baseCount * percent));
+            }
+            public void Emit(Vector3 pos, Vector3 dir, float percent = 1f)
+            {
+                _transform.forward = dir;
+                Emit(pos, percent);
             }
         }
 
@@ -67,13 +65,22 @@ namespace ZE.Polytrucks {
             if (effectType == EffectType.Undefined) return;
             GetEmitter(effectType).Play(pos, dir);
         }
+        public void EmitEffect(EffectType effectType, Vector3 pos, Vector3 dir, float power = 1f)
+        {
+            if (effectType == EffectType.Undefined) return;
+            GetEmitter(effectType).Emit(pos, dir, power);
+        }
         private EffectEmitter GetEmitter(EffectType effectType)
         {
             EffectEmitter emitter;
             if (!_emitters.TryGetValue(effectType, out emitter))
             {
                 var prefab = _effectsPack.GetEffectPrefab(effectType);
-                if (prefab != null) emitter = new EffectEmitter(prefab);
+                if (prefab != null)
+                {
+                    emitter = new EffectEmitter(prefab);
+                    _emitters.Add(effectType, emitter);
+                }
             }
             return emitter;
         }

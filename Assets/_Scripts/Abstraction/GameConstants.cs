@@ -10,7 +10,7 @@ namespace ZE.Polytrucks
     public static class GameConstants
     {
         public const float GROUND_HEIGHT = 0f, CRATE_COLLECT_RADIUS = 1f, DEFAULT_COLLECTABLE_SIZE = 1.5f, BASE_CRATE_MASS = 5f, MAX_SPEED = 100f,
-            WALL_HIT_DAMAGE_CF = 0.01f;
+            WALL_HIT_DAMAGE_CF = 0.01f, MIN_PASSABILITY_CF = 0.05f, MAX_PASSABILITY_CF = 1f;
 
         public const string  DEFAULT_LAYERNAME = "Default", COLLECTIBLE_LAYERNAME = "Collectible", PLAYER_LAYERNAME = "Player", TERRAIN_LAYERNAME = "Terrain", DIRTZONE_LAYERNAME = "DirtZone";
 

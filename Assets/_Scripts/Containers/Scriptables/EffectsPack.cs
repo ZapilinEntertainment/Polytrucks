@@ -5,7 +5,7 @@ using System;
 
 namespace ZE.Polytrucks {
 
-    public enum EffectType : byte { Undefined, CompleteEffect }
+    public enum EffectType : byte { Undefined, CompleteEffect, DirtEffect }
 
     [CreateAssetMenu(menuName = "ScriptableObjects/EffectsPack")]
     public sealed class EffectsPack : ScriptableObject
@@ -20,12 +20,14 @@ namespace ZE.Polytrucks {
 
 		[field: SerializeField] public CrateFallEffect CrateFall { get; private set; }
 		[field:SerializeField] public ParticleSystem CompleteEffectPrefab { get; private set; }
+		[field: SerializeField] public ParticleSystem DirtEffectPrefab { get; private set; }
 
 
 		public ParticleSystem GetEffectPrefab(EffectType type)
 		{
 			switch (type)
 			{
+				case EffectType.DirtEffect: return DirtEffectPrefab;
 				case EffectType.CompleteEffect: return CompleteEffectPrefab;
 				default:return null;
 			}

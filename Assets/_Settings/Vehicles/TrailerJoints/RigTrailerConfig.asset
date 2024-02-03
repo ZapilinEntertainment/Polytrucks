@@ -29,7 +29,7 @@ MonoBehaviour:
     Bounciness: 0
     ContactDistance: 0
   AngularYLimit:
-    Limit: 120
+    Limit: 180
     Bounciness: 0
     ContactDistance: 0
   AngularZLimit:
@@ -37,5 +37,5 @@ MonoBehaviour:
     Bounciness: 0
     ContactDistance: 0
   <AngularZMotion>k__BackingField: 1
-  MassScale: 1
+  MassScale: 5
   ConnectedMassScale: 1

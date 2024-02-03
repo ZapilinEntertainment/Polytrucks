@@ -7,10 +7,10 @@ namespace ZE.Polytrucks {
 	public sealed class RequestZonesManager
 	{
 		private SignalBus _signalBus;
-		private EffectsManager _effectsManager;
+		private EffectsService _effectsManager;
 
 		[Inject]
-		public void Inject(SignalBus signalBus, EffectsManager effectsManager) {
+		public void Inject(SignalBus signalBus, EffectsService effectsManager) {
 			_signalBus = signalBus;
 			_effectsManager = effectsManager;
 		}

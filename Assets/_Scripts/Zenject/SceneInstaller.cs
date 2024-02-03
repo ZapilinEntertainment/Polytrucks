@@ -57,7 +57,7 @@ namespace ZE.Polytrucks {
             Container.Bind<ColouredMaterialsDepot>().AsCached().Lazy();
             Container.Bind<CollectablesSpawnManager>().AsCached().Lazy();
             Container.Bind<VisibilityController>().FromNewComponentOnNewGameObject().AsCached().Lazy();
-            Container.Bind<EffectsManager>().AsCached().Lazy();
+            Container.Bind<EffectsService>().AsCached().Lazy();
             Container.Bind<RequestZonesManager>().AsCached().Lazy();            
         }
         private void InstallFactories()
