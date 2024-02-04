@@ -64,7 +64,7 @@ namespace ZE.Polytrucks {
 
                     if (_colliderListSystem.TryGetGroundInfoCollider(hit.colliderInstanceID, out var collider))
                     {
-                        var castInfo = collider.GetCastInfo(hit.point, tireVelocity);
+                        var castInfo = collider.OnWheelCollision(hit.point, tireVelocity, wheel.WheelRadius);
                         hitDistance += castInfo.AdditionalDepth;
                         groundResistance = castInfo.Resistance;
                     }

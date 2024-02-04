@@ -19,6 +19,7 @@ namespace ZE.Polytrucks
 
         [field: SerializeField] public EffectsPack EffectsPack { get; private set; }
         [field: SerializeField] public HangarTrucksList TrucksList { get; private set; }
+        [SerializeField] private GroundQualitySettings _groundQualitySettings;
 
         public override void InstallBindings()
         {            
@@ -34,6 +35,8 @@ namespace ZE.Polytrucks
             Container.Bind<EconomicSettings>().FromScriptableObject(EconomicSettings).AsCached();
             Container.Bind<GameSettings>().FromScriptableObject(GameSettings).AsCached();
             Container.Bind<HangarTrucksList>().FromScriptableObject(TrucksList).AsCached();
+
+            Container.Bind<GroundQualitySettings>().FromScriptableObject(_groundQualitySettings).AsCached();
             Debug.Log("install resources");
         }
     }
