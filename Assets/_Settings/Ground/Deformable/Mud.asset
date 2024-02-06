@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 60eb31dd52abfe54a95604b181e9fb1f, type: 3}
-  m_Name: Dirt
+  m_Name: Mud
   m_EditorClassIdentifier: 
   <UseVisualDeformation>k__BackingField: 1
   <GroundType>k__BackingField: 1

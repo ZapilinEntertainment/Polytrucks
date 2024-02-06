@@ -54,7 +54,7 @@ namespace ZE.Polytrucks {
 		private ColliderOwnersList<ICollector> _collectors = new ColliderOwnersList<ICollector>();
 		private ColliderOwnersList<ISeller> _sellers = new ColliderOwnersList<ISeller>();
 		private ColliderOwnersList<PlayerController> _playerColliders = new ColliderOwnersList<PlayerController>();
-		private Dictionary<int, GroundInfoCollider> _groundColliders = new Dictionary<int, GroundInfoCollider>();
+		private Dictionary<int, GroundCollider> _groundColliders = new Dictionary<int, GroundCollider>();
 		
 		public void AddCollectable(ICollectable collectable) => _collectables.AddOwner(collectable);
 		public void RemoveCollectable(ICollectable collectable) => _collectables.RemoveOwner(collectable);
@@ -74,11 +74,11 @@ namespace ZE.Polytrucks {
 		public void RemovePlayerCollider(PlayerController player) => _playerColliders.RemoveOwner(player);
 		public bool TryDefineAsPlayer(int id, out PlayerController player) => _playerColliders.TryGetOwner(id, out player);
 
-		public void AddGroundInfo(GroundInfoCollider groundCollider)
+		public void AddGroundInfo(GroundCollider groundCollider)
 		{
 			_groundColliders.Add(groundCollider.GetColliderID(), groundCollider);
 		}
-		public bool TryGetGroundInfoCollider(int id, out GroundInfoCollider collider)  
+		public bool TryGetGroundInfoCollider(int id, out GroundCollider collider)  
 		{
 			if (_groundColliders.TryGetValue(id, out collider))
 			{
@@ -89,7 +89,7 @@ namespace ZE.Polytrucks {
 				return false;
 			}
 		}
-		public void RemoveGroundInfo(GroundInfoCollider groundCollider)
+		public void RemoveGroundInfo(GroundCollider groundCollider)
 		{
 			_groundColliders.Remove(groundCollider.GetColliderID());
 		}

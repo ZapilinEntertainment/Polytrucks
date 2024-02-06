@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
     }
 	public abstract class Vehicle : SessionObject, IColliderOwner, ITeleportable
 	{
-		[SerializeField] private Transform _cameraViewPoint;
+		[SerializeField] protected Transform _cameraViewPoint;
         [SerializeField] protected CollidersHandler _collidersHandler;
 
         public bool IsVisible { get; private set; } = true;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tractor_Rosa
   m_EditorClassIdentifier: 
   SuspensionLength: 1.4
-  SpringStrength: 55000
+  SpringStrength: 5000
   SpringDamper: 500
   MaxSuspensionOffset: 0
   TireMass: 10

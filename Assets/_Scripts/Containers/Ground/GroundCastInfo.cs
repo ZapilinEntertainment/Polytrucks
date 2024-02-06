@@ -7,10 +7,10 @@ namespace ZE.Polytrucks {
 	{
 		public readonly float Resistance, AdditionalDepth;
 
-		public GroundCastInfo(float resistance, float depth)
+		public GroundCastInfo(float resistance, float additionalDepth)
 		{
 			Resistance= resistance;
-			AdditionalDepth= depth;
+			AdditionalDepth= additionalDepth;
 		}
 	}
 }

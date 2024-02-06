@@ -31,17 +31,17 @@ namespace ZE.Polytrucks {
             _deformMap = new Texture2D(resolution, resolution, TextureFormat.Alpha8, false);
         }
 
-        public void StartHandling(GroundSettings settings, Renderer renderer)
+        public void StartHandling(GroundType groundType, DeformableGroundSettings settings, Renderer renderer)
         {
             Material material;
-            DeformedMaterialID id = new DeformedMaterialID(settings.GroundType);
+            DeformedMaterialID id = new DeformedMaterialID(groundType);
             if (!_materialsDepot.TryReuseMaterial(id, out material))
             {
                 material = renderer.material;                
             }
 
             material.SetTexture(DEFORM_TEX_PROPERTY, _deformMap);
-            material.SetFloat(HEIGHT_DELTA_PROPERTY, settings.HeightDelta);
+            material.SetFloat(HEIGHT_DELTA_PROPERTY, settings.VisualHeight);
             _fluidity = settings.Fluidity;
 
             _materialContainer = new GroundMaterialContainer(id, material);

@@ -228,8 +228,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.82, y: 1.26, z: 4.72}
-  m_Center: {x: 0, y: 0.79, z: 0}
+  m_Size: {x: 1.82, y: 1.0266011, z: 4.72}
+  m_Center: {x: 0, y: 0.90669954, z: 0}
 --- !u!1 &1470330343813147464
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +396,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7383754900973870165}
+  - component: {fileID: 993142500196133518}
   m_Layer: 0
   m_Name: CameraViewPoint
   m_TagString: Untagged
@@ -418,6 +419,20 @@ Transform:
   m_Father: {fileID: 7925586120302764433}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &993142500196133518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4929601122793351073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2b64397b7fb16144ae015970cfdcbc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxOffset: 20
+  _vehicle: {fileID: 4631463182267707100}
 --- !u!1 &5114030911867950548
 GameObject:
   m_ObjectHideFlags: 0
