@@ -8,6 +8,7 @@ namespace ZE.Polytrucks {
 	{
         [SerializeField] private float _maxOffset = 10f;
         [SerializeField] private Vehicle _vehicle;
+        [field: SerializeField] public float SpeedEffectOffsetCf { get; private set; } = 1f;
         private Vector3 _startPoint;
         private void Awake()
         {

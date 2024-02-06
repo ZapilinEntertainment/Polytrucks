@@ -9,7 +9,7 @@ namespace ZE.Polytrucks {
         [SerializeField] private Camera _camera;
 		[SerializeField] private Cinemachine.CinemachineVirtualCamera _followCamera;
 		[SerializeField] private CameraSettings _cameraSettings;
-		private float _modifiedCameraValue = 0f, _defaultFov = 60f, _modifiedOffsetValue;
+		private float _modifiedCameraValue = 0f, _defaultFov = 60f, _modifiedOffsetValue, _vehicleOffsetCf = 1f;
 		private Vector3 _prevPoint, _defaultOffset;
 		private Transform _cameraTransform, _targetPoint;
 		private Cinemachine.CinemachineTransposer _transposer;
@@ -37,6 +37,7 @@ namespace ZE.Polytrucks {
 			_targetPoint = args.Point;
 			_followCamera.m_LookAt = _targetPoint;
 			_followCamera.m_Follow = _targetPoint;
+			_vehicleOffsetCf = args.HeightOffsetCf;
 		}
         private void Update()
         {
@@ -57,7 +58,7 @@ namespace ZE.Polytrucks {
 			if (modifyTarget != _modifiedOffsetValue)
 			{
                 _modifiedOffsetValue = Mathf.MoveTowards(_modifiedOffsetValue, modifyTarget, _cameraSettings.OffsetChangeSpeed * t );
-                _transposer.m_FollowOffset = _defaultOffset  + _modifiedOffsetValue * _cameraSettings.MaxOffsetY * Vector3.up;
+                _transposer.m_FollowOffset = (_defaultOffset  + _modifiedOffsetValue * _cameraSettings.MaxOffsetY * Vector3.up) * _vehicleOffsetCf;
                 //+ _modifiedOffsetValue * _cameraSettings.MaxOffsetZ * Vector3.ProjectOnPlane(_targetPoint.forward, Vector3.up).normalized
             }
 

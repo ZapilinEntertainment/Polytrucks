@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2060969907734580237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6805905509122770208}
+  m_Layer: 0
+  m_Name: centerOfMass
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6805905509122770208
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2060969907734580237}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8702596829126323432}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8702596828359116866
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,7 +248,7 @@ GameObject:
   - component: {fileID: 8702596828882577074}
   - component: {fileID: 8702596828882577075}
   - component: {fileID: 8702596828882577073}
-  - component: {fileID: 8021215771544495593}
+  - component: {fileID: 3171877042758455820}
   m_Layer: 8
   m_Name: Model
   m_TagString: Untagged
@@ -262,32 +293,32 @@ MonoBehaviour:
     IsMotor: 0
     IsSteer: 1
     HasBrakes: 0
-    WheelRadius: 0.58
+    WheelRadius: 0.57
     ScaleCf: 0.84
   - WheelModel: {fileID: 3165184151646964405}
     SuspensionPoint: {fileID: 8702596830026709421}
     IsMotor: 0
     IsSteer: 1
     HasBrakes: 0
-    WheelRadius: 0.58
+    WheelRadius: 0.57
     ScaleCf: 0.84
   - WheelModel: {fileID: 3165184152006409806}
     SuspensionPoint: {fileID: 8702596829324370981}
     IsMotor: 1
     IsSteer: 0
     HasBrakes: 0
-    WheelRadius: 0.7
+    WheelRadius: 0.68
     ScaleCf: 1
   - WheelModel: {fileID: 3165184152162995336}
     SuspensionPoint: {fileID: 8702596829535293951}
     IsMotor: 1
     IsSteer: 0
     HasBrakes: 0
-    WheelRadius: 0.7
+    WheelRadius: 0.68
     ScaleCf: 1
   _wheelSettings: {fileID: 11400000, guid: 5c769028d061ef64a887cdca1ebea246, type: 2}
   _rigidbody: {fileID: 8702596828882577073}
-  _centerOfMass: {fileID: 0}
+  _centerOfMass: {fileID: 6805905509122770208}
 --- !u!54 &8702596828882577073
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -304,19 +335,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &8021215771544495593
-BoxCollider:
+--- !u!136 &3171877042758455820
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8702596828882577072}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: acd0e25fd83e5154286363e417fa91b2, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.5, y: 2.6956072, z: 5.553441}
-  m_Center: {x: 0, y: 2.1521964, z: 0.5553441}
+  m_Radius: 1.32
+  m_Height: 5.751708
+  m_Direction: 2
+  m_Center: {x: 0, y: 2, z: 0.45813903}
 --- !u!1 &8702596828929433030
 GameObject:
   m_ObjectHideFlags: 0
@@ -463,6 +495,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8702596828882577074}
+  - {fileID: 6805905509122770208}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -498,7 +531,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CollectColliders:
-  - {fileID: 8021215771544495593}
+  - {fileID: 3171877042758455820}
 --- !u!114 &8702596829126323433
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,6 +1054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxOffset: 5
   _vehicle: {fileID: 8702596829126323439}
+  <SpeedEffectOffsetCf>k__BackingField: 0.65
 --- !u!1 &8702596830026709420
 GameObject:
   m_ObjectHideFlags: 0

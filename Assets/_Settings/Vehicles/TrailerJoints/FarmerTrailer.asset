@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b4e00b3514df8348927ea7d4f809daf, type: 3}
   m_Name: FarmerTrailer
   m_EditorClassIdentifier: 
-  Anchor: {x: 0, y: 1.1, z: 2.4}
+  Anchor: {x: 0, y: 1, z: 2.4}
   Axis: {x: 0, y: 1, z: 0}
-  ConnectedAnchor: {x: 0, y: 1.15, z: -3}
+  ConnectedAnchor: {x: 0, y: 1.26, z: -3}
   SecondaryAxis: {x: 0, y: -1, z: 0}
   LinearLimit:
     Limit: 1000
@@ -32,5 +32,10 @@ MonoBehaviour:
     Limit: 19.766876
     Bounciness: 0
     ContactDistance: 0
+  AngularZLimit:
+    Limit: 0
+    Bounciness: 0
+    ContactDistance: 0
+  <AngularZMotion>k__BackingField: 0
   MassScale: 1
   ConnectedMassScale: 0.25

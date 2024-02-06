@@ -30,6 +30,14 @@ namespace ZE.Polytrucks {
         abstract public Vector3 Position { get; }
         abstract public VirtualPoint FormVirtualPoint();
 		public Transform CameraViewPoint => _cameraViewPoint;
+        public float GetSpeedEffectOffsetCf()
+        {
+            if (CameraViewPoint != null && CameraViewPoint.TryGetComponent<ViewPointCorrector>(out var corrector))
+            {
+                return corrector.SpeedEffectOffsetCf;
+            }
+            else return 1f;
+        }
 
 		public abstract void Move(Vector2 dir);
         public abstract void Gas();

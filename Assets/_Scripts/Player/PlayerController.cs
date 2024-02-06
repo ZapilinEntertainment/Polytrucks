@@ -37,7 +37,10 @@ namespace ZE.Polytrucks {
         private void OnVehicleChanged(Vehicle vehicle)
         {
             Position = vehicle.Position;
-            if (isActiveAndEnabled) _signalBus.Fire(new CameraViewPointSetSignal(vehicle.CameraViewPoint));
+            if (isActiveAndEnabled)
+            {
+                _signalBus.Fire(new CameraViewPointSetSignal(vehicle.CameraViewPoint, vehicle.GetSpeedEffectOffsetCf()));
+            }
             _colliderListSystem.AddPlayerColliders(this);
             OnVehicleChangedEvent?.Invoke(vehicle);
         }
