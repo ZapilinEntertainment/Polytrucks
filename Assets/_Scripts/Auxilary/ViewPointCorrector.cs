@@ -6,16 +6,16 @@ using UnityEngine.Rendering;
 namespace ZE.Polytrucks {
 	public sealed class ViewPointCorrector : MonoBehaviour
 	{
-        [SerializeField] private float _maxOffset = 10f;
         [SerializeField] private Vehicle _vehicle;
-        [field: SerializeField] public float SpeedEffectOffsetCf { get; private set; } = 1f;
         private Vector3 _startPoint;
+        private VehicleViewSettings _viewSettings;
         private void Awake()
         {
             _startPoint = transform.localPosition;
+            _viewSettings = _vehicle.ViewSettings;
         }
         private void OnEnable()
-        {
+        {            
             // Add WriteLogMessage as a delegate of the RenderPipelineManager.beginCameraRendering event
             RenderPipelineManager.beginCameraRendering += OnBeginRender;
         }
@@ -29,7 +29,7 @@ namespace ZE.Polytrucks {
 
         private void OnBeginRender(ScriptableRenderContext context, Camera camera)
         {
-            transform.localPosition = _startPoint + _vehicle.SpeedPc * _maxOffset * Vector3.forward;
+            transform.localPosition = _startPoint + _vehicle.SpeedPc * _viewSettings.ZSpeedOffset * Vector3.forward;
         }
-    }
+    }    
 }

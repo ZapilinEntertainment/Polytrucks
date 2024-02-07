@@ -35,6 +35,6 @@ namespace ZE.Polytrucks {
             return FormCastInfo(wheelStep);
         }
         
-        virtual protected GroundCastInfo FormCastInfo(WheelCollisionInfo info) => new GroundCastInfo(_passabilityParameters.Harshness, 0f);
+        virtual protected GroundCastInfo FormCastInfo(WheelCollisionInfo info) => new GroundCastInfo(_passabilityParameters.Harshness, _passabilityParameters.Resistance, 0f);
     }
 }

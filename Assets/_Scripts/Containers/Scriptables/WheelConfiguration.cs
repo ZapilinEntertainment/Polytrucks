@@ -11,7 +11,8 @@ namespace ZE.Polytrucks {
         public float SpringDamper = 10f;
         public float MaxSuspensionOffset = 1f;
         public float TireMass = 1f;
-        public float BrakeForce = 1000f;
+        [Tooltip("Influence drag change speed (natural deceleration)")]public float Adhesion = 0.5f;
+        public float MinDrag = 0.5f, MaxDrag = 5f;
         public AnimationCurve TireGripCurve;
     }
 }

@@ -50,6 +50,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraViewPoint: {fileID: 5725174669890554248}
   _collidersHandler: {fileID: 6918678033746488376}
+  <ViewSettings>k__BackingField: {fileID: 11400000, guid: 130d539b4eaad07468f4907eddf0a208, type: 2}
   _massChanger: {fileID: 8376246958593905003}
   _axisController: {fileID: 2601087321926166192}
   _truckConfig: {fileID: 11400000, guid: d17f613c88a72794799348fa1f27c483, type: 2}
@@ -845,7 +846,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b64397b7fb16144ae015970cfdcbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxOffset: 7
   _vehicle: {fileID: 7587992288452754177}
 --- !u!1 &7922521408453609121
 GameObject:

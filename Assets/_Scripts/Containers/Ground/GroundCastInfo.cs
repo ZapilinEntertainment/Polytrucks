@@ -5,10 +5,11 @@ using UnityEngine;
 namespace ZE.Polytrucks {
 	public struct GroundCastInfo
 	{
-		public readonly float Resistance, AdditionalDepth;
+		public readonly float Harshness, Resistance, AdditionalDepth;
 
-		public GroundCastInfo(float resistance, float additionalDepth)
+		public GroundCastInfo(float harshness, float resistance, float additionalDepth)
 		{
+			Harshness = harshness;
 			Resistance= resistance;
 			AdditionalDepth= additionalDepth;
 		}

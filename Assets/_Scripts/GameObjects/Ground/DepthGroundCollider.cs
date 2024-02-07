@@ -26,7 +26,7 @@ namespace ZE.Polytrucks {
         protected override GroundCastInfo FormCastInfo(WheelCollisionInfo info)
         {
             Vector2 internalCoords = GetInternalCoordinates(info.Pos);
-            return new GroundCastInfo(_passabilityParameters.Harshness, _depthSettings.GetDepth(internalCoords));
+            return new GroundCastInfo(_passabilityParameters.Harshness,_passabilityParameters.Resistance,  _depthSettings.GetDepth(internalCoords));
         }
 
 #if UNITY_EDITOR

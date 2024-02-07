@@ -11,6 +11,7 @@ namespace ZE.Polytrucks {
         [SerializeField] protected Rigidbody _rigidbody;
         [SerializeField] protected Transform _centerOfMass;
         private bool _physicsDelay = false;
+        private float _dragValue;
         protected int _castMask;
         protected float _startMass = 1f, _carSpeed = 0f, _speedPc = 0f;
         protected ColliderListSystem _colliderListSystem;
@@ -26,6 +27,7 @@ namespace ZE.Polytrucks {
             _castMask = GameConstants.GetCustomLayermask(CustomLayermask.Tyres);
             if (_centerOfMass != null) _rigidbody.centerOfMass = _centerOfMass.localPosition;
             _startMass = _rigidbody.mass;
+            _rigidbody.drag = _wheelSettings.MinDrag;
         }
 
         [Inject]
@@ -59,16 +61,21 @@ namespace ZE.Polytrucks {
                 if (Physics.Raycast(pos, -up, maxDistance: suspensionLength * scaleCf, hitInfo: out var hit, layerMask: _castMask))
                 {
                     float hitDistance = hit.distance;
-                    float groundResistance;
+                    float groundHarshness, groundResistance;
                     Vector3 tireVelocity = _rigidbody.GetPointVelocity(pos);
 
                     if (_colliderListSystem.TryGetGroundInfoCollider(hit.colliderInstanceID, out var collider))
                     {
                         var castInfo = collider.OnWheelCollision(new WheelCollisionInfo(hit.point, tireVelocity, wheel.WheelRadius));
                         hitDistance += castInfo.AdditionalDepth;
-                        groundResistance = castInfo.Resistance;
+                        groundHarshness = castInfo.Harshness;
+                        groundResistance= castInfo.Resistance;
                     }
-                    else groundResistance = 0f;
+                    else
+                    {
+                        groundHarshness = 0f;
+                        groundResistance = 0f;
+                    }
 
                     
 
@@ -79,7 +86,7 @@ namespace ZE.Polytrucks {
                     Vector3 accelForce;
                     if (isBraking && wheel.HasBrakes)
                     {
-                        float brakeForce = _wheelSettings.BrakeForce, tireVel = tireVelocity.magnitude;
+                        float brakeForce = _wheelSettings.Adhesion * _rigidbody.mass * 0.25f, tireVel = tireVelocity.magnitude;
                         accelForce = (tireVel > brakeForce ? brakeForce : tireVel) * -tireVelocity;
                     }
                     else
@@ -89,16 +96,16 @@ namespace ZE.Polytrucks {
 
                     float suspensionForce = (offset * springStrength) - (suspensionVelocity * springDamper);
                     Vector3 moveVector;
-                    if (groundResistance == 0f)
+                    if (groundHarshness == 0f)
                     {
                         moveVector = accelForce;
                     }
                     else
                     {
-                        float passabilityCf = passability + (1f - passability) * groundResistance;
-                        moveVector = accelForce * passabilityCf - tireVelocity * groundResistance * 0.95f;
+                        float passabilityCf = passability + (1f - passability) * groundHarshness;
+                        moveVector = accelForce * passabilityCf;
                     }
-                    _rigidbody.AddForceAtPosition(suspensionForce * up + steeringForce + moveVector, pos);
+                    _rigidbody.AddForceAtPosition(suspensionForce * up + steeringForce + moveVector - tireVelocity * groundResistance * 0.95f, pos);
 
                     wheel.SetSuspensionCurrentLength(hitDistance);
 
@@ -106,6 +113,22 @@ namespace ZE.Polytrucks {
                 else
                 {
                     wheel.SetSuspensionCurrentLength(suspensionLength * scaleCf);                    
+                }
+            }
+
+            if (AxisController.ControlsRigidbodyDrag)
+            {
+                float dragTarget;
+                if (AxisController.GasValue == 0f)
+                {
+                    float inclineCf = Mathf.Clamp01(Vector3.Dot(Rotation * Vector3.up, Vector3.up));
+                    dragTarget = inclineCf * _wheelSettings.MaxDrag;
+                }
+                else dragTarget = _wheelSettings.MinDrag;
+                if (_dragValue != dragTarget)
+                {
+                    _dragValue = Mathf.MoveTowards(_dragValue, dragTarget, Time.fixedDeltaTime * _wheelSettings.Adhesion * 10f);
+                    _rigidbody.drag = _dragValue;
                 }
             }
         }

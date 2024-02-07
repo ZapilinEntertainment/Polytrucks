@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2060969907734580237}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.352, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -318,7 +318,7 @@ MonoBehaviour:
     ScaleCf: 1
   _wheelSettings: {fileID: 11400000, guid: 5c769028d061ef64a887cdca1ebea246, type: 2}
   _rigidbody: {fileID: 8702596828882577073}
-  _centerOfMass: {fileID: 6805905509122770208}
+  _centerOfMass: {fileID: 0}
 --- !u!54 &8702596828882577073
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -513,6 +513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cameraViewPoint: {fileID: 8702596829883850220}
   _collidersHandler: {fileID: 8702596829126323434}
+  <ViewSettings>k__BackingField: {fileID: 11400000, guid: 10a477040048ca047b5c35189db21162, type: 2}
   _massChanger: {fileID: 0}
   _axisController: {fileID: 8702596828882577075}
   _truckConfig: {fileID: 11400000, guid: 742f9d36d8b2c5c42aa758eafce68cc6, type: 2}
@@ -1052,9 +1053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2b64397b7fb16144ae015970cfdcbc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxOffset: 5
   _vehicle: {fileID: 8702596829126323439}
-  <SpeedEffectOffsetCf>k__BackingField: 0.65
 --- !u!1 &8702596830026709420
 GameObject:
   m_ObjectHideFlags: 0

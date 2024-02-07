@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	{
         public static IAxisController Default { get; private set; } = new DefaultController();
 
+        public bool ControlsRigidbodyDrag { get; }
         public bool IsBraking { get; }
 		public float SteerValue { get; }
 		public float MaxSteerAngle { get; }
@@ -17,6 +18,7 @@ namespace ZE.Polytrucks {
 
         public class DefaultController : IAxisController
         {
+            public bool ControlsRigidbodyDrag => false;
             public bool IsBraking => false;
             public float SteerValue => 0f;
             public float MaxSteerAngle => 45f;

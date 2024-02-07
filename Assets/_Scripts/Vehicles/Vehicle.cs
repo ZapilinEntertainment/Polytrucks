@@ -13,6 +13,7 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] protected Transform _cameraViewPoint;
         [SerializeField] protected CollidersHandler _collidersHandler;
+        [field:SerializeField] public VehicleViewSettings ViewSettings { get; protected set; }
 
         public bool IsVisible { get; private set; } = true;
         public abstract StorageController VehicleStorageController { get; }
@@ -29,15 +30,8 @@ namespace ZE.Polytrucks {
         abstract public float SpeedPc { get; }  
         abstract public Vector3 Position { get; }
         abstract public VirtualPoint FormVirtualPoint();
-		public Transform CameraViewPoint => _cameraViewPoint;
-        public float GetSpeedEffectOffsetCf()
-        {
-            if (CameraViewPoint != null && CameraViewPoint.TryGetComponent<ViewPointCorrector>(out var corrector))
-            {
-                return corrector.SpeedEffectOffsetCf;
-            }
-            else return 1f;
-        }
+        public Transform CameraViewPoint => _cameraViewPoint;
+        
 
 		public abstract void Move(Vector2 dir);
         public abstract void Gas();

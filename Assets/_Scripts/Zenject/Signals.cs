@@ -8,12 +8,12 @@ namespace ZE.Polytrucks {
 	public class SessionPauseSignal { }
 	public class SessionResumeSignal { }
 	public class CameraViewPointSetSignal {
-		public readonly float HeightOffsetCf;
+		public readonly ICameraObservable ViewSettings;
 		public readonly Transform Point;
-		public CameraViewPointSetSignal(Transform point, float heightOffsetCf = 1f)
+		public CameraViewPointSetSignal(Transform point, ICameraObservable viewSettings)
 		{
 			Point = point;
-			HeightOffsetCf = heightOffsetCf;
+			ViewSettings= viewSettings;
 		}
 	}
 	public class PlayerItemSellSignal

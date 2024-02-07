@@ -49,7 +49,7 @@ namespace ZE.Polytrucks {
             }
             else _materialHandler.OnWheelTouched(internalCoords, info.WheelRadius / _squareSize);
 
-            return new GroundCastInfo(_passabilityParameters.Harshness, _depthSettingsPresented ? _depthSettings.GetDepth(internalCoords) : 0f);
+            return new GroundCastInfo(_passabilityParameters.Harshness,_passabilityParameters.Resistance,  _depthSettingsPresented ? _depthSettings.GetDepth(internalCoords) : 0f);
         }
 
         private void RequestMaterialHandler()

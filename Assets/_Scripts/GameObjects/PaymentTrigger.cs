@@ -5,23 +5,21 @@ using Zenject;
 
 namespace ZE.Polytrucks {
     [RequireComponent(typeof(Collider))]
-	public sealed class PaymentTrigger : MonoBehaviour
+	public sealed class PaymentTrigger : PlayerTrigger
 	{
         [SerializeField] private int _moneyCost = 100;
         [SerializeField] private MonoBehaviour _activableScript;
         [SerializeField] private TMPro.TMP_Text _costLabel;
         [SerializeField] private string PayStringID = "Unlock";
         private bool _isShown = false;
-        private int _playerColliderId = -1, _showingLabelID = -1;
-        private ColliderListSystem _colliderList;
+        private int _showingLabelID = -1;
         private UIManager _uiManager;
         private Localization _localization;
         private IAccountDataAgent _accountAgent;
 
         [Inject]
-        public void Inject(ColliderListSystem colliderListSystem, UIManager uiManager, Localization localization, IAccountDataAgent accountAgent)
+        public void Inject(UIManager uiManager, Localization localization, IAccountDataAgent accountAgent)
         {
-            _colliderList = colliderListSystem;
             _uiManager= uiManager;
             _localization = localization;
             _accountAgent= accountAgent;
@@ -30,6 +28,8 @@ namespace ZE.Polytrucks {
         private void Start()
         {
             if (_costLabel != null) _costLabel.text = _moneyCost.ToString();
+            OnPlayerEnterEvent += OnPlayerEntered;
+            OnPlayerExitEvent += OnPlayerLeaved;
         }
 
         public bool TryMakePayment()
@@ -49,17 +49,11 @@ namespace ZE.Polytrucks {
             Destroy(gameObject);
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnPlayerEntered(PlayerController player)
         {
             if (_isShown) return;
-            int id = other.GetInstanceID();
-            if (_colliderList.TryDefineAsPlayer(id, out var player))
-            {
-                _isShown = true;
-                _playerColliderId = id;
-
-
-                _showingLabelID = _uiManager.ShowActionPanel(
+            _isShown = true;
+            _showingLabelID = _uiManager.ShowActionPanel(
                     new ActionContainer()
                     {
                         WorldPos = transform.position,
@@ -69,22 +63,17 @@ namespace ZE.Polytrucks {
                         ResultFunc = TryMakePayment
                     }
                    );
-            }
         }
-        private void OnTriggerExit(Collider other)
+        private void OnPlayerLeaved()
         {
-            if(_isShown && other.GetInstanceID() == _playerColliderId)
-            {
-                _isShown = false;
-                _playerColliderId = -1;
-
-                HideLabel();
-            }
+            if (_isShown) HideLabel();
         }
+
         private void HideLabel()
         {
             _uiManager.HideActionPanel(_showingLabelID);
             _showingLabelID = -1;
+            _isShown = false;
         }
     }
 }

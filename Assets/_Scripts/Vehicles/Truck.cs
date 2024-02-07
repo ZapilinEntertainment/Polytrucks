@@ -26,6 +26,7 @@ namespace ZE.Polytrucks {
         public override StorageController VehicleStorageController => _storageController;
         public TrailerConnector TrailerConnector => _trailerConnectorHandler.Connector;
 
+        public bool ControlsRigidbodyDrag => true;
         public bool IsBraking { get; private set; } = false;
         public bool HaveTrailers
         {
