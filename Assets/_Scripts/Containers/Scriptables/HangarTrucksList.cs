@@ -24,21 +24,17 @@ namespace ZE.Polytrucks {
 			[field: SerializeField] public WheelConfiguration WheelConfiguration { get; private set; }
 			[field: SerializeField] public StorageConfiguration StorageConfiguration { get; private set; }
 		}
-
+		
 		[SerializeField] private TruckInfo[] _trucksInfo;
 		[SerializeField] private TrailerInfo[] _trailersInfo;
+        [field: SerializeField] public GameObject LockedTruckPlaceholder;
 
-		public IReadOnlyList<Sprite> GetTruckIcons()
-		{
-			int count = _trucksInfo.Length;
-			var icons = new Sprite[count];
-			for (int i =0; i < count; i++)
-			{
-				icons[i] = _trucksInfo[i].Icon;
-			}
-			return icons;
-		}
-		public int DefineTruckIndex(TruckID id, out TruckConfig config)
+        public bool TryGetTruckInfo(TruckID id, out TruckInfo info)
+        {
+            info = GetTruckInfo(id);
+            return info != null;
+        }
+        public int DefineTruckIndex(TruckID id, out TruckConfig config)
 		{
 			for (int i = 0; i < _trucksInfo.Length; i++)
 			{
@@ -67,11 +63,8 @@ namespace ZE.Polytrucks {
 			}
             return null;
         }
-		public bool TryGetTruckInfo(TruckID id, out TruckInfo info)
-		{
-			info = GetTruckInfo(id);
-			return info != null;
-		}
+        public IReadOnlyList<TruckInfo> GetTrucksInfo() => _trucksInfo;
+        
 
 
 		public TrailerInfo GetTrailerInfo(TrailerID id)

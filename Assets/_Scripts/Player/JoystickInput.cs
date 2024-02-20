@@ -15,7 +15,7 @@ namespace ZE.Polytrucks {
         public void Setup(PlayerController playerController, CameraController cameraController)
         {
             _player = playerController;            
-            _cameraTransform = cameraController.Camera.transform;
+            _cameraTransform = cameraController.transform;
         }
 
         private void Start()

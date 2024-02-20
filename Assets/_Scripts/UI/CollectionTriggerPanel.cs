@@ -16,7 +16,7 @@ namespace ZE.Polytrucks {
         private IconsPack _iconsPack;
         private UIColorsPack _colorsPack;
         private CollectionActivatedTrigger _collectionTrigger;
-        private Camera _camera;
+        private CameraController _camera;
         private Localization _localization;        
         private MonoMemoryPool<CollectionTriggerPanel> _pool;
 
@@ -93,7 +93,7 @@ namespace ZE.Polytrucks {
             }
         }
 
-        public void OnLocaleChanged(LocalizationLanguage language)
+        public void OnLocaleChanged()
         {
             if (_isActive)  ShowRequireInfo();
         }
@@ -102,13 +102,13 @@ namespace ZE.Polytrucks {
         public class Pool : MonoMemoryPool<CollectionTriggerPanel>
         {
             private IconsPack _iconsPack;
-            private Camera _camera;
+            private CameraController _camera;
             private UIColorsPack _colorsPack;
             private Localization _localization;
             public Pool(IconsPack iconsPack, CameraController cameraController, UIColorsPack colorsPack, Localization localization) : base()
             {
                 _iconsPack = iconsPack;
-                _camera = cameraController.Camera;
+                _camera = cameraController;
                 _colorsPack = colorsPack;
                 _localization = localization;
             }

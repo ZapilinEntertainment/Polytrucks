@@ -11,9 +11,12 @@ namespace ZE.Polytrucks {
         public Experience Experience { get; }
 
         public void OnPlayerSoldItem(SellOperationContainer sellOperation);
+        public void UnlockTruck(TruckID truck);
         public void SubscribeToMoneyChange(Action<int> action);
+
         public bool TrySpendMoney(int x);
-        public bool TrySwitchVehicle(TruckID truckID, out TruckSwitchReport errormsg);
+        public bool IsTruckUnlocked(TruckID truck);
+        public bool TrySwitchTruck(TruckID truckID, out TruckSwitchReport errormsg);
 
         public VirtualPoint GetRecoveryPoint();
     }

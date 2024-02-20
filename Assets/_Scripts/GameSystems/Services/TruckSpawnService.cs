@@ -27,6 +27,14 @@ namespace ZE.Polytrucks {
             }
             return truck;
         }
+        public GameObject CreatePlaceholder()
+        {
+            if (_cachedVehiclesService.TryGetTruckPlaceholder(out var obj)) return obj;
+            else
+            {
+                return Object.Instantiate(_trucksList.LockedTruckPlaceholder);
+            }
+        }
 
         public void CheckForTrailer(Truck truck)
         {

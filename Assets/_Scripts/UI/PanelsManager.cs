@@ -45,7 +45,6 @@ namespace ZE.Polytrucks {
 			{
 				_actionPanel = _elementsResolver.ActionPanel;
 			}
-			Debug.Log("here");
 			return _actionPanel.Show(container);			
 		}
 		public void CloseActionPanel(int actionID) => _actionPanel.Hide(actionID);

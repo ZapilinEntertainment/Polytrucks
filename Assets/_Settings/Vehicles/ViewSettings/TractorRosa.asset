@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10c6f4c0714fd72418c62555647a6c67, type: 3}
   m_Name: TractorRosa
   m_EditorClassIdentifier: 
-  <HeightViewCf>k__BackingField: 0.5
-  <HeightSpeedOffsetCf>k__BackingField: 0.5
+  <HeightViewCf>k__BackingField: 0.7
+  <HeightSpeedOffsetCf>k__BackingField: 0.7
   <ZSpeedOffset>k__BackingField: 3

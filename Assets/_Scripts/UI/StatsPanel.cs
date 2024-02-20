@@ -21,7 +21,7 @@ namespace ZE.Polytrucks {
 			_localization.Subscribe(this);
 		}
 
-		public void OnLocaleChanged(LocalizationLanguage language) => FillStrings();
+		public void OnLocaleChanged() => FillStrings();
 		private void FillStrings()
 		{
 			if (isActiveAndEnabled)

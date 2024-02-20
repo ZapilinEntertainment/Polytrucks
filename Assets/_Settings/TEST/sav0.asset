@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09312a98fab4ee145bdac9bd2de76b71, type: 3}
   m_Name: sav0
   m_EditorClassIdentifier: 
+  UnlockedTrucks: 01
   <IntegrityPercent>k__BackingField: 0
   <PlayerTruckID>k__BackingField: 1
   <RecoveryPoint>k__BackingField:
-    Position: {x: 1.21, y: 0, z: 37.28}
+    Position: {x: -36.13, y: 0, z: 230}
     Rotation: {x: 0, y: 0, z: 0, w: 1}

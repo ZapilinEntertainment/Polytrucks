@@ -35,7 +35,7 @@ namespace ZE.Polytrucks {
 			if (isActiveAndEnabled) _parameterLabel.text = _localization.GetParameterName(_parameterType);
 		}
 
-		public void OnLocaleChanged(LocalizationLanguage language) => SetStringValue();
+		public void OnLocaleChanged() => SetStringValue();
         private void OnDestroy()
         {
 			_localization?.Unsubscribe(this);

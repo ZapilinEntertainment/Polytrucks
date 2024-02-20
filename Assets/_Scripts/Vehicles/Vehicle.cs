@@ -85,9 +85,12 @@ namespace ZE.Polytrucks {
         public int[] GetColliderIDs() => CollidersHandler.GetColliderIDs();
         #endregion
 
+
+        public abstract void OnEnterGarage();
+        public abstract void OnLeaveGarage();
         public void SetVisibility(bool x)
         {
-            _collidersHandler.SetColliderActivity(x);
+            //_collidersHandler.SetColliderActivity(x);
             gameObject.SetActive(x);
             IsVisible= x;
             if (IsVisible)

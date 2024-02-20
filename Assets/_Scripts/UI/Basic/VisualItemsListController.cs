@@ -4,7 +4,17 @@ using UnityEngine;
 using System;
 
 namespace ZE.Polytrucks {
+	public class VisualItemContainer
+	{
+		public readonly bool IsUnlocked;
+		public readonly Sprite Sprite;
 
+		public VisualItemContainer(Sprite sprite, bool isLocked = true)
+		{
+			Sprite = sprite;
+			IsUnlocked= isLocked;
+		}
+	}
 	public class VisualItemsListController : MonoBehaviour
 	{
 		[SerializeField] protected ItemsVisualSelectionConfig _visualConfig;
@@ -15,7 +25,7 @@ namespace ZE.Polytrucks {
 		protected ItemButtonHandler _selectedButton;
 		public Action<int> OnItemSelectedEvent;
 
-		public void Setup(int selectedIndex, IReadOnlyList<Sprite> sprites)
+		public void Setup(int selectedIndex, IReadOnlyList<VisualItemContainer> sprites)
 		{
 			int listItemsCount = sprites.Count, buttonsCount = _itemButtons.Length;
 			if (buttonsCount < listItemsCount)

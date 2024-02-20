@@ -11,6 +11,7 @@ namespace ZE.Polytrucks {
         
         private int _insideColliderID = -1;
         private ColliderListSystem _collidersList;
+        protected float Radius => (_trigger.bounds.max - _trigger.bounds.center).magnitude;
         protected Collider _trigger;
         protected PlayerController _player;
         public bool IsPlayerInside { get; private set; } = false;

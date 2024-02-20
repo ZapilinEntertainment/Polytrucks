@@ -13,6 +13,7 @@ namespace ZE.Polytrucks
             WALL_HIT_DAMAGE_CF = 0.01f, MIN_PASSABILITY_CF = 0.05f, MAX_PASSABILITY_CF = 1f;
 
         public const string  DEFAULT_LAYERNAME = "Default", COLLECTIBLE_LAYERNAME = "Collectible", PLAYER_LAYERNAME = "Player", TERRAIN_LAYERNAME = "Terrain", DIRTZONE_LAYERNAME = "DirtZone";
+        public static TruckID DefaultTruck => TruckID.TractorRosa;
 
         private static Dictionary<CustomLayermask, int> _customLayermasks = new Dictionary<CustomLayermask, int>();
         private static Dictionary<DefinedLayer, int> _definedLayers = new Dictionary<DefinedLayer, int>();

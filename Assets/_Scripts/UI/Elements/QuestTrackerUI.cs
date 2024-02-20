@@ -136,7 +136,7 @@ namespace ZE.Polytrucks {
             OnProgressionChanged();
         }
 
-        public void OnLocaleChanged(LocalizationLanguage language) => UpdateTextDescriptions();
+        public void OnLocaleChanged() => UpdateTextDescriptions();
 
 		public void BUTTON_RejectQuest()
 		{

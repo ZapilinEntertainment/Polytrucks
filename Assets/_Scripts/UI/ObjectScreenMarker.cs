@@ -11,14 +11,14 @@ namespace ZE.Polytrucks {
         private bool _isInScreen = true;
         private IWorldPositionable _target;
         private Canvas _canvas;
-        private Camera _camera;
+        private CameraController _camera;
         private MonoMemoryPool<ObjectScreenMarker> _pool;
 
         [Inject]
         public void Inject(UIManager uiManager, CameraController cameraController)
         {
             _canvas = uiManager.RootCanvas;
-            _camera = cameraController.Camera;
+            _camera = cameraController;
         }
 
         public void OnDespawned()

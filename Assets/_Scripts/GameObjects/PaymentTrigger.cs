@@ -52,16 +52,16 @@ namespace ZE.Polytrucks {
         private void OnPlayerEntered(PlayerController player)
         {
             if (_isShown) return;
-            _isShown = true;
+            _isShown = true;            
             _showingLabelID = _uiManager.ShowActionPanel(
-                    new ActionContainer()
-                    {
-                        WorldPos = transform.position,
-                        MainLabel = _localization.GetStringID(PayStringID),
-                        CostLabel = _moneyCost.ToString(),
-                        RejectionLabel = LocalizedString.NotEnoughMoney,
-                        ResultFunc = TryMakePayment
-                    }
+                    new ActionContainer(                    
+                        worldPos: transform.position,
+                        mainLabel:  _localization.GetStringID(PayStringID),
+                        costLabel:  _moneyCost.ToString(),
+                        rejectionLabel:  LocalizedString.NotEnoughMoney,
+                        resultFunc:  TryMakePayment,
+                        radius: Radius
+                    )
                    );
         }
         private void OnPlayerLeaved()

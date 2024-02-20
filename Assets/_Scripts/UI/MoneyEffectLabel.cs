@@ -13,13 +13,13 @@ namespace ZE.Polytrucks {
         private float _progress = 0f;
         private Vector3 _startPosition;
         private Color _cachedColor = Color.white;
-        private Camera _camera;
+        private CameraController _camera;
         private MonoMemoryPool<MoneyEffectLabel> _pool;
 
         [Inject]
         public void Inject(CameraController cameraController)
         {
-            _camera = cameraController.Camera;
+            _camera = cameraController;
         }
         public void Setup(int value, Color color, Vector3 startPos, Transform parent)
         {

@@ -14,15 +14,7 @@ namespace ZE.Polytrucks {
 	{
 		protected class VehicleCacher<T2> where T2 : ICachableVehicle
         {
-			private Dictionary<int, T2> _list ;
-            private Dictionary<int, T2> List
-            {
-                get
-                {
-                    if (_list == null) _list = new Dictionary<int, T2>();
-                    return _list;
-                }
-            }
+			private Dictionary<int, T2> _list = new();
 
             public bool TryGetCachable(int key, out T2 vehicle)
             {
@@ -52,6 +44,7 @@ namespace ZE.Polytrucks {
             }
         }
 
+        private GameObject _cachedTruckPlaceholder = null;
 		private VehicleCacher<Truck> _trucksCacher;
 		private VehicleCacher<Trailer> _trailersCacher;
 		protected VehicleCacher<Truck> TrucksCacher { get
@@ -69,6 +62,25 @@ namespace ZE.Polytrucks {
         }
 
 
+        public bool TryGetTruckPlaceholder(out GameObject placeholder)
+        {
+            if (_cachedTruckPlaceholder != null)
+            {
+                placeholder = _cachedTruckPlaceholder;
+                return true;
+            }
+            else
+            {
+                placeholder = null;
+                return false;
+            }
+        }
+        public void CachePlaceholder(GameObject placeholder)
+        {
+            if (_cachedTruckPlaceholder != placeholder) GameObject.Destroy(_cachedTruckPlaceholder);
+            _cachedTruckPlaceholder = placeholder;
+            _cachedTruckPlaceholder.SetActive(false);
+        }
 
         public bool TryGetTruck(TruckID truckID, out Truck truck)
         {

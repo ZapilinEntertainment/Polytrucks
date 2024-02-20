@@ -51,4 +51,12 @@ namespace ZE.Polytrucks {
 		public GarageOpenedSignal(Garage garage) => Garage= garage;
 	}
 	public class GarageClosedSignal { }
+	public class TruckUnlockedSignal
+	{
+		public readonly TruckID TruckID;
+		public TruckUnlockedSignal(TruckID truckID)
+		{
+			TruckID = truckID;
+		}
+	}
 }

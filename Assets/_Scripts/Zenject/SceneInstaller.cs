@@ -42,6 +42,7 @@ namespace ZE.Polytrucks {
             Container.DeclareSignal<RequestCompletedSignal>();
             Container.DeclareSignal<GarageOpenedSignal>();
             Container.DeclareSignal<GarageClosedSignal>();
+            Container.DeclareSignal<TruckUnlockedSignal>();
         }
 
         private void InstallSystems()
@@ -59,6 +60,7 @@ namespace ZE.Polytrucks {
             Container.Bind<VisibilityController>().FromNewComponentOnNewGameObject().AsCached().Lazy();
             Container.Bind<EffectsService>().AsCached().Lazy();
             Container.Bind<RequestZonesManager>().AsCached().Lazy();
+            Container.Bind<TruckBuySystem>().AsCached().Lazy();
 
             Container.Bind<GroundMaterialsDepot>().AsCached().Lazy();
             Container.Bind<GroundMaterialHandler.Pool>().AsCached().Lazy();

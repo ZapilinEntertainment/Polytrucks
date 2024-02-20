@@ -10,6 +10,7 @@ namespace ZE.Polytrucks {
 		[SerializeField] private RectTransform _baseRect;
 		[SerializeField] private Image _icon, _background;
 		[SerializeField] private GameObject _selectionFrame;
+		private VisualItemContainer _item;
 		private ItemsVisualSelectionConfig _visualConfig;
 		private Action _clickAction;
 
@@ -25,28 +26,38 @@ namespace ZE.Polytrucks {
 			_baseRect.offsetMin = Vector2.zero;
 			_baseRect.offsetMax = Vector2.zero;
 		}
-		public void Setup(Sprite icon, ItemsVisualSelectionConfig config, bool isSelected, Action clickAction)
+		public void Setup(VisualItemContainer item, ItemsVisualSelectionConfig config, bool isSelected, Action clickAction)
 		{
+			_item = item;
 			_clickAction= clickAction;
 			_visualConfig= config;
-			_icon.sprite = icon;
+			_icon.sprite = item.Sprite;
 			SetSelection(isSelected);
 			SetActivity(true);
 		}
 
 		public void SetSelection(bool x)
 		{
-			if (x)
+			if (!_item.IsUnlocked)
 			{
-				_icon.color = _visualConfig.IconColors.SelectedColor;
-				_background.color = _visualConfig.BackgroundColors.SelectedColor;
-				_selectionFrame.SetActive(true);
+				_icon.color = _visualConfig.IconColors.DisabledColor;
+				_background.color = _visualConfig.BackgroundColors.DisabledColor;
+				_selectionFrame.SetActive(false);
 			}
 			else
 			{
-				_icon.color = _visualConfig.IconColors.NormalColor;
-				_background.color = _visualConfig.IconColors.NormalColor;
-				_selectionFrame.SetActive(false);
+				if (x)
+				{
+					_icon.color = _visualConfig.IconColors.SelectedColor;
+					_background.color = _visualConfig.BackgroundColors.SelectedColor;
+					_selectionFrame.SetActive(true);
+				}
+				else
+				{
+					_icon.color = _visualConfig.IconColors.NormalColor;
+					_background.color = _visualConfig.IconColors.NormalColor;
+					_selectionFrame.SetActive(false);
+				}
 			}
 		}
 

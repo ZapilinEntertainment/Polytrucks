@@ -164,11 +164,17 @@ namespace ZE.Polytrucks {
         }
 
         #region reposition
-        public override void Teleport(VirtualPoint point, Action onTeleportComplete = null)
-        {            
-           // if (_trailerConnectorHandler.IsActivated) TrailerConnector.Teleport(initialPoint, point);
-            _axisController.Teleport(point, onTeleportComplete);            
+        public override void Teleport(VirtualPoint targetPoint, Action onTeleportComplete = null)
+        {
+            if (HaveTrailers)
+            {
+                var list = new List<Rigidbody>() { Rigidbody };
+                foreach (var trailer in _trailerConnectorHandler.Connector.TrailersList) list.Add(trailer.Rigidbody);
+                RigidbodyTeleportationService.Teleport(list, FormVirtualPoint(),targetPoint, onTeleportComplete);
+            }
+            else _axisController.Teleport(targetPoint, onTeleportComplete);
         }
+
         public override void Stabilize() => _axisController.Stabilize();
         public override void RecoveryAt(RecoveryPoint point)
         {         
@@ -258,11 +264,20 @@ namespace ZE.Polytrucks {
             {
                 if (trailer.TryGetStorage(out var trailerStorage)) storage.RemoveStorage(trailerStorage);
             }
+            trailer.transform.parent = null;
         }
 
         private void OnVehicleLoseIntegrity()
         {
 
+        }
+        public override void OnEnterGarage()
+        {
+          
+        }
+        public override void OnLeaveGarage()
+        {
+            
         }
 
         public class Factory : PlaceholderFactory<UnityEngine.Object, Truck>

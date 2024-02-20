@@ -41,7 +41,7 @@ namespace ZE.Polytrucks {
                 vehicle.ReleaseGas();
                 vehicle.Brake();
                 _playerTruck = vehicle as Truck;                
-                _signalBus.Fire(new GarageOpenedSignal(this));                
+                _signalBus.Fire(new GarageOpenedSignal(this));
             }
         }
         private void OnPlayerExit()
@@ -57,13 +57,14 @@ namespace ZE.Polytrucks {
                 _player.UnlockControls(_playerLockId.Value);
                 _playerLockId = null;
             }
-            SetTrailersVisibility(!isActive);
-        }
-        private void SetTrailersVisibility(bool x)
-        {
-            if (_playerTruck != null && _playerTruck.HaveTrailers)
+            
+            if (isActive)
             {
-                _playerTruck.TrailerConnector.SetTrailersVisibility(x);
+                _playerTruck.OnEnterGarage();
+            }
+            else
+            {
+                _playerTruck.OnLeaveGarage();
             }
         }
     }

@@ -11,7 +11,7 @@ namespace ZE.Polytrucks {
 
         private PlayerMoneyEffectsHandler _moneyEffectsHandler;
         private AppearingLabel.Pool _appearingLabels;
-        private Camera _camera;
+        private CameraController _camera;
         private PanelsManager _panelsManager;
         private MonoMemoryPool<ObjectScreenMarker> _markersPool;
         private MonoMemoryPool<CollectionTriggerPanel> _collectionTriggerPanels;
@@ -32,7 +32,7 @@ namespace ZE.Polytrucks {
         {
             ColorsPack = colorsPack;
             _moneyEffectsHandler = new PlayerMoneyEffectsHandler(this, moneyEffectPool, signalBus);
-            _camera = cameraController.Camera;
+            _camera = cameraController;
             _appearingLabels = appearLabelsPool;
             _panelsManager = new PanelsManager(elementsResolver, signalBus);
             _markersPool = markersPool;

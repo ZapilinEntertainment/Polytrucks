@@ -21,14 +21,13 @@ namespace ZE.Polytrucks {
         [Inject]
         public void Inject(CameraController cameraController)
         {
-            _camera = cameraController.Camera;
+            _camera = cameraController.GetCamera();
+            _cameraTransform = _camera.transform;
+            _prevPoint = _cameraTransform.position;
         }
 
         private void Awake()
-        {
-            _cameraTransform = _camera.transform;
-
-            _prevPoint = _cameraTransform.position;
+        {  
             _defaultFov = _followCamera.m_Lens.FieldOfView;
             _transposer = _followCamera.GetCinemachineComponent<Cinemachine.CinemachineTransposer>();
             _defaultOffset = _transposer.m_FollowOffset;
@@ -67,5 +66,7 @@ namespace ZE.Polytrucks {
 
             _prevPoint = currentPosition;
         }
+
+        public Vector3 WorldToScreenPoint(Vector3 worldPoint) => _camera.WorldToScreenPoint(worldPoint);
     }
 }

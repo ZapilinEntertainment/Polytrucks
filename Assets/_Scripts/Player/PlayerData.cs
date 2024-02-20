@@ -29,6 +29,11 @@ namespace ZE.Polytrucks.AccountData {
 			Money += x;
 			OnMoneyChangedEvent?.Invoke(Money);
 		}
+		public void UnlockTruck(TruckID id)
+		{
+			_dataSave.UnlockTruck(id);
+			_signalBus.Fire(new TruckUnlockedSignal(id));
+		}
 		public void SubscribeToMoneyChange(Action<int> del) => OnMoneyChangedEvent += del;
 		
 
@@ -47,12 +52,20 @@ namespace ZE.Polytrucks.AccountData {
 			}
 			else return false;
 		}
-
-        public bool TrySwitchVehicle(TruckID id, out TruckSwitchReport msg)
+		public bool IsTruckUnlocked(TruckID id) => _dataSave.IsTruckUnlocked(id);
+        public bool TrySwitchTruck(TruckID id, out TruckSwitchReport msg)
 		{
-			msg = TruckSwitchReport.SwitchSucceed;
-			ActiveTruckID = id;
-			return true;
+			if (IsTruckUnlocked(id))
+			{
+				msg = TruckSwitchReport.SwitchSucceed;
+				ActiveTruckID = id;
+				return true;
+			}
+			else
+			{
+				msg = TruckSwitchReport.TruckLockedError; 
+				return false;
+			}
 		}
 		public VirtualPoint GetRecoveryPoint()
 		{

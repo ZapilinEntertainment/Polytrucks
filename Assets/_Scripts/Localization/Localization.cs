@@ -7,17 +7,18 @@ using Zenject;
 namespace ZE.Polytrucks {
     public interface IDynamicLocalizer
     {
-        public void OnLocaleChanged(LocalizationLanguage language);
+        public void OnLocaleChanged();
     }
     public enum LocalizationLanguage : byte { Undefined, English, Russian }
     public enum LocalizedString : ushort
     {
         Undefined, Unlock, NotEnoughMoney,
         ItemsDelivered,
-        Ask_StopQuest,
+        Ask_StopQuest, Ask_BuyTruck,
         StopQuest,Cancel,QuestStarted, CannotLoadCargo,
         Refuse_AlreadyHaveSuchQuest,
         RequestZone_RebuildMine, RequestZone_RebuildBridge,RequestZone_LaunchLumbermill,RequestZone_RebuildElevator,
+        Garage_SelectTruck, Garage_TruckAlreadySelected, Garage_TruckLocked,
         STRING_NOT_RECOGNISED_ERROR
     }
     internal interface ILocalizer
@@ -86,7 +87,7 @@ namespace ZE.Polytrucks {
             if (TryDefineStringID(rawname, out var id)) return id;
             else return LocalizedString.STRING_NOT_RECOGNISED_ERROR;
         }
-        private Action<LocalizationLanguage> OnLocaleChangedEvent;
+        private Action OnLocaleChangedEvent;
 
 
         public Localization(SaveManager saveManager)
@@ -108,7 +109,7 @@ namespace ZE.Polytrucks {
                 }
                 Language = lang;
                 _saves.SaveLocale(Language);
-                OnLocaleChangedEvent?.Invoke(Language);
+                OnLocaleChangedEvent?.Invoke();
             }
         }
         public void SwitchLanguage()
@@ -126,107 +127,6 @@ namespace ZE.Polytrucks {
         public void Unsubscribe(IDynamicLocalizer localizer) => OnLocaleChangedEvent-= localizer.OnLocaleChanged;
     }
 
-    internal class Localizer_RUS : ILocalizer
-    {
-        public string GetLocalizedString(LocalizedString localizedString)
-        {
-            switch (localizedString)
-            {
-                case LocalizedString.Unlock: return "Разблокировать";
-                case LocalizedString.NotEnoughMoney: return "Недостаточно денег";
-                case LocalizedString.ItemsDelivered: return "доставлено";
-                case LocalizedString.Ask_StopQuest: return "Прервать задание?";
-                case LocalizedString.StopQuest: return "Прервать";
-                case LocalizedString.Cancel: return "Отмена";
-                case LocalizedString.QuestStarted: return "Задание принято";
-                case LocalizedString.CannotLoadCargo: return "Погрузка невозможна";
-                case LocalizedString.Refuse_AlreadyHaveSuchQuest: return "Задание этого типа уже принято";
-
-                case LocalizedString.RequestZone_RebuildBridge: return "Починить мост";
-                case LocalizedString.RequestZone_RebuildMine: return "Запустить шахту";
-                case LocalizedString.RequestZone_LaunchLumbermill: return "Запустить лесопилку";
-                case LocalizedString.RequestZone_RebuildElevator: return "Починить лифт";
-               
-                default: return "<текст>";
-            }
-        }
-        public string GetInterstitialAwareString(float time)
-        {
-            string ending;
-            switch (time % 10)
-            {
-                case 1: ending = "секунду"; break;
-                case 2:
-                case 3:
-                case 4: ending = "секунды"; break;
-                default: ending = "секунд"; break;
-            }
-            return $"Реклама через {time} " + ending;
-        }
-        public string FormDeliveryAddress(PointOfInterest poi)
-        {
-            return $"Доставка в {poi.Region} {poi.PointType}";
-        }
-        public string FormSupplyAddress(PointOfInterest poi)
-        {
-            return $"Снабжение {poi.Region} {poi.PointType}";
-        }
-        public string GetParameterName(TruckParameterType parameter)
-        {
-            switch (parameter)
-            {
-                case TruckParameterType.MaxSpeed: return "Макс. скорость";
-                case TruckParameterType.Acceleration: return "Разгон";
-                case TruckParameterType.Mass: return "Масса";
-                case TruckParameterType.Passability: return "Проходимость";
-                case TruckParameterType.Capacity: return "Вместимость";
-                default: return "<Параметр>";
-            }
-        }
-        public string GetTruckName(TruckID truckID)
-        {
-            switch (truckID)
-            {
-                case TruckID.TractorRosa: return "Трактор Роза";
-                case TruckID.TruckRobert: return "Грузовик Роберт";
-                case TruckID.RigCosetta: return "Тягач Козетта";
-                case TruckID.CarInessa: return "Седан Инесса";
-                case TruckID.PickupCortney: return "Пикап Кортни";
-                default: return "<Грузовик>";
-            }
-        }
-    }
-    internal class Localizer_ENG : ILocalizer
-    {
-        public string GetLocalizedString(LocalizedString localizedString)
-        {
-            switch (localizedString)
-            {
-
-                default: return "<text>";
-            }
-        }
-        public string GetInterstitialAwareString(float time) => $"Advertisement in {time} seconds";
-
-        public string FormDeliveryAddress(PointOfInterest poi)
-        {
-            return $"{poi.Region} {poi.PointType} delivery";
-        }
-        public string FormSupplyAddress(PointOfInterest poi)
-        {
-            return $"{poi.Region} {poi.PointType} supply";
-        }
-        public string GetParameterName(TruckParameterType parameter)
-        {
-            return "<Parameter name>";
-        }
-        public string GetTruckName(TruckID truckID)
-        {
-            switch (truckID)
-            {
-                
-                default: return "<Truck>";
-            }
-        }
-    }
+   
+   
 }

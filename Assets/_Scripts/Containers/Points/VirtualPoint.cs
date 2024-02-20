@@ -36,6 +36,7 @@ namespace ZE.Polytrucks {
                 Rotation = Rotation
             };
         }
+        public VirtualPoint Move(Vector3 sumVector) => new VirtualPoint(Position + sumVector, Rotation);
         public VirtualPoint Steer(Quaternion rotation)
         {
             return new VirtualPoint()
@@ -44,6 +45,8 @@ namespace ZE.Polytrucks {
                 Rotation = rotation
             };
         }
+        public Matrix4x4 ToTransformMatrix() => Matrix4x4.TRS(Position, Rotation, Vector3.one);
+        
 
         public string Encode()
         {

@@ -32,7 +32,7 @@ namespace ZE.Polytrucks {
             _localization.Subscribe(this);
         }
 
-		public void OnLocaleChanged(LocalizationLanguage language)
+		public void OnLocaleChanged()
 		{
 			if (_isActive) FulfillStrings();
 		}

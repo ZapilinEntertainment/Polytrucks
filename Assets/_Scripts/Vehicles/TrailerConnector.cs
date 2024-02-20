@@ -4,7 +4,7 @@ using UnityEngine;
 using Zenject;
 
 namespace ZE.Polytrucks {
-	public class TrailerConnector : ITrailerConnectionPoint, ITeleportable
+	public class TrailerConnector : ITrailerConnectionPoint
 	{
         
 		private readonly CachedVehiclesService _cachingService;
@@ -13,6 +13,7 @@ namespace ZE.Polytrucks {
         public bool HaveTrailers { get; private set; } = false;
         public bool IsTeleporting { get; private set; } = false;
         public Rigidbody Rigidbody => _truck.Rigidbody;
+        public IReadOnlyList<Trailer> TrailersList => _trailers;
 
         public TrailerConnector(Truck truck, CachedVehiclesService cachedVehiclesService)
 		{
@@ -73,14 +74,6 @@ namespace ZE.Polytrucks {
             
             _trailers.Clear();
             HaveTrailers = false;
-        }
-        public void Teleport(VirtualPoint point, System.Action onTeleportCompleted)
-        {
-            if (HaveTrailers)
-            {
-                IsTeleporting = true;
-                //foreach (var trailer in _trailers) { trailer.Teleport(CalculateTrailerPosition()); }
-            }
         }
 
         public VirtualPoint CalculateTrailerPosition(float distance)

@@ -15,7 +15,11 @@ namespace ZE.Polytrucks.TestModule {
         protected override void InstallPlayerDataSave()
         {
             if (_testContainer.SavePreset == null) base.InstallPlayerDataSave();
-            else _container.Bind<IPlayerDataSave>().To<PlayerDataSavePreset>().FromScriptableObject(_testContainer.SavePreset).AsCached();
+            else
+            {
+                var saveInstance = new PlayerDataSave(_testContainer.SavePreset);
+                _container.Bind<IPlayerDataSave>().FromInstance(saveInstance).AsCached();
+            }
         }
         protected override void InstallAccountController()
         {
