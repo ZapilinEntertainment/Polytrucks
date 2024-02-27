@@ -7,14 +7,15 @@ namespace ZE.Polytrucks {
 	public sealed class GroundMaterialHandler
 	{
         private bool _isGroundClear = false;
-        private float _fluidity = 1f;
 
         private GroundMaterialContainer _materialContainer;
+        private DeformableGroundSettings _settings;
+        private DeformableGroundData _groundData;
         private readonly GroundMaterialsDepot _materialsDepot;
         private readonly IObjectPool<GroundMaterialHandler> _pool;
         private readonly Texture2D _deformMap;
         private readonly GroundQualitySettings _qualitySettings;
-        private readonly byte[] _values;
+        
 
         private const string DEFORM_TEX_PROPERTY = "_DeformMap", HEIGHT_DELTA_PROPERTY = "_HeightDelta";
 
@@ -27,12 +28,14 @@ namespace ZE.Polytrucks {
             _qualitySettings= qualitySettings;
 
             int resolution = _qualitySettings.DeformMapResolution;
-            _values = new byte[resolution * resolution];
+            _groundData = new LiquidGroundData(resolution);
+            
             _deformMap = new Texture2D(resolution, resolution, TextureFormat.Alpha8, false);
         }
 
         public void StartHandling(GroundType groundType, DeformableGroundSettings settings, Renderer renderer)
         {
+
             Material material;
             DeformedMaterialID id = new DeformedMaterialID(groundType);
             if (!_materialsDepot.TryReuseMaterial(id, out material))
@@ -40,9 +43,10 @@ namespace ZE.Polytrucks {
                 material = renderer.material;                
             }
 
+            _settings = settings;
+            _groundData.Setup(_settings);
             material.SetTexture(DEFORM_TEX_PROPERTY, _deformMap);
             material.SetFloat(HEIGHT_DELTA_PROPERTY, settings.VisualHeight);
-            _fluidity = settings.Fluidity;
 
             _materialContainer = new GroundMaterialContainer(id, material);
             renderer.sharedMaterial = material;
@@ -53,88 +57,13 @@ namespace ZE.Polytrucks {
         /// <returns> true if handler can be disposed cause ground is clear again </returns>
         public bool UpdateGround(float deltaTime)
         {
-            int cellsUsed = 0, resolution = _qualitySettings.DeformMapResolution;
-            byte delta = (byte)(255 * (deltaTime / _qualitySettings.ClearTime)),
-                fluidityDelta = (byte)(deltaTime * _fluidity);
-            if (delta == 0) delta = 1;
+             _groundData.Smooth(deltaTime * _settings.Fluidity);
 
+            int changedCellsCount = _groundData.RestoreHeight((deltaTime / _qualitySettings.ClearTime) * _settings.RestoreSpeedCf);
 
-            for (int i = 0; i < resolution; i += 2)
-            {
-                for (int j = 0; j < resolution; j += 2)
-                {
-                    byte a = _values[i * resolution + j],
-                        b = _values[i * resolution + j + 1],
-                        c = _values[(i + 1) * resolution + j],
-                        d = _values[(i + 1) * resolution + j + 1];
-
-                    byte minValue = a;
-                    if (b < minValue) minValue = b;
-                    if (c < minValue) minValue = c;
-                    if (d < minValue) minValue = d;
-
-                    _values[i * resolution + j] = MoveValue(a);
-                    _values[i * resolution + j + 1] = MoveValue(b);
-                    _values[(i + 1) * resolution + j] = MoveValue(c);
-                    _values[(i + 1) * resolution + j + 1] = MoveValue(d);
-
-                    byte MoveValue(byte val)
-                    {
-                        if (val > minValue) val -= fluidityDelta;
-                        return val;
-                    }
-                }
-            }
-
-            /*
-            for (int i = 0; i < resolution; i+=2)
-            {
-                for (int j = 0; j < resolution; j+=2)
-                {
-                    byte a = _values[i * resolution + j],
-                        b = _values[i * resolution + j + 1],
-                        c = _values[(i + 1) * resolution + j],
-                        d = _values[(i + 1) * resolution + j + 1];
-
-                    float middleSum = a + b + c + d;
-                    byte middle = (byte)(middleSum / 4f);
-                    _values[i * resolution + j] = MoveValue(a);
-                    _values[i * resolution + j + 1] = MoveValue(b);
-                    _values[(i + 1) * resolution + j] = MoveValue(c);
-                    _values[(i + 1) * resolution + j + 1] = MoveValue(d);
-
-                    byte MoveValue(byte val)
-                    {
-                        if (val != middle) if (val > middle) val -= fluidityDelta; else val += fluidityDelta;
-                        return val;
-                    }
-                }
-            }
-            */
-
-            for (int i = 0; i < resolution; i++)
-            {
-                for (int j = 0; j < resolution; j++)
-                {
-                    byte value = _values[i * resolution + j];
-
-                    if (value < delta)
-                    {
-                        value = 0;
-                    }
-                    else
-                    {
-                        value -= delta;
-                        cellsUsed++;
-                    }
-                    _values[i * resolution + j] = value;
-                }
-            }
-
-            _deformMap.LoadRawTextureData(_values);
+            _deformMap.LoadRawTextureData(_groundData.GetTextureBytes());
             _deformMap.Apply();
-
-            _isGroundClear = cellsUsed == 0;
+            _isGroundClear = changedCellsCount == 0;
             return _isGroundClear;
         }
 
@@ -147,30 +76,10 @@ namespace ZE.Polytrucks {
 
         public void OnWheelTouched(Vector2 pos, float radius, float affectionValue = 1f)
         {
-            int resolution = _qualitySettings.DeformMapResolution;
-            int radiusInPixels = Mathf.RoundToInt(radius * resolution);
+            int radiusInPixels = Mathf.RoundToInt(radius * _groundData.Resolution);
             if (radiusInPixels == 0) radiusInPixels = 1;
-            if (Random.value > 0.5f) radiusInPixels ++;
-            int posX = Mathf.RoundToInt(pos.x * resolution), posY = Mathf.RoundToInt(pos.y * resolution);
-            int startX = posX - radiusInPixels, startY = posY - radiusInPixels, 
-                endX = startX + radiusInPixels, endY = startY + radiusInPixels;
-            if (startX < 0) startX = 0; 
-            if (startY < 0) startY = 0;
-            if (endX > resolution - 1) endX= resolution - 1;
-            if (endY > resolution - 1) endY= resolution - 1;
-            int count = 0;
-            Vector2 center = new Vector2(posX, posY);
-            for (int y = startY; y < endY; y++)
-            {
-                for (int x = startX; x < endX; x++)
-                {
-                    int index = y * resolution + x;
-                    float sumVal = _values[index] + affectionValue * 255f;
-                    if (sumVal > 255) _values[index] = 255;
-                    else _values[index] = (byte)sumVal;
-                    count++;
-                }
-            }
+            if (Random.value > 0.5f) radiusInPixels++;
+            _groundData.DrawTouch(pos, radiusInPixels, affectionValue * _settings.AffectionForceCf);
         }
 
         public class Pool

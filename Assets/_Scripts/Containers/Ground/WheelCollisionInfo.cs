@@ -9,6 +9,7 @@ namespace ZE.Polytrucks {
         public readonly Vector3 Pos;
         public readonly Vector3 StepVector;        
         public float StepSqrLength => StepVector.sqrMagnitude;
+        public float MoveStepLength => new Vector2(StepVector.x, StepVector.z).magnitude;
         public Vector3 Forward => StepVector.normalized;
 
         public WheelCollisionInfo(Vector3 pos)

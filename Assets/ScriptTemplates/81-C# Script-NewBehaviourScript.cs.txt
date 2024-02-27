@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-	public sealed class #SCRIPTNAME# : MonoBehaviour
+	public sealed class #SCRIPTNAME# 
 	{
 	
 	}

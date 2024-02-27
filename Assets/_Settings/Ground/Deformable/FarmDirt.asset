@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfbbd95acf3b0d24ea4fd438b8747eb2, type: 3}
-  m_Name: quality0
+  m_Script: {fileID: 11500000, guid: 60eb31dd52abfe54a95604b181e9fb1f, type: 3}
+  m_Name: FarmDirt
   m_EditorClassIdentifier: 
-  <DeformMapResolution>k__BackingField: 64
-  <ClearTime>k__BackingField: 3
+  <Fluidity>k__BackingField: 2
+  <VisualHeight>k__BackingField: 0.1

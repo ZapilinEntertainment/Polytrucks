@@ -16,10 +16,10 @@ namespace ZE.Polytrucks {
         }
         protected Vector2 GetInternalCoordinates(Vector3 hitpoint)
         {
-            Vector3 dir = transform.InverseTransformDirection(Vector3.ProjectOnPlane(hitpoint - _center, transform.up));
+            Vector3 inpos = transform.InverseTransformPoint(hitpoint); inpos.y = 0f;
             return new Vector2(
-                Vector3.Dot(Vector3.right, dir) / _squareSize + 0.5f,
-                Vector3.Dot(Vector3.forward, dir) / _squareSize + 0.5f
+                inpos.x / _squareSize + 0.5f,
+                inpos.z / _squareSize  + 0.5f
                 );
         }
 
@@ -33,7 +33,7 @@ namespace ZE.Polytrucks {
         private void OnDrawGizmosSelected()
         {
             Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireCube(Vector3.zero, Vector3.one * _squareSize);
+            Gizmos.DrawWireCube(Vector3.zero, _squareSize * Vector3.one);
         }
 #endif
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZE.Polytrucks {
-    public enum GroundType : byte { Default, Dirt, Mud, Grass, Stone,Sand }
+    public enum GroundType : byte { Default, Dirt, Mud, Grass, Stone,Sand,River }
     public static class GroundTypeExtension
     {
         public static EffectType GetMoveEffect(this GroundType type)

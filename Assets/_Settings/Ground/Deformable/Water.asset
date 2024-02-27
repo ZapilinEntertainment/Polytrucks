@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 60eb31dd52abfe54a95604b181e9fb1f, type: 3}
+  m_Name: Water
+  m_EditorClassIdentifier: 
+  <RestoreSpeedCf>k__BackingField: 5
+  <AffectionForceCf>k__BackingField: 0.1
+  <AffectionRadiusCf>k__BackingField: 1
+  <Fluidity>k__BackingField: 5
+  <MinStepLengthForChanges>k__BackingField: 0.27
+  <VisualHeight>k__BackingField: 0.3
+  <LiquidConfig>k__BackingField:
+    InitialForceCf: 0.2
+    WaveHeightCf: 5
+    WaveGenerationTime: 0.05
+    WaveDownforceCf: 0.95
+    MinWaveValue: 0.01
+  <SmoothMode>k__BackingField: 1

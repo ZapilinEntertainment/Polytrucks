@@ -45,9 +45,22 @@ namespace ZE.Polytrucks {
             if (_materialHandler == null)
             {
                 RequestMaterialHandler();
-                _materialHandler?.OnWheelTouched(internalCoords, info.WheelRadius / _squareSize);
+                if (_materialHandler != null) UpdateMaterialHandler();
             }
-            else _materialHandler.OnWheelTouched(internalCoords, info.WheelRadius / _squareSize);
+            else UpdateMaterialHandler();
+
+            void UpdateMaterialHandler()
+            {
+                float affectionValue = info.MoveStepLength;
+                if (affectionValue > _deformationSettings.MinStepLengthForChanges)
+                {
+                    _materialHandler.OnWheelTouched(
+                        internalCoords,
+                        radius: info.WheelRadius / _squareSize * _deformationSettings.AffectionRadiusCf,
+                        affectionValue
+                        );
+                }
+            }
 
             return new GroundCastInfo(_passabilityParameters.Harshness,_passabilityParameters.Resistance,  _depthSettingsPresented ? _depthSettings.GetDepth(internalCoords) : 0f);
         }

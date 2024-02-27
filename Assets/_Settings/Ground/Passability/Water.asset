@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dfbbd95acf3b0d24ea4fd438b8747eb2, type: 3}
-  m_Name: quality0
+  m_Script: {fileID: 11500000, guid: 012701af03681c84aba11f0f99889ed6, type: 3}
+  m_Name: Water
   m_EditorClassIdentifier: 
-  <DeformMapResolution>k__BackingField: 64
-  <ClearTime>k__BackingField: 3
+  <Harshness>k__BackingField: 0.2
+  <Resistance>k__BackingField: 0.2

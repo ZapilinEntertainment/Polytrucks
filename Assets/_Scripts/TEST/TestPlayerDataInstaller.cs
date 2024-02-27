@@ -18,6 +18,10 @@ namespace ZE.Polytrucks.TestModule {
             else
             {
                 var saveInstance = new PlayerDataSave(_testContainer.SavePreset);
+                if (_testContainer.SpawnPoint != null)
+                {
+                    saveInstance.RecoveryPoint = new VirtualPoint(_testContainer.SpawnPoint);
+                }
                 _container.Bind<IPlayerDataSave>().FromInstance(saveInstance).AsCached();
             }
         }
