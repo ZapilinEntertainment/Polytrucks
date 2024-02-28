@@ -28,9 +28,9 @@ namespace ZE.Polytrucks {
             _qualitySettings= qualitySettings;
 
             int resolution = _qualitySettings.DeformMapResolution;
-            _groundData = new LiquidGroundData(resolution);
             
             _deformMap = new Texture2D(resolution, resolution, TextureFormat.Alpha8, false);
+            _deformMap.filterMode = FilterMode.Trilinear;
         }
 
         public void StartHandling(GroundType groundType, DeformableGroundSettings settings, Renderer renderer)
@@ -44,7 +44,15 @@ namespace ZE.Polytrucks {
             }
 
             _settings = settings;
+
+            if (_groundData == null || _groundData.Workmode != _settings.SmoothMode)
+            {
+                if (_settings.SmoothMode == GroundDataWorkMode.Fluid) _groundData = new LiquidGroundData(_qualitySettings.DeformMapResolution);
+                else _groundData = new DeformableGroundData(_qualitySettings.DeformMapResolution);
+            }
             _groundData.Setup(_settings);
+
+
             material.SetTexture(DEFORM_TEX_PROPERTY, _deformMap);
             material.SetFloat(HEIGHT_DELTA_PROPERTY, settings.VisualHeight);
 

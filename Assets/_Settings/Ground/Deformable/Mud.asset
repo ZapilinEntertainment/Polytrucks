@@ -12,76 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60eb31dd52abfe54a95604b181e9fb1f, type: 3}
   m_Name: Mud
   m_EditorClassIdentifier: 
-  <UseVisualDeformation>k__BackingField: 1
-  <GroundType>k__BackingField: 1
-  <Harshness>k__BackingField: 0.2
-  <Fluidity>k__BackingField: 15
-  _minDepth: 0.2
-  _maxDepth: 0.5
-  _visualHeightCf: 5
-  _zCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -2
-      outSlope: -2
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _xCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.5
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -2
-      outSlope: -2
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  <RestoreSpeedCf>k__BackingField: 0.3
+  <AffectionForceCf>k__BackingField: 3
+  <AffectionRadiusCf>k__BackingField: 1
+  <Fluidity>k__BackingField: 5
+  <MinStepLengthForChanges>k__BackingField: 0.1
+  <VisualHeight>k__BackingField: 0.2
+  <LiquidConfig>k__BackingField:
+    InitialForceCf: 0.1
+    WaveHeightCf: 1
+    WaveGenerationTime: 1
+    WaveDownforceCf: 0.5
+    MinWaveValue: 0.1
+  <SmoothMode>k__BackingField: 0

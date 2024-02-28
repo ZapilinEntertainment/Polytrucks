@@ -17,11 +17,11 @@ MonoBehaviour:
   <AffectionRadiusCf>k__BackingField: 1
   <Fluidity>k__BackingField: 5
   <MinStepLengthForChanges>k__BackingField: 0.27
-  <VisualHeight>k__BackingField: 0.3
+  <VisualHeight>k__BackingField: 0.1
   <LiquidConfig>k__BackingField:
     InitialForceCf: 0.2
-    WaveHeightCf: 5
-    WaveGenerationTime: 0.05
+    WaveHeightCf: 1
+    WaveGenerationTime: 0.02
     WaveDownforceCf: 0.95
     MinWaveValue: 0.01
   <SmoothMode>k__BackingField: 1

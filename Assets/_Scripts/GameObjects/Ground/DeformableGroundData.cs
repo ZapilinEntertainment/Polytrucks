@@ -32,9 +32,7 @@ namespace ZE.Polytrucks {
             {
                 for (int x = startX; x < endX; x++)
                 {
-                    int index = y * Resolution + x;
-                    float sum = Heights[index] + lowValue;
-                    Heights[index] = sum;
+                    Heights[y * Resolution + x] -= lowValue;
                 }
             }
         }
@@ -50,8 +48,7 @@ namespace ZE.Polytrucks {
                         c = Heights[(i + 1) * Resolution + j],
                         d = Heights[(i + 1) * Resolution + j + 1];
 
-                    float minValue = 0f;
-                    CheckMin(a);
+                    float minValue = a;
                     CheckMin(b); 
                     CheckMin(c);
                     CheckMin(d);
@@ -63,15 +60,14 @@ namespace ZE.Polytrucks {
 
                     void CheckMin(float val)
                     {
-                        float min = Mathf.Abs(val);
-                        if (min < minValue)
+                        if (val < minValue)
                         {
-                            minValue = min;
+                            minValue = val;
                         }
                     }
                     float MoveValue(float val)
                     {
-                        if (Mathf.Abs(val) > minValue) val -= fluidityDelta;
+                        if (Mathf.Abs(val) > minValue) val = Mathf.MoveTowards(val, minValue, fluidityDelta);
                         return val;
                     }
                 }
