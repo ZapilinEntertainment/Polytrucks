@@ -31,7 +31,23 @@ namespace ZE.Polytrucks {
                 case LocalizedString.RequestZone_LaunchLumbermill: return "Запустить лесопилку";
                 case LocalizedString.RequestZone_RebuildElevator: return "Починить лифт";
 
+               
+
                 default: return "<текст>";
+            }
+        }
+        public string GetLocalizedTutorialAdvice(TutorialAdviceID advice)
+        {
+            switch (advice)
+            {
+                case TutorialAdviceID.GasAdvice: return "Нажимайте W чтобы газовать";
+                case TutorialAdviceID.SteerAdvice: return "A и D - поворот руля";
+                case TutorialAdviceID.ReverseAdvice: return "S - притормозить";
+                case TutorialAdviceID.CollectAdvice: return "Подъедьте ближе, чтобы собрать";
+                case TutorialAdviceID.SellAdvice: return "Продайте товары здесь";
+                case TutorialAdviceID.BuildingRestoreAdvice: return "Восстановите здание";
+                case TutorialAdviceID.ExploreAdvice: return "Находите и продавайте более ценные грузы";
+                default: return "<Обучение>";
             }
         }
         public string GetInterstitialAwareString(float time)

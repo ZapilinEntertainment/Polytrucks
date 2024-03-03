@@ -15,7 +15,9 @@ namespace ZE.Polytrucks.AccountData {
         public int Money { get; private set; }
 		public Experience Experience { get; private set; }
 
-		public PlayerData(SignalBus signalBus, GameSettings gameSettings, IPlayerDataSave save) {
+		public bool IsTutorialFullyCompleted => _dataSave.TutorialCompleteStatus.IsComplete;
+
+        public PlayerData(SignalBus signalBus, GameSettings gameSettings, IPlayerDataSave save) {
 			_signalBus= signalBus;		
 			_dataSave= save;
 			Experience= new Experience(signalBus, gameSettings);
@@ -71,5 +73,12 @@ namespace ZE.Polytrucks.AccountData {
 		{
 			return _recoveryPoint;
 		}
+
+        public void MarkTutorialStepAsCompleted(TutorialAdviceID id)
+        {
+			_dataSave.TutorialCompleteStatus.CompleteFlag((int)id);
+        }
+
+		public IntCompleteMask GetTutorialCompleteMask() => _dataSave.TutorialCompleteStatus;
     }
 }

@@ -6,11 +6,13 @@ using System;
 namespace ZE.Polytrucks {
 	public interface IPlayerDataSave
 	{
+		
 		public float IntegrityPercent { get; set; }
 		public TruckID PlayerTruckID { get; set; }
 		public VirtualPoint RecoveryPoint { get; set; }
+        public IntCompleteMask TutorialCompleteStatus { get; set; }
 
-		public void UnlockTruck(TruckID id);
+        public void UnlockTruck(TruckID id);
         public bool IsTruckUnlocked(TruckID id);
 	}
 	public class PlayerDataSave : IPlayerDataSave
@@ -19,10 +21,13 @@ namespace ZE.Polytrucks {
 		public float IntegrityPercent { get; set; }
 		public TruckID PlayerTruckID { get; set; }
 		public VirtualPoint RecoveryPoint { get; set; }
+        public IntCompleteMask TutorialCompleteStatus { get; set; }
 
-		private PlayerDataSave() { }
+        private PlayerDataSave() { }
 		public PlayerDataSave(PlayerDataSavePreset preset)
 		{
+			if (preset.TutorialCompleted) TutorialCompleteStatus = TutorialAdviceIDExtension.GetFullMask();
+			else TutorialCompleteStatus = TutorialAdviceIDExtension.GetEmptyMask();
 			PlayerTruckID= preset.PlayerTruckID;
 			RecoveryPoint = preset.RecoveryPoint;
             IntegrityPercent = preset.IntegrityPercent;
@@ -40,6 +45,7 @@ namespace ZE.Polytrucks {
 			get
 			{
 				var save = new PlayerDataSave();
+				save.TutorialCompleteStatus = TutorialAdviceIDExtension.GetEmptyMask();
 				save.IntegrityPercent = 1f;
 				save.PlayerTruckID = GameConstants.DefaultTruck;
 				save.RecoveryPoint = new VirtualPoint(Vector3.zero, Quaternion.identity);

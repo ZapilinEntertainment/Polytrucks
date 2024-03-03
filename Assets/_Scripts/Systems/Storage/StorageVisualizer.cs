@@ -11,10 +11,10 @@ namespace ZE.Polytrucks {
 		private bool _isSetup = false, _isCompositionChanged = false;
 		
 		private Storage _storage;
-		private ObjectsManager _objectsManager;
+		private ObjectsCreateService _objectsManager;
 		private CollectibleVisualRepresentation[] _collectibles;
 
-		public StorageVisualizer(ObjectsManager manager, TickableManager tickableManager)
+		public StorageVisualizer(ObjectsCreateService manager, TickableManager tickableManager)
 		{
 			_objectsManager= manager;
 			tickableManager.Add(this);

@@ -8,7 +8,7 @@ namespace ZE.Polytrucks {
 	public class ObjectScreenMarker : MonoBehaviour, IPoolable
 	{
         [SerializeField] private Image _marker, _landMarker;
-        private bool _isInScreen = true;
+        private bool _isOnScreen = true;
         private IWorldPositionable _target;
         private Canvas _canvas;
         private CameraController _camera;
@@ -53,20 +53,20 @@ namespace ZE.Polytrucks {
             var screenRect = new Rect(0f, 0f, Screen.width - imageRect.width * scale, Screen.height - imageRect.height * scale);
             if (screenRect.Contains(scrpos))
             {
-                if (!_isInScreen)
+                if (!_isOnScreen)
                 {
                     _landMarker.enabled = true;
-                    _isInScreen = true;
+                    _isOnScreen = true;
                 }
             }
             else
             {
                 scrpos.x = Mathf.Clamp(scrpos.x, 0f, screenRect.width);
                 scrpos.y = Mathf.Clamp(scrpos.y, 0f, screenRect.height);
-                if (_isInScreen)
+                if (_isOnScreen)
                 {
                     _landMarker.enabled = false;
-                    _isInScreen = false;
+                    _isOnScreen = false;
                 }
             }
             imagePositioner.position = scrpos;

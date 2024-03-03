@@ -15,8 +15,9 @@ namespace ZE.Polytrucks {
         private MonoMemoryPool<Crate> _pool;
         private ColliderListSystem _collidersList;
         private CollisionHandleSystem _collisionHandleSystem;
+        private CollectablesManager _collectiblesManager;
 
-        public Action OnCollectedEvent;
+        public Action OnCollectedEvent { get; set; }
 
         public bool HaveMultipleColliders => false;
         public CollectableType CollectableType => _collectableType;
@@ -25,10 +26,11 @@ namespace ZE.Polytrucks {
         public int[] GetColliderIDs() => new int[1] { GetColliderID() };
 
         [Inject]
-        public void Inject(ColliderListSystem colliderList, CollisionHandleSystem collisionHandleSystem)
+        public void Inject(ColliderListSystem colliderList, CollisionHandleSystem collisionHandleSystem, CollectablesManager manager)
         {
             _collidersList = colliderList;
             _collisionHandleSystem = collisionHandleSystem;
+            _collectiblesManager = manager; 
         }
         public bool Collect()
         {
@@ -54,11 +56,13 @@ namespace ZE.Polytrucks {
         public void OnSpawned()
         {
             _collidersList.AddCollectable(this);
+            _collectiblesManager.AddCollectable(this);
         }
         public void OnDespawned()
         {
             if (_model != null) _model.Dispose();
             _collidersList.RemoveCollectable(this);
+            _collectiblesManager.RemoveCollectable(this);
         }
         private void OnTriggerEnter(Collider other)
         {

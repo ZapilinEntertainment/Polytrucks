@@ -18,12 +18,14 @@ namespace ZE.Polytrucks {
         StopQuest,Cancel,QuestStarted, CannotLoadCargo,
         Refuse_AlreadyHaveSuchQuest,
         RequestZone_RebuildMine, RequestZone_RebuildBridge,RequestZone_LaunchLumbermill,RequestZone_RebuildElevator,
-        Garage_SelectTruck, Garage_TruckAlreadySelected, Garage_TruckLocked,
+        Garage_SelectTruck, Garage_TruckAlreadySelected, Garage_TruckLocked,        
         STRING_NOT_RECOGNISED_ERROR
-    }
+    }   
     internal interface ILocalizer
     {
         public string GetLocalizedString(LocalizedString localizedString);
+        public string GetLocalizedTutorialAdvice(TutorialAdviceID advice);
+
         public string FormDeliveryAddress(PointOfInterest poi);
         public string FormSupplyAddress(PointOfInterest poi);
         public string GetParameterName(TruckParameterType parameter);
@@ -68,6 +70,7 @@ namespace ZE.Polytrucks {
             }
             else return name;
         }
+        public string GetLocalizedTutorialAdvice(TutorialAdviceID advice) => Localizer.GetLocalizedTutorialAdvice(advice);
 
         public bool TryDefineStringID(string rawName, out LocalizedString localEnum)
         {

@@ -58,7 +58,7 @@ namespace ZE.Polytrucks {
                 Vector3 pos = wheel.SuspensionPoint.position, up = wheel.SuspensionPoint.up;
                 float scaleCf = wheel.ScaleCf;
 
-                if (Physics.Raycast(pos, -up, maxDistance: suspensionLength * scaleCf, hitInfo: out var hit, layerMask: _castMask))
+                if (Physics.SphereCast(pos, radius: wheel.WheelRadius * 0.3f, -up, maxDistance: suspensionLength * scaleCf, hitInfo: out var hit, layerMask: _castMask))
                 {
                     float hitDistance = hit.distance;
                     float groundHarshness, groundResistance;

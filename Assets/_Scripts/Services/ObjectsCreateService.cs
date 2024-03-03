@@ -5,7 +5,7 @@ using Zenject;
 
 namespace ZE.Polytrucks {
     
-	public sealed class ObjectsManager
+	public sealed class ObjectsCreateService
 	{
         private readonly CratesPack _cratesPack;
         private readonly IconsPack _iconsPack;
@@ -14,7 +14,7 @@ namespace ZE.Polytrucks {
         private CollectibleModel.Pool _modelsPool;
         private CratesPack.Cacher _cratesCacher;
 
-        public ObjectsManager(Crate.Pool cratePool, CollectibleModel.Pool modelPool, CratesPack cratesPack, IconsPack iconsPack, UIColorsPack colorsPack)
+        public ObjectsCreateService(Crate.Pool cratePool, CollectibleModel.Pool modelPool, CratesPack cratesPack, IconsPack iconsPack, UIColorsPack colorsPack)
         {       
             _cratesPack= cratesPack;
             _cratesPool= cratePool;

@@ -17,10 +17,10 @@ namespace ZE.Polytrucks {
             public Rarity ItemRarity;
         }
         [SerializeField] private CollectableSpawnSpot[] _spawnSpots;
-		private CollectablesSpawnManager _spawnManager;
+		private CollectablesSpawnService _spawnService;
 
 		[Inject]
-		public void Inject(CollectablesSpawnManager manager) => _spawnManager = manager;
+		public void Inject(CollectablesSpawnService manager) => _spawnService = manager;
 
 		public void SpawnOnSpot(CollectableSpawnSpot spot) {
 		}
@@ -31,14 +31,14 @@ namespace ZE.Polytrucks {
 			{
 				foreach (var spot in _spawnSpots)
 				{
-					_spawnManager.SpawnCrate(spot.ItemType, spot.ItemRarity, spot.Point);
+					_spawnService.SpawnCrate(spot.ItemType, spot.ItemRarity, spot.Point);
 				}
                 var additionalPoints = FindObjectsOfType<OneShotCrateSpawner>();
                 if (additionalPoints.Length > 0)
                 {
                     foreach (var point in additionalPoints)
                     {
-                        _spawnManager.SpawnCrate(point.ResourceType, point.Rarity, point.transform);
+                        _spawnService.SpawnCrate(point.ResourceType, point.Rarity, point.transform);
                     }
                 }
 			}

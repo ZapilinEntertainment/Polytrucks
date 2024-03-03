@@ -9,8 +9,19 @@ namespace ZE.Polytrucks {
         {
             switch (localizedString)
             {
+               
 
                 default: return "<text>";
+            }
+        }
+        public string GetLocalizedTutorialAdvice(TutorialAdviceID advice)
+        {
+            switch (advice)
+            {
+                case TutorialAdviceID.GasAdvice: return "Press W to GAS";
+                case TutorialAdviceID.SteerAdvice: return "A and D to steer";
+                case TutorialAdviceID.ReverseAdvice: return "S for slow down";
+                default: return "<tutorial advice>";
             }
         }
         public string GetInterstitialAwareString(float time) => $"Advertisement in {time} seconds";
@@ -35,5 +46,7 @@ namespace ZE.Polytrucks {
                 default: return "<Truck>";
             }
         }
+
+        
     }
 }

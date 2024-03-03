@@ -7,6 +7,7 @@ namespace ZE.Polytrucks {
 	{
         public CollectableType CollectableType { get; }
 		public Rarity Rarity { get; }
+		public System.Action OnCollectedEvent { get; set; }
 		public bool Collect();
 		public VirtualCollectable ToVirtual();
 	}

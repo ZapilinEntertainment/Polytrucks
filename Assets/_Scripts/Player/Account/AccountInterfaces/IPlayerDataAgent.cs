@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 namespace ZE.Polytrucks {
-	public interface IPlayerDataAgent
+	public interface IPlayerDataAgent : ITutorialCompletionData
 	{
         public int Money { get; }
         public TruckID ActiveTruckID { get; }
@@ -13,6 +13,9 @@ namespace ZE.Polytrucks {
         public void OnPlayerSoldItem(SellOperationContainer sellOperation);
         public void UnlockTruck(TruckID truck);
         public void SubscribeToMoneyChange(Action<int> action);
+
+        public ITutorialCompletionData TutorialData => this;
+
 
         public bool TrySpendMoney(int x);
         public bool IsTruckUnlocked(TruckID truck);

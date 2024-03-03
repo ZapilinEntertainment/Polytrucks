@@ -25,7 +25,7 @@ namespace ZE.Polytrucks {
 		[SerializeField] private Vector3 _startPos, _endPos;
         private int _transferringItemsCount= 0;        
         private IItemReceiver _itemReceiver;
-        private ObjectsManager _objectsManager;
+        private ObjectsCreateService _objectsManager;
         private List<TransferringItem> _transferringItems = new List<TransferringItem>();
         private Action OnItemAddedToBeltEvent, OnItemRemovedFromBeltEvent;
 
@@ -36,7 +36,7 @@ namespace ZE.Polytrucks {
         
 
         [Inject]
-        public void Inject(ObjectsManager objectsManager)
+        public void Inject(ObjectsCreateService objectsManager)
         {
             _objectsManager = objectsManager;
         }
