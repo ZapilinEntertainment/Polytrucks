@@ -6,7 +6,7 @@ using Zenject;
 namespace ZE.Polytrucks {
 
     public enum UIPanel : byte { None = 0, Garage, ActionPanel, Total }
-    public sealed class PanelsManager : MonoBehaviour
+    public sealed class PanelsManager
 	{
 		private readonly UIInstaller.ElementsResolver _elementsResolver;
 		private readonly SignalBus _signalBus;

@@ -8,8 +8,22 @@ namespace ZE.Polytrucks {
     {
         public static EffectType GetMoveEffect(this GroundType type)
         {
-            if (type == GroundType.Mud) return EffectType.MudEffect;
-            else return EffectType.Undefined;
+            switch (type)
+            {
+                case GroundType.Mud: return EffectType.MudEffect;
+                    case GroundType.Grass: return EffectType.GrassDust;
+                case GroundType.Dirt: return EffectType.DirtDust;
+                default: return EffectType.Undefined;
+            }
+        }
+        public static float GetEffectMinStepLength(this GroundType type)
+        {
+            switch (type)
+            {
+                case GroundType.Dirt:
+                case GroundType.Grass: return 0.1f;
+                default: return 1f;
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ using Zenject;
 using System;
 
 namespace ZE.Polytrucks {
-	public sealed class Crate : SessionObject, ICollectable, IPoolable
+	public sealed class Crate : SessionObject, ICollectable
 	{
         [SerializeField] private CollectableType _collectableType = CollectableType.Undefined;
         [SerializeField] private Rarity _rarity = Rarity.Regular;
@@ -33,12 +33,13 @@ namespace ZE.Polytrucks {
             _collectiblesManager = manager; 
         }
         public bool Collect()
-        {
-            _pool.Despawn(this);
+        {            
             OnCollectedEvent?.Invoke();
             OnCollectedEvent = null;
+            _pool.Despawn(this);
             return true;
         }
+
         public VirtualCollectable ToVirtual() => new VirtualCollectable(this);
 
         
@@ -52,17 +53,20 @@ namespace ZE.Polytrucks {
             model.transform.parent = transform;
             model.transform.localPosition = Vector3.zero;
             model.transform.localRotation = Quaternion.identity;
+            model.OnAllPropertiesSet();
         }
         public void OnSpawned()
         {
             _collidersList.AddCollectable(this);
             _collectiblesManager.AddCollectable(this);
+            
         }
         public void OnDespawned()
-        {
+        {            
             if (_model != null) _model.Dispose();
             _collidersList.RemoveCollectable(this);
             _collectiblesManager.RemoveCollectable(this);
+            
         }
         private void OnTriggerEnter(Collider other)
         {
@@ -74,6 +78,16 @@ namespace ZE.Polytrucks {
             {
                 base.OnCreated(item);
                 item._pool = this;
+            }
+            protected override void OnSpawned(Crate item)
+            {                
+                base.OnSpawned(item);
+                item.OnSpawned();
+            }
+            protected override void OnDespawned(Crate item)
+            {
+                item.OnDespawned();
+                base.OnDespawned(item);
             }
         }
     }

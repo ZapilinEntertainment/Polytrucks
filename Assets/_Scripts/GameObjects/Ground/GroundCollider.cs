@@ -9,6 +9,7 @@ namespace ZE.Polytrucks {
         [SerializeField] protected GroundType _groundType = GroundType.Default;
         [SerializeField] protected Collider _collider;
         [SerializeField] protected GroundPassabilitySettings _passabilityParameters;
+        private float _effectMinStepLengthSqr = 1f;
         private int _colliderID = -1;
         private EffectType _effectType = EffectType.Undefined;
         private ColliderListSystem _colliderListSystem;
@@ -25,13 +26,14 @@ namespace ZE.Polytrucks {
         virtual protected void Start() 
         { 
             _effectType = _groundType.GetMoveEffect();
+            _effectMinStepLengthSqr = _groundType.GetEffectMinStepLength();
             _colliderID = _collider.GetInstanceID();
 
             _colliderListSystem.AddGroundInfo(this);
         }
         virtual public GroundCastInfo OnWheelCollision(WheelCollisionInfo wheelStep)
         {
-            if (_effectType != EffectType.Undefined && wheelStep.StepSqrLength > 1f) _effectsService.EmitEffect(_effectType, wheelStep.Pos, -wheelStep.Forward);
+            if (_effectType != EffectType.Undefined && wheelStep.StepSqrLength > _effectMinStepLengthSqr) _effectsService.EmitEffect(_effectType, wheelStep.Pos, -wheelStep.Forward);
             return FormCastInfo(wheelStep);
         }
         

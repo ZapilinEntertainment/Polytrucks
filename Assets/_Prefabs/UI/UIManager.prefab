@@ -186,7 +186,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.504
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -434,6 +434,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1205798032647333556, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1205798032647333556, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
@@ -500,6 +504,10 @@ PrefabInstance:
     - target: {fileID: 2521915090591661909, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3559060009614395481, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
+      propertyPath: m_fontSize
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 4868655002174066795, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
       propertyPath: m_Pivot.x
@@ -585,6 +593,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6018242861951222070, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.6230774
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818236876213700187, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
+      propertyPath: m_fontSize
+      value: 72
+      objectReference: {fileID: 0}
     - target: {fileID: 8288082939250430388, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -604,6 +620,10 @@ PrefabInstance:
     - target: {fileID: 8288082939250430388, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8977165620105534621, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -1.6230774
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbb5f139db38f7e4eb88a7d41ae258fe, type: 3}

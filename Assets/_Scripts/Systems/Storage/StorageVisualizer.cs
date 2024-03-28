@@ -85,7 +85,7 @@ namespace ZE.Polytrucks {
                             (zpos + 0.5f) * step
                             );
                         model.localScale = scale * Vector3.one;
-
+						collectible.OnAllPropertiesSet();
                     }
 				}
 			}

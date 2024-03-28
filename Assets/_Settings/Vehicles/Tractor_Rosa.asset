@@ -15,7 +15,7 @@ MonoBehaviour:
   _maxSpeed: 8
   _maxSteerAngle: 25
   _steerTime: 0.5
-  _acceleration: 0.5
+  _acceleration: 1
   _reverseAcceleration: 4
   _engineStopTime: 1
   _reverseSpeedCf: 0.8
@@ -82,26 +82,26 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.1953851
     - serializedVersion: 3
-      time: 0
-      value: 0.5
+      time: -0.993312
+      value: 0.98725057
       inSlope: 1.4050193
-      outSlope: 3.3799462
+      outSlope: 1.6591656
       tangentMode: 1
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.15049995
+      outWeight: 0.085000016
     - serializedVersion: 3
-      time: 0.1
-      value: 1
-      inSlope: 0.012975124
-      outSlope: -2.3835967
-      tangentMode: 1
+      time: -0.44136667
+      value: 0.9773959
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.41025835
-      outWeight: 0.050432213
+      inWeight: 0.33333334
+      outWeight: 0.10753877
     - serializedVersion: 3
-      time: 1
-      value: 0.3
+      time: 0.98010254
+      value: -0.5052368
       inSlope: 0.034389358
       outSlope: 0.034389358
       tangentMode: 0
@@ -114,7 +114,6 @@ MonoBehaviour:
   _storageConfiguration: {fileID: 0}
   _fuelConfiguration: {fileID: 0}
   _integrityConfiguration: {fileID: 0}
-  <ViewSettings>k__BackingField: {fileID: 0}
   <TruckID>k__BackingField: 1
   <TrailerID>k__BackingField: 1
   <UsesPhysics>k__BackingField: 1
