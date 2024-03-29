@@ -77,11 +77,14 @@ namespace ZE.Polytrucks {
         }
 		public void OnTrailerConnected(ITrailerConnectionPoint connector)
 		{
-			_activeConnectionPoint = connector;			
-			var point = _activeConnectionPoint.CalculateTrailerPosition(ConnectDistance);
-			Teleport(point);
+			_activeConnectionPoint = connector;
+			PositionAndConnectTrailer();
         }	
-
+		private void PositionAndConnectTrailer()
+		{
+            var point = _activeConnectionPoint.CalculateTrailerPosition(ConnectDistance);
+            Teleport(point);
+        }
 
 		private void RestoreJoint()
 		{
@@ -103,24 +106,24 @@ namespace ZE.Polytrucks {
 		private void ClearJoint()
 		{
 			if (_joint != null)
-			{
-				_joint = null;
+			{				
 				Destroy(_joint);
-			}
+                _joint = null;
+            }
         }
 
 		public void SetVisibility(bool x)
-		{
-			gameObject.SetActive(x);
+		{			
 			if (x)
 			{
-				RestoreJoint();
+				PositionAndConnectTrailer();
 			}
 			else
 			{
 				ClearJoint();
 			}
-		}
+            gameObject.SetActive(x);
+        }
 
 		public void Teleport(VirtualPoint point, System.Action onTeleportCompleted = null)
 		{

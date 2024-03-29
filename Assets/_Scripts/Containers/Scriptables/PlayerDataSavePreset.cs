@@ -11,6 +11,7 @@ namespace ZE.Polytrucks {
         [field: SerializeField] public float IntegrityPercent { get; private set; }
         [field: SerializeField] public TruckID PlayerTruckID { get; private set; }
         [field: SerializeField] public VirtualPoint RecoveryPoint { get; private set; }
+        [field: SerializeField] public List<VirtualCollectable> StorageContent { get; private set; }
         
     }
 }

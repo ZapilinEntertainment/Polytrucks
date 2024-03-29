@@ -81,7 +81,8 @@ namespace ZE.Polytrucks {
         }
 
         public TruckID TruckID => TruckConfig.TruckID;
-        public TruckConfig TruckConfig => _truckConfig;        
+        public TruckConfig TruckConfig => _truckConfig;
+        public Action OnTrailerConnectedEvent;
         public Action<IStorage> OnStorageChangedEvent;
 
         [Inject]
@@ -256,6 +257,7 @@ namespace ZE.Polytrucks {
             Rigidbody.velocity = Vector3.zero;
             Rigidbody.angularVelocity = Vector3.zero;
             Rigidbody.ResetInertiaTensor();
+            OnTrailerConnectedEvent?.Invoke();
         }
         public void OnTrailerDisconnected(Trailer trailer)
         {
@@ -273,11 +275,19 @@ namespace ZE.Polytrucks {
         }
         public override void OnEnterGarage()
         {
-          
+            if (_trailerConnectorHandler.IsActivated)
+            {
+                _trailerConnectorHandler.Connector.GarageView = true;
+                _trailerConnectorHandler.Connector.SetTrailersVisibility(false);
+            }
         }
         public override void OnLeaveGarage()
         {
-            
+            if (_trailerConnectorHandler.IsActivated)
+            {
+                _trailerConnectorHandler.Connector.GarageView = false;
+                _trailerConnectorHandler.Connector.SetTrailersVisibility(true);
+            }
         }
 
         public class Factory : PlaceholderFactory<UnityEngine.Object, Truck>

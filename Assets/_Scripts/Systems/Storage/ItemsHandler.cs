@@ -52,13 +52,14 @@ namespace ZE.Polytrucks {
             _storage.OnStorageCompositionChangedEvent?.Invoke();
             return initialCount - count;
         }
-        public void AddRange(IList<VirtualCollectable> list, out BitArray addResults)
+        public void AddRange(IReadOnlyList<VirtualCollectable> list, out BitArray addResults)
         {
             int count = list.Count, i = 0;
             addResults = new BitArray(count, false);
-            while (_itemsCount < _capacity & i < count)
+            while (_itemsCount < _capacity && i < count)
             {
                 _items.Add(list[i]);
+                _itemsCount++;
                 addResults[i] = true;
                 i++;
             }

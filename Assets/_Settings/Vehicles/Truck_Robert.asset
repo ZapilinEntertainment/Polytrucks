@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxSpeed: 23
   _maxSteerAngle: 35
-  _steerTime: 0.5
-  _acceleration: 0.5
+  _steerTime: 0.35
+  _acceleration: 1
   _reverseAcceleration: 4
   _engineStopTime: 1
   _reverseSpeedCf: 0.5
@@ -82,17 +82,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.10264903
     - serializedVersion: 3
-      time: 0.0059373453
-      value: 0.49104887
-      inSlope: 1.3840925
-      outSlope: 4.5423717
-      tangentMode: 1
+      time: -0.85828996
+      value: 0.4118405
+      inSlope: 1.1902696
+      outSlope: 1.1902696
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.0695488
+      outWeight: 0.12072652
     - serializedVersion: 3
-      time: 0.3966736
-      value: 1.0049515
+      time: -0.32146606
+      value: 0.99935913
       inSlope: 0.09308603
       outSlope: -0.0044183806
       tangentMode: 1
@@ -100,19 +100,10 @@ MonoBehaviour:
       inWeight: 0.43046114
       outWeight: 0.4321934
     - serializedVersion: 3
-      time: 0.79664004
-      value: 0.9990071
-      inSlope: -0.055109642
-      outSlope: -0.055109642
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.16767742
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
       value: 0.3
-      inSlope: -3.4372897
-      outSlope: -3.4372897
+      inSlope: -0.5292297
+      outSlope: -0.5292297
       tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334

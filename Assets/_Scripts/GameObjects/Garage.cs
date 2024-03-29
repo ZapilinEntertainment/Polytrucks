@@ -11,12 +11,12 @@ namespace ZE.Polytrucks {
         private bool _waitUntilPlayerLeave = false;
         private Truck _playerTruck;
         private SignalBus _signalBus;
-        private TruckSwitchService _garageService;
+        private ISwitchService _garageService;
         private int? _playerLockId = null;
         public VirtualPoint ModelPoint => new VirtualPoint(_modelPoint);
 
         [Inject]
-        public void Inject(SignalBus signalBus, TruckSwitchService garageService)
+        public void Inject(SignalBus signalBus, ISwitchService garageService)
         {
             _signalBus= signalBus;
             _garageService= garageService;
@@ -65,6 +65,7 @@ namespace ZE.Polytrucks {
             else
             {
                 _playerTruck.OnLeaveGarage();
+                _waitUntilPlayerLeave = true;
             }
         }
     }

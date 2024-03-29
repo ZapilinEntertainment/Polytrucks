@@ -24,7 +24,7 @@ namespace ZE.Polytrucks {
 
         public bool TryCollect(ICollectable collectable) => _isDisposed ?false : Storage.TryAddItem(collectable.ToVirtual());
         public bool TryCollect(VirtualCollectable collectable) => _isDisposed ? false : Storage.TryAddItem(collectable);
-        public void CollectItems(IList<VirtualCollectable> items, out BitArray result)
+        public void CollectItems(IReadOnlyList<VirtualCollectable> items, out BitArray result)
         {
             if (_isDisposed)
             {

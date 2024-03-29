@@ -69,7 +69,7 @@ namespace ZE.Polytrucks {
         private void InstallServices()
         {
             Container.Bind<CachedVehiclesService>().AsCached().Lazy();
-            Container.Bind<TruckSwitchService>().FromNew().AsCached().Lazy();
+            Container.Bind<ISwitchService>().To<TruckSwitchService>().FromNew().AsCached().Lazy();
             Container.Bind<TruckSpawnService>().FromNew().AsCached().Lazy();
             Container.Bind<CollectablesSpawnService>().AsCached().Lazy();
             Container.Bind<EffectsService>().AsCached().Lazy();
@@ -82,7 +82,6 @@ namespace ZE.Polytrucks {
         }
         private void InstallManagers()
         {
-            Container.Bind<SaveManager>().AsCached();
             Container.Bind<RequestZonesManager>().AsCached().Lazy();
             Container.Bind<QuestsManager>().AsCached().Lazy();
             Container.Bind<TradeZonesManager>().AsCached().Lazy();

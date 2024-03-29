@@ -25,7 +25,7 @@ namespace ZE.Polytrucks {
             }
             else return false;
         }
-        public override void AddItems(IList<VirtualCollectable> items, out BitArray result) => _conveyor.AddItems(items, out result);
+        public override void AddItems(IReadOnlyList<VirtualCollectable> items, out BitArray result) => _conveyor.AddItems(items, out result);
         public override int AddItems(VirtualCollectable item, int count) => _conveyor.AddItems(item, count);   
     }
 }

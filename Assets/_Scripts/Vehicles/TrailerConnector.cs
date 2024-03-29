@@ -6,12 +6,12 @@ using Zenject;
 namespace ZE.Polytrucks {
 	public class TrailerConnector : ITrailerConnectionPoint
 	{
-        
 		private readonly CachedVehiclesService _cachingService;
         private readonly Truck _truck;
         private List<Trailer> _trailers; 
         public bool HaveTrailers { get; private set; } = false;
         public bool IsTeleporting { get; private set; } = false;
+        public bool GarageView = false;
         public Rigidbody Rigidbody => _truck.Rigidbody;
         public IReadOnlyList<Trailer> TrailersList => _trailers;
 
@@ -25,6 +25,7 @@ namespace ZE.Polytrucks {
 
         public void SetTrailersVisibility(bool x)
         {
+            if (GarageView & x) x = false;
             if (HaveTrailers)
             {
                 foreach (var trailer in _trailers) { trailer.SetVisibility(x); }

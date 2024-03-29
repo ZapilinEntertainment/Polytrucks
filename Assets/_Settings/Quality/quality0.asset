@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfbbd95acf3b0d24ea4fd438b8747eb2, type: 3}
   m_Name: quality0
   m_EditorClassIdentifier: 
-  <DeformMapResolution>k__BackingField: 64
+  <DeformMapResolution>k__BackingField: 128
   <ClearTime>k__BackingField: 3

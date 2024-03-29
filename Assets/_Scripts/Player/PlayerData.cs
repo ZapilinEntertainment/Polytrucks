@@ -80,5 +80,7 @@ namespace ZE.Polytrucks.AccountData {
         }
 
 		public IntCompleteMask GetTutorialCompleteMask() => _dataSave.TutorialCompleteStatus;
+
+		public IReadOnlyList<VirtualCollectable> GetVehicleCargo() => _dataSave.GetVehicleCargo();
     }
 }

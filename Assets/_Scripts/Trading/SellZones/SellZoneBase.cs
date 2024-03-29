@@ -57,7 +57,7 @@ namespace ZE.Polytrucks {
             else return false;
         }
 
-        public void SellItems(IList<VirtualCollectable> list, out BitArray result)
+        public void SellItems(IReadOnlyList<VirtualCollectable> list, out BitArray result)
         {
             if (!TradeToNowhere)
             {

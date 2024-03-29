@@ -35,33 +35,10 @@ namespace ZE.Polytrucks {
 
     public class Localization
     {
+        private IGamePreferences _gamePreferences;
         private ILocalizer i_localizer;
-        private ISaveContainer _saves;
-        private ILocalizer Localizer
-        {
-            get
-            {
-                if (i_localizer == null)
-                {
-                    Language = _saves.LoadLocale();
-                    if (Language == LocalizationLanguage.Undefined)
-                    {
-                        if (Application.systemLanguage == SystemLanguage.Russian || Application.systemLanguage == SystemLanguage.Ukrainian || Application.systemLanguage == SystemLanguage.Belarusian)
-                        {
-                            ChangeLanguage(LocalizationLanguage.Russian, true);
-                        }
-                        else
-                        {
-                            ChangeLanguage(LocalizationLanguage.English, true);
-                        }
-                    }
-                    else ChangeLanguage(Language, true);
-                }
-                return i_localizer;
-            }
-        }
         public LocalizationLanguage Language { get; private set; }
-        public string GetLocalizedString(LocalizedString localizedString) => Localizer.GetLocalizedString(localizedString);
+        public string GetLocalizedString(LocalizedString localizedString) => i_localizer.GetLocalizedString(localizedString);
         public string GetLocalizedString(string name)
         {
             if (Enum.TryParse(typeof(LocalizedString), name, out var key))
@@ -70,7 +47,7 @@ namespace ZE.Polytrucks {
             }
             else return name;
         }
-        public string GetLocalizedTutorialAdvice(TutorialAdviceID advice) => Localizer.GetLocalizedTutorialAdvice(advice);
+        public string GetLocalizedTutorialAdvice(TutorialAdviceID advice) => i_localizer.GetLocalizedTutorialAdvice(advice);
 
         public bool TryDefineStringID(string rawName, out LocalizedString localEnum)
         {
@@ -93,38 +70,37 @@ namespace ZE.Polytrucks {
         private Action OnLocaleChangedEvent;
 
 
-        public Localization(SaveManager saveManager)
+        public Localization(IAccountDataAgent dataAgent)
         {
-            _saves = saveManager.SaveContainer;
+            _gamePreferences = dataAgent.GamePreferences;
+            i_SetLanguage(_gamePreferences.SelectedLanguage);
         }
-
         public void ChangeLanguage(LocalizationLanguage lang, bool forced = false)
         {
             if (forced || lang != Language)
             {
-                if (lang == LocalizationLanguage.Russian)
-                {
-                    i_localizer = new Localizer_RUS();
-                }
-                else
-                {
-                    i_localizer = new Localizer_ENG();
-                }
-                Language = lang;
-                _saves.SaveLocale(Language);
-                OnLocaleChangedEvent?.Invoke();
+                _gamePreferences.ChangeLanguage(lang);
+                i_SetLanguage(lang);
             }
         }
-        public void SwitchLanguage()
+        private void i_SetLanguage(LocalizationLanguage lang)
         {
-            if (Language == LocalizationLanguage.English) ChangeLanguage(LocalizationLanguage.Russian);
-            else ChangeLanguage(LocalizationLanguage.English);
+            Language = lang;
+            if (Language == LocalizationLanguage.Russian)
+            {
+                i_localizer = new Localizer_RUS();
+            }
+            else
+            {
+                i_localizer = new Localizer_ENG();
+            }
+            OnLocaleChangedEvent?.Invoke();
         }
 
-        public string FormDeliveryAddress(PointOfInterest poi) => Localizer.FormDeliveryAddress(poi);
-        public string FormSupplyAddress(PointOfInterest poi) => Localizer.FormSupplyAddress(poi);
-        public string GetParameterName(TruckParameterType parameter) => Localizer.GetParameterName(parameter);
-        public string GetTruckName(TruckID truckID) => Localizer.GetTruckName(truckID);
+        public string FormDeliveryAddress(PointOfInterest poi) => i_localizer.FormDeliveryAddress(poi);
+        public string FormSupplyAddress(PointOfInterest poi) => i_localizer.FormSupplyAddress(poi);
+        public string GetParameterName(TruckParameterType parameter) => i_localizer.GetParameterName(parameter);
+        public string GetTruckName(TruckID truckID) => i_localizer.GetTruckName(truckID);
 
         public void Subscribe(IDynamicLocalizer localizer) => OnLocaleChangedEvent += localizer.OnLocaleChanged;
         public void Unsubscribe(IDynamicLocalizer localizer) => OnLocaleChangedEvent-= localizer.OnLocaleChanged;

@@ -21,7 +21,7 @@ namespace ZE.Polytrucks {
 
         abstract public bool TryAddItem(VirtualCollectable item);
         abstract public int AddItems(VirtualCollectable item, int count);
-        abstract public void AddItems(IList<VirtualCollectable> items, out BitArray result);
+        abstract public void AddItems(IReadOnlyList<VirtualCollectable> items, out BitArray result);
 
         public void SubscribeToItemAddEvent(Action action)
         {

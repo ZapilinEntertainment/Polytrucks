@@ -23,7 +23,6 @@ namespace ZE.Polytrucks {
 
         public VirtualCollectable[] GetContents()
 		{
-
 			var items = new VirtualCollectable[Capacity];
 			int i = 0;
 			while (i < ItemsCount)
@@ -31,6 +30,7 @@ namespace ZE.Polytrucks {
 				items[i] = _items[i];
 				i++;
 			}
+			// empty cells needed to correct redraw
 			while(i < Capacity)
 			{
 				items[i++] = new VirtualCollectable(CollectableType.Undefined, Rarity.Regular);
@@ -52,7 +52,7 @@ namespace ZE.Polytrucks {
             }
             else return false;
         }
-		public void AddItems(IList<VirtualCollectable> items, out BitArray result) => _items.AddRange(items, out result);
+		public void AddItems(IReadOnlyList<VirtualCollectable> items, out BitArray result) => _items.AddRange(items, out result);
 		public int AddItems(VirtualCollectable item, int count) => _items.Add(item, count);
 		public bool TryLoadCargo(VirtualCollectable item, int count)
 		{

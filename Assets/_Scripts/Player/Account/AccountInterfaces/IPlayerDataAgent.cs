@@ -22,5 +22,6 @@ namespace ZE.Polytrucks {
         public bool TrySwitchTruck(TruckID truckID, out TruckSwitchReport errormsg);
 
         public VirtualPoint GetRecoveryPoint();
+        public IReadOnlyList<VirtualCollectable> GetVehicleCargo();
     }
 }

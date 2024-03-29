@@ -14,7 +14,7 @@ namespace ZE.Polytrucks {
         /// <summary>
         /// returns residue
         /// </summary>
-		public void AddItems(IList<VirtualCollectable> items, out BitArray result);
+		public void AddItems(IReadOnlyList<VirtualCollectable> items, out BitArray result);
         //public void SubscribeToItemReceiving(Action<VirtualCollectable> action);
         //public void UnsubscribeFromItemReceiving(Action<VirtualCollectable> action);
 

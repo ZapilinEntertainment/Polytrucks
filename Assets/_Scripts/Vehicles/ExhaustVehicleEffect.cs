@@ -7,11 +7,22 @@ namespace ZE.Polytrucks {
 	{
 		[SerializeField] private Vehicle _vehicle;
 		[SerializeField] private ParticleSystem _effect;
-		[SerializeField] private int _minParticlesCount = 10, _maxParticlesCount = 30;
 
-		private void Update()
-		{
-			_effect.Emit((int)Mathf.Lerp(_minParticlesCount, _maxParticlesCount, _vehicle.GasValue));
-		}
-	}
+        private void Start()
+        {
+            if (_vehicle.VehicleController != null) _effect.Play();
+            _vehicle.OnVehicleControllerChangedEvent+= OnVehicleControllerChanged;
+        }
+        private void OnVehicleControllerChanged(IVehicleController controller)
+        {
+            if (controller != null)
+            {
+                if (!_effect.isPlaying) _effect.Play();
+            }
+            else
+            {
+                if (_effect.isPlaying) _effect.Stop();
+            }
+        }
+    }
 }

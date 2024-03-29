@@ -8,5 +8,6 @@ namespace ZE.Polytrucks {
 	{
 		public IRewarder RewardAgent { get; }
 		public IPlayerDataAgent PlayerDataAgent { get; }
+		public IGamePreferences GamePreferences { get; }
 	}
 }

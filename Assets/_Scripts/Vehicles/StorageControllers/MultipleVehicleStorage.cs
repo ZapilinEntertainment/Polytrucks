@@ -153,13 +153,13 @@ namespace ZE.Polytrucks {
             }
             return count;
         }
-        public void AddItems(IList<VirtualCollectable> items, out BitArray result)
+        public void AddItems(IReadOnlyList<VirtualCollectable> items, out BitArray result)
         {
             int count = items.Count;
             result = new BitArray(count, false);
 
             var unsolvedList = new List<VirtualCollectable>(items); // items that still not add to any storage
-            var unsolvedListIndices = new List<int>(count); // save indices of total - result - mask
+            var unsolvedListIndices = new int[count]; // save indices of total - result - mask
             for (int i = 0; i < count; i++) unsolvedListIndices[i] = i;
             int unsolvedItemsCount = count;
 
@@ -189,7 +189,7 @@ namespace ZE.Polytrucks {
                     else
                     {
                         unsolvedList = newUnsolvedList;
-                        unsolvedListIndices = newUnsolvedIndices;
+                        unsolvedListIndices = newUnsolvedIndices.ToArray();
                     }
                 }
             }

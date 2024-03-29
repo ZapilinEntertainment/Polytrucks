@@ -50,8 +50,29 @@ namespace ZE.Polytrucks {
         {
             if (ActiveVehicle != null)
             {
-                ActiveVehicle.Teleport(_playerData.GetRecoveryPoint(), () => OnVehicleChanged(ActiveVehicle));
+                bool storageReady = true;
+                if (ActiveVehicle is Truck)
+                {
+                    var truck = ActiveVehicle as Truck;
+                    if (truck.TruckConfig.TrailerRequired && !truck.HaveTrailers)
+                    {
+                        storageReady = false;
+                        truck.OnTrailerConnectedEvent += OnTrailerConnected;
+                    }
+                }
+                if (storageReady) OnVehicleStorageReady();
+                
+                ActiveVehicle.Teleport(_playerData.GetRecoveryPoint(), () => OnVehicleChanged(ActiveVehicle));               
             }
+        }
+        private void OnVehicleStorageReady()
+        {
+            ActiveVehicle.VehicleStorageController.Storage.AddItems(_playerData.GetVehicleCargo(), out BitArray resultArray);
+        }
+        private void OnTrailerConnected()
+        {
+            (ActiveVehicle as Truck).OnTrailerConnectedEvent -= OnTrailerConnected;
+            OnVehicleStorageReady();
         }
 
         private void LateUpdate()

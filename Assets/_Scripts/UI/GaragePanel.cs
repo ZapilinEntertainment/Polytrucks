@@ -15,18 +15,18 @@ namespace ZE.Polytrucks {
 		private Garage _observingGarage;
 		private PlayerController _player;
 		private SignalBus _signalBus;
-		private TruckSwitchService _garageService;
+		private ISwitchService _vehicleSwitchService;
 		private IPlayerDataAgent _playerData;
 		public bool IsActive => _isActive;
 
 		[Inject]
 		public void Inject(HangarTrucksList trucksList, PlayerController playerController, SignalBus signalBus,
-			TruckSwitchService garageService, IAccountDataAgent accountData)
+            ISwitchService garageService, IAccountDataAgent accountData)
 		{
 			_trucksList= trucksList;
 			_player = playerController;
 			_signalBus= signalBus;
-			_garageService = garageService;
+			_vehicleSwitchService = garageService;
 			_playerData = accountData.PlayerDataAgent;
 		}
 
@@ -73,7 +73,7 @@ namespace ZE.Polytrucks {
 			var info = _trucksList.GetTruckInfo(index);
 			_selectedTruckID = info.TruckID;
 			ShowTruckStats(_selectedTruckID, info.TruckConfig);
-			_garageService.ShowTruck(_selectedTruckID, _observingGarage.ModelPoint);
+			_vehicleSwitchService.ShowTruck(_selectedTruckID, _observingGarage.ModelPoint);
 		}
 		private void ShowTruckStats(TruckID id, TruckConfig config)
 		{
@@ -101,7 +101,9 @@ namespace ZE.Polytrucks {
         }
 		public void BUTTON_SelectTruck()
 		{
-			if (_garageService.TrySwitchToTruck(_selectedTruckID, out var report)) BUTTON_Close();
+			if (_vehicleSwitchService.TrySwitchToTruck(_selectedTruckID, out var report)) {
+                BUTTON_Close();
+            } 
 			else
 			{
 				// show info of the report

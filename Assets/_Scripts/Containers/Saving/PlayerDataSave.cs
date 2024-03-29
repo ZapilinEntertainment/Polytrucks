@@ -14,9 +14,12 @@ namespace ZE.Polytrucks {
 
         public void UnlockTruck(TruckID id);
         public bool IsTruckUnlocked(TruckID id);
+
+		public IReadOnlyList<VirtualCollectable> GetVehicleCargo();
 	}
 	public class PlayerDataSave : IPlayerDataSave
 	{
+		private List<VirtualCollectable> _storageContent = new();
 		private HashSet<TruckID> _unlockedTrucksList= new() { GameConstants.DefaultTruck};
 		public float IntegrityPercent { get; set; }
 		public TruckID PlayerTruckID { get; set; }
@@ -39,6 +42,7 @@ namespace ZE.Polytrucks {
 					_unlockedTrucksList.Add(truck);
 				}
 			}
+			_storageContent = preset.StorageContent;
 		}
 		public static PlayerDataSave Default
 		{
@@ -55,6 +59,8 @@ namespace ZE.Polytrucks {
 
 		public void UnlockTruck(TruckID id) => _unlockedTrucksList.Add(id);
 		public bool IsTruckUnlocked(TruckID id) => _unlockedTrucksList.Contains(id);
+
+		public IReadOnlyList<VirtualCollectable> GetVehicleCargo() => _storageContent;
     }
    
 }

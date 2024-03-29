@@ -108,9 +108,9 @@ namespace ZE.Polytrucks {
             if (TryAddItem(item)) return count - 1;
             else return count;
         }
-        public void AddItems(IList<VirtualCollectable> items, out BitArray result)
+        public void AddItems(IReadOnlyList<VirtualCollectable> items, out BitArray result)
         {
-            int count = items.Count, i = 0 ;
+            int count = items.Count;
             result = new BitArray(count, false);
             if (TryAddItem(items[0])) result[0] = true;
         }
