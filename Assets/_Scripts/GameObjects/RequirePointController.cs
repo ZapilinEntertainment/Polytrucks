@@ -13,8 +13,8 @@ namespace ZE.Polytrucks {
             [Tooltip("Stage object will be activated when the stage starts")] public GameObject StageObject;
             [Tooltip("Activable script will be called when the stage starts")] public MonoBehaviour ActivableScript;
 
-			public void Hide() => StageObject.SetActive(false);
-			public void Show() => StageObject.SetActive(true);
+			public void Hide() { if (StageObject != null) StageObject.SetActive(false); }
+			public void Show() { if (StageObject != null) StageObject.SetActive(true); }
 		}
 
 		[SerializeField] private RequireZoneStage[] _stages;

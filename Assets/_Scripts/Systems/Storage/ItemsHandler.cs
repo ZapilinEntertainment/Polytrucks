@@ -71,7 +71,7 @@ namespace ZE.Polytrucks {
             reserved = new List<int>();
             for (int i = 0; i < _itemsCount; i++)
             {
-                if (_items[i].EqualsTo(requestedItem))
+                if (_items[i] == requestedItem)
                 {
                     reserved.Add(i);
                     count--;
@@ -110,7 +110,7 @@ namespace ZE.Polytrucks {
                     if (!bitmask[i]) continue;
                     else
                     {
-                        if (item.EqualsTo(_items[i]))
+                        if (item == _items[i])
                         {
                             bitmask[i] = false;
                             break;

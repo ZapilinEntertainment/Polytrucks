@@ -23,17 +23,11 @@ namespace ZE.Polytrucks {
 
         public VirtualCollectable[] GetContents()
 		{
-			var items = new VirtualCollectable[Capacity];
-			int i = 0;
-			while (i < ItemsCount)
+			int count = ItemsCount;
+			var items = new VirtualCollectable[count];
+			for (int i = 0; i < count;i++)
 			{
 				items[i] = _items[i];
-				i++;
-			}
-			// empty cells needed to correct redraw
-			while(i < Capacity)
-			{
-				items[i++] = new VirtualCollectable(CollectableType.Undefined, Rarity.Regular);
 			}
 			return items;
 		}
@@ -70,7 +64,7 @@ namespace ZE.Polytrucks {
 		{
             for (int i = 0; i < ItemsCount; i++)
             {
-				if (_items[i].EqualsTo(item))
+				if (_items[i] == item)
 				{
 					_items.RemoveAt(i);
 					return true;

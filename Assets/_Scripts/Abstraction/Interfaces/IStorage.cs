@@ -17,5 +17,6 @@ namespace ZE.Polytrucks {
         public void MakeEmpty();
         public bool TryFormItemsList(TradeContract contract, out List<VirtualCollectable> list);
         public bool TryLoadCargo(VirtualCollectable item, int count);
+        public VirtualCollectable[] GetContents();
     }
 }

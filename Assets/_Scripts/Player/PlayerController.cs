@@ -125,11 +125,15 @@ namespace ZE.Polytrucks {
         #region player options
         public void ChangeActiveVehicle(Vehicle vehicle)
         {
+            IReadOnlyList<VirtualCollectable> cachedItems = null;
             if (ActiveVehicle != null)
             {
                 _colliderListSystem.RemovePlayerCollider(this);
+                cachedItems = ActiveVehicle.VehicleStorageController.Storage.GetContents();
+                //Debug.Log(cachedItems.Count);
             }
-           _vehicleController.ChangeActiveVehicle(vehicle); 
+           _vehicleController.ChangeActiveVehicle(vehicle);
+            if (cachedItems != null) vehicle.VehicleStorageController.Storage.AddItems(cachedItems, out var result);
         }
         #endregion
     }

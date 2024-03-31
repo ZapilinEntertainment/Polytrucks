@@ -113,7 +113,7 @@ namespace ZE.Polytrucks {
         }
 
 		public void SetVisibility(bool x)
-		{			
+		{
 			if (x)
 			{
 				PositionAndConnectTrailer();

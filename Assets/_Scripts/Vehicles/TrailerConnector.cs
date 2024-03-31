@@ -51,26 +51,22 @@ namespace ZE.Polytrucks {
             int count = _trailers?.Count ?? 0;
             count--;
             var trailer = _trailers[count];
-
-            _truck.OnTrailerDisconnected(trailer);
-            if (trailer.TryGetStorage(out var storage)) storage.MakeEmpty();
-            _cachingService.CacheTrailer(trailer);
             _trailers.RemoveAt(count);
+            i_RemoveTrailer(trailer);
             HaveTrailers = count != 0;
         }
-        private void RemoveAllTrailers()
+        private void i_RemoveTrailer(Trailer trailer)
+        {
+            _truck.OnTrailerDisconnected(trailer);
+            if (trailer.TryGetStorage(out var storage)) storage.MakeEmpty();
+            _cachingService.CacheTrailer(trailer);             
+        }
+        public void RemoveAllTrailers()
         {
             if (!HaveTrailers) return;
             else
             {
-                if (_trailers.Count == 1) RemoveTrailer();
-                else
-                {
-                    foreach (var trailer in _trailers)
-                    {
-                        RemoveTrailer();
-                    }
-                }
+                foreach (var trailer in _trailers) { i_RemoveTrailer(trailer); }
             }
             
             _trailers.Clear();

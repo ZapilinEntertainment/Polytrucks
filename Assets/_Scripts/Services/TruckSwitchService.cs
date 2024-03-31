@@ -62,9 +62,11 @@ namespace ZE.Polytrucks {
         {
             if (!_playerData.TrySwitchTruck(truckID, out report)) return false;
             else
-            {
+            {                
                 var truck = ShowTruck(truckID, _playerController.ActiveVehicle.FormVirtualPoint(), true);
+                var oldTruck = _playerController.ActiveVehicle as Truck;
                 _playerController.ChangeActiveVehicle(truck);
+                CacheTruck(oldTruck);
                 return true;
             }
         }

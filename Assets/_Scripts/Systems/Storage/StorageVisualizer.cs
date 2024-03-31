@@ -38,15 +38,16 @@ namespace ZE.Polytrucks {
 		{
 			var contents = _storage.GetContents();
 			var storageConfiguration = _visualStorageSettings.GetStorageConfiguration();
-			int length = _storage.Capacity, itemsInLayer = storageConfiguration.ItemsInLayer, width = storageConfiguration.Width;
+			int contentsLength = contents?.Length ?? 0, length = _storage.Capacity, itemsInLayer = storageConfiguration.ItemsInLayer, width = storageConfiguration.Width;
 			float gap = storageConfiguration.Gap, scale = storageConfiguration.ModelScale;
 			const float crateSize = GameConstants.DEFAULT_COLLECTABLE_SIZE;
 			float step = (crateSize * scale) + gap;
 
-			for (int i = 0; i < length; i++)
+            for (int i = 0; i < length; i++)
 			{
 				bool modelPresented = _collectibles[i] != null;
-				var itemInfo = contents[i];
+				
+				VirtualCollectable itemInfo = i < contentsLength ? contents[i] : VirtualCollectable.Empty;
 				if (itemInfo.CollectableType == CollectableType.Undefined)
 				{
 					if (modelPresented) ClearCell(i);
@@ -56,7 +57,7 @@ namespace ZE.Polytrucks {
 					bool setNewModel = false;
 					if (modelPresented)
 					{
-						if (!itemInfo.EqualsTo(_collectibles[i]))
+						if (itemInfo != _collectibles[i])
 						{
 							ClearCell(i);
 							setNewModel = true;

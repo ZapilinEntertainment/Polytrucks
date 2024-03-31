@@ -26,7 +26,7 @@ namespace ZE.Polytrucks
 
         private void OnItemReceived(VirtualCollectable item)
         {
-            if (item.EqualsTo(_deliveryItem))
+            if (item == _deliveryItem)
             {
                 _deliveredItemCount++;
                 OnProgressionChangedEvent?.Invoke();

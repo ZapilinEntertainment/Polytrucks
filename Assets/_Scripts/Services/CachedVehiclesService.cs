@@ -91,7 +91,11 @@ namespace ZE.Polytrucks {
             }
             else return _trucksCacher.TryGetCachable((int)truckID, out truck);
         }
-        public void CacheTruck(Truck truck) => TrucksCacher.CacheVehicle((int)truck.TruckID, truck);
+        public void CacheTruck(Truck truck)
+        {
+            if (truck.HaveTrailers) truck.TrailerConnector.RemoveAllTrailers();
+            TrucksCacher.CacheVehicle((int)truck.TruckID, truck);
+        }
         public bool TryGetTrailer(TrailerID trailerID, out Trailer trailer)
         {
             if (_trailersCacher == null)

@@ -292,6 +292,24 @@ namespace ZE.Polytrucks {
             }
             return list.Count > 0;
         }
+        public VirtualCollectable[] GetContents()
+        {
+            int count = ItemsCount, i =0;
+            var items = new VirtualCollectable[count];
+            foreach (var storage in _storages)
+            {
+                if (storage.IsEmpty) continue;
+                else
+                {
+                    var contents = storage.GetContents();
+                    foreach (var item in contents)
+                    {
+                        items[i++] = item;
+                    }
+                }
+            }
+            return items;
+        }
 
         #region events
         public void SubscribeToItemAddEvent(Action action)
