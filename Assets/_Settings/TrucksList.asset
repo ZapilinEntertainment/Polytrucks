@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 345c2f0987ab94441b9eacb401e1babd, type: 3}
+  m_Name: TrucksList
+  m_EditorClassIdentifier: 
+  _trucksInfo:
+  - <TruckID>k__BackingField: 1
+    <TruckPrefab>k__BackingField: {fileID: 8702596829126323439, guid: 63015b390be14334da2375c154e7250a, type: 3}
+    <TruckConfig>k__BackingField: {fileID: 11400000, guid: 742f9d36d8b2c5c42aa758eafce68cc6, type: 2}
+    <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 5c769028d061ef64a887cdca1ebea246, type: 2}
+    <Icon>k__BackingField: {fileID: 21300000, guid: c4549f1675bbce64199aaa61e6093356, type: 3}
+  - <TruckID>k__BackingField: 2
+    <TruckPrefab>k__BackingField: {fileID: 4908018578481662965, guid: ac8de24369739bd41bfeb8c5ec024d76, type: 3}
+    <TruckConfig>k__BackingField: {fileID: 11400000, guid: 30ea5113abd61274eb06ed24cbafab0c, type: 2}
+    <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}
+    <Icon>k__BackingField: {fileID: 21300000, guid: 75112bc5868a72b4889baaf915e7f3c8, type: 3}
+  - <TruckID>k__BackingField: 4
+    <TruckPrefab>k__BackingField: {fileID: 4631463182267707100, guid: de75277696ac9644d97462cec89ee8a8, type: 3}
+    <TruckConfig>k__BackingField: {fileID: 11400000, guid: b97c1af1ad1d4244c8d5287f0cde15b3, type: 2}
+    <WheelsConfig>k__BackingField: {fileID: 11400000, guid: 16a69e304a3401e4cbbe882fb987d512, type: 2}
+    <Icon>k__BackingField: {fileID: 21300000, guid: a350583851b9c454c826976ea06d2298, type: 3}
+  - <TruckID>k__BackingField: 3
+    <TruckPrefab>k__BackingField: {fileID: 7587992288452754177, guid: 0d5883e868227a3449a97053b60bfa2d, type: 3}
+    <TruckConfig>k__BackingField: {fileID: 11400000, guid: d17f613c88a72794799348fa1f27c483, type: 2}
+    <WheelsConfig>k__BackingField: {fileID: 11400000, guid: f7faa3722fde96b45b1e96df963bdb76, type: 2}
+    <Icon>k__BackingField: {fileID: 21300000, guid: 2a67c897dd4839649ac9ca1d92a01761, type: 3}
+  _trailersInfo:
+  - <TrailerID>k__BackingField: 1
+    <TrailerPrefab>k__BackingField: {fileID: 941688342614146152, guid: f33034afca847424296826c0d65b868f, type: 3}
+    <WheelConfiguration>k__BackingField: {fileID: 11400000, guid: a05832c326186e24bba2963a8a0db24e, type: 2}
+    <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: ce74235d037f28c40b5a8d9783efbbe0, type: 2}
+  - <TrailerID>k__BackingField: 2
+    <TrailerPrefab>k__BackingField: {fileID: 1032046003335528694, guid: 5a5f91ca6fd5b0f4c9da378f6dae50b2, type: 3}
+    <WheelConfiguration>k__BackingField: {fileID: 11400000, guid: f7faa3722fde96b45b1e96df963bdb76, type: 2}
+    <StorageConfiguration>k__BackingField: {fileID: 11400000, guid: 2cb73aaaca638cd498c4150d881bd090, type: 2}
+  LockedTruckPlaceholder: {fileID: 8866830643063607065, guid: 5ffc0c4c158c1e545a43f16d9b423bc0, type: 3}

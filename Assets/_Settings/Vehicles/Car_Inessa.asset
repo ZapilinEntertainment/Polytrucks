@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e422fad9cbeef849bc8ffd58cd52a20, type: 3}
+  m_Name: Car_Inessa
+  m_EditorClassIdentifier: 
+  _maxSpeed: 65
+  _maxSteerAngle: 35
+  _steerTime: 0.1
+  _acceleration: 0.4
+  _reverseAcceleration: 4
+  _engineStopTime: 1
+  _reverseSpeedCf: 0.2
+  _mass: 55
+  _passability: 0.2
+  _rotationToSpeedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1.000164
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.12086093
+    - serializedVersion: 3
+      time: 1
+      value: 0.95
+      inSlope: -0.16524161
+      outSlope: -0.16524161
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.04635763
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _steerCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _powerCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -1
+      value: -0.25
+      inSlope: 0.9111955
+      outSlope: 0.9111955
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.13342792
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.91337925
+      outSlope: -4.8636093
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.12728602
+      outWeight: 0.0198676
+    - serializedVersion: 3
+      time: 0.31933093
+      value: 0.36249718
+      inSlope: -0.3253138
+      outSlope: -0.3253138
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0.3
+      inSlope: 0.016298141
+      outSlope: 0.016298141
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.31788075
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _storageConfiguration: {fileID: 0}
+  _fuelConfiguration: {fileID: 0}
+  _integrityConfiguration: {fileID: 0}
+  <TruckID>k__BackingField: 4
+  <TrailerID>k__BackingField: 0
+  <UsesPhysics>k__BackingField: 1
+  <CollectTime>k__BackingField: 0.25
+  <AccelerationMeterResult>k__BackingField: 3.7
